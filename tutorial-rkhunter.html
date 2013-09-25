@@ -80,7 +80,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 
 
 <p>Y empezará el escaneo inmediatamente, cuando nos diga <em>[Press &lt;ENTER&gt; to continue]</em> entonces presionamos Enter para que continué.</p>
-<p><img alt="Rkhunter" src="http://aljavier.github.io/images/posts/rkhunter/rkhunter1.png" title="Rkhunter" /></p>
+<p><img alt="Rkhunter" src="|filename|/images/posts/rkhunter/rkhunter1.png" title="Rkhunter" /></p>
 <p>Ups! Parece que tengo un rootkit, por suerte, no era mas que un falso positivo, la alerta fue por la aplicación <em>hdparm</em> que instale hace unos días, pero desde los repositorios oficiales, como debe de ser.</p>
 <p>Por cierto, podemos ver en detalle el resultado del escaneo en el archivo <strong>/var/log/rkhunter.log</strong>, de modo que en caso de tener algún rootkit ahí podemos leer la ruta de su posible ubicación.</p>
 <p>La primera vez que ejecutamos Rkhunter recibimos mucho mensajes del tipo <span style="color: red;">Warning</span>, que en muchos casos son solo falsos positivos y son comandos del mismo sistema como /bin/who por ejemplo, por ello y otras razones es bueno leerse las <a href="http://rkhunter.cvs.sourceforge.net/viewvc/rkhunter/rkhunter/files/FAQ" title="FAQ de Rkhunter">FAQ</a></p>
