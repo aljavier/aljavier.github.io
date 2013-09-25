@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>// sysflux</title><link href="/" rel="alternate"></link><link href="/feeds/tags/unix.atom.xml" rel="self"></link><id>/</id><updated>2013-09-23T01:28:00-04:00</updated><entry><title>Buscando rootkits con Rkhunter</title><link href="/tutorial-rkhunter.html" rel="alternate"></link><updated>2013-09-23T01:28:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2013-09-23:tutorial-rkhunter.html</id><summary type="html">&lt;p&gt;En este post comparto con ustedes como podemos buscar rootkits, directorios y/o archivos ocultos en nuestro sistema Unix (Linux, BSD, etc.), entre otros, para ello usaremos esta estupenda herramienta llamada Rkhunter o Rootkit Hunter.&lt;/p&gt;
+&lt;h2&gt;Qué es Rootkit Hunter ( o Rkhunter)?&lt;/h2&gt;
+&lt;p&gt;Según wikipedia es una herramienta para sistemas &lt;a href="http://es.wikipedia.org/wiki/Unix" title="Unix"&gt;Unix&lt;/a&gt; que detecta los &lt;a href="http://es.wikipedia.org/wiki/Rootkits" title="Rootkits"&gt;rootkies&lt;/a&gt;, las &lt;a href="http://es.wikipedia.org/wiki/Puerta_trasera" title="Puertas traseras o backdoors"&gt;backdoors&lt;/a&gt; y los exploit locales mediante la comparación de los &lt;a href="http://es.wikipedia.org/wiki/MD5#Hashes_MD5" title="hashes MD5"&gt;Hashes MD5&lt;/a&gt; de ficheros importantes con su firma correcta en una base de datos en línea, buscando los directorios por defecto (de rootkits), los permisos 
+incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del kernel, y las pruebas especiales para GNU/Linux y FreeBSD.&lt;/p&gt;
+&lt;h2&gt;Qué son rootkits?&lt;/h2&gt;
+&lt;p&gt;La mayoría de veces son herramientas que se auto-ocultan en los sistemas, estos son utilizados por &lt;em&gt;blackhats&lt;/em&gt;, &lt;em&gt;crackers&lt;/em&gt; y &lt;em&gt;scriptkiddies&lt;/em&gt; para evitarser descubierto por el administrador del sistema.&lt;/p&gt;
+&lt;h2&gt;Instalando Rkhunter&lt;/h2&gt;
+&lt;p&gt;Para instalar Rkhunter podríamos hacerlo desde los repositorios, ya que esta en lo repositorio de la mayoría de las distros GNU/Linux, o podríamos descargarlos desde su website e instalarlo. Eligiremos la ultima opción, ya que así nos aseguramos de tener la ultima versión del mismo, algo importantísimo en casos como este. En todo caso, si instalamos desde los repositorios podemos actualizar el Rkhunter con&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;rkhunter&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;update&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Recomendable hacerlo antes de usarlo siempre, según he leído por ahí.&lt;/p&gt;
+&lt;p&gt;Para descargar Rkhunter vamos a &lt;a href="http://sourceforge.net/projects/rkhunter/files/" title="esta pagina de acá"&gt;rkhunter&lt;/a&gt; y descargamos el archivo &lt;strong&gt;rkhunter-1.3.8.tar.gz&lt;/strong&gt;, ultima versión a la fecha de redactar esto, en caso de haber una versión mas reciente cuando este leyendo esto, descarga la mas reciente.&lt;/p&gt;
+&lt;p&gt;Ahora vamos a donde descargamos el archivo y lo descomprimes&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;tar&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;zxvf&lt;/span&gt; &lt;span class="n"&gt;rkhunter&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;1.3.8&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Desde una terminal vamos a la carpeta que se nos creo al descomprimir el archivo, la carpeta tiene el formato de &lt;strong&gt;rkhunter-version&lt;/strong&gt;, en mi caso&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="n"&gt;rkhunter&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;1.3.8&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Tenemos mas de una manera de instalar el Rkhunter, podemos hacer algunas personalizaciones a nuestra instalación, pero en este caso realizaremos la instalación por defecto. Para ello como usuario root ejecutamos el script &lt;em&gt;installer.sh&lt;/em&gt;, pero lo hacemos del siguiente modo&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;installer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;install&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Para ver mas información sobre esta y los demás modos de instalación y otras informaciones de interés, recomiendo leerse el archivo README que viene dentro de la carpeta &lt;em&gt;files&lt;/em&gt; que a su vez se encuentra dentro de la carpeta &lt;em&gt;rkhunter-1.3.8&lt;/em&gt; o leerlo online en &lt;a href="http://rkhunter.cvs.sourceforge.net/viewvc/rkhunter/rkhunter/files/README" title="este link"&gt;online&lt;/a&gt;. Si todo ha salido bien tenemos una ultima linea de la instalación que dice&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;Installation&lt;/span&gt; &lt;span class="n"&gt;complete&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Si ha habido algún problema en la instalación recomiendo leer (nuevamente) el archivo README.&lt;/p&gt;
+&lt;p&gt;Antes de ejecutar el Rkhunter debemos ejecutar el siguiente comando (debemos no es obligatorio).&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;rkhunter&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;propupd&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Esto para completar la base de datos de las propiedades del archivo. No te preocupes es automático, tu corres el comando y listo :-)&lt;/p&gt;
+&lt;h2&gt;Buscando rootkits y demás con Rootkit Hunter&lt;/h2&gt;
+&lt;p&gt;De la forma que veremos ahora no solo buscará rootkits en nuestro sistema sino que también buscará directorios ocultos sospechosos,etc.&lt;/p&gt;
+&lt;p&gt;Bien, para esto de forma por defecto (como usuario root) hacemos los siguiente&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;rkhunter&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;check&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Y empezará el escaneo inmediatamente, cuando nos diga &lt;em&gt;[Press &amp;lt;ENTER&amp;gt; to continue]&lt;/em&gt; entonces presionamos Enter para que continué.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Rkhunter" src="/images/posts/rkhunter/rkhunter1.png" title="Rkhunter" /&gt;&lt;/p&gt;
+&lt;p&gt;Ups! Parece que tengo un rootkit, por suerte, no era mas que un falso positivo, la alerta fue por la aplicación &lt;em&gt;hdparm&lt;/em&gt; que instale hace unos días, pero desde los repositorios oficiales, como debe de ser.&lt;/p&gt;
+&lt;p&gt;Por cierto, podemos ver en detalle el resultado del escaneo en el archivo &lt;strong&gt;/var/log/rkhunter.log&lt;/strong&gt;, de modo que en caso de tener algún rootkit ahí podemos leer la ruta de su posible ubicación.&lt;/p&gt;
+&lt;p&gt;La primera vez que ejecutamos Rkhunter recibimos mucho mensajes del tipo &lt;span style="color: red;"&gt;Warning&lt;/span&gt;, que en muchos casos son solo falsos positivos y son comandos del mismo sistema como /bin/who por ejemplo, por ello y otras razones es bueno leerse las &lt;a href="http://rkhunter.cvs.sourceforge.net/viewvc/rkhunter/rkhunter/files/FAQ" title="FAQ de Rkhunter"&gt;FAQ&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Nota: Rkhunter no elimina los rootkits ni otros binarios maliciosos, solo los detecta el resto va por tu cuenta.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Si quisieramos hacer un escaneo y que no nos muestre tanta información como con la opción &lt;em&gt;--check&lt;/em&gt;, para buscar solo rootkits podríamos ejecutar &lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;rkhunter&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;enable&lt;/span&gt; &lt;span class="n"&gt;rootkits&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Si queremos saber como podemos automatizar los escaneos para que se ejecuten periódicamente en las FAQ podemos leer como hacerlo (ver link arriba). Además para conocer todas las opciones de Rkhunter podemos correr el comando&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;rkhunter&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;help&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Algo mas que es positivo es subscribirnos a la lista de correos para recibir información sobre bugs y otras cuestiones de seguridad relacionadas con Rkhunter, para eso podemos ir a &lt;a href="https://lists.sourceforge.net/lists/listinfo/rkhunter-usershttps://lists.sourceforge.net/lists/listinfo/rkhunter-users" title="rkhunter-user-mailling list"&gt;user-mailing-lists&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Si por alguna razón quisieramos desinstalar el Rkhunter vamos a la carpeta descomprimida del programa y ejecutamos el script de instalación con la opcion &lt;em&gt;---remove&lt;/em&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;installer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;remove&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Hasta aquí el post, para mas info recomiendo consultar el manual de rkhunter, y leer las FAQ, así como seguir los demás consejos que he dado, que son los que recomiendan ellos mismos en su website. &lt;/p&gt;
+&lt;p&gt;Nos leemos!&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Nota: Aunque este tutorial es 100% valido aún, cabe decir que data ya de un tiempo, fue rescatado de mi antiguo blog.&lt;/em&gt;&lt;/p&gt;</summary><category term="rkhunter"></category><category term="rootkits"></category><category term="security"></category><category term="unix"></category></entry></feed>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Redirecciones y expansiones en bash</title>
+  <meta name="author" content="A. J. Javier" />
+<meta name="keywords" content="bash, shell, scripting">  <link rel="author" href="aljavier.github.io/humans.txt" />
+  <link href='http://fonts.googleapis.com/css?family=Vollkorn:400' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="aljavier.github.io/theme/css/main.css" type="text/css" />
+  <link href="aljavier.github.io/" type="application/atom+xml" rel="alternate" title="// sysflux ATOM Feed" />
+<link href="aljavier.github.io/rss.xml" type="application/atom+xml" rel="alternate" title="// sysflux RSS Feed" />  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+<body id="index" class="home">
+  <header id="banner" class="body">
+	  <h1><a href="aljavier.github.io">// sysflux </a></h1>
+      <nav>
+      	<ul>
+<li class="active"><a href="aljavier.github.io/category/blog.html">/blog</a></li>         <li><a href="aljavier.github.io/archives.html">/archivo</a></li>
+         <li><a href="aljavier.github.io/tags.html">/etiquetas</a></li>
+<li><a href="aljavier.github.io/pages/about.html">/about</a></li><li><a href="aljavier.github.io/pages/code.html">/code</a></li>         <li><a href="aljavier.github.io/rss.xml">/rss</a></li>
+       </ul>
+     </nav>
+  </header><!-- /#banner -->        
+<section id="content" class="body">    
+<article>
+  <header> 
+  	<h1 class="entry-title">
+      <a href="bash-redicionres-y-expansiones.html" rel="bookmark" title="Permalink a Redirecciones y expansiones en bash">Redirecciones y expansiones en bash</a>
+  	</h1>
+  </header>
+  <div class="entry-content">
+    <abbr class="published" title="2013-06-10T00:00:00">
+	    Posted on Mon 10 June 2013 by <a href="aljavier.github.io/author/a-j-javier.html">A. J. Javier</a>
+    </abbr>
+    <p>Veremos algo bien breve y sencillo para muchos, pero ademas muy importante principalmente a la hora de escribir bash scripts. Hablamos de las redirecciones, las expansiones aritmeticas y las expansiones de llaves.</p>
+<h2>Redirecciones</h2>
+<p>A la hora de escribir un script en bash la mayoria de veces necesitaremos usar estas, al menos para redireccionar los posibles errores que pueda lanzar una determinada expresion.</p>
+<p>Como muchos ya saben en Linux todo es un archivo, es asi que la <a href="http://es.wikipedia.org/wiki/Entrada_est%C3%A1ndar" target="_blank">Entrada y Salida estandar</a>&nbsp; son los archivos que se encuentran en /dev/stdin y dev/sdout respectivamente. Pero tambien tenemos el archivo stderr en /dev/stderr, pero estos ademas tienen un <a href="http://es.wikipedia.org/wiki/Descriptor_de_archivo" target="_blank">descriptor de archivo</a> (un numero) que nos permite referirnos a estos de ese modo. Sus descriptores son como sigue:</div></p>
+<table>
+<thead>
+<tr>
+<th>Valor entero</th>
+<th>Nombre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Entrada estandar(stdin)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Salida estandar(stdout)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Error estandar(stderr)</td>
+</tr>
+</tbody>
+</table>
+<p>Normalmente si queremos redireccionar la salida de un comando, los cuales usan la salida estandar por defecto, a un archivo por ejemplo, es tan simple como hacer esto:</p>
+<div class="codehilite"><pre><span class="n">ls</span> <span class="o">-</span><span class="n">l</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span> <span class="o">&gt;</span> <span class="n">programas</span><span class="p">.</span><span class="n">txt</span>
+</pre></div>
+
+
+<p>Ese es su uso mas simple, claro la salida estandar tambien podria redirigirse a otro comando usando <a href="http://es.tldp.org/COMO-INSFLUG/COMOs/Bash-Prog-Intro-COMO/Bash-Prog-Intro-COMO-4.html" title="tuberias bash">tuberia</a></p>
+<p>Los operadores que usamos en redirecciones son los siguientes:</p>
+<p>| Operador      |   Descripción                                                                                                                 |
+   |     &gt;         | Redireccona la salida al archivo que le sigue, si no existe se crea y si existe se sobre escribe.                             |
+   |     &gt;&gt;        | Igual que al anterior con la excepcion de que este añade la salida al final del archivo, es decir, no lo sobreescribe.        |
+   |     2&gt;&amp;1      | Redirecciona la salida estandar y error estandar si hay alguno, del comando o programa al mismo archivo.(Este es mas bien   una                  combinacion de operadores, no un operador en si).                                                                             |
+   |     &amp;&gt;        | Lo mismo que el anterior, pero este funciona en versiones mas recientes, no en versionas muy viejas.(Este es mas bien una combinacion de operadores, no un operador en si).                                                                                                  |</p>
+<p>*Nota: Reconozco que lo anterior esta probremente explicado y deja muchas cosas de lado, por eso recomiendo leer <a href="http://0x945.wordpress.com/2011/05/01/bash-operadores-de-redireccion/">en este link</a> al respecto.</p>
+<p>Algunas cosas de lo que vemos en esa tabla podria no quedar claro sin un ejemplo, asi que veamos algunos ejemplos basicos: </p>
+<div class="codehilite"><pre> <span class="n">ls</span> <span class="o">-</span><span class="n">l</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span> <span class="o">|</span> <span class="n">uniq</span> <span class="o">&gt;</span> <span class="n">programas</span><span class="p">.</span><span class="n">txt</span>
+</pre></div>
+
+
+<p>Ahora se nos ha creado un archivo llamado programas.txt con una lista de los programas instalados en el sistema (claro exceptuando los que puedan haber en /opt).</p>
+<div class="codehilite"><pre><span class="n">ls</span> <span class="o">/</span><span class="n">opt</span> <span class="o">&gt;&gt;</span> <span class="n">programas</span><span class="p">.</span><span class="n">txt</span>
+</pre></div>
+
+
+<p>Ahora tambien se nos agrego al archivo los programas instalados en /opt.</p>
+<div class="codehilite"><pre><span class="n">ls</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">bin</span> <span class="o">&gt;</span> <span class="n">lista</span><span class="p">.</span><span class="n">txt</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+</pre></div>
+
+
+<p>He puesto /tce/bin a sabienda de que no existe, lo que hace lo de arriba es lo siguiente: Primero redirecciona la salida del comando ls a lista.txt, si se produce algun error(observa el 2, identificador de stderr) lo redirecciona a la salida estandar nuevamente, el cual ya ha sido redireccionado al archivo, de modo que, tanto si el comando es exitoso como si se produce un error se enviara al archivo.txt.</p>
+<p>El orden es importante, si se cambia el orden de las redirecciones en este caso (el de este ejemplo), no funcionaria.</p>
+<p>En la mayoria de los sistemas mas recientes (o en todos) podriamos hacer lo anterior con &amp;&gt; del siguiente modo:</p>
+<div class="codehilite"><pre><span class="n">ls</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">bin</span> <span class="o">&amp;&gt;</span> <span class="n">lista</span><span class="p">.</span><span class="n">txt</span>
+</pre></div>
+
+
+<p>Sin duda, es mas sutil la ultima forma.</p>
+<p>Pero lo mas usado segun yo es redirigir la salida de errores que se puedan producir en un programa, comando o script a <a href="http://es.wikipedia.org/wiki//dev/null">/dev/null</a>. Este archivo es el black hole de Linux, es la nada, todo lo que va ahi simplemente se pierde.</p>
+<p>Veamos el siguiente ejemplo:</p>
+<div class="codehilite"><pre><span class="n">tar</span> <span class="n">jcvf</span> <span class="n">logs</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">bz2</span>  <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">messages</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span>
+</pre></div>
+
+
+<p>Ese tipo de uso es bastante comun y util, lo que hacemos ahi es redireccionar la salida de errores (observar el 2) a /dev/null, asi no veriamos errores ni seria interrumpido el escript por posibles salida de errores.</p>
+<h2>Expansiones aritmeticas</h2>
+<p>Esto es muy interesante y es bastante simple tambien, esto nos permite ejecutar operaciones aritmeticas en la terminal! El formato es:</p>
+<div class="codehilite"><pre><span class="err">$</span><span class="p">((</span><span class="n">expresion</span><span class="p">))</span>
+</pre></div>
+
+
+<p>Los operadores aritmeticos:</p>
+<table>
+<thead>
+<tr>
+<th>Operador</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+</td>
+<td>Suma</td>
+</tr>
+<tr>
+<td>-</td>
+<td>Resta</td>
+</tr>
+<tr>
+<td>*</td>
+<td>Multiplicación</td>
+</tr>
+<tr>
+<td>/</td>
+<td>División</td>
+</tr>
+<tr>
+<td>%</td>
+<td>Modulo o Resto</td>
+</tr>
+<tr>
+<td>**</td>
+<td>Exponenciación</td>
+</tr>
+</tbody>
+</table>
+<p><em>Nota: Cabe aclarar que las expresiones aritmeticas solo trabajan con numeros enteros, asi que estos seran redondeados automaticamente 
+aqui. Por ejemplo, si divides 7 entre 2, obtendra como resultado solo 3 y no la parte decimal.</em></p>
+<p><strong>Algunos ejemplos basicos:</strong></p>
+<div class="codehilite"><pre><span class="p">[</span><span class="n">n3x07</span><span class="err">@</span><span class="n">linux</span> <span class="o">~</span><span class="p">]</span><span class="err">$</span> <span class="n">echo</span> <span class="s">&quot;Suma de 5 + 4 = &quot;</span> <span class="err">$</span><span class="p">((</span><span class="mi">5</span><span class="o">+</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">Suma</span> <span class="n">de</span> <span class="mi">5</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">=</span>  <span class="mi">9</span>
+
+<span class="p">[</span><span class="n">n3x07</span><span class="err">@</span><span class="n">linux</span> <span class="o">~</span><span class="p">]</span><span class="err">$</span> <span class="n">echo</span> <span class="s">&quot;50 - 10 es &quot;</span> <span class="err">$</span><span class="p">((</span><span class="mi">50</span> <span class="o">-</span> <span class="mi">10</span><span class="p">))</span>
+<span class="mi">50</span> <span class="o">-</span> <span class="mi">10</span> <span class="n">es</span>  <span class="mi">40</span>
+
+<span class="p">[</span><span class="n">n3x07</span><span class="err">@</span><span class="n">linux</span> <span class="o">~</span><span class="p">]</span><span class="err">$</span> <span class="n">echo</span> <span class="s">&quot;5 x 5 = &quot;</span> <span class="err">$</span><span class="p">((</span><span class="mi">5</span><span class="o">*</span><span class="mi">5</span><span class="p">))</span>
+<span class="mi">5</span> <span class="n">x</span> <span class="mi">5</span> <span class="o">=</span>  <span class="mi">25</span>
+
+<span class="p">[</span><span class="n">n3x07</span><span class="err">@</span><span class="n">linux</span> <span class="o">~</span><span class="p">]</span><span class="err">$</span> <span class="n">echo</span> <span class="s">&quot;7 / 2 es &quot;</span><span class="err">$</span><span class="p">((</span><span class="mi">7</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+<span class="mi">7</span> <span class="o">/</span> <span class="mi">2</span> <span class="n">es</span> <span class="mi">3</span>
+
+<span class="p">[</span><span class="n">n3x07</span><span class="err">@</span><span class="n">linux</span> <span class="o">~</span><span class="p">]</span><span class="err">$</span> <span class="n">echo</span> <span class="s">&quot;Resto de 7 / 2 es &quot;</span><span class="err">$</span><span class="p">((</span><span class="mi">7</span><span class="o">%</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">Resto</span> <span class="n">de</span> <span class="mi">7</span> <span class="o">/</span> <span class="mi">2</span> <span class="n">es</span> <span class="mi">1</span>
+
+<span class="p">[</span><span class="n">n3x07</span><span class="err">@</span><span class="n">linux</span> <span class="o">~</span><span class="p">]</span><span class="err">$</span> <span class="n">echo</span> <span class="s">&quot;10^10 es: &quot;</span> <span class="err">$</span><span class="p">((</span><span class="mi">10</span><span class="o">**</span><span class="mi">10</span><span class="p">))</span>
+<span class="mi">10</span><span class="o">^</span><span class="mi">10</span> <span class="n">es</span><span class="o">:</span>  <span class="mi">10000000000</span>
+</pre></div>
+
+
+<p>Cabe decir, que el espacio que se pueda dejar entre la expresion no es relevante, es decir, $((2*2)) y $((2 * 2)) es igual, no da error ni resultados desiguales.</p>
+<p><strong>Estas tambien soportan expresiones anidadas:</strong></p>
+<div class="codehilite"><pre><span class="p">[</span><span class="n">n3x07</span><span class="err">@</span><span class="n">linux</span> <span class="o">~</span><span class="p">]</span><span class="err">$</span> <span class="n">echo</span> <span class="s">&quot;(5+4)*10 = &quot;</span><span class="err">$</span><span class="p">((</span><span class="err">$</span><span class="p">((</span><span class="mi">5</span><span class="o">+</span><span class="mi">4</span><span class="p">))</span><span class="o">*</span><span class="mi">10</span><span class="p">))</span>
+<span class="p">(</span><span class="mi">5</span><span class="o">+</span><span class="mi">4</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span> <span class="o">=</span>  <span class="mi">90</span>
+</pre></div>
+
+
+<p>Tambien se podria usar parentesis simples (no dobles) cuando usemos subexpresiones como aqui, ejemplo:</p>
+<div class="codehilite"><pre><span class="p">[</span><span class="n">n3x07</span><span class="err">@</span><span class="n">linux</span> <span class="o">~</span><span class="p">]</span><span class="err">$</span> <span class="n">echo</span> <span class="s">&quot;5 + 4 * 10 = &quot;</span> <span class="err">$</span><span class="p">(((</span><span class="mi">5</span><span class="o">+</span><span class="mi">4</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span><span class="p">))</span>
+<span class="mi">5</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">=</span> <span class="mi">90</span>
+</pre></div>
+
+
+<p>Como ven ahi no tuvimos que usar en la subexpresion dobles parentesis ni el signo de dolar $.</p>
+<h2>Expansiones de llaves</h2>
+<p>Con estas puedes crear varios archivos por ejemplo, mejor veamos como funcionan luego podran darles los usos que quieran.</p>
+<p>Digamos que quieren imprimir todas las posibles combinaciones de dos palabras en el abecedario, entonces hariamos lo siguiente:</p>
+<div class="codehilite"><pre><span class="n">echo</span> <span class="p">{</span><span class="n">A</span><span class="p">..</span><span class="n">Z</span><span class="p">}{</span><span class="n">A</span><span class="p">..</span><span class="n">Z</span><span class="p">}</span>
+</pre></div>
+
+
+<p>Etonces echo imprimira todas las combinaciones de dos letras en el abecedario, haganlo en su terminal y veran el resultado, no lo pongo aqui porque es algo extenso.</p>
+<p>Entonces ya tenemos una idea de como funciona, mas o menos funciona asi {element1, elemento2, elemento3...elemtoN} es decir todos los elementos que quieren, tambien se puede con {A..Z} esto es desde A hasta Z, {a..z} igual que la anterior pero minusculas, {0..9} si como lo has pensado, los numeros del 0 al 9, tambien puedes intercambiarlos: {Z..A}, {z..a} y {9..0}, etc., en fin, rangos.</p>
+<p>Supongamos que tenemos una camara de videovigilancia de la cual guardamos las grabaciones por mes, supongamos que queremos hacer directorios para guardar todas las grabaciones del año 2012, hariamos asi:</p>
+<div class="codehilite"><pre><span class="p">[</span><span class="n">n3x07</span><span class="err">@</span><span class="n">linux</span> <span class="o">~</span><span class="p">]</span><span class="err">$</span> <span class="n">mkdir</span> <span class="n">grabacion_2012</span><span class="o">-</span><span class="mi">0</span><span class="p">{</span><span class="mf">1..9</span><span class="p">}</span> <span class="n">grabacion_2012</span><span class="o">-</span><span class="p">{</span><span class="mf">10..12</span><span class="p">}</span>
+</pre></div>
+
+
+<p>Y listo se ahorraron hacer todas esos directorios uno a uno.</p>
+<p>Estas tambien permiten expresions anidadas, ejemplo:</p>
+<div class="codehilite"><pre><span class="p">[</span><span class="n">n3x07</span><span class="err">@</span><span class="n">linux</span> <span class="o">~</span><span class="p">]</span><span class="err">$</span> <span class="n">echo</span> <span class="n">a</span><span class="p">{</span><span class="n">A</span><span class="p">{</span><span class="mf">0..9</span><span class="p">},</span><span class="n">B</span><span class="p">{</span><span class="n">A</span><span class="p">..</span><span class="n">Z</span><span class="p">}}</span><span class="n">z</span>
+</pre></div>
+
+
+<p>Eso es todo por ahora, pueden profundizar en ese tema en el manual de bash.</p>
+<p>Un saludo!</p>
+  </div><!-- /.entry-content -->
+<p class="tagged">Etiquetado como: <a href="aljavier.github.io/tag/bash.html">bash</a>, <a href="aljavier.github.io/tag/shell.html">shell</a>, <a href="aljavier.github.io/tag/scripting.html">scripting</a>.</p>  <div class="comments">
+    <h3>Comentarios !</h3>
+    <div id="disqus_thread"></div>
+      <script type="text/javascript">
+         var disqus_identifier = "bash-redicionres-y-expansiones.html";
+         (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = 'http://// sysflux.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+    </div>
+</article>
+</section>
+<footer id="contentinfo" class="body">
+    <address id="about" class="vcard body">
+      © 2013 - sysflux - <a
+          href="mailto:nullc0den4m3@gmail.com">correo</a>|<a
+	  href="#">gpg key</a>|<a
+          href="http://twitter.com/n3x07">twitter</a>|<a
+          href="https://github.com/n3x07">github</a> <span id="license">El contenido está bajo <a href="http://creativecommons.org/licenses/by-sa/3.0/es">licencia Creative Commons</a></span>
+    </address><!-- /#about -->
+  </footer><!-- /#contentinfo -->
+<script type="text/javascript">
+    var disqus_shortname = '// sysflux';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

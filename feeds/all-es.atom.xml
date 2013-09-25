@@ -1,0 +1,761 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>// sysflux</title><link href="aljavier.github.io/" rel="alternate"></link><link href="aljavier.github.io/feeds/all-es.atom.xml" rel="self"></link><id>aljavier.github.io/</id><updated>2013-09-23T01:28:00-04:00</updated><entry><title>Buscando rootkits con Rkhunter</title><link href="aljavier.github.io/tutorial-rkhunter.html" rel="alternate"></link><updated>2013-09-23T01:28:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:aljavier.github.io,2013-09-23:tutorial-rkhunter.html</id><summary type="html">&lt;p&gt;En este post comparto con ustedes como podemos buscar rootkits, directorios y/o archivos ocultos en nuestro sistema Unix (Linux, BSD, etc.), entre otros, para ello usaremos esta estupenda herramienta llamada Rkhunter o Rootkit Hunter.&lt;/p&gt;
+&lt;h2&gt;Qué es Rootkit Hunter ( o Rkhunter)?&lt;/h2&gt;
+&lt;p&gt;Según wikipedia es una herramienta para sistemas &lt;a href="http://es.wikipedia.org/wiki/Unix" title="Unix"&gt;Unix&lt;/a&gt; que detecta los &lt;a href="http://es.wikipedia.org/wiki/Rootkits" title="Rootkits"&gt;rootkies&lt;/a&gt;, las &lt;a href="http://es.wikipedia.org/wiki/Puerta_trasera" title="Puertas traseras o backdoors"&gt;backdoors&lt;/a&gt; y los exploit locales mediante la comparación de los &lt;a href="http://es.wikipedia.org/wiki/MD5#Hashes_MD5" title="hashes MD5"&gt;Hashes MD5&lt;/a&gt; de ficheros importantes con su firma correcta en una base de datos en línea, buscando los directorios por defecto (de rootkits), los permisos 
+incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del kernel, y las pruebas especiales para GNU/Linux y FreeBSD.&lt;/p&gt;
+&lt;h2&gt;Qué son rootkits?&lt;/h2&gt;
+&lt;p&gt;La mayoría de veces son herramientas que se auto-ocultan en los sistemas, estos son utilizados por &lt;em&gt;blackhats&lt;/em&gt;, &lt;em&gt;crackers&lt;/em&gt; y &lt;em&gt;scriptkiddies&lt;/em&gt; para evitarser descubierto por el administrador del sistema.&lt;/p&gt;
+&lt;h2&gt;Instalando Rkhunter&lt;/h2&gt;
+&lt;p&gt;Para instalar Rkhunter podríamos hacerlo desde los repositorios, ya que esta en lo repositorio de la mayoría de las distros GNU/Linux, o podríamos descargarlos desde su website e instalarlo. Eligiremos la ultima opción, ya que así nos aseguramos de tener la ultima versión del mismo, algo importantísimo en casos como este. En todo caso, si instalamos desde los repositorios podemos actualizar el Rkhunter con&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;rkhunter&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;update&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Recomendable hacerlo antes de usarlo siempre, según he leído por ahí.&lt;/p&gt;
+&lt;p&gt;Para descargar Rkhunter vamos a &lt;a href="http://sourceforge.net/projects/rkhunter/files/" title="esta pagina de acá"&gt;rkhunter&lt;/a&gt; y descargamos el archivo &lt;strong&gt;rkhunter-1.3.8.tar.gz&lt;/strong&gt;, ultima versión a la fecha de redactar esto, en caso de haber una versión mas reciente cuando este leyendo esto, descarga la mas reciente.&lt;/p&gt;
+&lt;p&gt;Ahora vamos a donde descargamos el archivo y lo descomprimes&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;tar&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;zxvf&lt;/span&gt; &lt;span class="n"&gt;rkhunter&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;1.3.8&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Desde una terminal vamos a la carpeta que se nos creo al descomprimir el archivo, la carpeta tiene el formato de &lt;strong&gt;rkhunter-version&lt;/strong&gt;, en mi caso&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="n"&gt;rkhunter&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;1.3.8&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Tenemos mas de una manera de instalar el Rkhunter, podemos hacer algunas personalizaciones a nuestra instalación, pero en este caso realizaremos la instalación por defecto. Para ello como usuario root ejecutamos el script &lt;em&gt;installer.sh&lt;/em&gt;, pero lo hacemos del siguiente modo&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;installer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;install&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Para ver mas información sobre esta y los demás modos de instalación y otras informaciones de interés, recomiendo leerse el archivo README que viene dentro de la carpeta &lt;em&gt;files&lt;/em&gt; que a su vez se encuentra dentro de la carpeta &lt;em&gt;rkhunter-1.3.8&lt;/em&gt; o leerlo online en &lt;a href="http://rkhunter.cvs.sourceforge.net/viewvc/rkhunter/rkhunter/files/README" title="este link"&gt;online&lt;/a&gt;. Si todo ha salido bien tenemos una ultima linea de la instalación que dice&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;Installation&lt;/span&gt; &lt;span class="n"&gt;complete&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Si ha habido algún problema en la instalación recomiendo leer (nuevamente) el archivo README.&lt;/p&gt;
+&lt;p&gt;Antes de ejecutar el Rkhunter debemos ejecutar el siguiente comando (debemos no es obligatorio).&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;rkhunter&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;propupd&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Esto para completar la base de datos de las propiedades del archivo. No te preocupes es automático, tu corres el comando y listo :-)&lt;/p&gt;
+&lt;h2&gt;Buscando rootkits y demás con Rootkit Hunter&lt;/h2&gt;
+&lt;p&gt;De la forma que veremos ahora no solo buscará rootkits en nuestro sistema sino que también buscará directorios ocultos sospechosos,etc.&lt;/p&gt;
+&lt;p&gt;Bien, para esto de forma por defecto (como usuario root) hacemos los siguiente&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;rkhunter&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;check&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Y empezará el escaneo inmediatamente, cuando nos diga &lt;em&gt;[Press &amp;lt;ENTER&amp;gt; to continue]&lt;/em&gt; entonces presionamos Enter para que continué.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Rkhunter" src="aljavier.github.io/images/posts/rkhunter/rkhunter1.png" title="Rkhunter" /&gt;&lt;/p&gt;
+&lt;p&gt;Ups! Parece que tengo un rootkit, por suerte, no era mas que un falso positivo, la alerta fue por la aplicación &lt;em&gt;hdparm&lt;/em&gt; que instale hace unos días, pero desde los repositorios oficiales, como debe de ser.&lt;/p&gt;
+&lt;p&gt;Por cierto, podemos ver en detalle el resultado del escaneo en el archivo &lt;strong&gt;/var/log/rkhunter.log&lt;/strong&gt;, de modo que en caso de tener algún rootkit ahí podemos leer la ruta de su posible ubicación.&lt;/p&gt;
+&lt;p&gt;La primera vez que ejecutamos Rkhunter recibimos mucho mensajes del tipo &lt;span style="color: red;"&gt;Warning&lt;/span&gt;, que en muchos casos son solo falsos positivos y son comandos del mismo sistema como /bin/who por ejemplo, por ello y otras razones es bueno leerse las &lt;a href="http://rkhunter.cvs.sourceforge.net/viewvc/rkhunter/rkhunter/files/FAQ" title="FAQ de Rkhunter"&gt;FAQ&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Nota: Rkhunter no elimina los rootkits ni otros binarios maliciosos, solo los detecta el resto va por tu cuenta.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Si quisieramos hacer un escaneo y que no nos muestre tanta información como con la opción &lt;em&gt;--check&lt;/em&gt;, para buscar solo rootkits podríamos ejecutar &lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;rkhunter&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;enable&lt;/span&gt; &lt;span class="n"&gt;rootkits&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Si queremos saber como podemos automatizar los escaneos para que se ejecuten periódicamente en las FAQ podemos leer como hacerlo (ver link arriba). Además para conocer todas las opciones de Rkhunter podemos correr el comando&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;rkhunter&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;help&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Algo mas que es positivo es subscribirnos a la lista de correos para recibir información sobre bugs y otras cuestiones de seguridad relacionadas con Rkhunter, para eso podemos ir a &lt;a href="https://lists.sourceforge.net/lists/listinfo/rkhunter-usershttps://lists.sourceforge.net/lists/listinfo/rkhunter-users" title="rkhunter-user-mailling list"&gt;user-mailing-lists&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Si por alguna razón quisieramos desinstalar el Rkhunter vamos a la carpeta descomprimida del programa y ejecutamos el script de instalación con la opcion &lt;em&gt;---remove&lt;/em&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;installer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;remove&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Hasta aquí el post, para mas info recomiendo consultar el manual de rkhunter, y leer las FAQ, así como seguir los demás consejos que he dado, que son los que recomiendan ellos mismos en su website. &lt;/p&gt;
+&lt;p&gt;Nos leemos!&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Nota: Aunque este tutorial es 100% valido aún, cabe decir que data ya de un tiempo, fue rescatado de mi antiguo blog.&lt;/em&gt;&lt;/p&gt;</summary><category term="rkhunter"></category><category term="rootkits"></category><category term="security"></category><category term="unix"></category></entry><entry><title>Creando una wiki con MediaWiki</title><link href="aljavier.github.io/creando-una-wiki-con-mediawiki.html" rel="alternate"></link><updated>2013-09-22T11:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:aljavier.github.io,2013-09-22:creando-una-wiki-con-mediawiki.html</id><summary type="html">&lt;h1&gt;Introducción&lt;/h1&gt;
+&lt;p&gt;Veremos como instalar una wiki en un servidor web montado en nuestro propio ordenador, subirla a un hosting online no seria muy distinto de lo que haremos aquí así que si deseas subirla a algún hosting puedes hacerlo facilmente a raíz de lo explicado aquí. Las razones por las que querrías instalar tu propia wiki podrían ser varias, por ejemplo, tener una base de datos organizada con tus trabajos escolares indexados, crear contenido y compartirlo con otras personas, podrías ser un maestro por ejemplo  y querrías ofrecer algunos materiales de apoyo a tus alumnos. En fin, aquí mostraremos como montar tu propia wiki, ya para que vayas a utilizar tu wiki es cosa tuya, en todo caso cabe recalcar que el proyecto podría llevarse a cabo con facilidad en un colegio o escuela pública, o hasta un grupo de amigos que deseen colaborar en sus estudios unos con los otros, solo por dar algunas ideas.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Que necesitamos:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;XAMPP, este trae consigo Apache, MySQL y PHP, haciendo que el uso y la instalación del  mismo sea bastante intuitiva. Puedes descargarlo según tu sistema operativo  &lt;a href="http://www.apachefriends.org/en/xampp.html" title="clickando aquí"&gt;XAMPP&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;MediaWiki, este es el software que usaremos para crear la wiki y puedes descargarlo &lt;a href="http://www.mediawiki.org/wiki/Download" title="clickando aquí"&gt;MediaWiki&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Qué es XAMPP?&lt;/strong&gt; &lt;/p&gt;
+&lt;p&gt;XAMPP es un servidor independiente de plataforma, software libre, que consiste principalmente en la base de datos MySQL, el servidor web Apache y los intérpretes para lenguajes de script: PHP y Perl. El nombre proviene del acrónimo de X (para cualquiera de los diferentes sistemas operativos), Apache, MySQL, PHP, Perl. El programa está liberado bajo la licencia GNU y actúa como un servidor web libre, fácil de usar y capaz de interpretar páginas dinámicas. Actualmente XAMPP está disponible para Microsoft Windows, GNU/Linux, Solaris y MacOS X.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Qué es MediaWiki?&lt;/strong&gt; &lt;/p&gt;
+&lt;p&gt;MediaWiki es un software wiki libre escrito originalmente para &lt;em&gt;Wikipedia&lt;/em&gt;. Ahora es utilizado por otros proyectos wikis de la &lt;em&gt;Fundación Wikimedia&lt;/em&gt; y por otras wikis.&lt;/p&gt;
+&lt;p&gt;Como pueden deducir crearemos un proyecto totalmente &lt;em&gt;Open Source&lt;/em&gt;, es decir, usando solo software libre.&lt;/p&gt;
+&lt;p&gt;En el caso de &lt;em&gt;GNU/Linux&lt;/em&gt; la distro que sea, podríamos a ver preferido por instalar un servidor web full, es decir, Apache, MySQL y PHP cada uno por su lado, haciendo así de nuestra PC un total servidor web. Pero en vez de eso, hemos elegido XAMPP ya que lo que haremos sera una instalación simple hogareña y no queremos tener un servidor corriendo todo el tiempo, además este nos sirve para nuestro proposito,  algo un poco mas intuitivo para hacerlo mas asequible a todos los lectores.&lt;/p&gt;
+&lt;h1&gt;Instalando el XAMPP&lt;/h1&gt;
+&lt;p&gt;Bueno ya que te descargaste el XAMPP del link puesto arriba vamos a empezar a instalarnos el XAMPP, en Windows lo descomprimimos y ejecutamos el instalador  y  seleccionamos como ruta de instalación *&lt;em&gt;c:\xampp*&lt;/em&gt;, que me parece que es la ruta por defecto (yo estoy usando ubuntu), en cuanto a la pregunta de que si quieren inicial el panel de control de XAMPP eligen No, ya que por el momento no es necesario. En Linux abrimos una terminal, nos autentificamos como usuario root, noa dirigimos a la carpeta donde descargamos el archivo y luego tecleamos;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;tar&lt;/span&gt; &lt;span class="n"&gt;xvfz&lt;/span&gt; &lt;span class="n"&gt;xampp&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;1.7.7&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Con eso ahora tendríamos el directorio /opt/lampp donde se encuentra el XAMPP.&lt;/p&gt;
+&lt;h1&gt;Instalando MediaWiki&lt;/h1&gt;
+&lt;p&gt;Luego de habernos descargado el MediaWiki 1.18.0 del link que  deje arriba, el cual esta en formato tar.gz bien conocido en sistemas GNU/Linux pero no así en windows, en todo caso en windows puedes extraerlo con winrar o 7zip, pues bien, en windows extraemos la carpeta en el directorio C:\xampp\htdocs.&lt;/p&gt;
+&lt;p&gt;En &lt;strong&gt;&lt;em&gt;GNU/Linux&lt;/em&gt;&lt;/strong&gt; lo extraemos del modo siguiente, abrimos una terminal y nos situamos en el directorio donde descargamos el archivo y lo extraemos así:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;tar&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;zxvf&lt;/span&gt; &lt;span class="n"&gt;mediawiki&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;1.18.0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ahora tenemos una carpeta llamada  mediawiki-1.18.0 la movemos a /opt/lampp-htdocs;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;mv&lt;/span&gt; &lt;span class="n"&gt;mediawiki&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;1.18.0&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lampp&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;htdocs&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ahora para hacer la wiki mas asequible, mas fácil de escribir en la barra de direcciones, renombramos la carpeta mediawiki-1.18.0 a algo como wiki o mediawiki, yo la renombré a wiki por ser mas corto.&lt;/p&gt;
+&lt;h1&gt;Iniciando los servidores&lt;/h1&gt;
+&lt;p&gt;Ahora si vamos a iniciar los servidores, en windows dirigite a Inicio y busca XAMPP &amp;gt; XAMPP Control Panel, también puedes acceder por medio del acceso directo en el escritorio. Los servidores que necesitamos son Apache y MySQL, por lo que lo otros lo puedes detener; Filezilla y Mercury.&lt;/p&gt;
+&lt;p&gt;Nota: Si por alguna razón queremos detener los servidores, solo abrimos el control de panel de XAMPP y damos click en el apartado del servidor donde dice stop, para reiniciarlo por igual, dando click en restart.&lt;/p&gt;
+&lt;p&gt;En GNU/Linux iniciamos los servidores de la siguiente manera;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lampp&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lampp&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;em&gt;Nota:&lt;/em&gt;&lt;em&gt; Debemos ser root para poder iniciar los servidores en Linux.  Siempre que encendamos nuestra PC y queramos usar la wiki, debemos iniciar lo servidores como hemos hecho anteriormente.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Otra nota: Para reiniciar los servidores en Linux, hacemos desde la terminal como root /opt/lampp/lampp restart, para detenerlos /opt/lampp/lampp stop. En la segunda parte veremos mas acerca de manejar los servidores en Linux.&lt;/p&gt;
+&lt;p&gt;Ahora para acceder al servidor desde el navegador, en la barra de navegación escribe localhost, veras una pagina de bienvenida en esta elige tu idioma.&lt;/p&gt;
+&lt;h1&gt;Configurando MediaWiki&lt;/h1&gt;
+&lt;p&gt;Ahora necesitamos configurar MediaWiki, para ellos nos dirigimos desde el navegador a la url localhost/nombre_wiki, en nombre_wiki va el nombre que le pusiste a la carpeta de MediaWiki en mi caso le puse wiki, así que seria asi &lt;em&gt;localhost/wiki&lt;/em&gt;. Ahora ves una pagina de presentación  que dice que el archivo LocalSettings.php no fue encontrado, eso es normal ya nos encargaremos luego. Le damos click a  &lt;strong&gt;set up de wiki&lt;/strong&gt;. En la pagina que tenemos ahora seleccionamos nuestro idioma y el idioma que queremos para la wiki, yo seleccioné es-Español en ambos casos y damos click a &lt;em&gt;continue&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;En el siguiente apartado vemos una pagina de bienvenida, fijemonos debajo que diga lo siguiente; &lt;strong&gt;El entorno ha sido comprobado. Puedes instalar MediaWiki&lt;/strong&gt;. Eso indica que todo va bien por el momento. Ahora damos  click en continuar nuevamente debajo.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot #1" src="aljavier.github.io/images/posts/mediawiki/wiki1.png" /&gt;&lt;/p&gt;
+&lt;p&gt;En la pagina que tenemos ahora (ver imagen arriba), en el apartado Tipo de base de datos dejamos MySQL que es la que esta preseleccionada por defecto y es la que usa XAMPP, en Configuración de MySQL &amp;gt; servidor de la base de datos lo dejemos tal cual esta en localhost ya que es en nuestro ordenador donde tenemos montado nuestro servidor.&lt;/p&gt;
+&lt;p&gt;En Nombre de base de datos si quieren pueden dejarlo tal cual esta como my_wiki yo usare otro nombre por cuestiones de seguridad en Prefijo para las tablas de la base de datos ponemos mw_ (nota el guión bajo), en Nombre de usuarios de base de datos lo dejamos como esta por defecto root que es el nombre por defecto de MySQL, en contraseña de base de datos lo dejamos en blanco tal cual esta, ya que así viene por defecto en MySQL eso podemos cambiarlo luego cuando nos aseguremos de que nuestra wiki funciona bien.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Nota&lt;/em&gt;&lt;em&gt;:  Apunta estos datos porque son prioritarios, lo necesitaras luego&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Pues sin mas presionamos nuevamente en continuar, en la pagina que estamos ahora dejamos todo por defecto (ver imagen debajo) y presionamos una vez mas en continuar.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot #2" src="aljavier.github.io/images/posts/mediawiki/wiki2.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Ahora procedemos a llenar los datos que nos solicitan en la pagina presente. En Nombre del wiki elegimos el nombre que nos plasca para nuestra wiki, yo le puse ElectroWiki ustedes pueden elegir el nombre que deseen. En Espacio de nombre de proyecto pueden dejarlo tal cual esta en la primera opción Igual como el nombre del wiki.&lt;/p&gt;
+&lt;p&gt;En el apartado &lt;strong&gt;Cuenta de administrador&lt;/strong&gt; llenamos los datos solicitados para crear nuestra cuenta de administrador como sigue:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Su nombre&lt;/strong&gt; -&amp;gt; Aquí va tu nombre para la cuenta de administrador.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Contraseña&lt;/strong&gt; -&amp;gt; Una contraseña para tu cuenta.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Repita la contrasea&lt;/strong&gt; -&amp;gt; Aquí repites la contraseña anterior.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Dirección de correo electronico&lt;/strong&gt; -&amp;gt; Aquí pones un correo tuyo, si haces accesible tu web desde el Internet es bueno que pongas un correo para si alguien quiere comunicarse contigo.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="screenshot #3" src="aljavier.github.io/images/posts/mediawiki/wiki3.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Debajo donde dice &lt;em&gt;Subscribirse para recibir avisos de nuevas versiones&lt;/em&gt; te recomiendo que marques esa casilla, para que actualizes tu wiki siempre que sea necesario, ya que de vez en cuando se descubren bugs y esas cosas.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Debajo tenemos dos opciones en las cuales elegir:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Házme mas preguntas&lt;/li&gt;
+&lt;li&gt;Ya estoy aburrido, sólo instala el wiki.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;De estas dos elegimos la segunda, los demás ajustes pueden realizarlos luego segun deseen. Ahora proseguimos a pulsar en continuar.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Nota: Guarda todos estos datos porque son tus datos de acceso a la wiki, lo necesitaras para poder escribir, editar y demás.&lt;/em&gt;**&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;La siguiente pagina nos dice:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;By&lt;/span&gt; &lt;span class="n"&gt;pressing&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Continuar →&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;you&lt;/span&gt; &lt;span class="n"&gt;will&lt;/span&gt; &lt;span class="n"&gt;begin&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;installation&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;MediaWiki&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="n"&gt;If&lt;/span&gt; &lt;span class="n"&gt;you&lt;/span&gt; &lt;span class="n"&gt;still&lt;/span&gt; &lt;span class="n"&gt;want&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;make&lt;/span&gt; &lt;span class="n"&gt;changes&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;press&lt;/span&gt; &lt;span class="n"&gt;back&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Presionamos continuar para instalar nuestra wiki y en unos segundos esta nos muestra lo siguiente, en caso de que todo ha ido bien:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Instalar&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Configurando la base de datos... hecho&lt;/li&gt;
+&lt;li&gt;Creando tablas... hecho&lt;/li&gt;
+&lt;li&gt;Creando el usuario de la base de datos... hecho&lt;/li&gt;
+&lt;li&gt;Llenando la tabla interwiki predeterminada... hecho&lt;/li&gt;
+&lt;li&gt;Initializing statistics... hecho&lt;/li&gt;
+&lt;li&gt;Generación de claves secretas... hecho&lt;/li&gt;
+&lt;li&gt;Creando cuenta de usuario del administrador... hecho&lt;/li&gt;
+&lt;li&gt;Creating main page with default content... hecho&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Ahora proseguimos y presionamos en continuar. Entonces si todo ha ido bien, nos sale el siguiente mensaje de la imagen abajo y se inicia la descarga del archivo &lt;strong&gt;LocalSettings.php&lt;/strong&gt; elegimos guardar, este tiene la configuración de toda nuestra wiki y el cual necesitaremos para modificar luego cualquier otra cosa y en general para el funcionamiento de la misma. Si no se inicio la descarga automáticamente damos click donde dice &lt;strong&gt;&lt;em&gt;Download LocalSettings.php&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot #4" src="aljavier.github.io/images/posts/mediawiki/wiki4.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Como nos dice la  misma pagina presente necesitamos mover el archivo &lt;em&gt;LocalSettings.php&lt;/em&gt; al directorio donde se encuentra el index.php de nuestra wiki, en GNU/Linux lo movemos al directorio /opt/lampp/htdocs/wiki&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;mv&lt;/span&gt; &lt;span class="n"&gt;LocalSettings&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;php&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lampp&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;htdocs&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;wiki&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;En windows lo copiamos y lo pegamos en el directorio c:\xampp\htdocs\wiki.&lt;/p&gt;
+&lt;p&gt;Ahora en la misma pagina donde estamos situados aun, damos click debajo donde dice &lt;strong&gt;&lt;em&gt;"When that has been done, you can enter your wiki"&lt;/em&gt;&lt;/strong&gt; exactamente en la parte &lt;strong&gt;enter your wiki&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Si todo ha ido bien veremos la pagina debajo (ver imagen) con nuestra wiki funcionando perfectamente.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot #5" src="aljavier.github.io/images/posts/mediawiki/wiki5.png" /&gt;&lt;/p&gt;
+&lt;p&gt;En lo adelante siempre que queramos acceder a nuestra wiki solo debemos poner en la ruta de direcciones del navegador web &lt;strong&gt;http://localhost/wiki&lt;/strong&gt;, claro ten en cuenta que el XAMPP debe estar iniciado para poder acceder a tu wiki.&lt;/p&gt;
+&lt;p&gt;Ya puedes empezar a escribir en tu propia wiki!!!&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;nota final: Este articulo no es muy reciente a pesar de la fecha de publicación, fue rescatado de mi antiguo blog, pero aún sigue siendo útil, solo que las versiónes mas recientes de MediaWiki y XAMPP serán otras, por tanto, algunas cosas puede ser que hayan cambiado.&lt;/em&gt;&lt;/p&gt;</summary><category term="mediawiki"></category><category term="wiki"></category><category term="xampp"></category></entry><entry><title>Usando la API de Shodan para Python</title><link href="aljavier.github.io/tutorial-api-shodan-para-python.html" rel="alternate"></link><updated>2013-07-07T05:12:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:aljavier.github.io,2013-07-07:tutorial-api-shodan-para-python.html</id><summary type="html">&lt;p&gt;En este post veremos que usar la &lt;a href="http://docs.shodanhq.com/python/tutorial.html" title="Shodan"&gt;API de Shodan para Python&lt;/a&gt; es bastante sencillo, las ventajas de esto es que podemos utilizar este buscador desde nuestras aplicaciones en Python y desde la linea de comandos, la API también esta disponible para Perl y Ruby.&lt;/p&gt;
+&lt;p&gt;Sino sabes lo que es Shodan o simplemente aun no sabes usarlo del todo, te recomiendo leerte &lt;a href="http://www.slideshare.net/theprez98/shodan-for-penetration-testers-defcon-18" title="shodan for penestration testers"&gt;Shodan for Penetration Testers DefCon 18&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Ahora lo preliminar ante todo es que te registres en &lt;a href="http://www.shodanhq.com/" title="Shodan"&gt;Shodan&lt;/a&gt;, es necesario para poder realizar algunas búsquedas y para obtener una &lt;strong&gt;API KEY&lt;/strong&gt; necesaria para poder usar la API, luego de registrarte y loguearte tienes tu KEY en &lt;a href="http://www.shodanhq.com/api_doc" title=" &amp;quot;api key"&gt;este link&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Bien ya luego de eso, lo que va es instalar la librería de shodan en la distro que uses (si, estoy asumiendo que usas GNU/Linux), yo en este momento estoy usando Debian Wheezy. Si tenemos &lt;a href="http://packages.python.org/distribute/easy_install.html" title="easy_install"&gt;Easy Install&lt;/a&gt; es bastante fácil sino te recomiendo que busques en el link anterior como instalarlo en tu distro.&lt;/p&gt;
+&lt;h2&gt;Instalación&lt;/h2&gt;
+&lt;p&gt;Instalamos la librería de shodan de la siguiente manera:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;easy_install&lt;/span&gt; &lt;span class="n"&gt;shodan&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;Nota: Necesitarás permiso de superusuario para eso.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;En el caso de que ya este instalado para actualizar a la ultima versión hacemos lo siguiente:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;easy_install&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;U&lt;/span&gt; &lt;span class="n"&gt;shodan&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Debo decir, que no estoy seguro de que la API de Shodan este disponible para Python 3, yo estoy usando la versión 2.7.x. Al final, del post luego de ver los ejemplos de las funcionalidades que entiendo más importantes de la API, les compartiré un script básico que he hecho.&lt;/p&gt;
+&lt;h2&gt;Inicializando el objeto WebAPI&lt;/h2&gt;
+&lt;p&gt;Primero inicializamos el objeto API de la siguiente manera:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;shodan&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;WebAPI&lt;/span&gt;
+
+&lt;span class="n"&gt;SHODAN_API_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Aqui tu API KEY&amp;quot;&lt;/span&gt;
+
+&lt;span class="n"&gt;api&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;WebAPI&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;SHODAN_API_KEY&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Buscando en Shodan&lt;/h2&gt;
+&lt;p&gt;Perfecto, ya estamos ready, ahora veamos un ejemplo práctico usando el método &lt;strong&gt;WebAPI.search()&lt;/strong&gt;, con el cual podemos realizar una búsqueda ordinaria en Shodan, veamos con el siguiente ejemplo:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env python&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;shodan&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;WebAPI&lt;/span&gt;
+
+&lt;span class="n"&gt;SHODAN_API_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;TU_API_KEY_AQUI&amp;#39;&lt;/span&gt;
+
+&lt;span class="n"&gt;api&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;WebAPI&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;SHODAN_API_KEY&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c"&gt;# Ponemos el codigo entre un try/catch para manejar los exceciones&lt;/span&gt;
+&lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="c"&gt;# Buscamos en Shodan con el metodo WebAPI.search()&lt;/span&gt;
+    &lt;span class="n"&gt;resultados&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;apache&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c"&gt;# Mostramos el resultado&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Cantidad de resultados encontrados: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;resultados&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;total&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;resultados&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;matches&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Ciudad: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;city&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Pais: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;country_name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;IP: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;ip&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;O.S: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;os&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Puerto: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;port&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Hostnames: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;hostnames&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Latitude: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;latitude&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Longitude: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;longitude&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Actualizado en: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;updated&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;data&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;-----&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;
+&lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;Exception&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+      &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Ups! Ha ocurrido un error: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;El código en parte se explica a si mismo, el método &lt;strong&gt;WebAPI.search()&lt;/strong&gt; nos devuelve un diccionario con toda la información, este método devuelve mas de lo que estamos usando en el ejemplo arriba, para ver todo lo que devuelve puedes probar a presentar en pantalla todo el objeto.&lt;/p&gt;
+&lt;p&gt;Un corto ejemplo que tienen en su documentación respecto de lo que retorna el susodicho método es este:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;total&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;8669969&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;countries&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;
+                    &lt;span class="s"&gt;&amp;#39;code&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;US&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="s"&gt;&amp;#39;count&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;4165703&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;United States&amp;#39;&lt;/span&gt;
+            &lt;span class="p"&gt;},&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;code&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;DE&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;count&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;610270&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Germany&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;code&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;JP&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;count&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;496556&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Japan&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;code&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;RO&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;count&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;486107&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Romania&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;code&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;GB&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;count&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;273948&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;United Kingdom&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;matches&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt;
+                    &lt;span class="s"&gt;&amp;#39;country&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;DE&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="s"&gt;&amp;#39;data&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;HTTP/1.0 200 OK&lt;/span&gt;&lt;span class="se"&gt;\r\n&lt;/span&gt;&lt;span class="s"&gt;Date: Mon, 08 Nov 2010 05:09:59 GMT&lt;/span&gt;&lt;span class="se"&gt;\r\n&lt;/span&gt;&lt;span class="s"&gt;Ser...&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="s"&gt;&amp;#39;hostnames&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;pl4t1n.de&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+                    &lt;span class="s"&gt;&amp;#39;ip&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;89.110.147.239&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="s"&gt;&amp;#39;os&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;FreeBSD 4.4&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="s"&gt;&amp;#39;port&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="s"&gt;&amp;#39;updated&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;08.11.2010&amp;#39;&lt;/span&gt;
+            &lt;span class="p"&gt;},&lt;/span&gt;
+            &lt;span class="o"&gt;...&lt;/span&gt;
+    &lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Buscando un host en específico&lt;/h2&gt;
+&lt;p&gt;Ahora veremos como obtener los posibles resultados que Shodan pueda tener sobre un host en especifico, por medio de su IP. Para ello utilizaremos el método &lt;strong&gt;WebAPI.host()&lt;/strong&gt;.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+   &lt;span class="n"&gt;host&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;200.88.113.179&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+   &lt;span class="c"&gt;# Imprimiendo la informacion obtenida&lt;/span&gt;
+   &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;IP: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;ip&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+   &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Pais: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;country_name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+   &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;City: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;city&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+   &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Latitude: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;latitude&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+   &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Longitude: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;longitude&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+   &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Hostnames: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;hostnames&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+  &lt;span class="c"&gt;# Imprimimos los banners&lt;/span&gt;
+   &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;data&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
+       &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Puerto: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;port&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+       &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Banner: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;banner&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;Exception&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+      &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Ups! Ha ocurrido un error: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Suponiendo que ya hemos importado la librería e inicializado el objeto, con el código de arriba obtendríamos cierta información de esa IP. Por ejemplo, lo de arriba alojaría el siguiente resultado:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="shodan result" src="aljavier.github.io/images/posts/shodan/shodan1.png" title="shodan resultado" /&gt;&lt;/p&gt;
+&lt;h2&gt;Concluyendo...&lt;/h2&gt;
+&lt;p&gt;Esta librería también tiene métodos para buscar y descargar modulos y exploits de Metasploit y Exploit-DB, respectivamente, así además como un modulo para geolocalización por medio de la MAC/BSSID de routers wireless. La documentación al respecto puede verla en la web oficial, yo decidi no hablar de eso porque han dado resultados erráticos.&lt;/p&gt;
+&lt;p&gt;Es decir, de 20 intentos de descargas de algún modulo o exploit solo 1 logro descargarse  los demás me tiran  error &lt;strong&gt;HTTP Error 502: Bad Gateway&lt;/strong&gt; y sobre la geolocalización ésta ya en otras ocasiones igual me ha dado resultados inesperados. Por lo demás todo anda bien .&lt;/p&gt;
+&lt;p&gt;Acá les dejo mi script, esta muy nuevo aun le faltan funciones y demás y seguro que depurar unas que otras cosas, pero es un punto de partida :x Ya le iré preparando una nueva versión luego.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env python&lt;/span&gt;
+&lt;span class="c"&gt;# -*- coding: utf-8 -*-&lt;/span&gt;
+
+&lt;span class="c"&gt;######################################################&lt;/span&gt;
+&lt;span class="c"&gt;###                                                ###         &lt;/span&gt;
+&lt;span class="c"&gt;###        Shodan3r V.:1.0                         ###&lt;/span&gt;
+&lt;span class="c"&gt;###             by                                 ###&lt;/span&gt;
+&lt;span class="c"&gt;###            n3x07                               ###&lt;/span&gt;
+&lt;span class="c"&gt;###                                                ###&lt;/span&gt;
+&lt;span class="c"&gt;###     www.netc0de.blogspot.com                   ###&lt;/span&gt;
+&lt;span class="c"&gt;###           07/01/2013                           ###&lt;/span&gt;
+&lt;span class="c"&gt;###                                                ###&lt;/span&gt;
+&lt;span class="c"&gt;###  Requiere: shodan                              ###&lt;/span&gt;
+&lt;span class="c"&gt;###  easy_install shodan                           ###&lt;/span&gt;
+&lt;span class="c"&gt;###  Testeado en Debian Wheezy con Python 2.7.x    ### &lt;/span&gt;
+&lt;span class="c"&gt;###                                                ###&lt;/span&gt;
+&lt;span class="c"&gt;######################################################&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;shodan&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;WebAPI&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;
+
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Shodan&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot; Clase para buscar en Shodan &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;API_KEY&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;api&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="n"&gt;WebAPI&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;API_KEY&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;buscar&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;cadena&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot; Busca segun la cadena dada &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+       &lt;span class="c"&gt;# Buscamos lo de la cadena pasada como parametro&lt;/span&gt;
+       &lt;span class="n"&gt;resultado&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cadena&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+       &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;resultado&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;Exception&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+          &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Ups! Ha ocurrido un error: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;
+          &lt;span class="n"&gt;resultado&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+          &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;resultado&lt;/span&gt;
+
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;obtener_info_host&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;IP&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot; Obtiene la info que pueda tener shodan sobre una IP &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;host&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;IP&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;Exception&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Ups! Ha ocurrido un error: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;
+        &lt;span class="n"&gt;host&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;usage&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&amp;quot;Uso: Shodan3r.py {OPTION} {CADENA | HOST}&lt;/span&gt;
+&lt;span class="s"&gt;     OPCIONES:&lt;/span&gt;
+&lt;span class="s"&gt;     -s, --search: Para buscar segun una determinada cadena&lt;/span&gt;
+&lt;span class="s"&gt;     -h, --host: Para obtener la informacion de un host segun su IP&lt;/span&gt;
+&lt;span class="s"&gt;     EJEMPLOS&lt;/span&gt;
+&lt;span class="s"&gt;      Shodan3r.py -s apache&lt;/span&gt;
+&lt;span class="s"&gt;      Shodan3r.py -h 8.8.8.8&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;banner&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+     &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="s"&gt;             ____  _               _             _____      &lt;/span&gt;
+&lt;span class="s"&gt;            / ___|| |__   ___   __| | __ _ _ __ |___ / _ __ &lt;/span&gt;
+&lt;span class="s"&gt;            \___ \| &amp;#39;_ \ / _ \ / _` |/ _` | &amp;#39;_ \  |_ \| &amp;#39;__|&lt;/span&gt;
+&lt;span class="s"&gt;             ___) | | | | (_) | (_| | (_| | | | |___) | |   &lt;/span&gt;
+&lt;span class="s"&gt;            |____/|_| |_|\___/ \__,_|\__,_|_| |_|____/|_|&lt;/span&gt;
+&lt;span class="s"&gt;                                Version 1.0&lt;/span&gt;
+&lt;span class="s"&gt; &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
+    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;time&lt;/span&gt;
+
+    &lt;span class="n"&gt;API_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;API KEY AQUI&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;shodan&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Shodan&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;API_KEY&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;usage&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;-s&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;--search&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+         &lt;span class="n"&gt;banner&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+         &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sleep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+         &lt;span class="n"&gt;resultado&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;shodan&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;buscar&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+         &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;resultado&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Cantidad de resultados encontrados: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;resultado&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;total&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+            &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;resultado&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;matches&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
+                &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Ciudad: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;city&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Unknown&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Pais: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;country_name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Unknown&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;IP: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;ip&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;O.S: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;os&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Unknown&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Puerto: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;port&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Hostnames: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;hostnames&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Latitude: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;latitude&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Unknown&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Longitude: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;longitude&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Unknown&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Actualizado en: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;updated&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;data&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+                &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+
+    &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;-h&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;--host&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;banner&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sleep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;host&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;shodan&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;obtener_info_host&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+           &lt;span class="c"&gt;# Imprimiendo la informacion obtenida&lt;/span&gt;
+           &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;IP: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;ip&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+           &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Pais: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;country_name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Unknown&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+           &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;City: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;city&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Unknown&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+           &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Latitude: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;latitude&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+           &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Longitude: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;longitude&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+           &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Hostnames: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;hostnames&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+           &lt;span class="c"&gt;# Imprimimos los banners&lt;/span&gt;
+           &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;data&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
+               &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Puerto: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;port&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+               &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Banner: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;banner&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+               &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+
+    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;usage&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Algunas capturas a continuación...&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Uso o ayuda...&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="ayuda" src="aljavier.github.io/images/posts/shodan/ayuda.png" title="ayuda" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Buscando un dispositivo&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;Shodan3r&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt; &lt;span class="n"&gt;airos&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="search" src="aljavier.github.io/images/posts/shodan/search.png" title="search" /&gt;   &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Buscando un host&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;Shodan3r&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;host&lt;/span&gt; &lt;span class="mf"&gt;184.154.248.106&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="host" src="aljavier.github.io/images/posts/shodan/host.png" title="host" /&gt;&lt;/p&gt;
+&lt;p&gt;Espero que les haya gustado y servido el post, como siempre los comentarios son mas que bienvenidos.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Repositorio en github:&lt;/strong&gt; &lt;a href="https://github.com/n3x07/Shodan3r" title="Shodan3r"&gt;github.com/n3x07/Shodan3r&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Referencias&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://docs.shodanhq.com/python/tutorial.html" title="shodan tutorial oficial"&gt;shodan oficial tutorial&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="shodan"></category><category term="api"></category><category term="python"></category><category term="scripting"></category></entry><entry><title>Diccionarios con HashMap y TreeMap en Java</title><link href="aljavier.github.io/diccionarios-con-hashmap-y-treemap-en-java.html" rel="alternate"></link><updated>2013-06-20T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:aljavier.github.io,2013-06-20:diccionarios-con-hashmap-y-treemap-en-java.html</id><summary type="html">&lt;p&gt;Las colecciones nos permiten agrupar un conjunto de objetos del mismo tipo o al menos lo ideal es eso, que sean del mismo tipo ya que pueden agrupar objetos diferentes pero no es aconsejable, le quita las ventajas de usar los llamados &lt;a href="http://docs.oracle.com/javase/tutorial/extra/generics/index.html" title="genericos"&gt;genéricos&lt;/a&gt; y haciendo así perdemos un poco el control sobre el tipo de objeto que manejamos.&lt;/p&gt;
+&lt;p&gt;Hay muchos objetos que entran en la categoría de collection en java, pero como siempre hay unos mas usados que otros, tenemos; &lt;em&gt;ArrayList, List, HashMap, TreeMap, TreeSet&lt;/em&gt;, etc. Los dos primeros almacenan objetos o mas bien referencia a objetos estilo los vectores, es decir que nos permite acceder por medio de su posición en el mismo, los otros dos siguientes entran en la categoría de diccionarios y el ultimo es como los vectores también pero elimina automáticamente los objetos idénticos. Aquí solo explicaré HashMap, TreeMap, ArrayList, List y la clase Collections.&lt;/p&gt;
+&lt;p&gt;Haré posts separados sobre cada uno, esto para no hacer la lectura del post algo tediosa, ya que a veces llegan gente de Google solo buscando por ejemplo un tutorial de ArrayList, etc. Para no hacerlo tan tedioso y extenso lo explicaré en posts breves algunos de ellos, en este post explicaré TreeMap y HashMap, en el siguiente ArrayList y List, por ultimo Collections. &lt;/p&gt;
+&lt;p&gt;Para los ejemplos tengo una clase llamada Person.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Person&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+     &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;nombre&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+     &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;apellido&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+     &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;edad&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+     &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;Person&lt;/span&gt;&lt;span class="o"&gt;(){}&lt;/span&gt;
+
+     &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;Person&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;nombre&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;apellido&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;edad&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+          &lt;span class="kd"&gt;super&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+          &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;nombre&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;nombre&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+          &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;apellido&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;apellido&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+          &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;edad&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;edad&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+         &lt;span class="o"&gt;}&lt;/span&gt;
+
+     &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="nf"&gt;getNombre&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;nombre&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+     &lt;span class="o"&gt;}&lt;/span&gt;
+
+     &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;setNombre&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;nombre&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;nombre&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;nombre&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+     &lt;span class="o"&gt;}&lt;/span&gt;
+
+     &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="nf"&gt;getApellido&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+         &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;apellido&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+     &lt;span class="o"&gt;}&lt;/span&gt;
+
+     &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;setApellido&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;apellido&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+          &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;apellido&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;apellido&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+     &lt;span class="o"&gt;}&lt;/span&gt;
+
+     &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;getEdad&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+         &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;edad&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+     &lt;span class="o"&gt;}&lt;/span&gt;
+
+     &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;setEdad&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;edad&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+          &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;edad&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;edad&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+     &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;HashMap&lt;/h2&gt;
+&lt;p&gt;Los diccionarios nos permiten acceder a los elementos por medio de una clave que elijamos nosotros, en vez de una posición como eventualmente son los arrays o vectores. La clase HashMap se encuentra en el paquete &lt;strong&gt;java.util.HashMap&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Podemos inicializar un objeto de este tipo de la siguiente manera (cabe decir que HashMap también tiene otras tipos de constructores):&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;HashMap&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;Key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;Value&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;dictionary&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;HashMap&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;Key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Tanto en Key como en Value lo que debemos especificar es el tipo obviamente, Key es la clave para acceder al objeto en especifico, Value es el valor del mismo, digamos el objeto en si. &lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;HashMap&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Person&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;dictionary&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;HashMap&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Person&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;En el ejemplo arriba vemos perfectamente que dictionary almacenará objetos del tipo Person con una calve númerica tipo Integer.1&lt;/p&gt;
+&lt;p&gt;Podemos agregar los objetos al diccionario con el método put, el cual recibe dos parámetros; clave, valor, en ese orden. De igual forma tenemos el método get el cual recibe un parámetro como clave del objeto a buscar, si encuentra un objeto con la clave pasada como parámetro nos devuelve el objeto sino devuelve null. Veamos:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.util.HashMap&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;MainClass&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="o"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;HashMap&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Person&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;dictionary&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;HashMap&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Person&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;();&lt;/span&gt;
+        &lt;span class="n"&gt;Person&lt;/span&gt; &lt;span class="n"&gt;person1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Person&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Juan&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Pineda&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;19&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;Person&lt;/span&gt; &lt;span class="n"&gt;person2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Person&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Alex&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Rodriguez&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;35&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;Person&lt;/span&gt; &lt;span class="n"&gt;person3&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Person&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Juan&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Guerra&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;40&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;Person&lt;/span&gt; &lt;span class="n"&gt;person4&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Person&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Mike&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Martinez&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;60&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;dictionary&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;put&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person1&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getEdad&lt;/span&gt;&lt;span class="o"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;person1&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;dictionary&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;put&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getEdad&lt;/span&gt;&lt;span class="o"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;person2&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;dictionary&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;put&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person3&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getEdad&lt;/span&gt;&lt;span class="o"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;person3&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;dictionary&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;put&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person4&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getEdad&lt;/span&gt;&lt;span class="o"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;person4&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+
+        &lt;span class="c1"&gt;// Obtenemos el objeto con clave igual a la edad de person3&lt;/span&gt;
+        &lt;span class="n"&gt;Person&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dictionary&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;get&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person3&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getEdad&lt;/span&gt;&lt;span class="o"&gt;());&lt;/span&gt;
+
+        &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Nombre: &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getNombre&lt;/span&gt;&lt;span class="o"&gt;());&lt;/span&gt;
+        &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Apellido: &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getApellido&lt;/span&gt;&lt;span class="o"&gt;());&lt;/span&gt;
+        &lt;span class="n"&gt;ystem&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Edad: &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getEdad&lt;/span&gt;&lt;span class="o"&gt;());&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Obtuvimos como salida del programa:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;Nombre&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Juan&lt;/span&gt;
+&lt;span class="n"&gt;Apellido&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Guerra&lt;/span&gt;
+&lt;span class="n"&gt;Edad&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;40&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;HashMap tiene entre otros los siguiente métodos:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Object remove(Object key)&lt;/strong&gt;: Este método borra el objeto de clave key en el diccionario.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;dictionary&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;remove&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person4&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getEdad&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;boolean containsValue(Object value)&lt;/strong&gt;: Devuelve &lt;em&gt;true&lt;/em&gt; si el diccionario contiene una referencia a ese objeto pasado como parámetro, en caso contrario devuelve &lt;em&gt;false&lt;/em&gt;.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dictionary&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;containsValue&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person2&lt;/span&gt;&lt;span class="p"&gt;)){&lt;/span&gt; &lt;span class="c1"&gt;// devuelve true&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Si existe!&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;No existe!&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;boolean containsKey(Object key)&lt;/strong&gt;: Devuelve &lt;em&gt;true&lt;/em&gt; si el diccionario contiene una referencia a un objeto con la clave pasada como parámetro, en caso contrario devuelve &lt;em&gt;false&lt;/em&gt;.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dictionary&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;containsKey&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person2&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getEdad&lt;/span&gt;&lt;span class="p"&gt;())){&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Si existe!&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;No existe!&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;void clear()&lt;/strong&gt;: Este método vacía el diccionario y lo deja tal cual como estaba al momento de instanciarse.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;dictionary&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;clear&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="c1"&gt;// vacia el diccionario&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;boolean isEmpty&lt;/strong&gt;: Devuelve &lt;em&gt;true&lt;/em&gt; si el diccionario esta vacio o &lt;em&gt;false&lt;/em&gt; en caso contrario.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dictionary&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;isEmpty&lt;/span&gt;&lt;span class="p"&gt;()){&lt;/span&gt; 
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Esta vacio&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;No esta vacio!!!&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;int size()&lt;/strong&gt;: Este método devuelve la cantidad de objetos/claves en el diccionario.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Cantidad de objetos en el diccioanrio: &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;dictionary&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;Collection&lt;Value&gt; values()&lt;/strong&gt;: Este método devuelve todos los objetos contenidos en el diccionario.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Person&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;dictionary&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="p"&gt;()){&lt;/span&gt;
+        &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Nombre&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getNombre&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+        &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Apellido: &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getApellido&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+        &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Edad: &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getEdad&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+        &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Tienen otros métodos de HashMap así también como otros tipos de constructores en &lt;a href="http://docs.oracle.com/javase/6/docs/api/java/util/HashMap.html" title="docs oracle"&gt;este link&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;TreeMap&lt;/h2&gt;
+&lt;p&gt;De este no podemos decir mucho, ya que es idéntico al HashMap incluso tiene los mismos métodos explicados anteriormente, entre otros, pero hay ciertas diferencias:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Cuando iteramos un objeto TreeMap los objetos son extraídos de la colección en forma ascendente según sus claves, ya que TreeMap ordena los objetos según la clave.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;De modo que la gran diferencia es que TreeMap ordena los objetos según la clave en forma ascendente, pero HashMap teóricamente nos devolverá los objetos en la secuencia que fueron introducidos. Entonces ¿Por qué no sólo usar TreeMap? Ah pues el caso es que cuando usamos un objeto definido por el usuario (digamos una clase creada por nosotros) TreeMap no sabe como ordenar la colección, así que solo lo hace si es con datos primitivos (Integer, String, etc).&lt;/p&gt;
+&lt;p&gt;Tienen más información sobre TreeMap en [este link de acá]http://docs.oracle.com/javase/6/docs/api/java/util/TreeMap.html)&lt;/p&gt;</summary><category term="java"></category><category term="HashMap"></category><category term="TreeMap"></category><category term="diccionarios"></category><category term="generics"></category></entry><entry><title>Redirecciones y expansiones en bash</title><link href="aljavier.github.io/bash-redicionres-y-expansiones.html" rel="alternate"></link><updated>2013-06-10T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:aljavier.github.io,2013-06-10:bash-redicionres-y-expansiones.html</id><summary type="html">&lt;p&gt;Veremos algo bien breve y sencillo para muchos, pero ademas muy importante principalmente a la hora de escribir bash scripts. Hablamos de las redirecciones, las expansiones aritmeticas y las expansiones de llaves.&lt;/p&gt;
+&lt;h2&gt;Redirecciones&lt;/h2&gt;
+&lt;p&gt;A la hora de escribir un script en bash la mayoria de veces necesitaremos usar estas, al menos para redireccionar los posibles errores que pueda lanzar una determinada expresion.&lt;/p&gt;
+&lt;p&gt;Como muchos ya saben en Linux todo es un archivo, es asi que la &lt;a href="http://es.wikipedia.org/wiki/Entrada_est%C3%A1ndar" target="_blank"&gt;Entrada y Salida estandar&lt;/a&gt;&amp;nbsp; son los archivos que se encuentran en /dev/stdin y dev/sdout respectivamente. Pero tambien tenemos el archivo stderr en /dev/stderr, pero estos ademas tienen un &lt;a href="http://es.wikipedia.org/wiki/Descriptor_de_archivo" target="_blank"&gt;descriptor de archivo&lt;/a&gt; (un numero) que nos permite referirnos a estos de ese modo. Sus descriptores son como sigue:&lt;/div&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Valor entero&lt;/th&gt;
+&lt;th&gt;Nombre&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;Entrada estandar(stdin)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;Salida estandar(stdout)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;Error estandar(stderr)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Normalmente si queremos redireccionar la salida de un comando, los cuales usan la salida estandar por defecto, a un archivo por ejemplo, es tan simple como hacer esto:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;ls&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;programas&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;txt&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ese es su uso mas simple, claro la salida estandar tambien podria redirigirse a otro comando usando &lt;a href="http://es.tldp.org/COMO-INSFLUG/COMOs/Bash-Prog-Intro-COMO/Bash-Prog-Intro-COMO-4.html" title="tuberias bash"&gt;tuberia&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Los operadores que usamos en redirecciones son los siguientes:&lt;/p&gt;
+&lt;p&gt;| Operador      |   Descripción                                                                                                                 |
+   |     &amp;gt;         | Redireccona la salida al archivo que le sigue, si no existe se crea y si existe se sobre escribe.                             |
+   |     &amp;gt;&amp;gt;        | Igual que al anterior con la excepcion de que este añade la salida al final del archivo, es decir, no lo sobreescribe.        |
+   |     2&amp;gt;&amp;amp;1      | Redirecciona la salida estandar y error estandar si hay alguno, del comando o programa al mismo archivo.(Este es mas bien   una                  combinacion de operadores, no un operador en si).                                                                             |
+   |     &amp;amp;&amp;gt;        | Lo mismo que el anterior, pero este funciona en versiones mas recientes, no en versionas muy viejas.(Este es mas bien una combinacion de operadores, no un operador en si).                                                                                                  |&lt;/p&gt;
+&lt;p&gt;*Nota: Reconozco que lo anterior esta probremente explicado y deja muchas cosas de lado, por eso recomiendo leer &lt;a href="http://0x945.wordpress.com/2011/05/01/bash-operadores-de-redireccion/"&gt;en este link&lt;/a&gt; al respecto.&lt;/p&gt;
+&lt;p&gt;Algunas cosas de lo que vemos en esa tabla podria no quedar claro sin un ejemplo, asi que veamos algunos ejemplos basicos: &lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt; &lt;span class="n"&gt;ls&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;uniq&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;programas&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;txt&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ahora se nos ha creado un archivo llamado programas.txt con una lista de los programas instalados en el sistema (claro exceptuando los que puedan haber en /opt).&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;ls&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;programas&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;txt&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ahora tambien se nos agrego al archivo los programas instalados en /opt.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;ls&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;lista&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;txt&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;amp;&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;He puesto /tce/bin a sabienda de que no existe, lo que hace lo de arriba es lo siguiente: Primero redirecciona la salida del comando ls a lista.txt, si se produce algun error(observa el 2, identificador de stderr) lo redirecciona a la salida estandar nuevamente, el cual ya ha sido redireccionado al archivo, de modo que, tanto si el comando es exitoso como si se produce un error se enviara al archivo.txt.&lt;/p&gt;
+&lt;p&gt;El orden es importante, si se cambia el orden de las redirecciones en este caso (el de este ejemplo), no funcionaria.&lt;/p&gt;
+&lt;p&gt;En la mayoria de los sistemas mas recientes (o en todos) podriamos hacer lo anterior con &amp;amp;&amp;gt; del siguiente modo:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;ls&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;lista&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;txt&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Sin duda, es mas sutil la ultima forma.&lt;/p&gt;
+&lt;p&gt;Pero lo mas usado segun yo es redirigir la salida de errores que se puedan producir en un programa, comando o script a &lt;a href="http://es.wikipedia.org/wiki//dev/null"&gt;/dev/null&lt;/a&gt;. Este archivo es el black hole de Linux, es la nada, todo lo que va ahi simplemente se pierde.&lt;/p&gt;
+&lt;p&gt;Veamos el siguiente ejemplo:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;tar&lt;/span&gt; &lt;span class="n"&gt;jcvf&lt;/span&gt; &lt;span class="n"&gt;logs&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bz2&lt;/span&gt;  &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;messages&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;null&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ese tipo de uso es bastante comun y util, lo que hacemos ahi es redireccionar la salida de errores (observar el 2) a /dev/null, asi no veriamos errores ni seria interrumpido el escript por posibles salida de errores.&lt;/p&gt;
+&lt;h2&gt;Expansiones aritmeticas&lt;/h2&gt;
+&lt;p&gt;Esto es muy interesante y es bastante simple tambien, esto nos permite ejecutar operaciones aritmeticas en la terminal! El formato es:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;expresion&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Los operadores aritmeticos:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Operador&lt;/th&gt;
+&lt;th&gt;Descripción&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;+&lt;/td&gt;
+&lt;td&gt;Suma&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;td&gt;Resta&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;*&lt;/td&gt;
+&lt;td&gt;Multiplicación&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;/&lt;/td&gt;
+&lt;td&gt;División&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;%&lt;/td&gt;
+&lt;td&gt;Modulo o Resto&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;**&lt;/td&gt;
+&lt;td&gt;Exponenciación&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;em&gt;Nota: Cabe aclarar que las expresiones aritmeticas solo trabajan con numeros enteros, asi que estos seran redondeados automaticamente 
+aqui. Por ejemplo, si divides 7 entre 2, obtendra como resultado solo 3 y no la parte decimal.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Algunos ejemplos basicos:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;n3x07&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Suma de 5 + 4 = &amp;quot;&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;Suma&lt;/span&gt; &lt;span class="n"&gt;de&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="mi"&gt;9&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;n3x07&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;50 - 10 es &amp;quot;&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;50&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="mi"&gt;50&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="n"&gt;es&lt;/span&gt;  &lt;span class="mi"&gt;40&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;n3x07&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;5 x 5 = &amp;quot;&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="mi"&gt;25&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;n3x07&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;7 / 2 es &amp;quot;&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="mi"&gt;7&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="n"&gt;es&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;n3x07&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Resto de 7 / 2 es &amp;quot;&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;Resto&lt;/span&gt; &lt;span class="n"&gt;de&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="n"&gt;es&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;n3x07&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;10^10 es: &amp;quot;&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="o"&gt;^&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="n"&gt;es&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;  &lt;span class="mi"&gt;10000000000&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Cabe decir, que el espacio que se pueda dejar entre la expresion no es relevante, es decir, $((2*2)) y $((2 * 2)) es igual, no da error ni resultados desiguales.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Estas tambien soportan expresiones anidadas:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;n3x07&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;(5+4)*10 = &amp;quot;&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="mi"&gt;90&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Tambien se podria usar parentesis simples (no dobles) cuando usemos subexpresiones como aqui, ejemplo:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;n3x07&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;5 + 4 * 10 = &amp;quot;&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(((&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;90&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Como ven ahi no tuvimos que usar en la subexpresion dobles parentesis ni el signo de dolar $.&lt;/p&gt;
+&lt;h2&gt;Expansiones de llaves&lt;/h2&gt;
+&lt;p&gt;Con estas puedes crear varios archivos por ejemplo, mejor veamos como funcionan luego podran darles los usos que quieran.&lt;/p&gt;
+&lt;p&gt;Digamos que quieren imprimir todas las posibles combinaciones de dos palabras en el abecedario, entonces hariamos lo siguiente:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;..&lt;/span&gt;&lt;span class="n"&gt;Z&lt;/span&gt;&lt;span class="p"&gt;}{&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;..&lt;/span&gt;&lt;span class="n"&gt;Z&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Etonces echo imprimira todas las combinaciones de dos letras en el abecedario, haganlo en su terminal y veran el resultado, no lo pongo aqui porque es algo extenso.&lt;/p&gt;
+&lt;p&gt;Entonces ya tenemos una idea de como funciona, mas o menos funciona asi {element1, elemento2, elemento3...elemtoN} es decir todos los elementos que quieren, tambien se puede con {A..Z} esto es desde A hasta Z, {a..z} igual que la anterior pero minusculas, {0..9} si como lo has pensado, los numeros del 0 al 9, tambien puedes intercambiarlos: {Z..A}, {z..a} y {9..0}, etc., en fin, rangos.&lt;/p&gt;
+&lt;p&gt;Supongamos que tenemos una camara de videovigilancia de la cual guardamos las grabaciones por mes, supongamos que queremos hacer directorios para guardar todas las grabaciones del año 2012, hariamos asi:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;n3x07&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;mkdir&lt;/span&gt; &lt;span class="n"&gt;grabacion_2012&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mf"&gt;1..9&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="n"&gt;grabacion_2012&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mf"&gt;10..12&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Y listo se ahorraron hacer todas esos directorios uno a uno.&lt;/p&gt;
+&lt;p&gt;Estas tambien permiten expresions anidadas, ejemplo:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;n3x07&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mf"&gt;0..9&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;..&lt;/span&gt;&lt;span class="n"&gt;Z&lt;/span&gt;&lt;span class="p"&gt;}}&lt;/span&gt;&lt;span class="n"&gt;z&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Eso es todo por ahora, pueden profundizar en ese tema en el manual de bash.&lt;/p&gt;
+&lt;p&gt;Un saludo!&lt;/p&gt;</summary><category term="bash"></category><category term="shell"></category><category term="scripting"></category></entry></feed>
