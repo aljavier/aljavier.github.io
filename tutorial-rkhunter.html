@@ -4,20 +4,20 @@
   <meta charset="utf-8" />
   <title>Buscando rootkits con Rkhunter</title>
   <meta name="author" content="A. J. Javier" />
-<meta name="keywords" content="rkhunter, rootkits, security, unix">  <link rel="author" href="/humans.txt" />
+<meta name="keywords" content="rkhunter, rootkits, security, unix">  <link rel="author" href="aljavier.github.io/humans.txt" />
   <link href='http://fonts.googleapis.com/css?family=Vollkorn:400' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="/theme/css/main.css" type="text/css" />
-  <link href="/" type="application/atom+xml" rel="alternate" title="// SysFlux ATOM Feed" />
-<link href="/rss.xml" type="application/atom+xml" rel="alternate" title="// SysFlux RSS Feed" />  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <link rel="stylesheet" href="aljavier.github.io/theme/css/main.css" type="text/css" />
+  <link href="aljavier.github.io/" type="application/atom+xml" rel="alternate" title="// sysflux ATOM Feed" />
+<link href="aljavier.github.io/rss.xml" type="application/atom+xml" rel="alternate" title="// sysflux RSS Feed" />  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
 <body id="index" class="home">
   <header id="banner" class="body">
-	  <h1><a href="">// SysFlux </a></h1>
+	  <h1><a href="aljavier.github.io">// sysflux </a></h1>
       <nav>
       	<ul>
-<li class="active"><a href="/category/blog.html">/blog</a></li>         <li><a href="/archives.html">/archivo</a></li>
-         <li><a href="/tags.html">/etiquetas</a></li>
-<li><a href="/pages/about.html">/about</a></li><li><a href="/pages/code.html">/code</a></li>         <li><a href="/rss.xml">/rss</a></li>
+<li class="active"><a href="aljavier.github.io/category/blog.html">/blog</a></li>         <li><a href="aljavier.github.io/archives.html">/archivo</a></li>
+         <li><a href="aljavier.github.io/tags.html">/etiquetas</a></li>
+<li><a href="aljavier.github.io/pages/about.html">/about</a></li><li><a href="aljavier.github.io/pages/code.html">/code</a></li>         <li><a href="aljavier.github.io/rss.xml">/rss</a></li>
        </ul>
      </nav>
   </header><!-- /#banner -->        
@@ -30,7 +30,7 @@
   </header>
   <div class="entry-content">
     <abbr class="published" title="2013-09-23T01:28:00">
-	    Posted on Mon 23 September 2013 by <a href="/author/a-j-javier.html">A. J. Javier</a>
+	    Posted on Mon 23 September 2013 by <a href="aljavier.github.io/author/a-j-javier.html">A. J. Javier</a>
     </abbr>
     <p>En este post comparto con ustedes como podemos buscar rootkits, directorios y/o archivos ocultos en nuestro sistema Unix (Linux, BSD, etc.), entre otros, para ello usaremos esta estupenda herramienta llamada Rkhunter o Rootkit Hunter.</p>
 <h2>Qué es Rootkit Hunter ( o Rkhunter)?</h2>
@@ -81,7 +81,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 
 
 <p>Y empezará el escaneo inmediatamente, cuando nos diga <em>[Press &lt;ENTER&gt; to continue]</em> entonces presionamos Enter para que continué.</p>
-<p><img alt="Rkhunter" src="/images/posts/rkhunter/rkhunter1.png" title="Rkhunter" /></p>
+<p><img alt="Rkhunter" src="aljavier.github.io/images/posts/rkhunter/rkhunter1.png" title="Rkhunter" /></p>
 <p>Ups! Parece que tengo un rootkit, por suerte, no era mas que un falso positivo, la alerta fue por la aplicación <em>hdparm</em> que instale hace unos días, pero desde los repositorios oficiales, como debe de ser.</p>
 <p>Por cierto, podemos ver en detalle el resultado del escaneo en el archivo <strong>/var/log/rkhunter.log</strong>, de modo que en caso de tener algún rootkit ahí podemos leer la ruta de su posible ubicación.</p>
 <p>La primera vez que ejecutamos Rkhunter recibimos mucho mensajes del tipo <span style="color: red;">Warning</span>, que en muchos casos son solo falsos positivos y son comandos del mismo sistema como /bin/who por ejemplo, por ello y otras razones es bueno leerse las <a href="http://rkhunter.cvs.sourceforge.net/viewvc/rkhunter/rkhunter/files/FAQ" title="FAQ de Rkhunter">FAQ</a></p>
@@ -106,7 +106,19 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 <p>Nos leemos!</p>
 <p><em>Nota: Aunque este tutorial es 100% valido aún, cabe decir que data ya de un tiempo, fue rescatado de mi antiguo blog.</em></p>
   </div><!-- /.entry-content -->
-<p class="tagged">Etiquetado como: <a href="/tag/rkhunter.html">rkhunter</a>, <a href="/tag/rootkits.html">rootkits</a>, <a href="/tag/security.html">security</a>, <a href="/tag/unix.html">unix</a>.</p></article>
+<p class="tagged">Etiquetado como: <a href="aljavier.github.io/tag/rkhunter.html">rkhunter</a>, <a href="aljavier.github.io/tag/rootkits.html">rootkits</a>, <a href="aljavier.github.io/tag/security.html">security</a>, <a href="aljavier.github.io/tag/unix.html">unix</a>.</p>  <div class="comments">
+    <h3>Comentarios !</h3>
+    <div id="disqus_thread"></div>
+      <script type="text/javascript">
+         var disqus_identifier = "tutorial-rkhunter.html";
+         (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = 'http://sysfluxblog.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+    </div>
+</article>
 </section>
 <footer id="contentinfo" class="body">
     <address id="about" class="vcard body">
@@ -117,5 +129,14 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
           href="https://github.com/aljavier">github</a> <span id="license">El contenido está bajo <a href="http://creativecommons.org/licenses/by-sa/3.0/es">licencia Creative Commons</a></span>
     </address><!-- /#about -->
   </footer><!-- /#contentinfo -->
+<script type="text/javascript">
+    var disqus_shortname = 'sysfluxblog';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
 </body>
 </html>
