@@ -11,7 +11,7 @@ DIRECT_TEMPLATES = ('index', 'tags', 'archives', 'notfound', 'access_denied')
 AUTHOR = u'A. J. Javier'
 
 # Your site name and subtitle
-SITENAME = u"// SysFlux"
+SITENAME = u"// sysflux"
 SITESUBTITLE = u""
 
 # If you do manage multiple languages, you can set the date formatting here.
@@ -147,8 +147,7 @@ THEME = "joe_theme"
 
 # Pelican can handle disqus comments, specify the sitename you’ve filled in on
 # disqus
-DISQUS_SITENAME = "sysfluxblog"
-DISQUS_SHORTNAME = "sysflux"
+DISQUS_SITENAME = "sysflux"
 
 # Your github URL (if you have one), it will then use it to create a
 # github ribbon.
@@ -183,7 +182,7 @@ SOCIAL = ()
 #DEFAULT_METADATA = (('yeah', 'it is'),)
 
 # A list of files to copy from the source to the destination
-FILES_TO_COPY = (('extra/favicon.ico', 'favicon.ico'))
+FILES_TO_COPY = (('extra/favicon.ico', 'favicon.ico'),)
 #                 ('extra/humans.txt', 'humans.txt'),
 #                 ('extra/favicon.ico', 'favicon.ico'),
 #                 ('extra/apple-touch-icon.png', 'apple-touch-icon.png'),
