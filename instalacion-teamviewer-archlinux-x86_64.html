@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Instalación de Teamviewer en Arch Linux x86_64</title>
+  <meta name="author" content="A. J. Javier" />
+<meta name="keywords" content="Arch Linux, teamviewer, pacman">  <link href='http://fonts.googleapis.com/css?family=Vollkorn:400' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/theme/css/main.css" type="text/css" />
+  <link href="/" type="application/atom+xml" rel="alternate" title="// sysflux ATOM Feed" />
+<link href="/rss.xml" type="application/atom+xml" rel="alternate" title="// sysflux RSS Feed" />  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+<body id="index" class="home">
+  <header id="banner" class="body">
+	  <h1><a href="">// sysflux </a></h1>
+      <nav>
+      	<ul>
+<li class="active"><a href="/category/blog.html">/blog</a></li>         <li><a href="/archives.html">/archivo</a></li>
+         <li><a href="/tags.html">/etiquetas</a></li>
+<li><a href="/pages/about.html">/about</a></li><li><a href="/pages/code.html">/code</a></li>         <li><a href="/rss.xml">/rss</a></li>
+       </ul>
+     </nav>
+  </header><!-- /#banner -->        
+<section id="content" class="body">    
+<article>
+  <header> 
+  	<h1 class="entry-title">
+      <a href="instalacion-teamviewer-archlinux-x86_64.html" rel="bookmark" title="Permalink a Instalación de Teamviewer en Arch Linux x86_64">Instalación de Teamviewer en Arch Linux x86_64</a>
+  	</h1>
+  </header>
+  <div class="entry-content">
+    <abbr class="published" title="2013-10-07T10:07:00">
+	    Posted on Mon 07 October 2013 by <a href="/author/a-j-javier.html">A. J. Javier</a>
+    </abbr>
+    <p>Para instalar Teamviewer en Arch Linux x86_64 (vamos 64 bits), hay que tener en cuenta unas cuantas cosas; teamviewer se ejecuta en 
+GNU/Linux emulando un entorno Windows, de modo que en verdad se ejecuta el binario para Windows usando wine, el mismo no requiere
+que tengas wine instalado porque usa una versión portable, el asunto es que teamviewer requiere de un sin número de librerias 32 bits
+para funcionar y por defecto la que tendras en tu sistema si es de 64 bits pues seran la de esa arquitectura, obviamente.</p>
+<p>Desconozco en verdad si instalando desde AUR se resuelven todos estos problemas de depencias aún en sistemas de 64 bits, por lo que he leído
+me parece que no, en todo caso yo preferí descargar el source desde la web oficial de <a href="https://www.teamviewer.com/en/index.aspx">teamviewer</a>  y hacer todo yo mismo.</p>
+<p>Como Arch Linux no esta oficialmente soportada por Teamviewer nos descargamos el source del susodicho software:</p>
+<div class="codehilite"><pre>wget http://download.teamviewer.com/download/teamviewer_linux.tar.gz
+</pre></div>
+
+
+<p>Procedemos a descomprimirlo y lo enviamos de una vez a /opt:</p>
+<div class="codehilite"><pre><span class="n">tar</span> <span class="n">zxvf</span> <span class="n">teamviewer_linux</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">gz</span> <span class="o">-</span><span class="n">C</span> <span class="o">/</span><span class="n">opt</span>
+</pre></div>
+
+
+<p><em>Nota: Si estas con la cuenta de usuario normal necesitas permiso de super usuario para mover el teamviewer a /opt, en mi caso uso <code>sudo</code>.</em></p>
+<p>En mi caso fue necesario cambiar de owner la carpeta del teamviewer a mi ususario normal, ya que uso <em>sudo</em> para poder moverlo a /opt:</p>
+<div class="codehilite"><pre><span class="n">chown</span> <span class="o">-</span><span class="n">R</span> <span class="n">usuario</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">teamviewer8</span>
+</pre></div>
+
+
+<p>Donde <em>usuario</em> es tu usuario normal obviamente.</p>
+<p>Luego de esto para no tener que escribir la ruta completa cada vez que quiera ejecutarlo hize un link simbolico del mismo:</p>
+<div class="codehilite"><pre><span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">teamviewer8</span><span class="o">/</span><span class="n">teamviewer</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">teamviewer</span>
+</pre></div>
+
+
+<p>Si usas gnome o algun entorno grafico de escritorio posiblemente preferiras crear algun lanzador en el menu del mismo, en mi caso solo uso manejador de ventanas
+asi que no requiero de hacer eso, especificamente ando usando DWM ahora mismo.</p>
+<p>Otra vez te recuerdo, que para el anterior comando necesitas permisos de super usuario.</p>
+<p>Ahora si ejecutas <em>teamviewer</em> en una terminal podrás ver el siguiente error:</p>
+<div class="codehilite"><pre><span class="p">[</span><span class="mi">10</span><span class="o">:</span><span class="mi">37</span><span class="p">]</span> <span class="p">[</span><span class="n">jota</span><span class="err">@</span><span class="n">arch</span><span class="o">-</span><span class="n">linux</span> <span class="o">~</span> <span class="err">\</span> <span class="p">]</span><span class="err">$</span> <span class="n">teamviewer</span>
+
+<span class="n">Init</span><span class="p">...</span>
+<span class="n">Checking</span> <span class="n">setup</span><span class="p">...</span>
+<span class="n">Launching</span> <span class="n">TeamViewer</span><span class="p">...</span>
+<span class="n">Daemon</span> <span class="n">not</span> <span class="n">running</span><span class="o">!</span>
+<span class="n">Starting</span> <span class="n">network</span> <span class="n">process</span><span class="p">...</span> <span class="n">pid</span> <span class="mi">6697</span>
+<span class="n">Network</span> <span class="n">process</span> <span class="n">already</span> <span class="n">started</span> <span class="p">(</span><span class="n">or</span> <span class="n">error</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Pensarás que es un problema del daemon e irás a ejecutar <em>kill -9 6697</em> entonces te responderá que no hay ningún proceso con ese pid corriendo, claro el pid posiblemente sera distinto...bueno eso hubieras hecho
+si antes no te lo hubiera pronosticado no? En fin...</p>
+<p>Llegue a leer por ahi que matando el proceso del daemon de teamviewer y ejecutandolo de nuevo se resolvia, pero no en nuestro caso. Como decia al principio es un problema de 
+librerias, estamos ejecutando un software que requiere librerias para sistemas de 32 bits y nosotros solo tenemos librerias de 64 bits actualmente.  Para corroborar esto ejecuta lo 
+esto:</p>
+<div class="codehilite"><pre><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">teamviewer8</span><span class="o">/</span><span class="n">tv</span><span class="o">-</span><span class="n">setup</span> <span class="o">--</span><span class="n">checklibs</span>
+</pre></div>
+
+
+<p>En mi caso la salida fue lo siguiente:</p>
+<div class="codehilite"><pre>    <span class="o">-=-</span>   <span class="n">TeamViewer</span> <span class="n">tar</span><span class="p">.</span><span class="n">gz</span> <span class="n">check</span>   <span class="o">-=-</span>
+
+<span class="n">In</span> <span class="n">order</span> <span class="n">to</span> <span class="n">use</span> <span class="n">the</span> <span class="n">tar</span><span class="p">.</span><span class="n">gz</span> <span class="n">version</span> <span class="n">of</span> <span class="n">TeamViewer</span><span class="p">,</span> 
+<span class="n">you</span> <span class="n">have</span> <span class="n">to</span> <span class="n">make</span> <span class="n">sure</span> <span class="n">that</span> <span class="n">the</span> <span class="n">necessary</span> <span class="n">libraries</span> <span class="n">are</span> <span class="n">installed</span><span class="p">.</span>
+<span class="nl">NOTE:</span> <span class="n">All</span> <span class="n">needed</span> <span class="n">libraries</span> <span class="n">are</span> <span class="mi">32</span> <span class="n">bit</span> <span class="n">libraries</span><span class="p">,</span> <span class="n">even</span> <span class="k">if</span> <span class="n">you</span> <span class="n">are</span> <span class="n">on</span> <span class="n">a</span> <span class="mi">64</span> <span class="n">bit</span> <span class="n">system</span><span class="o">!</span>
+
+
+<span class="n">Writing</span> <span class="n">raw</span> <span class="n">output</span> <span class="n">to</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">teamviewer8</span><span class="o">/</span><span class="n">logfiles</span><span class="o">/</span><span class="n">tv_sys_check</span><span class="p">.</span><span class="n">log</span>
+<span class="n">Analyzing</span> <span class="p">...</span>
+
+    <span class="n">libSM</span><span class="p">.</span><span class="n">so</span><span class="mf">.6</span> <span class="o">=&gt;</span> <span class="n">not</span> <span class="n">found</span>
+    <span class="n">libX11</span><span class="p">.</span><span class="n">so</span><span class="mf">.6</span> <span class="o">=&gt;</span> <span class="n">not</span> <span class="n">found</span>
+    <span class="n">libX11</span><span class="p">.</span><span class="n">so</span><span class="mf">.6</span> <span class="o">=&gt;</span> <span class="n">not</span> <span class="n">found</span>
+    <span class="n">libXau</span><span class="p">.</span><span class="n">so</span><span class="mf">.6</span> <span class="o">=&gt;</span> <span class="n">not</span> <span class="n">found</span>
+    <span class="n">libXdamage</span><span class="p">.</span><span class="n">so</span><span class="mf">.1</span> <span class="o">=&gt;</span> <span class="n">not</span> <span class="n">found</span>
+    <span class="n">libXext</span><span class="p">.</span><span class="n">so</span><span class="mf">.6</span> <span class="o">=&gt;</span> <span class="n">not</span> <span class="n">found</span>
+    <span class="n">libXfixes</span><span class="p">.</span><span class="n">so</span><span class="mf">.3</span> <span class="o">=&gt;</span> <span class="n">not</span> <span class="n">found</span>
+    <span class="n">libXrender</span><span class="p">.</span><span class="n">so</span><span class="mf">.1</span> <span class="o">=&gt;</span> <span class="n">not</span> <span class="n">found</span>
+    <span class="n">libXtst</span><span class="p">.</span><span class="n">so</span><span class="mf">.6</span> <span class="o">=&gt;</span> <span class="n">not</span> <span class="n">found</span>
+    <span class="n">libasound</span><span class="p">.</span><span class="n">so</span><span class="mf">.2</span> <span class="o">=&gt;</span> <span class="n">not</span> <span class="n">found</span>
+    <span class="n">libfreetype</span><span class="p">.</span><span class="n">so</span><span class="mf">.6</span> <span class="o">=&gt;</span> <span class="n">not</span> <span class="n">found</span>
+    <span class="n">libgcc_s</span><span class="p">.</span><span class="n">so</span><span class="mf">.1</span> <span class="o">=&gt;</span> <span class="n">not</span> <span class="n">found</span>
+    <span class="n">libgcc_s</span><span class="p">.</span><span class="n">so</span><span class="mf">.1</span> <span class="o">=&gt;</span> <span class="n">not</span> <span class="n">found</span>
+    <span class="n">libz</span><span class="p">.</span><span class="n">so</span><span class="mf">.1</span> <span class="o">=&gt;</span> <span class="n">not</span> <span class="n">found</span>
+
+<span class="n">The</span> <span class="n">libraries</span> <span class="n">listed</span> <span class="n">above</span> <span class="n">seem</span> <span class="n">to</span> <span class="n">be</span> <span class="n">missing</span>
+<span class="n">Find</span> <span class="n">and</span> <span class="n">install</span> <span class="n">the</span> <span class="n">corresponding</span> <span class="n">packages</span><span class="p">.</span>
+</pre></div>
+
+
+<p>Pueden ver el <em>NOTE</em> arriba? Dice explicitamente que todas las librerias requeridas son de 32 bits, seguro que ya tenemos todas estas librerias instaladas o la mayoria de ellas
+pero para 64 bits.</p>
+<p>Lo primero que debemos hacer en nuestro caso si aún no tenemos habilitados el repositorio <code>multilib</code> es habitarlo, entonces ya luego podremos instalar liberias de 32 bits. En mi caso 
+yo lo tenia comentado desde el dia que instalé el Arch Linux, asi que solo tuve que descomentarlo, asi que si lo tienes comentado descomentalo y sino lo tienes agregalo, de la siguiente forma:</p>
+<p>Abre con tu editor de texto favorito (por ejemplo vim) el archivo <strong>/etc/pacman.conf</strong> y agrega o descomenta (según sea tu caso)  la siguiente linea:</p>
+<div class="codehilite"><pre><span class="k">[multilib]</span>
+<span class="na">Include</span> <span class="o">=</span> <span class="s">/etc/pacman.d/mirrorlist</span>
+</pre></div>
+
+
+<p>Ahora queda sincronizar los repositorios:</p>
+<div class="codehilite"><pre><span class="n">pacman</span> <span class="o">-</span><span class="n">Sy</span>
+</pre></div>
+
+
+<p>Podras ver como ahora tienes el repositorio multilib agregado. </p>
+<p>Ahora es el momento de instalar las liberias que requiere el teamviewer, esto es medio tricky a veces, porque algunas liberias no tienen el mismo nombre que nos dice el comando que corrimos antes,
+ademas que como es en un sistema de 64 bits la mayoria de estas llevaran como prefijo <em>lib32-</em>, pero ya que yo he hecho todo esto no tendras que andar buscando los nombres de eesas liberias y demas,
+que en todo caso serian mas <code>pacman -Ss nomre_libreria</code> que cualquier otra cosa y algunas busquedas por la red en algunos casos.</p>
+<p>Procedemos a instalar las librerias del siguiente modo:</p>
+<div class="codehilite"><pre><span class="n">pacman</span> <span class="o">-</span><span class="n">S</span> <span class="n">lib32</span><span class="o">-</span><span class="n">libxau</span> <span class="n">lib32</span><span class="o">-</span><span class="n">libsm</span> <span class="n">lib32</span><span class="o">-</span><span class="n">libx11</span> <span class="n">lib32</span><span class="o">-</span><span class="n">libxdamage</span> <span class="n">lib32</span><span class="o">-</span><span class="n">libxext</span> <span class="n">lib32</span><span class="o">-</span><span class="n">libxfixes</span> <span class="n">lib32</span><span class="o">-</span><span class="n">libxrender</span> <span class="n">lib32</span><span class="o">-</span><span class="n">libxtst</span> <span class="n">lib32</span><span class="o">-</span><span class="n">alsa</span><span class="o">-</span><span class="n">lib</span> <span class="n">lib32</span><span class="o">-</span><span class="n">gcc</span><span class="o">-</span><span class="n">libs</span> <span class="n">lib32</span><span class="o">-</span><span class="n">zlib</span> <span class="n">lib32</span><span class="o">-</span><span class="n">libxft</span>
+</pre></div>
+
+
+<p>Espero que no se me este quedando ninguna, pero luego de haber instalado las liberias arribas, ya debes estar ready para ejecutar teamviewer sin problemas. Veamos, primero ejecutamos nuevamente 
+<em>/opt/teamviewer8/tv-setup --checklibs</em> ahora deberiamos recibir como salida lo siguiente:</p>
+<div class="codehilite"><pre>        <span class="o">-=-</span>   <span class="n">TeamViewer</span> <span class="n">tar</span><span class="p">.</span><span class="n">gz</span> <span class="n">check</span>   <span class="o">-=-</span>
+
+<span class="n">In</span> <span class="n">order</span> <span class="n">to</span> <span class="n">use</span> <span class="n">the</span> <span class="n">tar</span><span class="p">.</span><span class="n">gz</span> <span class="n">version</span> <span class="n">of</span> <span class="n">TeamViewer</span><span class="p">,</span> 
+<span class="n">you</span> <span class="n">have</span> <span class="n">to</span> <span class="n">make</span> <span class="n">sure</span> <span class="n">that</span> <span class="n">the</span> <span class="n">necessary</span> <span class="n">libraries</span> <span class="n">are</span> <span class="n">installed</span><span class="p">.</span>
+<span class="nl">NOTE:</span> <span class="n">All</span> <span class="n">needed</span> <span class="n">libraries</span> <span class="n">are</span> <span class="mi">32</span> <span class="n">bit</span> <span class="n">libraries</span><span class="p">,</span> <span class="n">even</span> <span class="k">if</span> <span class="n">you</span> <span class="n">are</span> <span class="n">on</span> <span class="n">a</span> <span class="mi">64</span> <span class="n">bit</span> <span class="n">system</span><span class="o">!</span>
+
+
+<span class="n">Writing</span> <span class="n">raw</span> <span class="n">output</span> <span class="n">to</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">teamviewer8</span><span class="o">/</span><span class="n">logfiles</span><span class="o">/</span><span class="n">tv_sys_check</span><span class="p">.</span><span class="n">log</span>
+<span class="n">Analyzing</span> <span class="p">...</span>
+
+<span class="n">All</span> <span class="n">dependencies</span> <span class="n">seem</span> <span class="n">to</span> <span class="n">be</span> <span class="n">satisfied</span><span class="o">!</span>
+</pre></div>
+
+
+<p>En caso que tu salida sea diferente y que aun te este diciendo que faltan algunas librerias, pues busca en los repos con <code>pacman -Ss nombre_libreria</code> e instala la que pertence al repositorio <code>multilib</code>
+que generalmente tendra como prefijo <code>lib32-</code>. Si no encuentras la libreria ahi busca en Internet que podria ser que el nombre sea diferente en Arch.</p>
+<p>Ya no queda más que simplemente ejecutar teamviewer nuevamente.</p>
+<p><img alt="Teamviewer" src="/images/posts/misc/teamviewer.png" title="Teamviewer en Arch Linux x86_64" /></p>
+<p><code>Versión de Teamviewer</code>: <em>8.0.20931</em></p>
+<p><code>uname -a</code>: <em>Linux arch-linux 3.11.3-1-ARCH #1 SMP PREEMPT Wed Oct 2 01:38:48 CEST 2013 x86_64 GNU/Linux</em></p>
+  </div><!-- /.entry-content -->
+<p class="tagged">Etiquetado como: <a href="/tag/Arch%20Linux.html">Arch Linux</a>, <a href="/tag/teamviewer.html">teamviewer</a>, <a href="/tag/pacman.html">pacman</a>.</p>  <div class="comments">
+    <h3>Comentarios !</h3>
+    <div id="disqus_thread"></div>
+      <script type="text/javascript">
+         var disqus_identifier = "instalacion-teamviewer-archlinux-x86_64.html";
+         (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = 'http://sysflux.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+    </div>
+</article>
+</section>
+<footer id="contentinfo" class="body">
+    <address id="about" class="vcard body">
+      © 2013 - sysflux - <a
+          href="mailto:nullc0den4m3@gmail.com">correo</a>|<a
+	  href="#">gpg key</a>|<a
+          href="http://twitter.com/n3x07">twitter</a>|<a
+          href="https://github.com/aljavier">github</a> <span id="license">El contenido está bajo <a href="http://creativecommons.org/licenses/by-sa/3.0/es">licencia Creative Commons</a></span>
+    </address><!-- /#about -->
+  </footer><!-- /#contentinfo -->
+<script type="text/javascript">
+    var disqus_shortname = 'sysflux';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>
