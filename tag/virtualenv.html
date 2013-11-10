@@ -2,12 +2,12 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>// sysflux - shodan</title>
+  <title>// sysflux - virtualenv</title>
   <meta name="author" content="A. J. Javier" />
 <meta name="keywords" content="A. J. Javier, blog, python, java, linux">  <link href='http://fonts.googleapis.com/css?family=Vollkorn:400' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="/theme/css/main.css" type="text/css" />
   <link href="/" type="application/atom+xml" rel="alternate" title="// sysflux ATOM Feed" />
-<link href="/feeds/tags/shodan." type="application/atom+xml" rel="alternate" title="// sysflux - shodan ATOM Feed" />
+<link href="/feeds/tags/virtualenv." type="application/atom+xml" rel="alternate" title="// sysflux - virtualenv ATOM Feed" />
   <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
 <body id="index" class="home">
@@ -26,12 +26,33 @@
               <li>     
               <article class="hentry">    
                 <header>
-                  <h2><a href="/tutorial-api-shodan-para-python.html" rel="bookmark" title="Permalink a Usando la API de Shodan para Python">Usando la API de Shodan para Python</a></h2>
+                  <h2><a href="/tutorial-virtualenv.html" rel="bookmark" title="Permalink a Virtualenv: Entornos virtuales de desarrollo para Python">Virtualenv: Entornos virtuales de desarrollo para Python</a></h2>
                 </header> 
                 <div class="entry-content">
-                  <p>En este post veremos que usar la <a href="http://docs.shodanhq.com/python/tutorial.html" title="Shodan">API de Shodan para Python</a> es bastante sencillo, las ventajas de esto es que podemos utilizar este buscador desde nuestras aplicaciones en Python y desde la linea de comandos, la API también esta disponible para Perl y Ruby.</p>
-<p>Sino sabes lo que es ...</p>
-                  <a class="readmore" href="/tutorial-api-shodan-para-python.html">leer más</a>
+                  <h2>Instalación</h2>
+<p><strong>Debian/Ubuntu</strong>  </p>
+<div class="codehilite"><pre><span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">virtualenv</span>
+</pre></div>
+
+
+<p><strong>Arch Linux</strong> </p>
+<div class="codehilite"><pre><span class="n">pacman</span> <span class="o">-</span><span class="n">S</span> <span class="n">virtualenv</span>
+</pre></div>
+
+
+<p>Se creo el directorio donde guardar todos los entornos virtuales:</p>
+<div class="codehilite"><pre><span class="o">~/</span><span class="n">virtualenv</span>
+</pre></div>
+
+
+<p>Para crear un entorno virtual cualquiera:</p>
+<div class="codehilite"><pre><span class="n">virtualenv</span> <span class="o">~/</span><span class="n">virtualenv</span><span class="o">/</span><span class="n">nombre</span>
+</pre></div>
+
+
+<p>En el caso que no se quiera usar ningun paquete instalado en el sistema seria asi:</p>
+<div class="codehilite"><pre> <span class="n">virtualenv</span> <span class="o">~/</span><span class="n">virtulenv ...</span></pre></div>
+                  <a class="readmore" href="/tutorial-virtualenv.html">leer más</a>
                 </div><!-- /.entry-content -->
               </article>
             </li>

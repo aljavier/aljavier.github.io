@@ -1,5 +1,291 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>// sysflux</title><link href="/" rel="alternate"></link><link href="/feeds/all-es.atom.xml" rel="self"></link><id>/</id><updated>2013-10-07T10:07:00-04:00</updated><entry><title>Instalación de Teamviewer en Arch Linux x86_64</title><link href="/instalacion-teamviewer-archlinux-x86_64.html" rel="alternate"></link><updated>2013-10-07T10:07:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2013-10-07:instalacion-teamviewer-archlinux-x86_64.html</id><summary type="html">&lt;p&gt;Para instalar Teamviewer en Arch Linux x86_64 (vamos 64 bits), hay que tener en cuenta unas cuantas cosas; teamviewer se ejecuta en 
+<feed xmlns="http://www.w3.org/2005/Atom"><title>// sysflux</title><link href="/" rel="alternate"></link><link href="/feeds/all-es.atom.xml" rel="self"></link><id>/</id><updated>2013-11-01T00:00:00-04:00</updated><entry><title>Recursividad versus iteratividad</title><link href="/recursividad-versus-iteratividad.html" rel="alternate"></link><updated>2013-11-01T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2013-11-01:recursividad-versus-iteratividad.html</id><summary type="html">&lt;p&gt;Un &lt;code&gt;función recursiva&lt;/code&gt; es aquella que se llama a si mismo, normalmente, un número 
+finito de veces, aunque si el programador cometió un error lógico podría ser 
+infitnito. Por su lado, la &lt;code&gt;iterativadad&lt;/code&gt; es ejecutar una determinada acción un
+x número de veces. &lt;/p&gt;
+&lt;p&gt;El contraste esta cuando queremos ejecutar una determinada acción una cantidad de veces, que bien podriamos hacerlo con recursividad o iteratividad, aunque escoger la mejor opción es la interrogante aquí.&lt;/p&gt;
+&lt;p&gt;Cuando usamos recursidad estamos haciando caso al método "divide y vencerás", ya que 
+divimos el problema en partes mas pequeñas para su resolución. Cuando se emplea una 
+función recursiva basicamente se divide la función en dos partes: 1) &lt;code&gt;paso recursivo&lt;/code&gt;, es la parte que hace la llamada recursiva, por tanto tambien se llama &lt;code&gt;llamada recursiva&lt;/code&gt;, 2) &lt;code&gt;caso base&lt;/code&gt; que igulamente podrian ser más de uno, es aqui cuando el método en verdad devuelve un resultado, por lo que se podria decir que es lo unico que se resuelve en una función recursivda.&lt;/p&gt;
+&lt;p&gt;A continuación veremos un ejemplo de función recursiva para buscar el factorial de un número entero positivo. El factorial de un numero se define como&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Teniendo en cuenta que 1! y 0! es igual a 1, primero presentaré la solución con una función iterativa:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env python&lt;/span&gt;
+&lt;span class="c"&gt;# Funcion factorial usando un metodo iterativo&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;factorial&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;retorno&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;retorno&lt;/span&gt; &lt;span class="o"&gt;*=&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;retorno&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s"&gt;! =  &lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;factorial&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ahora veamos el método recursivo que en efecto produce el mismo resultado&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;#/usr/bin/env python&lt;/span&gt;
+&lt;span class="c"&gt;# Factorial funcion recursiva&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;factorial&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;factorial&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s"&gt;! = &lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;factorial&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;En este caso n =&amp;lt; 1 es lo que llamamos &lt;code&gt;caso base&lt;/code&gt; y &lt;code&gt;n * factorial(n-1)&lt;/code&gt; es el &lt;code&gt;paso recursivo&lt;/code&gt; o &lt;code&gt;llamada recursiva&lt;/code&gt;.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;La secuencia de llamadas recursivas y retornos para el factorial de 5 va como se muestra en lo adelante.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="o"&gt;+----+&lt;/span&gt;         &lt;span class="o"&gt;+----+&lt;/span&gt;  &lt;span class="n"&gt;valor&lt;/span&gt; &lt;span class="n"&gt;final&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;120&lt;/span&gt;
+&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;             &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
+&lt;span class="o"&gt;+----+&lt;/span&gt;         &lt;span class="o"&gt;+-^--+&lt;/span&gt;
+  &lt;span class="o"&gt;|&lt;/span&gt;                  &lt;span class="o"&gt;|&lt;/span&gt;
+  &lt;span class="o"&gt;|&lt;/span&gt;                  &lt;span class="o"&gt;|&lt;/span&gt;
+      &lt;span class="n"&gt;V&lt;/span&gt;                  &lt;span class="o"&gt;|&lt;/span&gt;       &lt;span class="n"&gt;se&lt;/span&gt; &lt;span class="n"&gt;devuelve&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;24&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;120&lt;/span&gt;
+ &lt;span class="o"&gt;+-------+&lt;/span&gt;          &lt;span class="o"&gt;+--------+&lt;/span&gt;
+ &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="o"&gt;!|&lt;/span&gt;          &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
+ &lt;span class="o"&gt;+-------+&lt;/span&gt;          &lt;span class="o"&gt;+-----^--+&lt;/span&gt;
+       &lt;span class="o"&gt;|&lt;/span&gt;          &lt;span class="o"&gt;|&lt;/span&gt;
+       &lt;span class="o"&gt;|&lt;/span&gt;          &lt;span class="o"&gt;|&lt;/span&gt;
+       &lt;span class="n"&gt;V&lt;/span&gt;          &lt;span class="o"&gt;|&lt;/span&gt;     &lt;span class="n"&gt;se&lt;/span&gt; &lt;span class="n"&gt;devuelve&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;24&lt;/span&gt;
+     &lt;span class="o"&gt;+-------+&lt;/span&gt;          &lt;span class="o"&gt;+---------+&lt;/span&gt;
+     &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="o"&gt;!|&lt;/span&gt;      &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;  &lt;span class="o"&gt;|&lt;/span&gt;
+     &lt;span class="o"&gt;+-------+&lt;/span&gt;      &lt;span class="o"&gt;+------^--+&lt;/span&gt;
+       &lt;span class="o"&gt;|&lt;/span&gt;               &lt;span class="o"&gt;|&lt;/span&gt;            
+       &lt;span class="o"&gt;|&lt;/span&gt;               &lt;span class="o"&gt;|&lt;/span&gt;
+       &lt;span class="n"&gt;V&lt;/span&gt;               &lt;span class="o"&gt;|&lt;/span&gt;   &lt;span class="n"&gt;se&lt;/span&gt; &lt;span class="n"&gt;devuelve&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;
+    &lt;span class="o"&gt;+-------+&lt;/span&gt;        &lt;span class="o"&gt;+--------+&lt;/span&gt;
+    &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;!|&lt;/span&gt;            &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
+    &lt;span class="o"&gt;+-------+&lt;/span&gt;        &lt;span class="o"&gt;+-----^--+&lt;/span&gt;
+          &lt;span class="o"&gt;|&lt;/span&gt;                    &lt;span class="o"&gt;|&lt;/span&gt;
+          &lt;span class="o"&gt;|&lt;/span&gt;                    &lt;span class="o"&gt;|&lt;/span&gt;
+          &lt;span class="n"&gt;V&lt;/span&gt;                    &lt;span class="o"&gt;|&lt;/span&gt;   &lt;span class="n"&gt;se&lt;/span&gt; &lt;span class="n"&gt;devuelve&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+        &lt;span class="o"&gt;+-------+&lt;/span&gt;            &lt;span class="o"&gt;+--------+&lt;/span&gt;
+        &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;            &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
+        &lt;span class="o"&gt;+-------+&lt;/span&gt;            &lt;span class="o"&gt;+-----^--+&lt;/span&gt;
+          &lt;span class="o"&gt;|&lt;/span&gt;                    &lt;span class="o"&gt;|&lt;/span&gt; 
+          &lt;span class="o"&gt;|&lt;/span&gt;                    &lt;span class="o"&gt;|&lt;/span&gt;
+          &lt;span class="n"&gt;V&lt;/span&gt;                    &lt;span class="o"&gt;|&lt;/span&gt;   &lt;span class="n"&gt;se&lt;/span&gt; &lt;span class="n"&gt;devuelve&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+        &lt;span class="o"&gt;+------+&lt;/span&gt;             &lt;span class="o"&gt;+-------+&lt;/span&gt;
+        &lt;span class="o"&gt;|&lt;/span&gt;  &lt;span class="mi"&gt;1&lt;/span&gt;   &lt;span class="o"&gt;|&lt;/span&gt;             &lt;span class="o"&gt;|&lt;/span&gt;   &lt;span class="mi"&gt;1&lt;/span&gt;   &lt;span class="o"&gt;|&lt;/span&gt;
+        &lt;span class="o"&gt;+------+&lt;/span&gt;         &lt;span class="o"&gt;+-------+&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Secuencia de llamadas recursivas     Valores devueltos de cada llamada&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Ojo, que la secuancia de las llamadas recursivas esta ilustrada de arriba para abajo y los valores devueltos de abajo para arriba.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Ejecutamos ambos scripts (uno a uno claro) precedido por el comando &lt;code&gt;time&lt;/code&gt; para medir el tiempo de ejecución de ambos scripts, time esta por defecto creo en todas las distros GNU/Linux - sí, supongo que usas Linux, no? no?.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;time&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;factorial&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Debo decir, que estoy usando Python 2.7, veamos ahora la salida de ambos programas.&lt;/p&gt;
+&lt;p&gt;Función recursiva&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;
+&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;24&lt;/span&gt;
+&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;120&lt;/span&gt;
+&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;720&lt;/span&gt;
+&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;5040&lt;/span&gt;
+&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;40320&lt;/span&gt;
+&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;362880&lt;/span&gt;
+&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;3628800&lt;/span&gt;
+
+&lt;span class="n"&gt;real&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.025&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;span class="n"&gt;user&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.017&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;span class="n"&gt;sys&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.007&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Función iterativa&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="mi"&gt;2&lt;/span&gt;
+&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="mi"&gt;6&lt;/span&gt;
+&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="mi"&gt;24&lt;/span&gt;
+&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="mi"&gt;120&lt;/span&gt;
+&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="mi"&gt;720&lt;/span&gt;
+&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="mi"&gt;5040&lt;/span&gt;
+&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="mi"&gt;40320&lt;/span&gt;
+&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="mi"&gt;362880&lt;/span&gt;
+&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="mi"&gt;3628800&lt;/span&gt;
+
+&lt;span class="n"&gt;real&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.027&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;span class="n"&gt;user&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.020&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;span class="n"&gt;sys&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.003&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Como pueden ver la diferencia es muy poca, pero aún así las hay. Hay muchas cosas que se pueden decir al respecto ahora, pero mejor veamos otro ejemplo más.&lt;/p&gt;
+&lt;p&gt;Ahora será con la sucesión de fibonacci, veamos la función recursiva primero.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#/usr/bin/env python&lt;/span&gt;
+&lt;span class="cp"&gt;# Funcion fibonacci recursiva&lt;/span&gt;
+
+&lt;span class="n"&gt;def&lt;/span&gt; &lt;span class="n"&gt;fibonacci&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="n"&gt;or&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;
+    &lt;span class="nl"&gt;else:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;fibonacci&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;fibonacci&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;def&lt;/span&gt; &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="n"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Fibonnaci de %d es %d&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fibonacci&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Aqúi el &lt;code&gt;caso base&lt;/code&gt; es n == 0 or n == 1, ya que es cuando sabemos con seguridad el valor que debemos devolver, el cual es el mismo parametro.&lt;/p&gt;
+&lt;p&gt;Graficando el conjunto de llamadas sucesivas para fibonacci(3) tenemos:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;              &lt;span class="o"&gt;+---------------+&lt;/span&gt;
+                  &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;fibonacci&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="o"&gt;|&lt;/span&gt;
+              &lt;span class="o"&gt;+---------------+&lt;/span&gt;
+                 &lt;span class="o"&gt;|&lt;/span&gt;
+                 &lt;span class="o"&gt;|&lt;/span&gt;  
+                 &lt;span class="n"&gt;V&lt;/span&gt;
+      &lt;span class="o"&gt;-----------------------^---------------------------&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;fibonacci&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;      &lt;span class="o"&gt;+&lt;/span&gt;      &lt;span class="n"&gt;fibonacci&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+          &lt;span class="o"&gt;--------------&lt;/span&gt;           &lt;span class="o"&gt;--------------&lt;/span&gt;
+             &lt;span class="o"&gt;/&lt;/span&gt;                        \
+            &lt;span class="o"&gt;/&lt;/span&gt;                  \
+                       &lt;span class="o"&gt;/&lt;/span&gt;                            \
+&lt;span class="o"&gt;------------------^------------------&lt;/span&gt;        &lt;span class="o"&gt;-------------&lt;/span&gt;
+     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;fibonacci&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="o"&gt;+&lt;/span&gt;  &lt;span class="n"&gt;fibonacci&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;           &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+            &lt;span class="o"&gt;------------&lt;/span&gt;     &lt;span class="o"&gt;------------&lt;/span&gt;          
+         &lt;span class="o"&gt;|&lt;/span&gt;             &lt;span class="o"&gt;|&lt;/span&gt;
+         &lt;span class="o"&gt;|&lt;/span&gt;                 &lt;span class="o"&gt;|&lt;/span&gt;
+         &lt;span class="o"&gt;|&lt;/span&gt;                 &lt;span class="o"&gt;|&lt;/span&gt;
+    &lt;span class="o"&gt;-----^-----&lt;/span&gt;     &lt;span class="o"&gt;-------^------&lt;/span&gt;
+     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;      &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Más fácil de entender así no? &lt;/p&gt;
+&lt;p&gt;Ahora veamos la salida de ambos programas, tanto el que tiene usa la función recursiva como el que usa la función iterativa.&lt;/p&gt;
+&lt;p&gt;Función recursiva&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;Fibonnaci&lt;/span&gt; &lt;span class="n"&gt;de&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="n"&gt;es&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;span class="n"&gt;Fibonnaci&lt;/span&gt; &lt;span class="n"&gt;de&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="n"&gt;es&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;span class="n"&gt;Fibonnaci&lt;/span&gt; &lt;span class="n"&gt;de&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="n"&gt;es&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;span class="n"&gt;Fibonnaci&lt;/span&gt; &lt;span class="n"&gt;de&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;es&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+&lt;span class="n"&gt;Fibonnaci&lt;/span&gt; &lt;span class="n"&gt;de&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="n"&gt;es&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;
+&lt;span class="n"&gt;Fibonnaci&lt;/span&gt; &lt;span class="n"&gt;de&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="n"&gt;es&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;
+&lt;span class="n"&gt;Fibonnaci&lt;/span&gt; &lt;span class="n"&gt;de&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt; &lt;span class="n"&gt;es&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;
+&lt;span class="n"&gt;Fibonnaci&lt;/span&gt; &lt;span class="n"&gt;de&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt; &lt;span class="n"&gt;es&lt;/span&gt; &lt;span class="mi"&gt;13&lt;/span&gt;
+&lt;span class="n"&gt;Fibonnaci&lt;/span&gt; &lt;span class="n"&gt;de&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt; &lt;span class="n"&gt;es&lt;/span&gt; &lt;span class="mi"&gt;21&lt;/span&gt;
+&lt;span class="n"&gt;Fibonnaci&lt;/span&gt; &lt;span class="n"&gt;de&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt; &lt;span class="n"&gt;es&lt;/span&gt; &lt;span class="mi"&gt;34&lt;/span&gt;
+&lt;span class="n"&gt;Fibonnaci&lt;/span&gt; &lt;span class="n"&gt;de&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="n"&gt;es&lt;/span&gt; &lt;span class="mi"&gt;55&lt;/span&gt;
+
+&lt;span class="n"&gt;real&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.028&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;span class="n"&gt;user&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.023&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;span class="n"&gt;sys&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.003&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Función iterativa
+    Fibonacci de 0 es 0
+    Fibonacci de 1 es 1
+    Fibonacci de 2 es 1
+    Fibonacci de 3 es 2
+    Fibonacci de 4 es 3
+    Fibonacci de 5 es 5
+    Fibonacci de 6 es 8
+    Fibonacci de 7 es 13
+    Fibonacci de 8 es 21
+    Fibonacci de 9 es 34
+    Fibonacci de 10 es 55&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;real&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.024&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;span class="n"&gt;user&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.017&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;span class="n"&gt;sys&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.003&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ahh, pues ya tenemos dos ejemplos con los cuales poder ir haciendo conclusiones, como podemos ver en algunos casos la recursividad es más rápida y en otros casos la iteratividad es más rápida. Pero se puede ver claramente que el problema esta cuando hacemos demasiadas llamadas al mismo método, se consume mucha memoria, es el problema aquí con la función recursiva fibonacci, hacemos bastantes llamadas al mismo método, de hecho personas con más conocimientos que el wannabe que escribe esto aconsejan a no usar recursividad en casos asi, porque se carga bastante el sistema. &lt;/p&gt;
+&lt;p&gt;Asi que donde se hacen bastante llamadas a un mismo método el resultado podriá no ser muy óptimo, en otros casos si, por eso vemos que con el factorial el método recursivo es en efecto más rapido.&lt;/p&gt;
+&lt;p&gt;La recursividad así como la iteración se basan en una instrucción de control: la iteración utiliza una isntrucción de repetición (for, while o do...while), mientras que la recursividad utiliza una instrucción de selección (if, if...else o swithc), de modo que ambas implican repetición, sólo que difieren en el como lo hacen.&lt;/p&gt;
+&lt;p&gt;Del libro Java Como programar de Deitel nos aconsejan lo siguiente:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Cualquier problema que se pueda resolver mediante la recursividad, se puede también mediante la iteración(sin recursividad). Por lo general, se prefiere un método recursivo a uno iteractivo cuando el primero refleja con más naturalidad el problema, y se produce un programa más fácil de entender y de depurar. A menudo, puede implementarse un método recursivo con menos lineas de código. Otra razón por la que es preferible elegir un método recursivo es que uno iterativo podria no ser aparente.&lt;/p&gt;
+&lt;p&gt;Evite usar la recursividad en situaciones en las que se requiera un alto rendimiento. Las llamadas recursivas requeiren tiempo y consumen memoria adicional.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Dicho esos sabios consejos, podemos sacar de ahí que un método recursivo implica bien menos código pero a veces no es aconsejable por cuestiones de rendimiento, aunque ahi dice que podría ser además más obvio y legible yo diría que más podria confundir a veces, pero bueno basicamente es saber donde utilizarlos son muy buenos recursos, solo toca analizar bien, porque si nos afecta bastante el rendimiento pues usar un metodo iterativo es la mejor opción.&lt;/p&gt;
+&lt;p&gt;Un último ejemplo, usamos una función recursiva y una iterativa en diferentes programas, para calcular la potencia de un número.&lt;/p&gt;
+&lt;p&gt;Primero veamos la solución iterativa:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env python&lt;/span&gt;
+&lt;span class="c"&gt;# Exponenciacion iterativo&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;exponenciacion&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;base&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;exponente&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;retorno&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;base&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;exponente&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;retorno&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;retorno&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;base&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;retorno&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;%{0}^%{1} = %{2}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;exponenciacion&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Fácil, ahora veamos la solución recursiva:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env python&lt;/span&gt;
+&lt;span class="c"&gt;# Exponenciacion recursivo&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;exponenciacion&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;base&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;exponente&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;exponente&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;base&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;base&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;exponenciacion&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;base&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;exponente&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;%{0}^%{1} = %{2}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;exponenciacion&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ahora es el momento de ver el tiempo de ejecución de ambos, la salida del comando &lt;code&gt;time&lt;/code&gt;, no mostraré la salida de los programas porque es algo amblia como se puede deducir del código.&lt;/p&gt;
+&lt;p&gt;Tiempo ejecución función recursiva:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;real&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.025&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;span class="n"&gt;user&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.020&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;span class="n"&gt;sys&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.003&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Tiempo ejecución función iterativa:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;real&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.027&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;span class="n"&gt;user&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.020&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;span class="n"&gt;sys&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.003&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Nuevamente aquí la recursividad ganó en cuanto a rapidez, por la misma razón que antes, no tiene muchas llamadas al mismo método, en casos asi funciona fluido. El marcador final en cuando a rapidez: recursividad 2 - iterativadad 1!&lt;/p&gt;</summary><category term="python"></category><category term="recursividad"></category><category term="time"></category><category term="iteratividad"></category><category term="fibonacci"></category><category term="factorial"></category></entry><entry><title>Instalación de Teamviewer en Arch Linux x86_64</title><link href="/instalacion-teamviewer-archlinux-x86_64.html" rel="alternate"></link><updated>2013-10-07T10:07:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2013-10-07:instalacion-teamviewer-archlinux-x86_64.html</id><summary type="html">&lt;p&gt;Para instalar Teamviewer en Arch Linux x86_64 (vamos 64 bits), hay que tener en cuenta unas cuantas cosas; teamviewer se ejecuta en 
 GNU/Linux emulando un entorno Windows, de modo que en verdad se ejecuta el binario para Windows usando wine, el mismo no requiere
 que tengas wine instalado porque usa una versión portable, el asunto es que teamviewer requiere de un sin número de librerias 32 bits
 para funcionar y por defecto la que tendras en tu sistema si es de 64 bits pues seran la de esa arquitectura, obviamente.&lt;/p&gt;
@@ -128,7 +414,7 @@ que generalmente tendra como prefijo &lt;code&gt;lib32-&lt;/code&gt;. Si no encu
 &lt;p&gt;&lt;img alt="Teamviewer" src="/images/posts/misc/teamviewer.png" title="Teamviewer en Arch Linux x86_64" /&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;Versión de Teamviewer&lt;/code&gt;: &lt;em&gt;8.0.20931&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;uname -a&lt;/code&gt;: &lt;em&gt;Linux arch-linux 3.11.3-1-ARCH #1 SMP PREEMPT Wed Oct 2 01:38:48 CEST 2013 x86_64 GNU/Linux&lt;/em&gt;&lt;/p&gt;</summary><category term="Arch Linux"></category><category term="teamviewer"></category><category term="pacman"></category></entry><entry><title>Buscando rootkits con Rkhunter</title><link href="/tutorial-rkhunter.html" rel="alternate"></link><updated>2013-09-23T01:28:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2013-09-23:tutorial-rkhunter.html</id><summary type="html">&lt;p&gt;En este post comparto con ustedes como podemos buscar rootkits, directorios y/o archivos ocultos en nuestro sistema Unix (Linux, BSD, etc.), entre otros, para ello usaremos esta estupenda herramienta llamada Rkhunter o Rootkit Hunter.&lt;/p&gt;
-&lt;h2&gt;Qué es Rootkit Hunter ( o Rkhunter)?&lt;/h2&gt;
+&lt;h2&gt;Qué es Rkhunter?&lt;/h2&gt;
 &lt;p&gt;Según wikipedia es una herramienta para sistemas &lt;a href="http://es.wikipedia.org/wiki/Unix" title="Unix"&gt;Unix&lt;/a&gt; que detecta los &lt;a href="http://es.wikipedia.org/wiki/Rootkits" title="Rootkits"&gt;rootkies&lt;/a&gt;, las &lt;a href="http://es.wikipedia.org/wiki/Puerta_trasera" title="Puertas traseras o backdoors"&gt;backdoors&lt;/a&gt; y los exploit locales mediante la comparación de los &lt;a href="http://es.wikipedia.org/wiki/MD5#Hashes_MD5" title="hashes MD5"&gt;Hashes MD5&lt;/a&gt; de ficheros importantes con su firma correcta en una base de datos en línea, buscando los directorios por defecto (de rootkits), los permisos 
 incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del kernel, y las pruebas especiales para GNU/Linux y FreeBSD.&lt;/p&gt;
 &lt;h2&gt;Qué son rootkits?&lt;/h2&gt;
@@ -299,7 +585,62 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;p&gt;&lt;img alt="screenshot #5" src="/images/posts/mediawiki/wiki5.png" /&gt;&lt;/p&gt;
 &lt;p&gt;En lo adelante siempre que queramos acceder a nuestra wiki solo debemos poner en la ruta de direcciones del navegador web &lt;strong&gt;http://localhost/wiki&lt;/strong&gt;, claro ten en cuenta que el XAMPP debe estar iniciado para poder acceder a tu wiki.&lt;/p&gt;
 &lt;p&gt;Ya puedes empezar a escribir en tu propia wiki!!!&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;nota final: Este articulo no es muy reciente a pesar de la fecha de publicación, fue rescatado de mi antiguo blog, pero aún sigue siendo útil, solo que las versiónes mas recientes de MediaWiki y XAMPP serán otras, por tanto, algunas cosas puede ser que hayan cambiado.&lt;/em&gt;&lt;/p&gt;</summary><category term="mediawiki"></category><category term="wiki"></category><category term="xampp"></category></entry><entry><title>Usando la API de Shodan para Python</title><link href="/tutorial-api-shodan-para-python.html" rel="alternate"></link><updated>2013-07-07T05:12:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2013-07-07:tutorial-api-shodan-para-python.html</id><summary type="html">&lt;p&gt;En este post veremos que usar la &lt;a href="http://docs.shodanhq.com/python/tutorial.html" title="Shodan"&gt;API de Shodan para Python&lt;/a&gt; es bastante sencillo, las ventajas de esto es que podemos utilizar este buscador desde nuestras aplicaciones en Python y desde la linea de comandos, la API también esta disponible para Perl y Ruby.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;nota final: Este articulo no es muy reciente a pesar de la fecha de publicación, fue rescatado de mi antiguo blog, pero aún sigue siendo útil, solo que las versiónes mas recientes de MediaWiki y XAMPP serán otras, por tanto, algunas cosas puede ser que hayan cambiado.&lt;/em&gt;&lt;/p&gt;</summary><category term="mediawiki"></category><category term="wiki"></category><category term="xampp"></category></entry><entry><title>Virtualenv: Entornos virtuales de desarrollo para Python</title><link href="/tutorial-virtualenv.html" rel="alternate"></link><updated>2013-08-16T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2013-08-16:tutorial-virtualenv.html</id><summary type="html">&lt;h2&gt;Instalación&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Debian/Ubuntu&lt;/strong&gt;  &lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;virtualenv&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;Arch Linux&lt;/strong&gt; &lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pacman&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;S&lt;/span&gt; &lt;span class="n"&gt;virtualenv&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Se creo el directorio donde guardar todos los entornos virtuales:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="n"&gt;virtualenv&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Para crear un entorno virtual cualquiera:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;virtualenv&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="n"&gt;virtualenv&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;nombre&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;En el caso que no se quiera usar ningun paquete instalado en el sistema seria asi:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt; &lt;span class="n"&gt;virtualenv&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="n"&gt;virtulenv&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;nombre&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;no&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;site&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;packages&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;El entorno se carga de esta forma:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt; &lt;span class="n"&gt;source&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="n"&gt;virtualenv&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;nombre&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;activate&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Y cambia el prompt a algo como:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nombre&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;tu_prompt&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Y se desactiva el entorno con:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt; &lt;span class="n"&gt;deactivate&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Para listar los paquetes instalados en el entorno usamos yolk aca:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt; &lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;easy_install&lt;/span&gt; &lt;span class="n"&gt;yolk&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Tuve problemas con yolk, asi que mejor use pip que es una alternativa a easy_install por cierto, y que tiene soporte para desintalar y listar paquetes entre otras.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt; &lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;list&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;Referencias&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://simononsoftware.com/virtualenv-tutorial/"&gt;http://simononsoftware.com/virtualenv-tutorial/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.virtualenv.org/en/latest/"&gt;http://www.virtualenv.org/en/latest/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="python"></category><category term="virtualenv"></category></entry><entry><title>Usando la API de Shodan para Python</title><link href="/tutorial-api-shodan-para-python.html" rel="alternate"></link><updated>2013-07-07T05:12:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2013-07-07:tutorial-api-shodan-para-python.html</id><summary type="html">&lt;p&gt;En este post veremos que usar la &lt;a href="http://docs.shodanhq.com/python/tutorial.html" title="Shodan"&gt;API de Shodan para Python&lt;/a&gt; es bastante sencillo, las ventajas de esto es que podemos utilizar este buscador desde nuestras aplicaciones en Python y desde la linea de comandos, la API también esta disponible para Perl y Ruby.&lt;/p&gt;
 &lt;p&gt;Sino sabes lo que es Shodan o simplemente aun no sabes usarlo del todo, te recomiendo leerte &lt;a href="http://www.slideshare.net/theprez98/shodan-for-penetration-testers-defcon-18" title="shodan for penestration testers"&gt;Shodan for Penetration Testers DefCon 18&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Ahora lo preliminar ante todo es que te registres en &lt;a href="http://www.shodanhq.com/" title="Shodan"&gt;Shodan&lt;/a&gt;, es necesario para poder realizar algunas búsquedas y para obtener una &lt;strong&gt;API KEY&lt;/strong&gt; necesaria para poder usar la API, luego de registrarte y loguearte tienes tu KEY en &lt;a href="http://www.shodanhq.com/api_doc" title=" &amp;quot;api key"&gt;este link&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Bien ya luego de eso, lo que va es instalar la librería de shodan en la distro que uses (si, estoy asumiendo que usas GNU/Linux), yo en este momento estoy usando Debian Wheezy. Si tenemos &lt;a href="http://packages.python.org/distribute/easy_install.html" title="easy_install"&gt;Easy Install&lt;/a&gt; es bastante fácil sino te recomiendo que busques en el link anterior como instalarlo en tu distro.&lt;/p&gt;
