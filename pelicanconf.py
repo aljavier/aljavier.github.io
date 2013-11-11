@@ -82,16 +82,16 @@ SITEURL = ''
 
 
 # Where to put the atom categories feeds.
-CATEGORY_FEED_ATOM = "feeds/%s.atom.xml"
+#CATEGORY_FEED_ATOM = "feeds/%s.atom.xml"
 
 # Where to put the categories rss feeds.
-CATEGORY_FEED_RSS = 'feeds/%s.rss.xml'
+#CATEGORY_FEED_RSS = 'feeds/%s.rss.xml'
 
 # relative url to output the atom feed.
-FEED_ATOM = "atom.xml"
+#FEED_ATOM = "atom.xml"
 
 # relative url to output the rss feed.
-FEED_RSS = 'rss.xml'
+#FEED_RSS = 'rss.xml'
 
 # relative url to output the tags atom feed. It should be defined using a “%s”
 # matchin the tag name
@@ -104,7 +104,7 @@ FEED_RSS = 'rss.xml'
 #TRANSLATION_FEED = "feeds/all-%s.atom.xml"
 
 #Maximum number of items allowed in a feed. Feeds are unrestricted by default.
-FEED_MAX_ITEMS = 12
+#FEED_MAX_ITEMS = 12
 
 
 # The minimum number of articles allowed on the last page. Use this when you
@@ -147,7 +147,7 @@ THEME = "joe_theme"
 
 # Pelican can handle disqus comments, specify the sitename you’ve filled in on
 # disqus
-DISQUS_SITENAME = "sysflux"
+#DISQUS_SITENAME = "sysflux"
 
 # Your github URL (if you have one), it will then use it to create a
 # github ribbon.
