@@ -73,7 +73,7 @@ RELATIVE_URL = False
 #base URL of your website. Note that this is not a way to tell pelican to use
 #relative urls or static ones. You should rather use the RELATIVE_URL setting
 #for such use.
-SITEURL = ''
+SITEURL = 'http://aljavier.github.io'
 
 # The static paths you want to have accessible on the output path “static”. By
 # default, pelican will copy the ‘images’ folder to the output folder.
@@ -82,16 +82,16 @@ SITEURL = ''
 
 
 # Where to put the atom categories feeds.
-#CATEGORY_FEED_ATOM = "feeds/%s.atom.xml"
+CATEGORY_FEED_ATOM = "feeds/%s.atom.xml"
 
 # Where to put the categories rss feeds.
-#CATEGORY_FEED_RSS = 'feeds/%s.rss.xml'
+CATEGORY_FEED_RSS = 'feeds/%s.rss.xml'
 
 # relative url to output the atom feed.
-#FEED_ATOM = "atom.xml"
+FEED_ATOM = "atom.xml"
 
 # relative url to output the rss feed.
-#FEED_RSS = 'rss.xml'
+FEED_RSS = 'rss.xml'
 
 # relative url to output the tags atom feed. It should be defined using a “%s”
 # matchin the tag name
@@ -104,7 +104,7 @@ SITEURL = ''
 #TRANSLATION_FEED = "feeds/all-%s.atom.xml"
 
 #Maximum number of items allowed in a feed. Feeds are unrestricted by default.
-#FEED_MAX_ITEMS = 12
+FEED_MAX_ITEMS = 12
 
 
 # The minimum number of articles allowed on the last page. Use this when you
@@ -147,14 +147,14 @@ THEME = "joe_theme"
 
 # Pelican can handle disqus comments, specify the sitename you’ve filled in on
 # disqus
-#DISQUS_SITENAME = "sysflux"
+DISQUS_SITENAME = "sysflux"
 
 # Your github URL (if you have one), it will then use it to create a
 # github ribbon.
 #GITHUB_URL = 'http://github.com/n3x07/'
 
 #‘UA-XXXX-YYYY’ to activate google analytics.
-#GOOGLE_ANALYTICS = ""
+GOOGLE_ANALYTICS = "UA-45917501-1"
 
 #URL to your Piwik server - without ‘http://‘ at the beginning.
 PIWIK_URL = ""
@@ -175,18 +175,16 @@ SOCIAL = ()
 
 # Allows to add a button on the articles to tweet about them. Add you twitter
 # username if you want this button to appear.
-#TWITTER_USERNAME = "joe_di_castro"
+#TWITTER_USERNAME = "N3X07"
 
 
 # global metadata to all the contents
 #DEFAULT_METADATA = (('yeah', 'it is'),)
 
 # A list of files to copy from the source to the destination
-FILES_TO_COPY = (('extra/favicon.ico', 'favicon.ico'),)
-#                 ('extra/humans.txt', 'humans.txt'),
-#                 ('extra/favicon.ico', 'favicon.ico'),
-#                 ('extra/apple-touch-icon.png', 'apple-touch-icon.png'),
-#                 ('extra/.htaccess', '.htaccess'))
+STATIC_PATHS = [
+                'extra/favicon.ico',
+	       ]
 
 # foobar will not be used, because it's not in caps. All configuration keys
 # have to be in caps

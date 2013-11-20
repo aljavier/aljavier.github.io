@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>// sysflux</title><link>/</link><description></description><atom:link href="/feeds/test.rss.xml" rel="self"></atom:link><lastBuildDate>Thu, 02 Dec 2010 10:14:00 -0400</lastBuildDate><item><title>Test md File</title><link>/test-md-file.html</link><description>&lt;h1&gt;Test Markdown File Header&lt;/h1&gt;
 &lt;h2&gt;Used for pelican test&lt;/h2&gt;
 &lt;p&gt;The quick brown fox jumped over the lazy dog's back.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">A. J. Javier</dc:creator><pubDate>Thu, 02 Dec 2010 10:14:00 -0400</pubDate><guid>tag:,2010-12-02:test-md-file.html</guid><category>foo</category><category>bar</category><category>foobar</category></item></channel></rss>
+=======
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>// sysflux</title><link>http://aljavier.github.io/</link><description></description><atom:link href="http://aljavier.github.io/feeds/test.rss.xml" rel="self"></atom:link><lastBuildDate>Thu, 02 Dec 2010 10:14:00 -0400</lastBuildDate><item><title>Test md File</title><link>http://aljavier.github.io/test-md-file.html</link><description>&lt;h1&gt;Test Markdown File Header&lt;/h1&gt;
+&lt;h2&gt;Used for pelican test&lt;/h2&gt;
+&lt;p&gt;The quick brown fox jumped over the lazy dog's back.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">A. J. Javier</dc:creator><pubDate>Thu, 02 Dec 2010 10:14:00 -0400</pubDate><guid>tag:aljavier.github.io,2010-12-02:test-md-file.html</guid><category>foo</category><category>bar</category><category>foobar</category></item></channel></rss>
+>>>>>>> gh-pages
