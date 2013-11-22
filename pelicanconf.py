@@ -73,7 +73,7 @@ RELATIVE_URL = False
 #base URL of your website. Note that this is not a way to tell pelican to use
 #relative urls or static ones. You should rather use the RELATIVE_URL setting
 #for such use.
-SITEURL = 'http://aljavier.github.io'
+SITEURL = ''
 
 # The static paths you want to have accessible on the output path “static”. By
 # default, pelican will copy the ‘images’ folder to the output folder.
@@ -82,13 +82,13 @@ SITEURL = 'http://aljavier.github.io'
 
 
 # Where to put the atom categories feeds.
-CATEGORY_FEED_ATOM = "feeds/%s.atom.xml"
+#CATEGORY_FEED_ATOM = "feeds/%s.atom.xml"
 
 # Where to put the categories rss feeds.
-CATEGORY_FEED_RSS = 'feeds/%s.rss.xml'
+#CATEGORY_FEED_RSS = 'feeds/%s.rss.xml'
 
 # relative url to output the atom feed.
-FEED_ATOM = "atom.xml"
+#FEED_ATOM = "atom.xml"
 
 # relative url to output the rss feed.
 FEED_RSS = 'rss.xml'
@@ -151,7 +151,7 @@ DISQUS_SITENAME = "sysflux"
 
 # Your github URL (if you have one), it will then use it to create a
 # github ribbon.
-#GITHUB_URL = 'http://github.com/n3x07/'
+#GITHUB_URL = ''
 
 #‘UA-XXXX-YYYY’ to activate google analytics.
 GOOGLE_ANALYTICS = "UA-45917501-1"
@@ -175,16 +175,18 @@ SOCIAL = ()
 
 # Allows to add a button on the articles to tweet about them. Add you twitter
 # username if you want this button to appear.
-#TWITTER_USERNAME = "N3X07"
+#TWITTER_USERNAME = "joe_di_castro"
 
 
 # global metadata to all the contents
 #DEFAULT_METADATA = (('yeah', 'it is'),)
 
 # A list of files to copy from the source to the destination
-STATIC_PATHS = [
-                'extra/favicon.ico',
-	       ]
+FILES_TO_COPY = (('extra/favicon.ico', 'favicon.ico'),)
+#                 ('extra/humans.txt', 'humans.txt'),
+#                 ('extra/favicon.ico', 'favicon.ico'),
+#                 ('extra/apple-touch-icon.png', 'apple-touch-icon.png'),
+#                 ('extra/.htaccess', '.htaccess'))
 
 # foobar will not be used, because it's not in caps. All configuration keys
 # have to be in caps
