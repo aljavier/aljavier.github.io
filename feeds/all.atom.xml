@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>// sysflux</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2013-11-01T00:00:00-04:00</updated><entry><title>Recursividad versus iteratividad</title><link href="/recursividad-versus-iteratividad.html" rel="alternate"></link><updated>2013-11-01T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2013-11-01:recursividad-versus-iteratividad.html</id><summary type="html">&lt;p&gt;Un &lt;code&gt;función recursiva&lt;/code&gt; es aquella que se llama a si mismo, normalmente, un número 
 finito de veces, aunque si el programador cometió un error lógico podría ser 
-infitnito. Por su lado, la &lt;code&gt;iterativadad&lt;/code&gt; es ejecutar una determinada acción un
+infinito. Por su lado, la &lt;code&gt;iteratividad&lt;/code&gt; es ejecutar una determinada acción un
 x número de veces. &lt;/p&gt;
-&lt;p&gt;El contraste esta cuando queremos ejecutar una determinada acción una cantidad de veces, que bien podriamos hacerlo con recursividad o iteratividad, aunque escoger la mejor opción es la interrogante aquí.&lt;/p&gt;
-&lt;p&gt;Cuando usamos recursidad estamos haciando caso al método "divide y vencerás", ya que 
-divimos el problema en partes mas pequeñas para su resolución. Cuando se emplea una 
-función recursiva basicamente se divide la función en dos partes: 1) &lt;code&gt;paso recursivo&lt;/code&gt;, es la parte que hace la llamada recursiva, por tanto tambien se llama &lt;code&gt;llamada recursiva&lt;/code&gt;, 2) &lt;code&gt;caso base&lt;/code&gt; que igulamente podrian ser más de uno, es aqui cuando el método en verdad devuelve un resultado, por lo que se podria decir que es lo unico que se resuelve en una función recursivda.&lt;/p&gt;
+&lt;p&gt;El contraste esta cuando queremos ejecutar una determinada acción una cantidad de veces, que bien podríamos hacerlo con recursividad o iteratividad, aunque escoger la mejor opción es la interrogante aquí.&lt;/p&gt;
+&lt;p&gt;Cuando usamos recursividad estamos haciendo caso al método "divide y vencerás", ya que 
+dividimos el problema en partes mas pequeñas para su resolución. Cuando se emplea una 
+función recursiva básicamente se divide la función en dos partes: 1) &lt;code&gt;paso recursivo&lt;/code&gt;, es la parte que hace la llamada recursiva, por tanto también se llama &lt;code&gt;llamada recursiva&lt;/code&gt;, 2) &lt;code&gt;caso base&lt;/code&gt; que igualmente podrían ser más de uno, es aquí cuando el método en verdad devuelve un resultado, por lo que se podría decir que es lo único que se resuelve en una función recursividad.&lt;/p&gt;
 &lt;p&gt;A continuación veremos un ejemplo de función recursiva para buscar el factorial de un número entero positivo. El factorial de un numero se define como&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -14,7 +14,7 @@ función recursiva basicamente se divide la función en dos partes: 1) &lt;code&
 
 &lt;p&gt;Teniendo en cuenta que 1! y 0! es igual a 1, primero presentaré la solución con una función iterativa:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env python&lt;/span&gt;
-&lt;span class="c"&gt;# Funcion factorial usando un metodo iterativo&lt;/span&gt;
+&lt;span class="c"&gt;# Función factorial usando un método iterativo&lt;/span&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;factorial&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;retorno&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
@@ -51,45 +51,44 @@ función recursiva basicamente se divide la función en dos partes: 1) &lt;code&
 
 
 &lt;p&gt;&lt;strong&gt;En este caso n =&amp;lt; 1 es lo que llamamos &lt;code&gt;caso base&lt;/code&gt; y &lt;code&gt;n * factorial(n-1)&lt;/code&gt; es el &lt;code&gt;paso recursivo&lt;/code&gt; o &lt;code&gt;llamada recursiva&lt;/code&gt;.&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;La secuencia de llamadas recursivas y retornos para el factorial de 5 va como se muestra en lo adelante.&lt;/p&gt;
-&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="o"&gt;+----+&lt;/span&gt;         &lt;span class="o"&gt;+----+&lt;/span&gt;  &lt;span class="n"&gt;valor&lt;/span&gt; &lt;span class="n"&gt;final&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;120&lt;/span&gt;
-&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;             &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
-&lt;span class="o"&gt;+----+&lt;/span&gt;         &lt;span class="o"&gt;+-^--+&lt;/span&gt;
-  &lt;span class="o"&gt;|&lt;/span&gt;                  &lt;span class="o"&gt;|&lt;/span&gt;
-  &lt;span class="o"&gt;|&lt;/span&gt;                  &lt;span class="o"&gt;|&lt;/span&gt;
-      &lt;span class="n"&gt;V&lt;/span&gt;                  &lt;span class="o"&gt;|&lt;/span&gt;       &lt;span class="n"&gt;se&lt;/span&gt; &lt;span class="n"&gt;devuelve&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;24&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;120&lt;/span&gt;
- &lt;span class="o"&gt;+-------+&lt;/span&gt;          &lt;span class="o"&gt;+--------+&lt;/span&gt;
- &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="o"&gt;!|&lt;/span&gt;          &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
- &lt;span class="o"&gt;+-------+&lt;/span&gt;          &lt;span class="o"&gt;+-----^--+&lt;/span&gt;
-       &lt;span class="o"&gt;|&lt;/span&gt;          &lt;span class="o"&gt;|&lt;/span&gt;
-       &lt;span class="o"&gt;|&lt;/span&gt;          &lt;span class="o"&gt;|&lt;/span&gt;
-       &lt;span class="n"&gt;V&lt;/span&gt;          &lt;span class="o"&gt;|&lt;/span&gt;     &lt;span class="n"&gt;se&lt;/span&gt; &lt;span class="n"&gt;devuelve&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;24&lt;/span&gt;
-     &lt;span class="o"&gt;+-------+&lt;/span&gt;          &lt;span class="o"&gt;+---------+&lt;/span&gt;
-     &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="o"&gt;!|&lt;/span&gt;      &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;  &lt;span class="o"&gt;|&lt;/span&gt;
-     &lt;span class="o"&gt;+-------+&lt;/span&gt;      &lt;span class="o"&gt;+------^--+&lt;/span&gt;
-       &lt;span class="o"&gt;|&lt;/span&gt;               &lt;span class="o"&gt;|&lt;/span&gt;            
-       &lt;span class="o"&gt;|&lt;/span&gt;               &lt;span class="o"&gt;|&lt;/span&gt;
-       &lt;span class="n"&gt;V&lt;/span&gt;               &lt;span class="o"&gt;|&lt;/span&gt;   &lt;span class="n"&gt;se&lt;/span&gt; &lt;span class="n"&gt;devuelve&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;
-    &lt;span class="o"&gt;+-------+&lt;/span&gt;        &lt;span class="o"&gt;+--------+&lt;/span&gt;
-    &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;!|&lt;/span&gt;            &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
-    &lt;span class="o"&gt;+-------+&lt;/span&gt;        &lt;span class="o"&gt;+-----^--+&lt;/span&gt;
-          &lt;span class="o"&gt;|&lt;/span&gt;                    &lt;span class="o"&gt;|&lt;/span&gt;
-          &lt;span class="o"&gt;|&lt;/span&gt;                    &lt;span class="o"&gt;|&lt;/span&gt;
-          &lt;span class="n"&gt;V&lt;/span&gt;                    &lt;span class="o"&gt;|&lt;/span&gt;   &lt;span class="n"&gt;se&lt;/span&gt; &lt;span class="n"&gt;devuelve&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
-        &lt;span class="o"&gt;+-------+&lt;/span&gt;            &lt;span class="o"&gt;+--------+&lt;/span&gt;
-        &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;            &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
-        &lt;span class="o"&gt;+-------+&lt;/span&gt;            &lt;span class="o"&gt;+-----^--+&lt;/span&gt;
-          &lt;span class="o"&gt;|&lt;/span&gt;                    &lt;span class="o"&gt;|&lt;/span&gt; 
-          &lt;span class="o"&gt;|&lt;/span&gt;                    &lt;span class="o"&gt;|&lt;/span&gt;
-          &lt;span class="n"&gt;V&lt;/span&gt;                    &lt;span class="o"&gt;|&lt;/span&gt;   &lt;span class="n"&gt;se&lt;/span&gt; &lt;span class="n"&gt;devuelve&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
-        &lt;span class="o"&gt;+------+&lt;/span&gt;             &lt;span class="o"&gt;+-------+&lt;/span&gt;
-        &lt;span class="o"&gt;|&lt;/span&gt;  &lt;span class="mi"&gt;1&lt;/span&gt;   &lt;span class="o"&gt;|&lt;/span&gt;             &lt;span class="o"&gt;|&lt;/span&gt;   &lt;span class="mi"&gt;1&lt;/span&gt;   &lt;span class="o"&gt;|&lt;/span&gt;
-        &lt;span class="o"&gt;+------+&lt;/span&gt;         &lt;span class="o"&gt;+-------+&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;Secuencia de llamadas recursivas     Valores devueltos de cada llamada&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Ojo, que la secuancia de las llamadas recursivas esta ilustrada de arriba para abajo y los valores devueltos de abajo para arriba.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;La secuencia de llamadas recursivas y retornos para el factorial de 5 va como se muestra en lo adelante.
+&lt;pre&gt; &lt;br /&gt;
+    +----+              +----+  valor final = 120
+    | 5! |              | 5! |
+    +----+              +-^--+
+      |                   |
+      |                   |
+      V                   |       se devuelve 5! = 5 * 24 = 120
+     +-------+          +--------+
+     | 5 * 4!|          | 5 * 4! |
+     +-------+          +-----^--+
+           |                  |
+           |                  |
+           V                  |     se devuelve 4! = 4 * 6 = 24
+         +-------+      +---------+
+         | 4 * 3!|      | 4 * 3!  |
+         +-------+      +------^--+
+           |                   |          &lt;br /&gt;
+           |                   |
+           V                   |   se devuelve 3! = 3 * 2 = 6
+        +-------+        +--------+
+        | 3 * 2!|        | 3 * 2! |
+        +-------+        +-----^--+
+              |                |
+              |                |
+              V                |   se devuelve 2! = 2 * 1 = 2
+            +-------+         +--------+
+            | 2 * 1 |         | 2 * 1! |
+            +-------+         +-----^--+
+              |                     | 
+              |                     |
+              V                     |   se devuelve 1
+            +------+             +-------+
+            |  1   |             |   1   |
+            +------+             +-------+
+   Secuencia de llamadas recursivas     Valores devueltos de cada llamada
+&lt;/pre&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Ojo, que la secuencia de las llamadas recursivas esta ilustrada de arriba para abajo y los valores devueltos de abajo para arriba.&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Ejecutamos ambos scripts (uno a uno claro) precedido por el comando &lt;code&gt;time&lt;/code&gt; para medir el tiempo de ejecución de ambos scripts, time esta por defecto creo en todas las distros GNU/Linux - sí, supongo que usas Linux, no? no?.&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;time&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;factorial&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -111,7 +110,7 @@ función recursiva basicamente se divide la función en dos partes: 1) &lt;code&
 
 &lt;span class="n"&gt;real&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.025&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
 &lt;span class="n"&gt;user&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.017&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
-&lt;span class="n"&gt;sys&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.007&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;span class="n"&gt;sys&lt;/span&gt;     &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.007&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -130,7 +129,7 @@ función recursiva basicamente se divide la función en dos partes: 1) &lt;code&
 
 &lt;span class="n"&gt;real&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.027&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
 &lt;span class="n"&gt;user&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.020&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
-&lt;span class="n"&gt;sys&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.003&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
+&lt;span class="n"&gt;sys&lt;/span&gt;     &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.003&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -154,32 +153,31 @@ función recursiva basicamente se divide la función en dos partes: 1) &lt;code&
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Aqúi el &lt;code&gt;caso base&lt;/code&gt; es n == 0 or n == 1, ya que es cuando sabemos con seguridad el valor que debemos devolver, el cual es el mismo parametro.&lt;/p&gt;
-&lt;p&gt;Graficando el conjunto de llamadas sucesivas para fibonacci(3) tenemos:&lt;/p&gt;
-&lt;div class="codehilite"&gt;&lt;pre&gt;              &lt;span class="o"&gt;+---------------+&lt;/span&gt;
-                  &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;fibonacci&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="o"&gt;|&lt;/span&gt;
-              &lt;span class="o"&gt;+---------------+&lt;/span&gt;
-                 &lt;span class="o"&gt;|&lt;/span&gt;
-                 &lt;span class="o"&gt;|&lt;/span&gt;  
-                 &lt;span class="n"&gt;V&lt;/span&gt;
-      &lt;span class="o"&gt;-----------------------^---------------------------&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;fibonacci&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;      &lt;span class="o"&gt;+&lt;/span&gt;      &lt;span class="n"&gt;fibonacci&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-          &lt;span class="o"&gt;--------------&lt;/span&gt;           &lt;span class="o"&gt;--------------&lt;/span&gt;
-             &lt;span class="o"&gt;/&lt;/span&gt;                        \
-            &lt;span class="o"&gt;/&lt;/span&gt;                  \
-                       &lt;span class="o"&gt;/&lt;/span&gt;                            \
-&lt;span class="o"&gt;------------------^------------------&lt;/span&gt;        &lt;span class="o"&gt;-------------&lt;/span&gt;
-     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;fibonacci&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="o"&gt;+&lt;/span&gt;  &lt;span class="n"&gt;fibonacci&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;           &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
-            &lt;span class="o"&gt;------------&lt;/span&gt;     &lt;span class="o"&gt;------------&lt;/span&gt;          
-         &lt;span class="o"&gt;|&lt;/span&gt;             &lt;span class="o"&gt;|&lt;/span&gt;
-         &lt;span class="o"&gt;|&lt;/span&gt;                 &lt;span class="o"&gt;|&lt;/span&gt;
-         &lt;span class="o"&gt;|&lt;/span&gt;                 &lt;span class="o"&gt;|&lt;/span&gt;
-    &lt;span class="o"&gt;-----^-----&lt;/span&gt;     &lt;span class="o"&gt;-------^------&lt;/span&gt;
-     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;      &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;Más fácil de entender así no? &lt;/p&gt;
+&lt;p&gt;Aquí el &lt;code&gt;caso base&lt;/code&gt; es n == 0 or n == 1, ya que es cuando sabemos con seguridad el valor que debemos devolver, el cual es el mismo parámetro.&lt;/p&gt;
+&lt;p&gt;Graficando el conjunto de llamadas sucesivas para fibonacci(3) tenemos:
+&lt;pre&gt;
+                  +---------------+
+                  | fibonacci(3)  |
+                  +---------------+
+                     |
+                     |&lt;br /&gt;
+                     V
+          -----------------------^---------------------------
+        return fibonacci(2)      +      fibonacci(1)
+              --------------           --------------
+                 /                              \
+                /                                \
+               /                                  \
+    ------------------^------------------        -------------
+         return fibonacci(1)  +  fibonacci(0)           return 1
+                ------------     ------------        &lt;br /&gt;
+             |                      |
+             |                      |
+             |                      |
+        -----^-----          -------^------
+         return 1               return 0
+&lt;/pre&gt;
+Más fácil de entender así no? &lt;/p&gt;
 &lt;p&gt;Ahora veamos la salida de ambos programas, tanto el que tiene usa la función recursiva como el que usa la función iterativa.&lt;/p&gt;
 &lt;p&gt;Función recursiva&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;Fibonnaci&lt;/span&gt; &lt;span class="n"&gt;de&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="n"&gt;es&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
@@ -218,15 +216,15 @@ función recursiva basicamente se divide la función en dos partes: 1) &lt;code&
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Ahh, pues ya tenemos dos ejemplos con los cuales poder ir haciendo conclusiones, como podemos ver en algunos casos la recursividad es más rápida y en otros casos la iteratividad es más rápida. Pero se puede ver claramente que el problema esta cuando hacemos demasiadas llamadas al mismo método, se consume mucha memoria, es el problema aquí con la función recursiva fibonacci, hacemos bastantes llamadas al mismo método, de hecho personas con más conocimientos que el wannabe que escribe esto aconsejan a no usar recursividad en casos asi, porque se carga bastante el sistema. &lt;/p&gt;
-&lt;p&gt;Asi que donde se hacen bastante llamadas a un mismo método el resultado podriá no ser muy óptimo, en otros casos si, por eso vemos que con el factorial el método recursivo es en efecto más rapido.&lt;/p&gt;
-&lt;p&gt;La recursividad así como la iteración se basan en una instrucción de control: la iteración utiliza una isntrucción de repetición (for, while o do...while), mientras que la recursividad utiliza una instrucción de selección (if, if...else o swithc), de modo que ambas implican repetición, sólo que difieren en el como lo hacen.&lt;/p&gt;
+&lt;p&gt;Ahh, pues ya tenemos dos ejemplos con los cuales poder ir haciendo conclusiones, como podemos ver en algunos casos la recursividad es más rápida y en otros casos la iteratividad es más rápida. Pero se puede ver claramente que el problema esta cuando hacemos demasiadas llamadas al mismo método, se consume mucha memoria, es el problema aquí con la función recursiva fibonacci, hacemos bastantes llamadas al mismo método, de hecho personas con más conocimientos que el wannabe que escribe esto aconsejan a no usar recursividad en casos así, porque se carga bastante el sistema. &lt;/p&gt;
+&lt;p&gt;Así que donde se hacen bastante llamadas a un mismo método el resultado podría no ser muy óptimo, en otros casos si, por eso vemos que con el factorial el método recursivo es en efecto más rápido.&lt;/p&gt;
+&lt;p&gt;La recursividad así como la iteración se basan en una instrucción de control: la iteración utiliza una instrucción de repetición (for, while o do...while), mientras que la recursividad utiliza una instrucción de selección (if, if...else o switch), de modo que ambas implican repetición, sólo que difieren en el como lo hacen.&lt;/p&gt;
 &lt;p&gt;Del libro Java Como programar de Deitel nos aconsejan lo siguiente:&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Cualquier problema que se pueda resolver mediante la recursividad, se puede también mediante la iteración(sin recursividad). Por lo general, se prefiere un método recursivo a uno iteractivo cuando el primero refleja con más naturalidad el problema, y se produce un programa más fácil de entender y de depurar. A menudo, puede implementarse un método recursivo con menos lineas de código. Otra razón por la que es preferible elegir un método recursivo es que uno iterativo podria no ser aparente.&lt;/p&gt;
-&lt;p&gt;Evite usar la recursividad en situaciones en las que se requiera un alto rendimiento. Las llamadas recursivas requeiren tiempo y consumen memoria adicional.&lt;/p&gt;
+&lt;p&gt;Cualquier problema que se pueda resolver mediante la recursividad, se puede también mediante la iteración(sin recursividad). Por lo general, se prefiere un método recursivo a uno iterativo cuando el primero refleja con más naturalidad el problema, y se produce un programa más fácil de entender y de depurar. A menudo, puede implementarse un método recursivo con menos lineas de código. Otra razón por la que es preferible elegir un método recursivo es que uno iterativo podría no ser aparente.&lt;/p&gt;
+&lt;p&gt;Evite usar la recursividad en situaciones en las que se requiera un alto rendimiento. Las llamadas recursivas requieren tiempo y consumen memoria adicional.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;Dicho esos sabios consejos, podemos sacar de ahí que un método recursivo implica bien menos código pero a veces no es aconsejable por cuestiones de rendimiento, aunque ahi dice que podría ser además más obvio y legible yo diría que más podria confundir a veces, pero bueno basicamente es saber donde utilizarlos son muy buenos recursos, solo toca analizar bien, porque si nos afecta bastante el rendimiento pues usar un metodo iterativo es la mejor opción.&lt;/p&gt;
+&lt;p&gt;Dicho esos sabios consejos, podemos sacar de ahí que un método recursivo implica bien menos código pero a veces no es aconsejable por cuestiones de rendimiento, aunque ahí dice que podría ser además más obvio y legible yo diría que más podaría confundir a veces, pero bueno básicamente es saber donde utilizarlos son muy buenos recursos, solo toca analizar bien, porque si nos afecta bastante el rendimiento pues usar un método iterativo es la mejor opción.&lt;/p&gt;
 &lt;p&gt;Un último ejemplo, usamos una función recursiva y una iterativa en diferentes programas, para calcular la potencia de un número.&lt;/p&gt;
 &lt;p&gt;Primero veamos la solución iterativa:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env python&lt;/span&gt;
@@ -270,7 +268,7 @@ función recursiva basicamente se divide la función en dos partes: 1) &lt;code&
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Ahora es el momento de ver el tiempo de ejecución de ambos, la salida del comando &lt;code&gt;time&lt;/code&gt;, no mostraré la salida de los programas porque es algo amblia como se puede deducir del código.&lt;/p&gt;
+&lt;p&gt;Ahora es el momento de ver el tiempo de ejecución de ambos, la salida del comando &lt;code&gt;time&lt;/code&gt;, no mostraré la salida de los programas porque es algo amplía como se puede deducir del código.&lt;/p&gt;
 &lt;p&gt;Tiempo ejecución función recursiva:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;real&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.025&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
 &lt;span class="n"&gt;user&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;m0&lt;/span&gt;&lt;span class="mf"&gt;.020&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;
@@ -285,7 +283,7 @@ función recursiva basicamente se divide la función en dos partes: 1) &lt;code&
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Nuevamente aquí la recursividad ganó en cuanto a rapidez, por la misma razón que antes, no tiene muchas llamadas al mismo método, en casos asi funciona fluido. El marcador final en cuando a rapidez: recursividad 2 - iterativadad 1!&lt;/p&gt;</summary><category term="python"></category><category term="recursividad"></category><category term="time"></category><category term="iteratividad"></category><category term="fibonacci"></category><category term="factorial"></category></entry><entry><title>Instalación de Teamviewer en Arch Linux x86_64</title><link href="/instalacion-teamviewer-archlinux-x86_64.html" rel="alternate"></link><updated>2013-10-07T10:07:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2013-10-07:instalacion-teamviewer-archlinux-x86_64.html</id><summary type="html">&lt;p&gt;Para instalar Teamviewer en Arch Linux x86_64 (vamos 64 bits), hay que tener en cuenta unas cuantas cosas; teamviewer se ejecuta en 
+&lt;p&gt;Nuevamente aquí la recursividad ganó en cuanto a rapidez, por la misma razón que antes, no tiene muchas llamadas al mismo método, en casos así funciona fluido. El marcador final en cuando a rapidez: recursividad 2 - iteratividad 1!&lt;/p&gt;</summary><category term="python"></category><category term="recursividad"></category><category term="time"></category><category term="iteratividad"></category><category term="fibonacci"></category><category term="factorial"></category></entry><entry><title>Instalación de Teamviewer en Arch Linux x86_64</title><link href="/instalacion-teamviewer-archlinux-x86_64.html" rel="alternate"></link><updated>2013-10-07T10:07:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2013-10-07:instalacion-teamviewer-archlinux-x86_64.html</id><summary type="html">&lt;p&gt;Para instalar Teamviewer en Arch Linux x86_64 (vamos 64 bits), hay que tener en cuenta unas cuantas cosas; teamviewer se ejecuta en 
 GNU/Linux emulando un entorno Windows, de modo que en verdad se ejecuta el binario para Windows usando wine, el mismo no requiere
 que tengas wine instalado porque usa una versión portable, el asunto es que teamviewer requiere de un sin número de librerias 32 bits
 para funcionar y por defecto la que tendras en tu sistema si es de 64 bits pues seran la de esa arquitectura, obviamente.&lt;/p&gt;
@@ -606,8 +604,8 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;En el caso que no se quiera usar ningun paquete instalado en el sistema seria asi:&lt;/p&gt;
-&lt;div class="codehilite"&gt;&lt;pre&gt; &lt;span class="n"&gt;virtualenv&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="n"&gt;virtulenv&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;nombre&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;no&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;site&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;packages&lt;/span&gt;
+&lt;p&gt;En el caso que no se quiera usar ningún paquete instalado en el sistema seria así:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt; &lt;span class="n"&gt;virtualenv&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="n"&gt;virtualenv&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;nombre&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;no&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;site&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;packages&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -626,12 +624,12 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Para listar los paquetes instalados en el entorno usamos yolk aca:&lt;/p&gt;
+&lt;p&gt;Para listar los paquetes instalados en el entorno usamos yolk acá:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt; &lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;easy_install&lt;/span&gt; &lt;span class="n"&gt;yolk&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Tuve problemas con yolk, asi que mejor use pip que es una alternativa a easy_install por cierto, y que tiene soporte para desintalar y listar paquetes entre otras.&lt;/p&gt;
+&lt;p&gt;Tuve problemas con yolk, asi que mejor use pip que es una alternativa a easy_install por cierto, y que tiene soporte para desinstalar y listar paquetes entre otras.&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt; &lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;list&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -1058,10 +1056,10 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;/blockquote&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;De modo que la gran diferencia es que TreeMap ordena los objetos según la clave en forma ascendente, pero HashMap teóricamente nos devolverá los objetos en la secuencia que fueron introducidos. Entonces ¿Por qué no sólo usar TreeMap? Ah pues el caso es que cuando usamos un objeto definido por el usuario como clave (digamos una clase creada por nosotros) TreeMap no sabe como ordenar la colección, así que solo lo hace si es con datos primitivos (Integer, String, etc).&lt;/p&gt;
-&lt;p&gt;Tienen más información sobre TreeMap en &lt;a href="http://docs.oracle.com/javase/6/docs/api/java/util/TreeMap.html"&gt;este link de acá&lt;/a&gt;&lt;/p&gt;</summary><category term="java"></category><category term="HashMap"></category><category term="TreeMap"></category><category term="diccionarios"></category><category term="generics"></category></entry><entry><title>Redirecciones y expansiones en bash</title><link href="/bash-redicionres-y-expansiones.html" rel="alternate"></link><updated>2013-06-10T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2013-06-10:bash-redicionres-y-expansiones.html</id><summary type="html">&lt;p&gt;Veremos algo bien breve y sencillo para muchos, pero ademas muy importante principalmente a la hora de escribir bash scripts. Hablamos de las redirecciones, las expansiones aritmeticas y las expansiones de llaves.&lt;/p&gt;
+&lt;p&gt;Tienen más información sobre TreeMap en &lt;a href="http://docs.oracle.com/javase/6/docs/api/java/util/TreeMap.html"&gt;este link de acá&lt;/a&gt;&lt;/p&gt;</summary><category term="java"></category><category term="HashMap"></category><category term="TreeMap"></category><category term="diccionarios"></category><category term="generics"></category></entry><entry><title>Redirecciones y expansiones en bash</title><link href="/bash-redirecciones-y-expansiones.html" rel="alternate"></link><updated>2013-06-10T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2013-06-10:bash-redirecciones-y-expansiones.html</id><summary type="html">&lt;p&gt;Veremos algo bien breve y sencillo para muchos, pero además muy importante principalmente a la hora de escribir bash scripts. Hablamos de las redirecciones, las expansiones aritméticas y las expansiones de llaves.&lt;/p&gt;
 &lt;h2&gt;Redirecciones&lt;/h2&gt;
-&lt;p&gt;A la hora de escribir un script en bash la mayoria de veces necesitaremos usar estas, al menos para redireccionar los posibles errores que pueda lanzar una determinada expresion.&lt;/p&gt;
-&lt;p&gt;Como muchos ya saben en Linux todo es un archivo, es asi que la &lt;a href="http://es.wikipedia.org/wiki/Entrada_est%C3%A1ndar" target="_blank"&gt;Entrada y Salida estandar&lt;/a&gt;&amp;nbsp; son los archivos que se encuentran en /dev/stdin y dev/sdout respectivamente. Pero tambien tenemos el archivo stderr en /dev/stderr, pero estos ademas tienen un &lt;a href="http://es.wikipedia.org/wiki/Descriptor_de_archivo" target="_blank"&gt;descriptor de archivo&lt;/a&gt; (un numero) que nos permite referirnos a estos de ese modo. Sus descriptores son como sigue:&lt;/div&gt;&lt;/p&gt;
+&lt;p&gt;A la hora de escribir un script en bash la mayoría de veces necesitaremos usar estas, al menos para redireccionar los posibles errores que pueda lanzar una determinada expresión.&lt;/p&gt;
+&lt;p&gt;Como muchos ya saben en Linux todo es un archivo, es así que la &lt;a href="http://es.wikipedia.org/wiki/Entrada_est%C3%A1ndar" target="_blank"&gt;Entrada y Salida estándar&lt;/a&gt;&amp;nbsp; son los archivos que se encuentran en /dev/stdin y dev/sdout respectivamente. Pero también tenemos el archivo stderr en /dev/stderr, pero estos además tienen un &lt;a href="http://es.wikipedia.org/wiki/Descriptor_de_archivo" target="_blank"&gt;descriptor de archivo&lt;/a&gt; (un numero) que nos permite referirnos a estos de ese modo. Sus descriptores son como sigue:&lt;/div&gt;&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1072,32 +1070,32 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;0&lt;/td&gt;
-&lt;td&gt;Entrada estandar(stdin)&lt;/td&gt;
+&lt;td&gt;Entrada estándar(stdin)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;1&lt;/td&gt;
-&lt;td&gt;Salida estandar(stdout)&lt;/td&gt;
+&lt;td&gt;Salida estándar(stdout)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;2&lt;/td&gt;
-&lt;td&gt;Error estandar(stderr)&lt;/td&gt;
+&lt;td&gt;Error estándar(stderr)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;Normalmente si queremos redireccionar la salida de un comando, los cuales usan la salida estandar por defecto, a un archivo por ejemplo, es tan simple como hacer esto:&lt;/p&gt;
+&lt;p&gt;Normalmente si queremos redireccionar la salida de un comando, los cuales usan la salida estándar por defecto, a un archivo por ejemplo, es tan simple como hacer esto:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;ls&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;programas&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;txt&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Ese es su uso mas simple, claro la salida estandar tambien podria redirigirse a otro comando usando &lt;a href="http://es.tldp.org/COMO-INSFLUG/COMOs/Bash-Prog-Intro-COMO/Bash-Prog-Intro-COMO-4.html" title="tuberias bash"&gt;tuberia&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Ese es su uso mas simple, claro la salida estándar también podría redirigirse a otro comando usando &lt;a href="http://es.tldp.org/COMO-INSFLUG/COMOs/Bash-Prog-Intro-COMO/Bash-Prog-Intro-COMO-4.html" title="tuberías bash"&gt;tuberia&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Los operadores que usamos en redirecciones son los siguientes:&lt;/p&gt;
 &lt;p&gt;| Operador      |   Descripción                                                                                                                 |
-   |     &amp;gt;         | Redireccona la salida al archivo que le sigue, si no existe se crea y si existe se sobre escribe.                             |
-   |     &amp;gt;&amp;gt;        | Igual que al anterior con la excepcion de que este añade la salida al final del archivo, es decir, no lo sobreescribe.        |
-   |     2&amp;gt;&amp;amp;1      | Redirecciona la salida estandar y error estandar si hay alguno, del comando o programa al mismo archivo.(Este es mas bien   una                  combinacion de operadores, no un operador en si).                                                                             |
-   |     &amp;amp;&amp;gt;        | Lo mismo que el anterior, pero este funciona en versiones mas recientes, no en versionas muy viejas.(Este es mas bien una combinacion de operadores, no un operador en si).                                                                                                  |&lt;/p&gt;
-&lt;p&gt;*Nota: Reconozco que lo anterior esta probremente explicado y deja muchas cosas de lado, por eso recomiendo leer &lt;a href="http://0x945.wordpress.com/2011/05/01/bash-operadores-de-redireccion/"&gt;en este link&lt;/a&gt; al respecto.&lt;/p&gt;
-&lt;p&gt;Algunas cosas de lo que vemos en esa tabla podria no quedar claro sin un ejemplo, asi que veamos algunos ejemplos basicos: &lt;/p&gt;
+   |     &amp;gt;         | Redirecciona la salida al archivo que le sigue, si no existe se crea y si existe se sobre escribe.                             |
+   |     &amp;gt;&amp;gt;        | Igual que al anterior con la excepción de que este añade la salida al final del archivo, es decir, no lo sobreescribe.        |
+   |     2&amp;gt;&amp;amp;1      | Redirecciona la salida estándar y error estándar si hay alguno, del comando o programa al mismo archivo.(Este es mas bien   una                  combinación de operadores, no un operador en si).                                                                             |
+   |     &amp;amp;&amp;gt;        | Lo mismo que el anterior, pero este funciona en versiones mas recientes, no en versiones muy viejas.(Este es mas bien una combinación de operadores, no un operador en si).                                                                                                  |&lt;/p&gt;
+&lt;p&gt;*Nota: Reconozco que lo anterior esta pobre-mente explicado y deja muchas cosas de lado, por eso recomiendo leer &lt;a href="http://0x945.wordpress.com/2011/05/01/bash-operadores-de-redireccion/"&gt;en este link&lt;/a&gt; al respecto.&lt;/p&gt;
+&lt;p&gt;Algunas cosas de lo que vemos en esa tabla podría no quedar claro sin un ejemplo, así que veamos algunos ejemplos básicos: &lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt; &lt;span class="n"&gt;ls&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;uniq&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;programas&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;txt&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -1107,33 +1105,33 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Ahora tambien se nos agrego al archivo los programas instalados en /opt.&lt;/p&gt;
+&lt;p&gt;Ahora también se nos agrego al archivo los programas instalados en /opt.&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;ls&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;lista&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;txt&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;amp;&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;He puesto /tce/bin a sabienda de que no existe, lo que hace lo de arriba es lo siguiente: Primero redirecciona la salida del comando ls a lista.txt, si se produce algun error(observa el 2, identificador de stderr) lo redirecciona a la salida estandar nuevamente, el cual ya ha sido redireccionado al archivo, de modo que, tanto si el comando es exitoso como si se produce un error se enviara al archivo.txt.&lt;/p&gt;
+&lt;p&gt;He puesto /etc/bin a sabiendas de que no existe, lo que hace lo de arriba es lo siguiente: Primero redirecciona la salida del comando ls a lista.txt, si se produce algún error(observa el 2, identificador de stderr) lo redirecciona a la salida estándar nuevamente, el cual ya ha sido redireccionado al archivo, de modo que, tanto si el comando es exitoso como si se produce un error se enviara al archivo.txt.&lt;/p&gt;
 &lt;p&gt;El orden es importante, si se cambia el orden de las redirecciones en este caso (el de este ejemplo), no funcionaria.&lt;/p&gt;
-&lt;p&gt;En la mayoria de los sistemas mas recientes (o en todos) podriamos hacer lo anterior con &amp;amp;&amp;gt; del siguiente modo:&lt;/p&gt;
+&lt;p&gt;En la mayoría de los sistemas mas recientes (o en todos) podríamos hacer lo anterior con &amp;amp;&amp;gt; del siguiente modo:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;ls&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;lista&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;txt&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Sin duda, es mas sutil la ultima forma.&lt;/p&gt;
-&lt;p&gt;Pero lo mas usado segun yo es redirigir la salida de errores que se puedan producir en un programa, comando o script a &lt;a href="http://es.wikipedia.org/wiki//dev/null"&gt;/dev/null&lt;/a&gt;. Este archivo es el black hole de Linux, es la nada, todo lo que va ahi simplemente se pierde.&lt;/p&gt;
+&lt;p&gt;Pero lo mas usado según yo es redirigir la salida de errores que se puedan producir en un programa, comando o script a &lt;a href="http://es.wikipedia.org/wiki//dev/null"&gt;/dev/null&lt;/a&gt;. Este archivo es el black hole de Linux, es la nada, todo lo que va ahí simplemente se pierde.&lt;/p&gt;
 &lt;p&gt;Veamos el siguiente ejemplo:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;tar&lt;/span&gt; &lt;span class="n"&gt;jcvf&lt;/span&gt; &lt;span class="n"&gt;logs&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bz2&lt;/span&gt;  &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;messages&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;null&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Ese tipo de uso es bastante comun y util, lo que hacemos ahi es redireccionar la salida de errores (observar el 2) a /dev/null, asi no veriamos errores ni seria interrumpido el escript por posibles salida de errores.&lt;/p&gt;
-&lt;h2&gt;Expansiones aritmeticas&lt;/h2&gt;
-&lt;p&gt;Esto es muy interesante y es bastante simple tambien, esto nos permite ejecutar operaciones aritmeticas en la terminal! El formato es:&lt;/p&gt;
+&lt;p&gt;Ese tipo de uso es bastante común y útil, lo que hacemos ahí es redireccionar la salida de errores (observar el 2) a /dev/null, así no veríamos errores ni seria interrumpido el script por posibles salida de errores.&lt;/p&gt;
+&lt;h2&gt;Expansiones aritméticas&lt;/h2&gt;
+&lt;p&gt;Esto es muy interesante y es bastante simple también, esto nos permite ejecutar operaciones aritméticas en la terminal! El formato es:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;expresion&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Los operadores aritmeticos:&lt;/p&gt;
+&lt;p&gt;Los operadores aritméticos:&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1168,9 +1166,9 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;&lt;em&gt;Nota: Cabe aclarar que las expresiones aritmeticas solo trabajan con numeros enteros, asi que estos seran redondeados automaticamente 
-aqui. Por ejemplo, si divides 7 entre 2, obtendra como resultado solo 3 y no la parte decimal.&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Algunos ejemplos basicos:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Nota: Cabe aclarar que las expresiones aritméticas solo trabajan con números enteros, así que estos serán redondeados automáticamente 
+aquí. Por ejemplo, si divides 7 entre 2, obtendra como resultado solo 3 y no la parte decimal.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Algunos ejemplos básicos:&lt;/strong&gt;&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;n3x07&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Suma de 5 + 4 = &amp;quot;&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="n"&gt;Suma&lt;/span&gt; &lt;span class="n"&gt;de&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="mi"&gt;9&lt;/span&gt;
 
@@ -1191,36 +1189,36 @@ aqui. Por ejemplo, si divides 7 entre 2, obtendra como resultado solo 3 y no la 
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Cabe decir, que el espacio que se pueda dejar entre la expresion no es relevante, es decir, $((2*2)) y $((2 * 2)) es igual, no da error ni resultados desiguales.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Estas tambien soportan expresiones anidadas:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Cabe decir, que el espacio que se pueda dejar entre la expresión no es relevante, es decir, $((2*2)) y $((2 * 2)) es igual, no da error ni resultados desiguales.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Estas también soportan expresiones anidadas:&lt;/strong&gt;&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;n3x07&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;(5+4)*10 = &amp;quot;&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="mi"&gt;90&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Tambien se podria usar parentesis simples (no dobles) cuando usemos subexpresiones como aqui, ejemplo:&lt;/p&gt;
+&lt;p&gt;También se podría usar paréntesis simples (no dobles) cuando usemos subexpresiones como aquí, ejemplo:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;n3x07&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;5 + 4 * 10 = &amp;quot;&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(((&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;90&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Como ven ahi no tuvimos que usar en la subexpresion dobles parentesis ni el signo de dolar $.&lt;/p&gt;
+&lt;p&gt;Como ven ahí no tuvimos que usar en la subexpresion dobles paréntesis ni el signo de dolar $.&lt;/p&gt;
 &lt;h2&gt;Expansiones de llaves&lt;/h2&gt;
-&lt;p&gt;Con estas puedes crear varios archivos por ejemplo, mejor veamos como funcionan luego podran darles los usos que quieran.&lt;/p&gt;
-&lt;p&gt;Digamos que quieren imprimir todas las posibles combinaciones de dos palabras en el abecedario, entonces hariamos lo siguiente:&lt;/p&gt;
+&lt;p&gt;Con estas puedes crear varios archivos por ejemplo, mejor veamos como funcionan luego podrán darles los usos que quieran.&lt;/p&gt;
+&lt;p&gt;Digamos que quieren imprimir todas las posibles combinaciones de dos palabras en el abecedario, entonces haríamos lo siguiente:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;..&lt;/span&gt;&lt;span class="n"&gt;Z&lt;/span&gt;&lt;span class="p"&gt;}{&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;..&lt;/span&gt;&lt;span class="n"&gt;Z&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Etonces echo imprimira todas las combinaciones de dos letras en el abecedario, haganlo en su terminal y veran el resultado, no lo pongo aqui porque es algo extenso.&lt;/p&gt;
-&lt;p&gt;Entonces ya tenemos una idea de como funciona, mas o menos funciona asi {element1, elemento2, elemento3...elemtoN} es decir todos los elementos que quieren, tambien se puede con {A..Z} esto es desde A hasta Z, {a..z} igual que la anterior pero minusculas, {0..9} si como lo has pensado, los numeros del 0 al 9, tambien puedes intercambiarlos: {Z..A}, {z..a} y {9..0}, etc., en fin, rangos.&lt;/p&gt;
-&lt;p&gt;Supongamos que tenemos una camara de videovigilancia de la cual guardamos las grabaciones por mes, supongamos que queremos hacer directorios para guardar todas las grabaciones del año 2012, hariamos asi:&lt;/p&gt;
+&lt;p&gt;Entonces echo imprimirá todas las combinaciones de dos letras en el abecedario, haganlo en su terminal y verán el resultado, no lo pongo aquí porque es algo extenso.&lt;/p&gt;
+&lt;p&gt;Entonces ya tenemos una idea de como funciona, mas o menos funciona así {element1, elemento2, elemento3...elemtoN} es decir todos los elementos que quieren, también se puede con {A..Z} esto es desde A hasta Z, {a..z} igual que la anterior pero minúsculas, {0..9} si como lo has pensado, los números del 0 al 9, también puedes intercambiarlos: {Z..A}, {z..a} y {9..0}, etc., en fin, rangos.&lt;/p&gt;
+&lt;p&gt;Supongamos que tenemos una cámara de videovigilancia de la cual guardamos las grabaciones por mes, supongamos que queremos hacer directorios para guardar todas las grabaciones del año 2012, haríamos así:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;n3x07&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;mkdir&lt;/span&gt; &lt;span class="n"&gt;grabacion_2012&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mf"&gt;1..9&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="n"&gt;grabacion_2012&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mf"&gt;10..12&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Y listo se ahorraron hacer todas esos directorios uno a uno.&lt;/p&gt;
-&lt;p&gt;Estas tambien permiten expresions anidadas, ejemplo:&lt;/p&gt;
+&lt;p&gt;Estas también permiten expresiones anidadas, ejemplo:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;n3x07&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mf"&gt;0..9&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;..&lt;/span&gt;&lt;span class="n"&gt;Z&lt;/span&gt;&lt;span class="p"&gt;}}&lt;/span&gt;&lt;span class="n"&gt;z&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
