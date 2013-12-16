@@ -1,51 +1,204 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <title>// sysflux</title>
-  <meta name="author" content="A. J. Javier" />
-<meta name="keywords" content="A. J. Javier, blog, python, java, linux">  <link href='http://fonts.googleapis.com/css?family=Vollkorn:400' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="/theme/css/main.css" type="text/css" />
-  <link href="/" type="application/atom+xml" rel="alternate" title="// sysflux ATOM Feed" />
-<link href="/rss.xml" type="application/atom+xml" rel="alternate" title="// sysflux RSS Feed" />  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-</head>
-<body id="index" class="home">
-  <header id="banner" class="body">
-	  <h1><a href="">// sysflux </a></h1>
-      <nav>
-      	<ul>
-<li ><a href="/category/blog.html">/blog</a></li>         <li><a href="/archives.html">/archivo</a></li>
-         <li><a href="/tags.html">/etiquetas</a></li>
-<li><a href="/pages/about.html">/about</a></li><li><a href="/pages/code.html">/code</a></li>         <li><a href="/rss.xml">/rss</a></li>
-       </ul>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=endge, chrome=IE8" />
+    <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
+    <title>// Sysflux</title>
+    <!--[if lte IE 8]><script type="text/javascript" src="aljavier.github.io/theme/js/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" type="text/css" href="aljavier.github.io/theme/css/skeleton.css" />
+    <link rel="stylesheet" type="text/css" href="aljavier.github.io/theme/css/theme.css" />
+	<link href='http://fonts.googleapis.com/css?family=Belleza' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" type="image/png" href="aljavier.github.io/favicon.png" />
+    <!--[if lte IE 8]><link rel="shortcut icon" type="image/x-icon" href="aljavier.github.io/favicon.ico" /><![endif]-->
+    <link rel="alternate" type="application/atom+xml"
+                           title="// Sysflux — Flux Atom"
+                           href="aljavier.github.io/" /> 
+    <link rel ="alternate" type="application/rss+xml"
+                           title="// Sysflux — Flux RSS"
+                           href="aljavier.github.io/rss.xml" /> 
+  </head>
+  <body>
+    <div id="page">
+      <header id="page-head">
+		 <hgroup>
+        	<h1>
+          		<a href="aljavier.github.io/index.html">// Sysflux</a>
+        	</h1>
+			<h2>cat /dev/brain | grep 'code\|sysadmin\|linux\|random_stuff' >> blog.txt</h2>
+	     </hgroup>
+	<nav>
+	      	<ul>
+<li ><a href="aljavier.github.io/category/blog.html">blog</a></li>			 <li><a href="aljavier.github.io/archives.html">archivo</a></li>
+			 <li><a href="aljavier.github.io/tags.html">etiquetas</a></li>
+<li><a href="aljavier.github.io/pages/about.html">/about</a></li>	       </ul>
      </nav>
-  </header><!-- /#banner --><section id="content" class="body">
-<h2 class="year">2013</h2><dl>	
-<dt class="month">Noviembre</dt>
-<dd><span class="day">01</span>  <a href='recursividad-versus-iteratividad.html' title='Un función recursiva es aquella que se llama a si mismo, normalmente, un número finito de veces, aunque si el programador cometió un error lógico podría ser infinito. Por su lado, la iteratividad es ejecutar una determinada acción un x número de veces. El contraste esta cuando queremos ejecutar una ...'>Recursividad versus iteratividad</a></dd><dt class="month">Octubre</dt>
-<dd><span class="day">07</span>  <a href='instalacion-teamviewer-archlinux-x86_64.html' title='Para instalar Teamviewer en Arch Linux x86_64 (vamos 64 bits), hay que tener en cuenta unas cuantas cosas; teamviewer se ejecuta en GNU/Linux emulando un entorno Windows, de modo que en verdad se ejecuta el binario para Windows usando wine, el mismo no requiere que tengas wine instalado porque ...'>Instalación de Teamviewer en Arch Linux x86_64</a></dd><dt class="month">Septiembre</dt>
-<dd><span class="day">23</span>  <a href='tutorial-rkhunter.html' title='En este post comparto con ustedes como podemos buscar rootkits, directorios y/o archivos ocultos en nuestro sistema Unix (Linux, BSD, etc.), entre otros, para ello usaremos esta estupenda herramienta llamada Rkhunter o Rootkit Hunter. Qué es Rkhunter? Según wikipedia es una herramienta para sistemas Unix que detecta los rootkies ...'>Buscando rootkits con Rkhunter</a></dd><dd><span class="day">22</span>  <a href='creando-una-wiki-con-mediawiki.html' title='Introducción Veremos como instalar una wiki en un servidor web montado en nuestro propio ordenador, subirla a un hosting online no seria muy distinto de lo que haremos aquí así que si deseas subirla a algún hosting puedes hacerlo facilmente a raíz de lo explicado aquí. Las razones por las ...'>Creando una wiki con MediaWiki</a></dd><dt class="month">Agosto</dt>
-<dd><span class="day">16</span>  <a href='tutorial-virtualenv.html' title='Instalación Debian/Ubuntu apt-get install virtualenv Arch Linux pacman -S virtualenv Se creo el directorio donde guardar todos los entornos virtuales: ~/virtualenv Para crear un entorno virtual cualquiera: virtualenv ~/virtualenv/nombre En el caso que no se quiera usar ningún paquete instalado en el sistema seria así: virtualenv ~/virtualenv ...'>Virtualenv: Entornos virtuales de desarrollo para Python</a></dd><dt class="month">Julio</dt>
-<dd><span class="day">07</span>  <a href='tutorial-api-shodan-para-python.html' title='En este post veremos que usar la API de Shodan para Python es bastante sencillo, las ventajas de esto es que podemos utilizar este buscador desde nuestras aplicaciones en Python y desde la linea de comandos, la API también esta disponible para Perl y Ruby. Sino sabes lo que es ...'>Usando la API de Shodan para Python</a></dd><dt class="month">Junio</dt>
-<dd><span class="day">20</span>  <a href='diccionarios-con-hashmap-y-treemap-en-java.html' title='Las colecciones nos permiten agrupar un conjunto de objetos del mismo tipo o al menos lo ideal es eso, que sean del mismo tipo ya que pueden agrupar objetos diferentes pero no es aconsejable, le quita las ventajas de usar los llamados genéricos y haciendo así perdemos un poco el ...'>Diccionarios con HashMap y TreeMap en Java</a></dd><dd><span class="day">10</span>  <a href='bash-redirecciones-y-expansiones.html' title='Veremos algo bien breve y sencillo para muchos, pero además muy importante principalmente a la hora de escribir bash scripts. Hablamos de las redirecciones, las expansiones aritméticas y las expansiones de llaves. Redirecciones A la hora de escribir un script en bash la mayoría de veces necesitaremos usar estas, al ...'>Redirecciones y expansiones en bash</a></dd></dl>
-</section>
-<footer id="contentinfo" class="body">
-    <address id="about" class="vcard body">
-      © 2013 - sysflux - <a
-          href="mailto:nullc0den4m3@gmail.com">correo</a>|<a
-	  href="#">gpg key</a>|<a
-          href="http://twitter.com/n3x07">twitter</a>|<a
-          href="https://github.com/aljavier">github</a> <span id="license">El contenido está bajo <a href="http://creativecommons.org/licenses/by-sa/3.0/es">licencia Creative Commons</a></span>
-    </address><!-- /#about -->
-  </footer><!-- /#contentinfo -->
-<script type="text/javascript">
-    var disqus_shortname = 'sysflux';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-</script>
-</body>
+	
+      </header>
+      
+      <div id="page-body">
+        <section id="page-main" role="main">
+      <h1>Archives</h1>
+       <dl>
+          <dt>
+             <h2>November 2013</h2>
+             <ul>
+          
+             <li>
+                <a rel="bookmark"
+                  href="aljavier.github.io/recursividad-versus-iteratividad.html"
+                  title="Lien permanent vers «Recursividad versus iteratividad»">
+                Recursividad versus iteratividad
+                </a>
+             </li>
+
+             </ul>
+          </dt>
+          <dt>
+             <h2>October 2013</h2>
+             <ul>
+          
+             <li>
+                <a rel="bookmark"
+                  href="aljavier.github.io/instalacion-teamviewer-archlinux-x86_64.html"
+                  title="Lien permanent vers «Instalación de Teamviewer en Arch Linux x86_64»">
+                Instalación de Teamviewer en Arch Linux x86_64
+                </a>
+             </li>
+
+             </ul>
+          </dt>
+          <dt>
+             <h2>September 2013</h2>
+             <ul>
+          
+             <li>
+                <a rel="bookmark"
+                  href="aljavier.github.io/tutorial-rkhunter.html"
+                  title="Lien permanent vers «Buscando rootkits con Rkhunter»">
+                Buscando rootkits con Rkhunter
+                </a>
+             </li>
+
+          
+             <li>
+                <a rel="bookmark"
+                  href="aljavier.github.io/creando-una-wiki-con-mediawiki.html"
+                  title="Lien permanent vers «Creando una wiki con MediaWiki»">
+                Creando una wiki con MediaWiki
+                </a>
+             </li>
+
+             </ul>
+          </dt>
+          <dt>
+             <h2>August 2013</h2>
+             <ul>
+          
+             <li>
+                <a rel="bookmark"
+                  href="aljavier.github.io/tutorial-virtualenv.html"
+                  title="Lien permanent vers «Virtualenv: Entornos virtuales de desarrollo para Python»">
+                Virtualenv: Entornos virtuales de desarrollo para Python
+                </a>
+             </li>
+
+             </ul>
+          </dt>
+          <dt>
+             <h2>July 2013</h2>
+             <ul>
+          
+             <li>
+                <a rel="bookmark"
+                  href="aljavier.github.io/tutorial-api-shodan-para-python.html"
+                  title="Lien permanent vers «Usando la API de Shodan para Python»">
+                Usando la API de Shodan para Python
+                </a>
+             </li>
+
+             </ul>
+          </dt>
+          <dt>
+             <h2>June 2013</h2>
+             <ul>
+          
+             <li>
+                <a rel="bookmark"
+                  href="aljavier.github.io/diccionarios-con-hashmap-y-treemap-en-java.html"
+                  title="Lien permanent vers «Diccionarios con HashMap y TreeMap en Java»">
+                Diccionarios con HashMap y TreeMap en Java
+                </a>
+             </li>
+
+          
+             <li>
+                <a rel="bookmark"
+                  href="aljavier.github.io/bash-redirecciones-y-expansiones.html"
+                  title="Lien permanent vers «Redirecciones y expansiones en bash»">
+                Redirecciones y expansiones en bash
+                </a>
+             </li>
+
+             </ul>
+          </dt>
+       </dl>
+      </section> <!-- /#page-main -->
+
+	  	<aside id="page-side">
+          <!-- begin includes/sidebar.html -->
+          <nav>
+            <h3>/dev/random</h3>
+            <ul>
+				<li><a href="aljavier.github.io/recursividad-versus-iteratividad.html">Recursividad versus iteratividad</a></li>
+				<li><a href="aljavier.github.io/instalacion-teamviewer-archlinux-x86_64.html">Instalación de Teamviewer en Arch Linux x86_64</a></li>
+				<li><a href="aljavier.github.io/tutorial-rkhunter.html">Buscando rootkits con Rkhunter</a></li>
+				<li><a href="aljavier.github.io/creando-una-wiki-con-mediawiki.html">Creando una wiki con MediaWiki</a></li>
+				<li><a href="aljavier.github.io/tutorial-virtualenv.html">Virtualenv: Entornos virtuales de desarrollo para Python</a></li>
+				<li><a href="aljavier.github.io/tutorial-api-shodan-para-python.html">Usando la API de Shodan para Python</a></li>
+				<li><a href="aljavier.github.io/diccionarios-con-hashmap-y-treemap-en-java.html">Diccionarios con HashMap y TreeMap en Java</a></li>
+            </ul>
+          </nav>
+
+          <nav>
+            <h3>/blogroll</h3>
+            <ul>
+                <li><a href="http://www.elladodelmal.com/">Chema Alonso's blog</a></li>
+                <li><a href="http://www.hackplayers.com/">Hackplayers</a></li>
+                <li><a href="http://blog.hispasec.com/">Hispasec</a></li>
+                <li><a href="http://wiki.bash-hackers.org/">Bash-Hackers Wiki</a></li>
+                <li><a href="http://joedicastro.com/category/blog.html">Joe Di Castro's blog</a></li>
+            </ul>
+          </nav>
+
+          <nav>
+            <h3>/links</h3>
+            <ul>
+              <li><a href="aljavier.github.io/rss.xml">Flux RSS</a></li>
+              <li><a href="https://github.com/aljavier/">GitHub</a></li>
+              <li><a href="ddg.gg">DuckDuckGo</a></li>
+              <li><a href="#">Twitter</a></li>
+            </ul>
+          </nav>
+          <!-- end includes/sidebar.html --></aside> <!-- /#page-side -->
+      </div>  <!-- /#page-body -->
+
+      <footer id="page-foot">
+	    <p class="footer-right">Contenido bajo licencia <a title="Creative Commons Attribution-ShareAlike" href="https://creativecommons.org/licenses/by-sa/4.0/legalcode">CC BY-SA</a>
+		&nbsp;|&nbsp;Powered by <a href="http://pelican.readthedocs.org">Pelican</a></p>
+		<p class="footer-left">Copyright &copy; 2013 - Sysflux blog<p>
+      </footer>
+    </div> <!-- /#page -->
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-45917501-1']);
+          _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); 
+        ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </body>
 </html>

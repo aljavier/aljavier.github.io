@@ -1,71 +1,145 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <title>// sysflux</title>
-  <meta name="author" content="A. J. Javier" />
-<meta name="keywords" content="A. J. Javier, blog, python, java, linux">  <link href='http://fonts.googleapis.com/css?family=Vollkorn:400' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="/theme/css/main.css" type="text/css" />
-  <link href="/" type="application/atom+xml" rel="alternate" title="// sysflux ATOM Feed" />
-<link href="/rss.xml" type="application/atom+xml" rel="alternate" title="// sysflux RSS Feed" />  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-</head>
-<body id="index" class="home">
-  <header id="banner" class="body">
-	  <h1><a href="">// sysflux </a></h1>
-      <nav>
-      	<ul>
-<li ><a href="/category/blog.html">/blog</a></li>         <li><a href="/archives.html">/archivo</a></li>
-         <li><a href="/tags.html">/etiquetas</a></li>
-<li><a href="/pages/about.html">/about</a></li><li><a href="/pages/code.html">/code</a></li>         <li><a href="/rss.xml">/rss</a></li>
-       </ul>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=endge, chrome=IE8" />
+    <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
+    <title>// Sysflux — Etiquetas</title>
+    <!--[if lte IE 8]><script type="text/javascript" src="aljavier.github.io/theme/js/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" type="text/css" href="aljavier.github.io/theme/css/skeleton.css" />
+    <link rel="stylesheet" type="text/css" href="aljavier.github.io/theme/css/theme.css" />
+	<link href='http://fonts.googleapis.com/css?family=Belleza' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" type="image/png" href="aljavier.github.io/favicon.png" />
+    <!--[if lte IE 8]><link rel="shortcut icon" type="image/x-icon" href="aljavier.github.io/favicon.ico" /><![endif]-->
+    <link rel="alternate" type="application/atom+xml"
+                           title="// Sysflux — Flux Atom"
+                           href="aljavier.github.io/" /> 
+    <link rel ="alternate" type="application/rss+xml"
+                           title="// Sysflux — Flux RSS"
+                           href="aljavier.github.io/rss.xml" /> 
+
+    <script type="text/javascript" src="aljavier.github.io/theme/js/microTags.js"></script>
+    <script>
+      function tag_cloud_init() {
+        var ul = document.getElementById("tag-cloud");
+        window.tagCloud = new microTags(ul, {
+          'min-size': .95,
+          'max-size': 3.5,
+          'min-angle': -8,
+          'max-angle': 8
+        });
+      }
+      if (window.addEventListener) window.addEventListener("load", tag_cloud_init, false);
+      else if (window.attachEvent) window.attachEvent("onload", tag_cloud_init);
+      else window.onload = tag_cloud_init;
+    </script>
+  </head>
+  <body>
+    <div id="page">
+      <header id="page-head">
+		 <hgroup>
+        	<h1>
+          		<a href="aljavier.github.io/index.html">// Sysflux</a>
+        	</h1>
+			<h2>cat /dev/brain | grep 'code\|sysadmin\|linux\|random_stuff' >> blog.txt</h2>
+	     </hgroup>
+	<nav>
+	      	<ul>
+<li ><a href="aljavier.github.io/category/blog.html">blog</a></li>			 <li><a href="aljavier.github.io/archives.html">archivo</a></li>
+			 <li><a href="aljavier.github.io/tags.html">etiquetas</a></li>
+<li><a href="aljavier.github.io/pages/about.html">/about</a></li>	       </ul>
      </nav>
-  </header><!-- /#banner --><section id="content" class="body">
-  <ul id="cloud">      <li class="tag-4"><a href="tag/api.html">api</a></li>
-      <li class="tag-4"><a href="tag/Arch%20Linux.html">Arch Linux</a></li>
-      <li class="tag-4"><a href="tag/bash.html">bash</a></li>
-      <li class="tag-4"><a href="tag/diccionarios.html">diccionarios</a></li>
-      <li class="tag-4"><a href="tag/factorial.html">factorial</a></li>
-      <li class="tag-4"><a href="tag/fibonacci.html">fibonacci</a></li>
-      <li class="tag-4"><a href="tag/generics.html">generics</a></li>
-      <li class="tag-4"><a href="tag/HashMap.html">HashMap</a></li>
-      <li class="tag-4"><a href="tag/iteratividad.html">iteratividad</a></li>
-      <li class="tag-4"><a href="tag/java.html">java</a></li>
-      <li class="tag-4"><a href="tag/mediawiki.html">mediawiki</a></li>
-      <li class="tag-4"><a href="tag/pacman.html">pacman</a></li>
-      <li class="tag-1"><a href="tag/python.html">python</a></li>
-      <li class="tag-4"><a href="tag/recursividad.html">recursividad</a></li>
-      <li class="tag-4"><a href="tag/rkhunter.html">rkhunter</a></li>
-      <li class="tag-4"><a href="tag/rootkits.html">rootkits</a></li>
-      <li class="tag-2"><a href="tag/scripting.html">scripting</a></li>
-      <li class="tag-4"><a href="tag/security.html">security</a></li>
-      <li class="tag-4"><a href="tag/shell.html">shell</a></li>
-      <li class="tag-4"><a href="tag/shodan.html">shodan</a></li>
-      <li class="tag-4"><a href="tag/teamviewer.html">teamviewer</a></li>
-      <li class="tag-4"><a href="tag/time.html">time</a></li>
-      <li class="tag-4"><a href="tag/TreeMap.html">TreeMap</a></li>
-      <li class="tag-4"><a href="tag/unix.html">unix</a></li>
-      <li class="tag-4"><a href="tag/virtualenv.html">virtualenv</a></li>
-      <li class="tag-4"><a href="tag/wiki.html">wiki</a></li>
-      <li class="tag-4"><a href="tag/xampp.html">xampp</a></li>
-  </ul>
-</section>
-<footer id="contentinfo" class="body">
-    <address id="about" class="vcard body">
-      © 2013 - sysflux - <a
-          href="mailto:nullc0den4m3@gmail.com">correo</a>|<a
-	  href="#">gpg key</a>|<a
-          href="http://twitter.com/n3x07">twitter</a>|<a
-          href="https://github.com/aljavier">github</a> <span id="license">El contenido está bajo <a href="http://creativecommons.org/licenses/by-sa/3.0/es">licencia Creative Commons</a></span>
-    </address><!-- /#about -->
-  </footer><!-- /#contentinfo -->
-<script type="text/javascript">
-    var disqus_shortname = 'sysflux';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-</script>
-</body>
+	
+      </header>
+      
+      <div id="page-body">
+        <section id="page-main" role="main">
+      <h1>Etiquetas</h1>
+      <ul id="tag-cloud">
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/wiki.html">wiki</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/xampp.html">xampp</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/hashmap.html">HashMap</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/mediawiki.html">mediawiki</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/unix.html">unix</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/api.html">api</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/fibonacci.html">fibonacci</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/recursividad.html">recursividad</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/iteratividad.html">iteratividad</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/virtualenv.html">virtualenv</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/teamviewer.html">teamviewer</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/java.html">java</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/diccionarios.html">diccionarios</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/rkhunter.html">rkhunter</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/factorial.html">factorial</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/generics.html">generics</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/shell.html">shell</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/rootkits.html">rootkits</a></li>
+      <li data-count="3" title="3 article(s)"><a href="aljavier.github.io/tag/python.html">python</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/shodan.html">shodan</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/bash.html">bash</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/pacman.html">pacman</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/treemap.html">TreeMap</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/arch-linux.html">Arch Linux</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/time.html">time</a></li>
+      <li data-count="1" title="1 article(s)"><a href="aljavier.github.io/tag/security.html">security</a></li>
+      <li data-count="2" title="2 article(s)"><a href="aljavier.github.io/tag/scripting.html">scripting</a></li>
+      </ul>
+      </section> <!-- /#page-main -->
+
+	  	<aside id="page-side">
+          <!-- begin includes/sidebar.html -->
+          <nav>
+            <h3>/dev/random</h3>
+            <ul>
+				<li><a href="aljavier.github.io/recursividad-versus-iteratividad.html">Recursividad versus iteratividad</a></li>
+				<li><a href="aljavier.github.io/instalacion-teamviewer-archlinux-x86_64.html">Instalación de Teamviewer en Arch Linux x86_64</a></li>
+				<li><a href="aljavier.github.io/tutorial-rkhunter.html">Buscando rootkits con Rkhunter</a></li>
+				<li><a href="aljavier.github.io/creando-una-wiki-con-mediawiki.html">Creando una wiki con MediaWiki</a></li>
+				<li><a href="aljavier.github.io/tutorial-virtualenv.html">Virtualenv: Entornos virtuales de desarrollo para Python</a></li>
+				<li><a href="aljavier.github.io/tutorial-api-shodan-para-python.html">Usando la API de Shodan para Python</a></li>
+				<li><a href="aljavier.github.io/diccionarios-con-hashmap-y-treemap-en-java.html">Diccionarios con HashMap y TreeMap en Java</a></li>
+            </ul>
+          </nav>
+
+          <nav>
+            <h3>/blogroll</h3>
+            <ul>
+                <li><a href="http://www.elladodelmal.com/">Chema Alonso's blog</a></li>
+                <li><a href="http://www.hackplayers.com/">Hackplayers</a></li>
+                <li><a href="http://blog.hispasec.com/">Hispasec</a></li>
+                <li><a href="http://wiki.bash-hackers.org/">Bash-Hackers Wiki</a></li>
+                <li><a href="http://joedicastro.com/category/blog.html">Joe Di Castro's blog</a></li>
+            </ul>
+          </nav>
+
+          <nav>
+            <h3>/links</h3>
+            <ul>
+              <li><a href="aljavier.github.io/rss.xml">Flux RSS</a></li>
+              <li><a href="https://github.com/aljavier/">GitHub</a></li>
+              <li><a href="ddg.gg">DuckDuckGo</a></li>
+              <li><a href="#">Twitter</a></li>
+            </ul>
+          </nav>
+          <!-- end includes/sidebar.html --></aside> <!-- /#page-side -->
+      </div>  <!-- /#page-body -->
+
+      <footer id="page-foot">
+	    <p class="footer-right">Contenido bajo licencia <a title="Creative Commons Attribution-ShareAlike" href="https://creativecommons.org/licenses/by-sa/4.0/legalcode">CC BY-SA</a>
+		&nbsp;|&nbsp;Powered by <a href="http://pelican.readthedocs.org">Pelican</a></p>
+		<p class="footer-left">Copyright &copy; 2013 - Sysflux blog<p>
+      </footer>
+    </div> <!-- /#page -->
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-45917501-1']);
+          _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); 
+        ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </body>
 </html>

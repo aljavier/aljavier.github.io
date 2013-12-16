@@ -1,0 +1,95 @@
+/* vim: ts=4 sw=4 et: */
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+table{margin:9px auto 27px auto;width:98%;font-size:15px;}
+thead{font-weight:bold;}
+thead th{padding:0px 6px;text-align:center;background:#2f4f4f;color:#d3d3d3;border:2px solid #fff;}
+thead td{}
+tbody td{padding:6px 4px;vertical-align:middle;}
+tbody th{}
+tbody .alt td{}
+tbody .alt th{}
+tfoot th{}
+tfoot td{}
+
+
+#page {
+    max-width: 980px;
+    min-width: 240px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+
+#page-head,
+#page-body,
+#page-foot {
+    clear: both;
+    margin: 0;
+    padding: 0;
+}
+
+#page-foot{
+    border-top:1px solid #ccc;
+}
+
+#page-body { 
+    margin: 0 1em;
+}
+
+#page-main, #page-side {
+    border-width: 0;
+}
+
+#page-side {
+    float: right;
+    width: 20%;
+    height: 100%;
+    margin-top: 0;
+}
+
+#page-main {
+    float:left;
+    height: 100%;
+    width: 75%;
+    /*border-right:1px dotted #ccc;*/
+    margin-left:7px;
+}
+
+.post-content{
+    margin-right:10px;
+}
+
+
+@media screen and (max-width: 550px) {
+    #page-main,
+    #page-side {
+        width: auto;
+        clear: both;
+        float: none;
+    }
+
+    #page-side ul {
+        column-count: 2;
+        -moz-column-count: 2;
+        -webkit-column-count: 2;
+        -o-column-count: 2;
+        -ms-column-count: 2;
+    }
+}
+
+@media screen and (max-width: 490px) {
+    #page-side ul {
+        column-count: auto;
+        -moz-column-count: auto;
+        -webkit-column-count: auto;
+        -o-column-count: auto;
+        -ms-column-count: auto;
+    }
+}
