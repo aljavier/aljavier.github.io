@@ -5,14 +5,14 @@
 #==============================================================================
 
 # Add personalized 404 & 403 error pages to direct templates
-DIRECT_TEMPLATES = ('index', 'tags', 'archives', 'notfound', 'access_denied')
+DIRECT_TEMPLATES = ('index', 'tags', 'archives')
 
 # Default author (put your name)
 AUTHOR = u'A. J. Javier'
 
 # Your site name and subtitle
-SITENAME = u"// sysflux"
-SITESUBTITLE = u""
+SITENAME = u"// Sysflux"
+SITESUBTITLE = u"cat /dev/brain | grep 'code\|sysadmin\|linux\|random_stuff' >> blog.txt"
 
 # If you do manage multiple languages, you can set the date formatting here.
 DATE_FORMATS = {}
@@ -38,7 +38,7 @@ DISPLAY_PAGES_ON_MENU = True
 MD_EXTENSIONS = ['codehilite', 'extra']
 
 # A list of any Jinja2 extensions you want to use.
-JINJA_EXTENSIONS = ['jinja2.ext.do']
+#JINJA_EXTENSIONS = ['jinja2.ext.do']
 
 # Delete the output directory and just the generated files. Default = False
 DELETE_OUTPUT_DIRECTORY = False  # True for debugging, False for productive
@@ -136,7 +136,7 @@ REVERSE_CATEGORY_ORDER = False
 
 # theme to use to produce the output. can be the complete static path to a
 # theme folder, or chosen between the list of default themes
-THEME = "joe_theme"
+THEME = "urandom"
 
 # Static theme paths you want to copy. Default values is static, but if
 # your theme has other static paths, you can put them here.
@@ -168,14 +168,20 @@ PIWIK_URL = ""
 PIWIK_SITE_ID = "1"
 
 # A list of tuples (Title, Url) for links to appear on the footer.
-LINKS = ()
+LINKS = (('Chema Alonso\'s blog', 'http://www.elladodelmal.com/'),
+          ('Hackplayers', 'http://www.hackplayers.com/'),
+          ('Hispasec','http://blog.hispasec.com/'),
+          ('Bash-Hackers Wiki','http://wiki.bash-hackers.org/'),
+          ('Joe Di Castro\'s blog','http://joedicastro.com/category/blog.html'),)
 
 # A list of tuples (Title, Url) to appear in the “social” section.
-SOCIAL = ()
+SOCIAL = (('GitHub','https://github.com/aljavier/'),
+           ('DuckDuckGo', 'ddg.gg'),
+           ('Twitter','#'),)
 
 # Allows to add a button on the articles to tweet about them. Add you twitter
 # username if you want this button to appear.
-#TWITTER_USERNAME = "joe_di_castro"
+#TWITTER_USERNAME = ""
 
 
 # global metadata to all the contents

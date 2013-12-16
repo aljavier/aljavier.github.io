@@ -49,12 +49,35 @@ def cf_upload():
           '-K {cloudfiles_api_key} '
           'upload -c {cloudfiles_container} .'.format(**env))
 
+def git_change_branch(branch):
+    """Changes from one branch to other in a git repo"""
+    local("git checkout {0}".format(branch))
+
 @hosts(production)
 def publish():
-    local('pelican -s publishconf.py')
-    project.rsync_project(
-        remote_dir=dest_path,
-        exclude=".DS_Store",
-        local_dir=DEPLOY_PATH.rstrip('/') + '/',
-        delete=True
-    )
+    local('pelican content -s publishconf.py -o output/')
+    master_branch = "master"
+    publish_branch = "gh-pages"
+    remote = "origin"
+
+    # Push original changes to master
+    #push(remote, master_branch)
+
+    # Change to gh-pages branch
+    git_change_branch(publish_branch)
+
+    # Merge master into gh-pages
+    git_merge_branch(master_branch)
+
+    # Generate the html
+    generate(ABS_ROOT_DIR)
+
+    # Commit changes
+    now = time.strftime("%d %b %Y %H:%M:%S", time.localtime())
+    git_commit_all("Publication {0}".format(now))
+
+    # Push to gh-pages branch
+    git_push(remote, publish_branch)
+
+    # go to master
+    git_change_branch(master_branch)
