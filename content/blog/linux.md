@@ -1,0 +1,133 @@
+title: Linux the almighty operating system?
+date: 15-12-2013
+tags: linux, kernel, gnu, ubuntu, debian, freeebsd, mac os x, torvalds, freedom, software, kde, gnome, your mom, your sister, are all mine
+
+Linux (Listeni/ˈlɪnəks/ LIN-əks[6][7] or /ˈliːnʊks/ LEE-nuuks)[8][9][10] is a Unix-like and POSIX-compliant computer operating system assembled under the model of free and open source software development and distribution. The main form of distribution is through Linux distributions. The defining component of Linux is the Linux kernel,[11] an operating system kernel first released on 5 October 1991 by Linus Torvalds.[12][13] Because it considers Linux to be a variant of the GNU operating system, initiated in 1983 by Richard Stallman, the Free Software Foundation prefers the name GNU/Linux when referring to the operating system as a whole (see GNU/Linux naming controversy).[14][15][16][17]
+
+Linux was originally developed as a free operating system for Intel x86-based personal computers. It has since been ported to more computer hardware platforms than any other operating system. It is a leading operating system on servers and other big iron systems such as mainframe computers and supercomputers:[18][19][20] as of June 2013, more than 95% of the world's 500 fastest supercomputers run some variant of Linux,[21] including all the 44 fastest.[22] Linux also runs on embedded systems (devices where the operating system is typically built into the firmware and highly tailored to the system) such as mobile phones,[23] tablet computers, network routers, building automation controls, televisions[24][25] and video game consoles; the Android system in wide use on mobile devices is built on the Linux kernel.
+
+The development of Linux is one of the most prominent examples of free and open source software collaboration: the underlying source code may be used, modified, and distributed — commercially or non-commercially — by anyone under licenses such as the GNU General Public License. Typically, Linux is packaged in a format known as a Linux distribution for desktop and server use. Some popular mainstream Linux distributions include Debian (and its derivatives such as Ubuntu and Linux Mint), Fedora (and its derivatives such as the commercial Red Hat Enterprise Linux and its open equivalent CentOS), Mandriva/Mageia, openSUSE (and its commercial derivative SUSE Linux Enterprise Server), and Arch Linux. Linux distributions include the Linux kernel, supporting utilities and libraries and usually a large amount of application software to fulfill the distribution's intended use.
+
+A distribution oriented toward desktop use will typically include the windowing systems X11 and Wayland and an accompanying desktop environment such as GNOME or the KDE Software Compilation. Some such distributions may include a less resource intensive desktop such as LXDE or Xfce for use on older or less powerful computers. A distribution intended to run as a server may omit all graphical environments from the standard install and instead include other software to set up and operate a LAMP or a LYCE solution stack. Because Linux is freely redistributable, anyone may create a distribution for any intended use.
+
+
+| bla bla | bla bla | jajaja |
+|---------|---------|--------|
+| 1       | 2       | 3      |
+| x       |x        |x       |
+
+
+The Unix operating system was conceived and implemented in 1969 at AT&T's Bell Laboratories in the United States by Ken Thompson, Dennis Ritchie, Douglas McIlroy, and Joe Ossanna. It was first released in 1971, and initially, was written entirely in assembly language, a common practice at the time. Later, in a key pioneering approach in 1973, Unix was re-written in the programming language C by Dennis Ritchie (with exceptions to the kernel and I/O). The availability of an operating system written in a high-level language allowed easier portability to different computer platforms.
+
+With AT&T being required to license the operating system's source code to anyone who asked (due to an earlier antitrust case forbidding them from entering the computer business),[26] Unix grew quickly and became widely adopted by academic institutions and businesses. In 1984, AT&T divested itself of Bell Labs. Free of the legal obligation requiring free licensing, Bell Labs began selling Unix as a proprietary product.
+
+The GNU Project, started in 1983 by Richard Stallman, had the goal of creating a "complete Unix-compatible software system" composed entirely of free software. Work began in 1984.[27] Later, in 1985, Stallman started the Free Software Foundation and wrote the GNU General Public License (GNU GPL) in 1989. By the early 1990s, many of the programs required in an operating system (such as libraries, compilers, text editors, a Unix shell, and a windowing system) were completed, although low-level elements such as device drivers, daemons, and the kernel were stalled and incomplete.[28]
+
+Linus Torvalds has said that if the GNU kernel had been available at the time (1991), he would not have decided to write his own.[29]
+
+
+| bla bla | bla bla | jajaja |
+|---------|---------|--------|
+| 1       | 2       | 3      |
+| x       |x        |x       |
+
+
+BSD
+Main article: BSD
+
+Although not released until 1992 due to legal complications, development of 386BSD, from which NetBSD, OpenBSD and FreeBSD descended, predated that of Linux. Linus Torvalds has said that if 386BSD had been available at the time, he probably would not have created Linux.[30]
+MINIX
+Main article: MINIX
+
+MINIX is an inexpensive minimal Unix-like operating system, designed for education in computer science, written by Andrew S. Tanenbaum. Starting with version 3 in 2005, MINIX became free and was redesigned for "serious" use.
+Creation
+
+In 1991, while attending the University of Helsinki, Torvalds became curious about operating systems[31] and frustrated by the licensing of MINIX, which limited it to educational use only. He began to work on his own operating system which eventually became the Linux kernel.
+
+Torvalds began the development of the Linux kernel on MINIX, and applications written for MINIX were also used on Linux. Later, Linux matured and further Linux kernel development took place on Linux systems.[32] GNU applications also replaced all MINIX components, because it was advantageous to use the freely available code from the GNU Project with the fledgling operating system; code licensed under the GNU GPL can be reused in other projects as long as they also are released under the same or a compatible license. Torvalds initiated a switch from his original license, which prohibited commercial redistribution, to the GNU GPL.[33] Developers worked to integrate GNU components with the Linux kernel, making a fully functional and free operating system.[28]
+
+Today, Linux systems are used in every domain, from embedded systems to supercomputers,[20][34] and have secured a place in server installations often using the popular LAMP or LYME/LYCE application stacks.[35] Use of Linux distributions in home and enterprise desktops has been growing.[36][37][38][39][40][41][42]
+
+Linux distributions have also gained popularity with various local and national governments. The federal government of Brazil is well known for its support for Linux.[43][44] News of the Russian military creating its own Linux distribution has also surfaced, and has come to fruition as the G.H.ost Project.[45] The Indian state of Kerala has gone to the extent of mandating that all state high schools run Linux on their computers.[46][47] China uses Linux exclusively as the operating system for its Loongson processor family to achieve technology independence.[48] In Spain some regions have developed their own Linux distributions, which are widely used in education and official institutions, like gnuLinEx in Extremadura and Guadalinex in Andalusia. Portugal is also using its own Linux distribution Caixa Mágica, used in the Magalhães netbook[49] and the e-escola government program.[50] France and Germany have also taken steps toward the adoption of Linux.[51]
+
+Linux distributions have also become popular in the netbook market, with many devices such as the ASUS Eee PC and Acer Aspire One shipping with customized Linux distributions installed.[52]
+Current development
+
+
+| bla bla | bla bla | jajaja |
+|---------|---------|--------|
+| 1       | 2       | 3      |
+| x       |x        |x       |
+
+
+Torvalds continues to direct the development of the kernel.[53] Stallman heads the Free Software Foundation,[54] which in turn supports the GNU components.[55] Finally, individuals and corporations develop third-party non-GNU components. These third-party components comprise a vast body of work and may include both kernel modules and user applications and libraries.
+
+Linux vendors and communities combine and distribute the kernel, GNU components, and non-GNU components, with additional package management software in the form of Linux distributions.
+
+
+A Linux-based system is a modular Unix-like operating system. It derives much of its basic design from principles established in Unix during the 1970s and 1980s. Such a system uses a monolithic kernel, the Linux kernel, which handles process control, networking, and peripheral and file system access. Device drivers are either integrated directly with the kernel or added as modules loaded while the system is running.[56]
+
+Separate projects that interface with the kernel provide much of the system's higher-level functionality. The GNU userland is an important part of most Linux-based systems, providing the most common implementation of the C library, a popular shell, and many of the common Unix tools which carry out many basic operating system tasks. The graphical user interface (or GUI) used by most Linux systems is built on top of an implementation of the X Window System.[57
+
+See also: Free software community and Linux User Group
+
+A distribution is largely driven by its developer and user communities. Some vendors develop and fund their distributions on a volunteer basis, Debian being a well-known example. Others maintain a community version of their commercial distributions, as Red Hat does with Fedora and SUSE does with openSUSE.
+
+
+| bla bla | bla bla | jajaja |
+|---------|---------|--------|
+| 1       | 2       | 3      |
+| x       |x        |x       |
+
+
+In many cities and regions, local associations known as Linux User Groups (LUGs) seek to promote their preferred distribution and by extension free software. They hold meetings and provide free demonstrations, training, technical support, and operating system installation to new users. Many Internet communities also provide support to Linux users and developers. Most distributions and free software / open source projects have IRC chatrooms or newsgroups. Online forums are another means for support, with notable examples being LinuxQuestions.org and the various distribution specific support and community forums, such as ones for Ubuntu, Fedora, and Gentoo. Linux distributions host mailing lists; commonly there will be a specific topic such as usage or development for a given list.
+
+There are several technology websites with a Linux focus. Print magazines on Linux often include cover disks including software or even complete Linux distributions.[72][73]
+
+Although Linux distributions are generally available without charge, several large corporations sell, support, and contribute to the development of the components of the system and of free software. An analysis of the Linux kernel showed 75 percent of the code from December 2008 to January 2010 was developed by programmers working for corporations, leaving about 18 percent to volunteers and 7% unclassified.[74] Some of the major corporations that contribute include Dell, IBM, HP, Oracle, Sun Microsystems (now part of Oracle), SUSE, and Nokia. A number of corporations, notably Red Hat, Canonical, and SUSE, have built a significant business around Linux distributions.
+
+The free software licenses, on which the various software packages of a distribution built on the Linux kernel are based, explicitly accommodate and encourage commercialization; the relationship between a Linux distribution as a whole and individual vendors may be seen as symbiotic. One common business model of commercial suppliers is charging for support, especially for business users. A number of companies also offer a specialized business version of their distribution, which adds proprietary support packages and tools to administer higher numbers of installations or to simplify administrative tasks.
+
+Another business model is to give away the software in order to sell hardware. This used to be the norm in the computer industry, with operating systems such as CP/M, Apple DOS and versions of Mac OS prior to 7.6 freely copyable (but not modifiable). As computer hardware standardized throughout the 1980s, it became more difficult for hardware manufacturers to profit from this tactic, as the OS would run on any manufacturer's computer that shared the same architecture.
+Programming on Linux
+
+Most Linux distributions support dozens of programming languages. The original development tools used for building both Linux applications and operating system programs are found within the GNU toolchain, which includes the GNU Compiler Collection (GCC) and the GNU build system. Amongst others, GCC provides compilers for Ada, C, C++, Java, and Fortran. First released in 2003, the Low Level Virtual Machine project provides an alternative open-source compiler for many languages. Proprietary compilers for Linux include the Intel C++ Compiler, Sun Studio, and IBM XL C/C++ Compiler. BASIC in the form of Visual Basic is supported in such forms as Gambas, FreeBASIC, and XBasic, and in terms of terminal programming or QuickBASIC or Turbo BASIC programming in the form of QB64.
+
+A common feature of Unix-like systems, Linux includes traditional specific-purpose programming languages targeted at scripting, text processing and system configuration and management in general. Linux distributions support shell scripts, awk, sed and make. Many programs also have an embedded programming language to support configuring or programming themselves. For example, regular expressions are supported in programs like grep, or locate, while advanced text editors, like GNU Emacs have a complete Lisp interpreter built-in.
+
+Most distributions also include support for PHP, Perl, Ruby, Python and other dynamic languages. While not as common, Linux also supports C# (via Mono), Vala, and Scheme. A number of Java Virtual Machines and development kits run on Linux, including the original Sun Microsystems JVM (HotSpot), and IBM's J2SE RE, as well as many open-source projects like Kaffe and JikesRVM.
+
+GNOME and KDE are popular desktop environments and provide a framework for developing applications. These projects are based on the GTK+ and Qt widget toolkits, respectively, which can also be used independently of the larger framework. Both support a wide variety of languages. There are a number of Integrated development environments available including Anjuta, Code::Blocks, CodeLite, Eclipse, Geany, ActiveState Komodo, KDevelop, Lazarus, MonoDevelop, NetBeans, and Qt Creator, while the long-established editors Vim, nano and Emacs remain popular.[75]
+
+
+| bla bla | bla bla | jajaja |
+|---------|---------|--------|
+| 1       | 2       | 3      |
+| x       |x        |x       |
+
+
+As well as those designed for general purpose use on desktops and servers, distributions may be specialized for different purposes including: computer architecture support, embedded systems, stability, security, localization to a specific region or language, targeting of specific user groups, support for real-time applications, or commitment to a given desktop environment. Furthermore, some distributions deliberately include only free software. Currently, over three hundred distributions are actively developed, with about a dozen distributions being most popular for general-purpose use.[76]
+
+Linux is a widely ported operating system kernel. The Linux kernel runs on a highly diverse range of computer architectures: in the hand-held ARM-based iPAQ and the mainframe IBM System z9, System z10; in devices ranging from mobile phones to supercomputers.[77] Specialized distributions exist for less mainstream architectures. The ELKS kernel fork can run on Intel 8086 or Intel 80286 16-bit microprocessors, while the µClinux kernel fork may run on systems without a memory management unit. The kernel also runs on architectures that were only ever intended to use a manufacturer-created operating system, such as Macintosh computers (with both PowerPC and Intel processors), PDAs, video game consoles, portable music players, and mobile phones. See List of Linux supported architectures.
+
+There are several industry associations and hardware conferences devoted to maintaining and improving support for diverse hardware under Linux, such as FreedomHEC.
+
+The popularity of Linux on standard desktop computers and laptops has been increasing over the years.[78] Currently most distributions include a graphical user environment, with the two most popular environments being GNOME (which can utilize additional shells such as the default GNOME Shell and Ubuntu Unity), and the KDE Plasma Desktop.[citation needed]
+
+There is no "one" Linux desktop, but rather there is a pool of free and open-source software from which desktop environments and Linux distributions select components with which they construct a GUI implementing some more or less strict design guide. GNOME, for example, has its Human interface guidelines as a design guide, which gives the Human-Machine Interface an important role, not just when doing the graphical design, but also when looking at people with disabilities, and even when looking at security.[79]
+
+The collaborative nature of free software development allows distributed teams to perform language localization of some Linux distributions for use in locales where localizing proprietary systems would not be cost-effective. For example the Sinhalese language version of the Knoppix distribution was available significantly before Microsoft Windows XP was translated to Sinhalese.[citation needed] In this case the Lanka Linux User Group played a major part in developing the localized system by combining the knowledge of university professors, linguists, and local developers.
+Performance and applications
+
+The performance of Linux on the desktop has been a controversial topic; for example in 2007 Con Kolivas accused the Linux community of favoring performance on servers. He quit Linux kernel development because he was frustrated with this lack of focus on the desktop, and then gave a "tell all" interview on the topic.[80] Since then a significant amount of development has been undertaken in an effort to improve the desktop experience. Projects such as Upstart and systemd aim for a faster boot time.
+
+Many popular applications are available for a wide variety of operating systems. For example Mozilla Firefox, OpenOffice.org/LibreOffice and Blender have downloadable versions for all major operating systems. Furthermore, some applications were initially developed for Linux, such as Pidgin, and GIMP, and were ported to other operating systems including Windows and Mac OS X due to their popularity. In addition, a growing number of proprietary desktop applications are also supported on Linux,[81] such as Autodesk Maya, Softimage XSI and Apple Shake in the high-end field of animation and visual effects; see the List of proprietary software for Linux for more details. There are also several companies that have ported their own or other companies' games to Linux, with Linux also being a supported platform on both the popular Steam and Desura digital distribution services.[82]
+
+Many other types of applications available for Microsoft Windows and Mac OS X are also available for Linux. Commonly, either a free software application will exist which does the functions of an application found on another operating system, or that application will have a version that works on Linux, such as with Skype and some video games.[citation needed] Furthermore, the Wine project provides a Windows compatibility layer to run unmodified Windows applications on Linux. CrossOver is a proprietary solution based on the open source Wine project that supports running Windows versions of Microsoft Office, Intuit applications such as Quicken and QuickBooks, Adobe Photoshop versions through CS2, and many popular games such as World of Warcraft and Team Fortress 2. In other cases, where there is no Linux port of some software in areas such as desktop publishing[83] and professional audio,[84][85][86] there is equivalent software available on Linux.
+Components and installation
+
+Besides externally visible components, such as X window managers, a non-obvious but quite central role have the programs hosted by freedesktop.org, such as D-Bus or PulseAudio; both big desktop enironments (GNOME and KDE) include them, each offering graphical front-ends written using the corresponding toolkit (GTK+ or Qt). A display server is another component, which for the longest time has been communicating in the X11 display server protocol with its clients; prominent software talking X11 includes the X.Org Server and Xlib. Frustration over the cumbersome X11 core protocol, and especially over its numerous extensions, has led to the creation of a new display server protocol, Wayland.
+
+Installing, updating and removing software in Linux is typically done through the use of package managers such as the Synaptic Package Manager, PackageKit, and Yum Extender. While most major Linux distributions have extensive repositories, often containing tens of thousands of packages, not all the software that can run on Linux is available from the official repositories. Alternatively, users can install packages from unofficial repositories, download pre-compiled packages directly from websites, or compile the source code by themselves. All these methods come with different degrees of difficulty; compiling the source code is in general considered a challenging process for new Linux users, but it is hardly needed in modern distributions and is not a method specific to Linux.
+
+
