@@ -3,7 +3,7 @@ tags: rkhunter, rootkits, security, unix
 slug: tutorial-rkhunter
 date: 2013-09-23 01:28
 
-En este post comparto con ustedes como podemos buscar rootkits, directorios y/o archivos ocultos en nuestro sistema Unix (Linux, BSD, etc.), entre otros, para ello usaremos esta estupenda herramienta llamada Rkhunter o Rootkit Hunter. Es una herramienta bastante conocido asi tambien como chkrootkit que es bastante popular. En este momento no podria recomendar una por encima de la otra. Pero si que ees bueno conocer estas herramientas, ya que es
+En este post comparto con ustedes como podemos buscar rootkits, directorios y/o archivos ocultos en nuestro sistema Unix (Linux, BSD, etc.), entre otros, para ello usaremos esta estupenda herramienta llamada Rkhunter o Rootkit Hunter. Es una herramienta bastante conocido así también como chkrootkit que es bastante popular. En este momento no podría recomendar una por encima de la otra. Pero si que es bueno conocer estas herramientas, ya que es
 bastante necesario mantener un chequeo rutinario del estado actual de nuestro sistemas para detectar a tiempo posibles intrusiones y actuar conforme el asunto.
 
 Qué es rkhunter?
@@ -15,7 +15,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 Qué son rootkits?
 -----------------
 
-La mayoría de veces son herramientas que se auto-ocultan en los sistemas, estos son utilizados por *blackhats*, *crackers* y *scriptkiddies* para evitarser descubierto por el administrador del sistema.
+La mayoría de veces son herramientas que se auto-ocultan en los sistemas, estos son utilizados por *blackhats*, *crackers* y *scriptkiddies* para evitar ser descubierto por el administrador del sistema.
 
 Instalando Rkhunter
 ------------------- 
@@ -32,7 +32,7 @@ Ahora vamos a donde descargamos el archivo y lo descomprimes
 
 	tar -zxvf rkhunter-1.3.8.tar.gz 
 
-Desde una terminal vamos a la carpeta que se nos creo al descomprimir el archivo, la carpeta tiene el formato de **rkhunter-version**, en mi caso
+Desde una terminal vamos a la carpeta que se nos creo al descomprimir el archivo, la carpeta tiene el formato de **rkhunter-versión**, en mi caso
 
 	cd rkhunter-1.3.8
 
@@ -73,7 +73,7 @@ La primera vez que ejecutamos Rkhunter recibimos mucho mensajes del tipo <span s
 
 *Nota: Rkhunter no elimina los rootkits ni otros binarios maliciosos, solo los detecta el resto va por tu cuenta.*
 
-Si quisieramos hacer un escaneo y que no nos muestre tanta información como con la opción *--check*, para buscar solo rootkits podríamos ejecutar 
+Si quisiéramos hacer un escaneo y que no nos muestre tanta información como con la opción *--check*, para buscar solo rootkits podríamos ejecutar 
    
 	rkhunter --enable rootkits
 
@@ -83,11 +83,11 @@ Si queremos saber como podemos automatizar los escaneos para que se ejecuten per
 
 Algo mas que es positivo es subscribirnos a la lista de correos para recibir información sobre bugs y otras cuestiones de seguridad relacionadas con Rkhunter, para eso podemos ir a [user-mailing-lists](https://lists.sourceforge.net/lists/listinfo/rkhunter-usershttps://lists.sourceforge.net/lists/listinfo/rkhunter-users "rkhunter-user-mailling list")
 
-Si por alguna razón quisieramos desinstalar el Rkhunter vamos a la carpeta descomprimida del programa y ejecutamos el script de instalación con la opcion *---remove*
+Si por alguna razón quisiéramos desinstalar el Rkhunter vamos a la carpeta descomprimida del programa y ejecutamos el script de instalación con la opción *---remove*
 
 	./installer.sh --remove
 
-Hasta aquí el post, para mas info recomiendo consultar el manual de rkhunter, y leer las FAQ, así como seguir los demás consejos que he dado, que son los que recomiendan ellos mismos en su website. 
+Hasta aquí el post, para mas información recomiendo consultar el manual de rkhunter, y leer las FAQ, así como seguir los demás consejos que he dado, que son los que recomiendan ellos mismos en su website. 
 
 Nos leemos!
 

@@ -57,7 +57,7 @@
       </header>
       <div class="post-content"> 
         <p>En este post veremos que usar la <a href="http://docs.shodanhq.com/python/tutorial.html" title="Shodan">API de Shodan para Python</a> es bastante sencillo, las ventajas de esto es que podemos utilizar este buscador desde nuestras aplicaciones en Python y desde la linea de comandos, la API también esta disponible para Perl y Ruby.</p>
-<p>Sino sabes lo que es Shodan o simplemente aun no sabes usarlo del todo, te recomiendo leerte <a href="http://www.slideshare.net/theprez98/shodan-for-penetration-testers-defcon-18" title="shodan for penestration testers">Shodan for Penetration Testers DefCon 18</a>.</p>
+<p>Sino sabes lo que es Shodan o simplemente aun no sabes usarlo del todo, te recomiendo leerte <a href="http://www.slideshare.net/theprez98/shodan-for-penetration-testers-defcon-18" title="shodan for penetration testers">Shodan for Penetration Testers DefCon 18</a>.</p>
 <p>Ahora lo preliminar ante todo es que te registres en <a href="http://www.shodanhq.com/" title="Shodan">Shodan</a>, es necesario para poder realizar algunas búsquedas y para obtener una <strong>API KEY</strong> necesaria para poder usar la API, luego de registrarte y loguearte tienes tu KEY en <a href="http://www.shodanhq.com/api_doc" title=" &quot;api key">este link</a>.</p>
 <p>Bien ya luego de eso, lo que va es instalar la librería de shodan en la distro que uses (si, estoy asumiendo que usas GNU/Linux), yo en este momento estoy usando Debian Wheezy. Si tenemos <a href="http://packages.python.org/distribute/easy_install.html" title="easy_install">Easy Install</a> es bastante fácil sino te recomiendo que busques en el link anterior como instalarlo en tu distro.</p>
 <h2>Instalación</h2>
@@ -77,7 +77,7 @@
 <p>Primero inicializamos el objeto API de la siguiente manera:</p>
 <div class="codehilite"><pre><span class="kn">from</span> <span class="nn">shodan</span> <span class="kn">import</span> <span class="n">WebAPI</span>
 
-<span class="n">SHODAN_API_KEY</span> <span class="o">=</span> <span class="s">&quot;Aqui tu API KEY&quot;</span>
+<span class="n">SHODAN_API_KEY</span> <span class="o">=</span> <span class="s">&quot;Aquí tu API KEY&quot;</span>
 
 <span class="n">api</span> <span class="o">=</span> <span class="n">WebAPI</span><span class="p">(</span><span class="n">SHODAN_API_KEY</span><span class="p">)</span>
 </pre></div>
@@ -89,13 +89,13 @@
 
 <span class="kn">from</span> <span class="nn">shodan</span> <span class="kn">import</span> <span class="n">WebAPI</span>
 
-<span class="n">SHODAN_API_KEY</span> <span class="o">=</span> <span class="s">&#39;TU_API_KEY_AQUI&#39;</span>
+<span class="n">SHODAN_API_KEY</span> <span class="o">=</span> <span class="s">&#39;TU_API_KEY_AQUÍ&#39;</span>
 
 <span class="n">api</span> <span class="o">=</span> <span class="n">WebAPI</span><span class="p">(</span><span class="n">SHODAN_API_KEY</span><span class="p">)</span>
 
-<span class="c"># Ponemos el codigo entre un try/catch para manejar los exceciones</span>
+<span class="c"># Ponemos el código entre un try/catch para manejar las excepciones</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="c"># Buscamos en Shodan con el metodo WebAPI.search()</span>
+    <span class="c"># Buscamos en Shodan con el método WebAPI.search()</span>
     <span class="n">resultados</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;apache&#39;</span><span class="p">)</span>
 
     <span class="c"># Mostramos el resultado</span>
@@ -153,7 +153,7 @@
 <div class="codehilite"><pre><span class="k">try</span><span class="p">:</span>
    <span class="n">host</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">host</span><span class="p">(</span><span class="s">&#39;200.88.113.179&#39;</span><span class="p">)</span>
 
-   <span class="c"># Imprimiendo la informacion obtenida</span>
+   <span class="c"># Imprimiendo la información obtenida</span>
    <span class="k">print</span> <span class="s">&#39;IP: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">host</span><span class="p">[</span><span class="s">&#39;ip&#39;</span><span class="p">]</span>
    <span class="k">print</span> <span class="s">&#39;Pais: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">host</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;country_name&#39;</span><span class="p">)</span>
    <span class="k">print</span> <span class="s">&#39;City: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">host</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;city&#39;</span><span class="p">)</span>
@@ -173,7 +173,7 @@
 <p>Suponiendo que ya hemos importado la librería e inicializado el objeto, con el código de arriba obtendríamos cierta información de esa IP. Por ejemplo, lo de arriba alojaría el siguiente resultado:</p>
 <p><img alt="shodan result" src="http://aljavier.github.io/images/posts/shodan/shodan1.png" title="shodan resultado" /></p>
 <h2>Concluyendo...</h2>
-<p>Esta librería también tiene métodos para buscar y descargar modulos y exploits de Metasploit y Exploit-DB, respectivamente, así además como un modulo para geolocalización por medio de la MAC/BSSID de routers wireless. La documentación al respecto puede verla en la web oficial, yo decidi no hablar de eso porque han dado resultados erráticos.</p>
+<p>Esta librería también tiene métodos para buscar y descargar módulos y exploits de Metasploit y Exploit-DB, respectivamente, así además como un modulo para geolocalización por medio de la MAC/BSSID de routers wireless. La documentación al respecto puede verla en la web oficial, yo decidí no hablar de eso porque han dado resultados erráticos.</p>
 <p>Es decir, de 20 intentos de descargas de algún modulo o exploit solo 1 logro descargarse  los demás me tiran  error <strong>HTTP Error 502: Bad Gateway</strong> y sobre la geolocalización ésta ya en otras ocasiones igual me ha dado resultados inesperados. Por lo demás todo anda bien .</p>
 <p>Acá les dejo mi script, esta muy nuevo aun le faltan funciones y demás y seguro que depurar unas que otras cosas, pero es un punto de partida :x Ya le iré preparando una nueva versión luego.</p>
 <div class="codehilite"><pre><span class="c">#!/usr/bin/env python</span>
@@ -204,9 +204,9 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">api</span> <span class="o">=</span>  <span class="n">WebAPI</span><span class="p">(</span><span class="n">API_KEY</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">buscar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">cadena</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Busca segun la cadena dada &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot; Busca según la cadena dada &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-       <span class="c"># Buscamos lo de la cadena pasada como parametro</span>
+       <span class="c"># Buscamos lo de la cadena pasada como parámetro</span>
        <span class="n">resultado</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">cadena</span><span class="p">))</span>
        <span class="k">return</span> <span class="n">resultado</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -229,8 +229,8 @@
 <span class="k">def</span> <span class="nf">usage</span><span class="p">():</span>
     <span class="k">print</span> <span class="s">&quot;&quot;&quot;Uso: Shodan3r.py {OPTION} {CADENA | HOST}</span>
 <span class="s">     OPCIONES:</span>
-<span class="s">     -s, --search: Para buscar segun una determinada cadena</span>
-<span class="s">     -h, --host: Para obtener la informacion de un host segun su IP</span>
+<span class="s">     -s, --search: Para buscar según una determinada cadena</span>
+<span class="s">     -h, --host: Para obtener la información de un host según su IP</span>
 <span class="s">     EJEMPLOS</span>
 <span class="s">      Shodan3r.py -s apache</span>
 <span class="s">      Shodan3r.py -h 8.8.8.8&quot;&quot;&quot;</span>
@@ -242,14 +242,14 @@
 <span class="s">            \___ \| &#39;_ \ / _ \ / _` |/ _` | &#39;_ \  |_ \| &#39;__|</span>
 <span class="s">             ___) | | | | (_) | (_| | (_| | | | |___) | |   </span>
 <span class="s">            |____/|_| |_|\___/ \__,_|\__,_|_| |_|____/|_|</span>
-<span class="s">                                Version 1.0</span>
+<span class="s">                                Versión 1.0</span>
 <span class="s"> &quot;&quot;&quot;</span>
 
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="kn">import</span> <span class="nn">sys</span>
     <span class="kn">import</span> <span class="nn">time</span>
 
-    <span class="n">API_KEY</span> <span class="o">=</span> <span class="s">&#39;API KEY AQUI&#39;</span>
+    <span class="n">API_KEY</span> <span class="o">=</span> <span class="s">&#39;API KEY AQUÍ&#39;</span>
     <span class="n">shodan</span> <span class="o">=</span> <span class="n">Shodan</span><span class="p">(</span><span class="n">API_KEY</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
         <span class="n">usage</span><span class="p">()</span>

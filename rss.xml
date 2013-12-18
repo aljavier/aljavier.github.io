@@ -33,7 +33,7 @@ función recursiva básicamente se divide la función en dos partes: 1) &lt;code
 
 &lt;p&gt;Ahora veamos el método recursivo que en efecto produce el mismo resultado&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;#/usr/bin/env python&lt;/span&gt;
-&lt;span class="c"&gt;# Factorial funcion recursiva&lt;/span&gt;
+&lt;span class="c"&gt;# Factorial función recursiva&lt;/span&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;factorial&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
@@ -136,7 +136,7 @@ función recursiva básicamente se divide la función en dos partes: 1) &lt;code
 &lt;p&gt;Como pueden ver la diferencia es muy poca, pero aún así las hay. Hay muchas cosas que se pueden decir al respecto ahora, pero mejor veamos otro ejemplo más.&lt;/p&gt;
 &lt;p&gt;Ahora será con la sucesión de fibonacci, veamos la función recursiva primero.&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#/usr/bin/env python&lt;/span&gt;
-&lt;span class="cp"&gt;# Funcion fibonacci recursiva&lt;/span&gt;
+&lt;span class="cp"&gt;# Función fibonacci recursiva&lt;/span&gt;
 
 &lt;span class="n"&gt;def&lt;/span&gt; &lt;span class="n"&gt;fibonacci&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
     &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="n"&gt;or&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
@@ -285,9 +285,9 @@ Más fácil de entender así no? &lt;/p&gt;
 
 &lt;p&gt;Nuevamente aquí la recursividad ganó en cuanto a rapidez, por la misma razón que antes, no tiene muchas llamadas al mismo método, en casos así funciona fluido. El marcador final en cuando a rapidez: recursividad 2 - iteratividad 1!&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">A. J. Javier</dc:creator><pubDate>Fri, 01 Nov 2013 00:00:00 -0400</pubDate><guid>tag:aljavier.github.io,2013-11-01:recursividad-versus-iteratividad.html</guid><category>python</category><category>recursividad</category><category>time</category><category>iteratividad</category><category>fibonacci</category><category>factorial</category></item><item><title>Instalación de Teamviewer en Arch Linux x86_64</title><link>http://aljavier.github.io/instalacion-teamviewer-archlinux-x86_64.html</link><description>&lt;p&gt;Para instalar Teamviewer en Arch Linux x86_64 (vamos 64 bits), hay que tener en cuenta unas cuantas cosas; teamviewer se ejecuta en 
 GNU/Linux emulando un entorno Windows, de modo que en verdad se ejecuta el binario para Windows usando wine, el mismo no requiere
-que tengas wine instalado porque usa una versión portable, el asunto es que teamviewer requiere de un sin número de librerias 32 bits
-para funcionar y por defecto la que tendras en tu sistema si es de 64 bits pues seran la de esa arquitectura, obviamente.&lt;/p&gt;
-&lt;p&gt;Desconozco en verdad si instalando desde AUR se resuelven todos estos problemas de depencias aún en sistemas de 64 bits, por lo que he leído
+que tengas wine instalado porque usa una versión portable, el asunto es que teamviewer requiere de un sin número de librerías 32 bits
+para funcionar y por defecto la que tendrás en tu sistema si es de 64 bits pues serán la de esa arquitectura, obviamente.&lt;/p&gt;
+&lt;p&gt;Desconozco en verdad si instalando desde AUR se resuelven todos estos problemas de dependencias aún en sistemas de 64 bits, por lo que he leído
 me parece que no, en todo caso yo preferí descargar el source desde la web oficial de &lt;a href="https://www.teamviewer.com/en/index.aspx"&gt;teamviewer&lt;/a&gt;  y hacer todo yo mismo.&lt;/p&gt;
 &lt;p&gt;Como Arch Linux no esta oficialmente soportada por Teamviewer nos descargamos el source del susodicho software:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;wget http://download.teamviewer.com/download/teamviewer_linux.tar.gz
@@ -300,19 +300,19 @@ me parece que no, en todo caso yo preferí descargar el source desde la web ofic
 
 
 &lt;p&gt;&lt;em&gt;Nota: Si estas con la cuenta de usuario normal necesitas permiso de super usuario para mover el teamviewer a /opt, en mi caso uso &lt;code&gt;sudo&lt;/code&gt;.&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;En mi caso fue necesario cambiar de owner la carpeta del teamviewer a mi ususario normal, ya que uso &lt;em&gt;sudo&lt;/em&gt; para poder moverlo a /opt:&lt;/p&gt;
+&lt;p&gt;En mi caso fue necesario cambiar de owner la carpeta del teamviewer a mi usuario normal, ya que uso &lt;em&gt;sudo&lt;/em&gt; para poder moverlo a /opt:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;chown&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;R&lt;/span&gt; &lt;span class="n"&gt;usuario&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;teamviewer8&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Donde &lt;em&gt;usuario&lt;/em&gt; es tu usuario normal obviamente.&lt;/p&gt;
-&lt;p&gt;Luego de esto para no tener que escribir la ruta completa cada vez que quiera ejecutarlo hize un link simbolico del mismo:&lt;/p&gt;
+&lt;p&gt;Luego de esto para no tener que escribir la ruta completa cada vez que quiera ejecutarlo hize un link simbólico del mismo:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;ln&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;teamviewer8&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;teamviewer&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;teamviewer&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Si usas gnome o algun entorno grafico de escritorio posiblemente preferiras crear algun lanzador en el menu del mismo, en mi caso solo uso manejador de ventanas
-asi que no requiero de hacer eso, especificamente ando usando DWM ahora mismo.&lt;/p&gt;
+&lt;p&gt;Si usas gnome o algún entorno gráfico de escritorio posiblemente preferirás crear algún lanzador en el menú del mismo, en mi caso solo uso manejador de ventanas
+así que no requiero de hacer eso, específicamente ando usando DWM ahora mismo.&lt;/p&gt;
 &lt;p&gt;Otra vez te recuerdo, que para el anterior comando necesitas permisos de super usuario.&lt;/p&gt;
 &lt;p&gt;Ahora si ejecutas &lt;em&gt;teamviewer&lt;/em&gt; en una terminal podrás ver el siguiente error:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;37&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;jota&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;arch&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt; &lt;span class="err"&gt;\&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;teamviewer&lt;/span&gt;
@@ -328,8 +328,8 @@ asi que no requiero de hacer eso, especificamente ando usando DWM ahora mismo.&l
 
 &lt;p&gt;Pensarás que es un problema del daemon e irás a ejecutar &lt;em&gt;kill -9 6697&lt;/em&gt; entonces te responderá que no hay ningún proceso con ese pid corriendo, claro el pid posiblemente sera distinto...bueno eso hubieras hecho
 si antes no te lo hubiera pronosticado no? En fin...&lt;/p&gt;
-&lt;p&gt;Llegue a leer por ahi que matando el proceso del daemon de teamviewer y ejecutandolo de nuevo se resolvia, pero no en nuestro caso. Como decia al principio es un problema de 
-librerias, estamos ejecutando un software que requiere librerias para sistemas de 32 bits y nosotros solo tenemos librerias de 64 bits actualmente.  Para corroborar esto ejecuta lo 
+&lt;p&gt;Llegue a leer por ahí que matando el proceso del daemon de teamviewer y ejecutándolo de nuevo se resolvía, pero no en nuestro caso. Como decía al principio es un problema de 
+librerías, estamos ejecutando un software que requiere librerías para sistemas de 32 bits y nosotros solo tenemos librerías de 64 bits actualmente.  Para corroborar esto ejecuta lo 
 esto:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;teamviewer8&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;tv&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;setup&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;checklibs&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -366,10 +366,10 @@ esto:&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Pueden ver el &lt;em&gt;NOTE&lt;/em&gt; arriba? Dice explicitamente que todas las librerias requeridas son de 32 bits, seguro que ya tenemos todas estas librerias instaladas o la mayoria de ellas
+&lt;p&gt;Pueden ver el &lt;em&gt;NOTE&lt;/em&gt; arriba? Dice explícitamente que todas las librerías requeridas son de 32 bits, seguro que ya tenemos todas estas librerías instaladas o la mayoría de ellas
 pero para 64 bits.&lt;/p&gt;
-&lt;p&gt;Lo primero que debemos hacer en nuestro caso si aún no tenemos habilitados el repositorio &lt;code&gt;multilib&lt;/code&gt; es habitarlo, entonces ya luego podremos instalar liberias de 32 bits. En mi caso 
-yo lo tenia comentado desde el dia que instalé el Arch Linux, asi que solo tuve que descomentarlo, asi que si lo tienes comentado descomentalo y sino lo tienes agregalo, de la siguiente forma:&lt;/p&gt;
+&lt;p&gt;Lo primero que debemos hacer en nuestro caso si aún no tenemos habilitados el repositorio &lt;code&gt;multilib&lt;/code&gt; es habilitarlo, entonces ya luego podremos instalar librerías de 32 bits. En mi caso 
+yo lo tenia comentado desde el día que instalé el Arch Linux, así que solo tuve que descomentarlo, así que si lo tienes comentado descomentalo y sino lo tienes agregalo, de la siguiente forma:&lt;/p&gt;
 &lt;p&gt;Abre con tu editor de texto favorito (por ejemplo vim) el archivo &lt;strong&gt;/etc/pacman.conf&lt;/strong&gt; y agrega o descomenta (según sea tu caso)  la siguiente linea:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="k"&gt;[multilib]&lt;/span&gt;
 &lt;span class="na"&gt;Include&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/etc/pacman.d/mirrorlist&lt;/span&gt;
@@ -381,17 +381,17 @@ yo lo tenia comentado desde el dia que instalé el Arch Linux, asi que solo tuve
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Podras ver como ahora tienes el repositorio multilib agregado. &lt;/p&gt;
-&lt;p&gt;Ahora es el momento de instalar las liberias que requiere el teamviewer, esto es medio tricky a veces, porque algunas liberias no tienen el mismo nombre que nos dice el comando que corrimos antes,
-ademas que como es en un sistema de 64 bits la mayoria de estas llevaran como prefijo &lt;em&gt;lib32-&lt;/em&gt;, pero ya que yo he hecho todo esto no tendras que andar buscando los nombres de eesas liberias y demas,
-que en todo caso serian mas &lt;code&gt;pacman -Ss nomre_libreria&lt;/code&gt; que cualquier otra cosa y algunas busquedas por la red en algunos casos.&lt;/p&gt;
-&lt;p&gt;Procedemos a instalar las librerias del siguiente modo:&lt;/p&gt;
+&lt;p&gt;Podrás ver como ahora tienes el repositorio multilib agregado. &lt;/p&gt;
+&lt;p&gt;Ahora es el momento de instalar las librerías que requiere el teamviewer, esto es medio tricky a veces, porque algunas librerías no tienen el mismo nombre que nos dice el comando que corrimos antes,
+además que como es en un sistema de 64 bits la mayoría de estas llevaran como prefijo &lt;em&gt;lib32-&lt;/em&gt;, pero ya que yo he hecho todo esto no tendrás que andar buscando los nombres de esas librerías y demás,
+que en todo caso serian mas &lt;code&gt;pacman -Ss nombre_librería&lt;/code&gt; que cualquier otra cosa y algunas búsquedas por la red en algunos casos.&lt;/p&gt;
+&lt;p&gt;Procedemos a instalar las librerías del siguiente modo:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pacman&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;S&lt;/span&gt; &lt;span class="n"&gt;lib32&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;libxau&lt;/span&gt; &lt;span class="n"&gt;lib32&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;libsm&lt;/span&gt; &lt;span class="n"&gt;lib32&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;libx11&lt;/span&gt; &lt;span class="n"&gt;lib32&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;libxdamage&lt;/span&gt; &lt;span class="n"&gt;lib32&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;libxext&lt;/span&gt; &lt;span class="n"&gt;lib32&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;libxfixes&lt;/span&gt; &lt;span class="n"&gt;lib32&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;libxrender&lt;/span&gt; &lt;span class="n"&gt;lib32&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;libxtst&lt;/span&gt; &lt;span class="n"&gt;lib32&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;alsa&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;lib&lt;/span&gt; &lt;span class="n"&gt;lib32&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;gcc&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;libs&lt;/span&gt; &lt;span class="n"&gt;lib32&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;zlib&lt;/span&gt; &lt;span class="n"&gt;lib32&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;libxft&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Espero que no se me este quedando ninguna, pero luego de haber instalado las liberias arribas, ya debes estar ready para ejecutar teamviewer sin problemas. Veamos, primero ejecutamos nuevamente 
-&lt;em&gt;/opt/teamviewer8/tv-setup --checklibs&lt;/em&gt; ahora deberiamos recibir como salida lo siguiente:&lt;/p&gt;
+&lt;p&gt;Espero que no se me este quedando ninguna, pero luego de haber instalado las librerías arribas, ya debes estar ready para ejecutar teamviewer sin problemas. Veamos, primero ejecutamos nuevamente 
+&lt;em&gt;/opt/teamviewer8/tv-setup --checklibs&lt;/em&gt; ahora deberíamos recibir como salida lo siguiente:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;        &lt;span class="o"&gt;-=-&lt;/span&gt;   &lt;span class="n"&gt;TeamViewer&lt;/span&gt; &lt;span class="n"&gt;tar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt; &lt;span class="n"&gt;check&lt;/span&gt;   &lt;span class="o"&gt;-=-&lt;/span&gt;
 
 &lt;span class="n"&gt;In&lt;/span&gt; &lt;span class="n"&gt;order&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;use&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;tar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt; &lt;span class="n"&gt;version&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;TeamViewer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
@@ -406,18 +406,18 @@ que en todo caso serian mas &lt;code&gt;pacman -Ss nomre_libreria&lt;/code&gt; q
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;En caso que tu salida sea diferente y que aun te este diciendo que faltan algunas librerias, pues busca en los repos con &lt;code&gt;pacman -Ss nombre_libreria&lt;/code&gt; e instala la que pertence al repositorio &lt;code&gt;multilib&lt;/code&gt;
-que generalmente tendra como prefijo &lt;code&gt;lib32-&lt;/code&gt;. Si no encuentras la libreria ahi busca en Internet que podria ser que el nombre sea diferente en Arch.&lt;/p&gt;
+&lt;p&gt;En caso que tu salida sea diferente y que aun te este diciendo que faltan algunas librerías, pues busca en los repos con &lt;code&gt;pacman -Ss nombre_librería&lt;/code&gt; e instala la que pertenece al repositorio &lt;code&gt;multilib&lt;/code&gt;
+que generalmente tendrá como prefijo &lt;code&gt;lib32-&lt;/code&gt;. Si no encuentras la librería ahí busca en Internet que podaría ser que el nombre sea diferente en Arch.&lt;/p&gt;
 &lt;p&gt;Ya no queda más que simplemente ejecutar teamviewer nuevamente.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Teamviewer" src="http://aljavier.github.io/images/posts/misc/teamviewer.png" title="Teamviewer en Arch Linux x86_64" /&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;Versión de Teamviewer&lt;/code&gt;: &lt;em&gt;8.0.20931&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;uname -a&lt;/code&gt;: &lt;em&gt;Linux arch-linux 3.11.3-1-ARCH #1 SMP PREEMPT Wed Oct 2 01:38:48 CEST 2013 x86_64 GNU/Linux&lt;/em&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">A. J. Javier</dc:creator><pubDate>Mon, 07 Oct 2013 10:07:00 -0400</pubDate><guid>tag:aljavier.github.io,2013-10-07:instalacion-teamviewer-archlinux-x86_64.html</guid><category>Arch Linux</category><category>teamviewer</category><category>pacman</category></item><item><title>Buscando rootkits con Rkhunter</title><link>http://aljavier.github.io/tutorial-rkhunter.html</link><description>&lt;p&gt;En este post comparto con ustedes como podemos buscar rootkits, directorios y/o archivos ocultos en nuestro sistema Unix (Linux, BSD, etc.), entre otros, para ello usaremos esta estupenda herramienta llamada Rkhunter o Rootkit Hunter. Es una herramienta bastante conocido asi tambien como chkrootkit que es bastante popular. En este momento no podria recomendar una por encima de la otra. Pero si que ees bueno conocer estas herramientas, ya que es
+&lt;p&gt;&lt;code&gt;uname -a&lt;/code&gt;: &lt;em&gt;Linux arch-linux 3.11.3-1-ARCH #1 SMP PREEMPT Wed Oct 2 01:38:48 CEST 2013 x86_64 GNU/Linux&lt;/em&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">A. J. Javier</dc:creator><pubDate>Mon, 07 Oct 2013 10:07:00 -0400</pubDate><guid>tag:aljavier.github.io,2013-10-07:instalacion-teamviewer-archlinux-x86_64.html</guid><category>Arch Linux</category><category>teamviewer</category><category>pacman</category></item><item><title>Buscando rootkits con Rkhunter</title><link>http://aljavier.github.io/tutorial-rkhunter.html</link><description>&lt;p&gt;En este post comparto con ustedes como podemos buscar rootkits, directorios y/o archivos ocultos en nuestro sistema Unix (Linux, BSD, etc.), entre otros, para ello usaremos esta estupenda herramienta llamada Rkhunter o Rootkit Hunter. Es una herramienta bastante conocido así también como chkrootkit que es bastante popular. En este momento no podría recomendar una por encima de la otra. Pero si que es bueno conocer estas herramientas, ya que es
 bastante necesario mantener un chequeo rutinario del estado actual de nuestro sistemas para detectar a tiempo posibles intrusiones y actuar conforme el asunto.&lt;/p&gt;
 &lt;h2&gt;Qué es rkhunter?&lt;/h2&gt;
 &lt;p&gt;Según wikipedia es una herramienta para sistemas &lt;a href="http://es.wikipedia.org/wiki/Unix" title="Unix"&gt;Unix&lt;/a&gt; que detecta los &lt;a href="http://es.wikipedia.org/wiki/Rootkits" title="Rootkits"&gt;rootkies&lt;/a&gt;, las &lt;a href="http://es.wikipedia.org/wiki/Puerta_trasera" title="Puertas traseras o backdoors"&gt;backdoors&lt;/a&gt; y los exploit locales mediante la comparación de los &lt;a href="http://es.wikipedia.org/wiki/MD5#Hashes_MD5" title="hashes MD5"&gt;Hashes MD5&lt;/a&gt; de ficheros importantes con su firma correcta en una base de datos en línea, buscando los directorios por defecto (de rootkits), los permisos 
 incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del kernel, y las pruebas especiales para GNU/Linux y FreeBSD.&lt;/p&gt;
 &lt;h2&gt;Qué son rootkits?&lt;/h2&gt;
-&lt;p&gt;La mayoría de veces son herramientas que se auto-ocultan en los sistemas, estos son utilizados por &lt;em&gt;blackhats&lt;/em&gt;, &lt;em&gt;crackers&lt;/em&gt; y &lt;em&gt;scriptkiddies&lt;/em&gt; para evitarser descubierto por el administrador del sistema.&lt;/p&gt;
+&lt;p&gt;La mayoría de veces son herramientas que se auto-ocultan en los sistemas, estos son utilizados por &lt;em&gt;blackhats&lt;/em&gt;, &lt;em&gt;crackers&lt;/em&gt; y &lt;em&gt;scriptkiddies&lt;/em&gt; para evitar ser descubierto por el administrador del sistema.&lt;/p&gt;
 &lt;h2&gt;Instalando Rkhunter&lt;/h2&gt;
 &lt;p&gt;Para instalar Rkhunter podríamos hacerlo desde los repositorios, ya que esta en lo repositorio de la mayoría de las distros GNU/Linux, o podríamos descargarlos desde su website e instalarlo. Eligiremos la ultima opción, ya que así nos aseguramos de tener la ultima versión del mismo, algo importantísimo en casos como este. En todo caso, si instalamos desde los repositorios podemos actualizar el Rkhunter con&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;rkhunter&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;update&lt;/span&gt;
@@ -431,7 +431,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Desde una terminal vamos a la carpeta que se nos creo al descomprimir el archivo, la carpeta tiene el formato de &lt;strong&gt;rkhunter-version&lt;/strong&gt;, en mi caso&lt;/p&gt;
+&lt;p&gt;Desde una terminal vamos a la carpeta que se nos creo al descomprimir el archivo, la carpeta tiene el formato de &lt;strong&gt;rkhunter-versión&lt;/strong&gt;, en mi caso&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="n"&gt;rkhunter&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;1.3.8&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -466,7 +466,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;p&gt;Por cierto, podemos ver en detalle el resultado del escaneo en el archivo &lt;strong&gt;/var/log/rkhunter.log&lt;/strong&gt;, de modo que en caso de tener algún rootkit ahí podemos leer la ruta de su posible ubicación.&lt;/p&gt;
 &lt;p&gt;La primera vez que ejecutamos Rkhunter recibimos mucho mensajes del tipo &lt;span style="color: red;"&gt;Warning&lt;/span&gt;, que en muchos casos son solo falsos positivos y son comandos del mismo sistema como /bin/who por ejemplo, por ello y otras razones es bueno leerse las &lt;a href="http://rkhunter.cvs.sourceforge.net/viewvc/rkhunter/rkhunter/files/FAQ" title="FAQ de Rkhunter"&gt;FAQ&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Nota: Rkhunter no elimina los rootkits ni otros binarios maliciosos, solo los detecta el resto va por tu cuenta.&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;Si quisieramos hacer un escaneo y que no nos muestre tanta información como con la opción &lt;em&gt;--check&lt;/em&gt;, para buscar solo rootkits podríamos ejecutar &lt;/p&gt;
+&lt;p&gt;Si quisiéramos hacer un escaneo y que no nos muestre tanta información como con la opción &lt;em&gt;--check&lt;/em&gt;, para buscar solo rootkits podríamos ejecutar &lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;rkhunter&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;enable&lt;/span&gt; &lt;span class="n"&gt;rootkits&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -477,15 +477,15 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 
 
 &lt;p&gt;Algo mas que es positivo es subscribirnos a la lista de correos para recibir información sobre bugs y otras cuestiones de seguridad relacionadas con Rkhunter, para eso podemos ir a &lt;a href="https://lists.sourceforge.net/lists/listinfo/rkhunter-usershttps://lists.sourceforge.net/lists/listinfo/rkhunter-users" title="rkhunter-user-mailling list"&gt;user-mailing-lists&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Si por alguna razón quisieramos desinstalar el Rkhunter vamos a la carpeta descomprimida del programa y ejecutamos el script de instalación con la opcion &lt;em&gt;---remove&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Si por alguna razón quisiéramos desinstalar el Rkhunter vamos a la carpeta descomprimida del programa y ejecutamos el script de instalación con la opción &lt;em&gt;---remove&lt;/em&gt;&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;installer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;remove&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Hasta aquí el post, para mas info recomiendo consultar el manual de rkhunter, y leer las FAQ, así como seguir los demás consejos que he dado, que son los que recomiendan ellos mismos en su website. &lt;/p&gt;
+&lt;p&gt;Hasta aquí el post, para mas información recomiendo consultar el manual de rkhunter, y leer las FAQ, así como seguir los demás consejos que he dado, que son los que recomiendan ellos mismos en su website. &lt;/p&gt;
 &lt;p&gt;Nos leemos!&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Nota: Aunque este tutorial es 100% valido aún, cabe decir que data ya de un tiempo, fue rescatado de mi antiguo blog.&lt;/em&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">A. J. Javier</dc:creator><pubDate>Mon, 23 Sep 2013 01:28:00 -0400</pubDate><guid>tag:aljavier.github.io,2013-09-23:tutorial-rkhunter.html</guid><category>rkhunter</category><category>rootkits</category><category>security</category><category>unix</category></item><item><title>Creando una wiki con MediaWiki</title><link>http://aljavier.github.io/creando-una-wiki-con-mediawiki.html</link><description>&lt;h2&gt;Introducción&lt;/h2&gt;
-&lt;p&gt;Veremos como instalar una wiki en un servidor web montado en nuestro propio ordenador, subirla a un hosting online no seria muy distinto de lo que haremos aquí así que si deseas subirla a algún hosting puedes hacerlo facilmente a raíz de lo explicado aquí. Las razones por las que querrías instalar tu propia wiki podrían ser varias, por ejemplo, tener una base de datos organizada con tus trabajos escolares indexados, crear contenido y compartirlo con otras personas, podrías ser un maestro por ejemplo  y querrías ofrecer algunos materiales de apoyo a tus alumnos. En fin, aquí mostraremos como montar tu propia wiki, ya para que vayas a utilizar tu wiki es cosa tuya, en todo caso cabe recalcar que el proyecto podría llevarse a cabo con facilidad en un colegio o escuela pública, o hasta un grupo de amigos que deseen colaborar en sus estudios unos con los otros, solo por dar algunas ideas.&lt;/p&gt;
+&lt;p&gt;Veremos como instalar una wiki en un servidor web montado en nuestro propio ordenador, subirla a un hosting online no seria muy distinto de lo que haremos aquí así que si deseas subirla a algún hosting puedes hacerlo fácilmente a raíz de lo explicado aquí. Las razones por las que querrías instalar tu propia wiki podrían ser varias, por ejemplo, tener una base de datos organizada con tus trabajos escolares indexados, crear contenido y compartirlo con otras personas, podrías ser un maestro por ejemplo  y querrías ofrecer algunos materiales de apoyo a tus alumnos. En fin, aquí mostraremos como montar tu propia wiki, ya para que vayas a utilizar tu wiki es cosa tuya, en todo caso cabe recalcar que el proyecto podría llevarse a cabo con facilidad en un colegio o escuela pública, o hasta un grupo de amigos que deseen colaborar en sus estudios unos con los otros, solo por dar algunas ideas.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Que necesitamos:&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;XAMPP, este trae consigo Apache, MySQL y PHP, haciendo que el uso y la instalación del  mismo sea bastante intuitiva. Puedes descargarlo según tu sistema operativo  &lt;a href="http://www.apachefriends.org/en/xampp.html" title="clickando aquí"&gt;XAMPP&lt;/a&gt;.&lt;/li&gt;
@@ -494,12 +494,12 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;p&gt;&lt;strong&gt;Qué es XAMPP?&lt;/strong&gt; &lt;/p&gt;
 &lt;p&gt;XAMPP es un servidor independiente de plataforma, software libre, que consiste principalmente en la base de datos MySQL, el servidor web Apache y los intérpretes para lenguajes de script: PHP y Perl. El nombre proviene del acrónimo de X (para cualquiera de los diferentes sistemas operativos), Apache, MySQL, PHP, Perl. El programa está liberado bajo la licencia GNU y actúa como un servidor web libre, fácil de usar y capaz de interpretar páginas dinámicas. Actualmente XAMPP está disponible para Microsoft Windows, GNU/Linux, Solaris y MacOS X.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Qué es MediaWiki?&lt;/strong&gt; &lt;/p&gt;
-&lt;p&gt;MediaWiki es un software wiki libre escrito originalmente para &lt;em&gt;Wikipedia&lt;/em&gt;. Ahora es utilizado por otros proyectos wikis de la &lt;em&gt;Fundación Wikimedia&lt;/em&gt; y por otras wikis.&lt;/p&gt;
+&lt;p&gt;MediaWiki es un software wiki libre escrito originalmente para &lt;em&gt;Wikipedia&lt;/em&gt;. Ahora es utilizado por otros proyectos wiki de la &lt;em&gt;Fundación Wikimedia&lt;/em&gt; y por otras wikis.&lt;/p&gt;
 &lt;p&gt;Como pueden deducir crearemos un proyecto totalmente &lt;em&gt;Open Source&lt;/em&gt;, es decir, usando solo software libre.&lt;/p&gt;
-&lt;p&gt;En el caso de &lt;em&gt;GNU/Linux&lt;/em&gt; la distro que sea, podríamos a ver preferido por instalar un servidor web full, es decir, Apache, MySQL y PHP cada uno por su lado, haciendo así de nuestra PC un total servidor web. Pero en vez de eso, hemos elegido XAMPP ya que lo que haremos sera una instalación simple hogareña y no queremos tener un servidor corriendo todo el tiempo, además este nos sirve para nuestro proposito,  algo un poco mas intuitivo para hacerlo mas asequible a todos los lectores.&lt;/p&gt;
+&lt;p&gt;En el caso de &lt;em&gt;GNU/Linux&lt;/em&gt; la distro que sea, podríamos a ver preferido por instalar un servidor web full, es decir, Apache, MySQL y PHP cada uno por su lado, haciendo así de nuestra PC un total servidor web. Pero en vez de eso, hemos elegido XAMPP ya que lo que haremos sera una instalación simple hogareña y no queremos tener un servidor corriendo todo el tiempo, además este nos sirve para nuestro propósito,  algo un poco mas intuitivo para hacerlo mas asequible a todos los lectores.&lt;/p&gt;
 &lt;h2&gt;Instalando el XAMPP&lt;/h2&gt;
-&lt;p&gt;Bueno ya que te descargaste el XAMPP del link puesto arriba vamos a empezar a instalarnos el XAMPP, en Windows lo descomprimimos y ejecutamos el instalador  y  seleccionamos como ruta de instalación *&lt;em&gt;c:\xampp*&lt;/em&gt;, que me parece que es la ruta por defecto (yo estoy usando ubuntu), en cuanto a la pregunta de que si quieren inicial el panel de control de XAMPP eligen No, ya que por el momento no es necesario. En Linux abrimos una terminal, nos autentificamos como usuario root, noa dirigimos a la carpeta donde descargamos el archivo y luego tecleamos;&lt;/p&gt;
-&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;ar&lt;/span&gt; &lt;span class="n"&gt;xvfz&lt;/span&gt; &lt;span class="n"&gt;xampp&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;1.7.7&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;
+&lt;p&gt;Bueno ya que te descargaste el XAMPP del link puesto arriba vamos a empezar a instalarnos el XAMPP, en Windows lo descomprimimos y ejecutamos el instalador  y  seleccionamos como ruta de instalación *&lt;em&gt;c:\xampp*&lt;/em&gt;, que me parece que es la ruta por defecto (yo estoy usando ubuntu), en cuanto a la pregunta de que si quieren inicial el panel de control de XAMPP eligen No, ya que por el momento no es necesario. En Linux abrimos una terminal, nos autentificamos como usuario root, nos dirigimos a la carpeta donde descargamos el archivo y luego tecleamos;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;tar&lt;/span&gt; &lt;span class="n"&gt;xvfz&lt;/span&gt; &lt;span class="n"&gt;xampp&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;1.7.7&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gz&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -518,7 +518,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 
 &lt;p&gt;Ahora para hacer la wiki mas asequible, mas fácil de escribir en la barra de direcciones, renombramos la carpeta mediawiki-1.18.0 a algo como wiki o mediawiki, yo la renombré a wiki por ser mas corto.&lt;/p&gt;
 &lt;h2&gt;Iniciando los servidores&lt;/h2&gt;
-&lt;p&gt;Ahora si vamos a iniciar los servidores, en windows dirigite a Inicio y busca XAMPP &amp;gt; XAMPP Control Panel, también puedes acceder por medio del acceso directo en el escritorio. Los servidores que necesitamos son Apache y MySQL, por lo que lo otros lo puedes detener; Filezilla y Mercury.&lt;/p&gt;
+&lt;p&gt;Ahora si vamos a iniciar los servidores, en windows dirigete a Inicio y busca XAMPP &amp;gt; XAMPP Control Panel, también puedes acceder por medio del acceso directo en el escritorio. Los servidores que necesitamos son Apache y MySQL, los demás puedes detenerlo; Filezilla y Mercury.&lt;/p&gt;
 &lt;p&gt;Nota: Si por alguna razón queremos detener los servidores, solo abrimos el control de panel de XAMPP y damos click en el apartado del servidor donde dice stop, para reiniciarlo por igual, dando click en restart.&lt;/p&gt;
 &lt;p&gt;En GNU/Linux iniciamos los servidores de la siguiente manera;&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lampp&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lampp&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt;
@@ -529,8 +529,8 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;p&gt;Otra nota: Para reiniciar los servidores en Linux, hacemos desde la terminal como root /opt/lampp/lampp restart, para detenerlos /opt/lampp/lampp stop. En la segunda parte veremos mas acerca de manejar los servidores en Linux.&lt;/p&gt;
 &lt;p&gt;Ahora para acceder al servidor desde el navegador, en la barra de navegación escribe localhost, veras una pagina de bienvenida en esta elige tu idioma.&lt;/p&gt;
 &lt;h2&gt;Configurando MediaWiki&lt;/h2&gt;
-&lt;p&gt;Ahora necesitamos configurar MediaWiki, para ellos nos dirigimos desde el navegador a la url localhost/nombre_wiki, en nombre_wiki va el nombre que le pusiste a la carpeta de MediaWiki en mi caso le puse wiki, así que seria asi &lt;em&gt;localhost/wiki&lt;/em&gt;. Ahora ves una pagina de presentación  que dice que el archivo LocalSettings.php no fue encontrado, eso es normal ya nos encargaremos luego. Le damos click a  &lt;strong&gt;set up de wiki&lt;/strong&gt;. En la pagina que tenemos ahora seleccionamos nuestro idioma y el idioma que queremos para la wiki, yo seleccioné es-Español en ambos casos y damos click a &lt;em&gt;continue&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;En el siguiente apartado vemos una pagina de bienvenida, fijemonos debajo que diga lo siguiente; &lt;strong&gt;El entorno ha sido comprobado. Puedes instalar MediaWiki&lt;/strong&gt;. Eso indica que todo va bien por el momento. Ahora damos  click en continuar nuevamente debajo.&lt;/p&gt;
+&lt;p&gt;Ahora necesitamos configurar MediaWiki, para ellos nos dirigimos desde el navegador a la url localhost/nombre_wiki, en nombre_wiki va el nombre que le pusiste a la carpeta de MediaWiki en mi caso le puse wiki, así que seria así &lt;em&gt;localhost/wiki&lt;/em&gt;. Ahora ves una pagina de presentación  que dice que el archivo LocalSettings.php no fue encontrado, eso es normal ya nos encargaremos luego. Le damos click a  &lt;strong&gt;set up de wiki&lt;/strong&gt;. En la pagina que tenemos ahora seleccionamos nuestro idioma y el idioma que queremos para la wiki, yo seleccioné es-Español en ambos casos y damos click a &lt;em&gt;continue&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;En el siguiente apartado vemos una pagina de bienvenida, miramos debajo que diga lo siguiente; &lt;strong&gt;El entorno ha sido comprobado. Puedes instalar MediaWiki&lt;/strong&gt;. Eso indica que todo va bien por el momento. Ahora damos  click en continuar nuevamente debajo.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="screenshot #1" src="http://aljavier.github.io/images/posts/mediawiki/wiki1.png" /&gt;&lt;/p&gt;
 &lt;p&gt;En la pagina que tenemos ahora (ver imagen arriba), en el apartado Tipo de base de datos dejamos MySQL que es la que esta preseleccionada por defecto y es la que usa XAMPP, en Configuración de MySQL &amp;gt; servidor de la base de datos lo dejemos tal cual esta en localhost ya que es en nuestro ordenador donde tenemos montado nuestro servidor.&lt;/p&gt;
 &lt;p&gt;En Nombre de base de datos si quieren pueden dejarlo tal cual esta como my_wiki yo usare otro nombre por cuestiones de seguridad en Prefijo para las tablas de la base de datos ponemos mw_ (nota el guión bajo), en Nombre de usuarios de base de datos lo dejamos como esta por defecto root que es el nombre por defecto de MySQL, en contraseña de base de datos lo dejamos en blanco tal cual esta, ya que así viene por defecto en MySQL eso podemos cambiarlo luego cuando nos aseguremos de que nuestra wiki funciona bien.&lt;/p&gt;
@@ -542,8 +542,8 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Su nombre&lt;/strong&gt; -&amp;gt; Aquí va tu nombre para la cuenta de administrador.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Contraseña&lt;/strong&gt; -&amp;gt; Una contraseña para tu cuenta.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Repita la contrasea&lt;/strong&gt; -&amp;gt; Aquí repites la contraseña anterior.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Dirección de correo electronico&lt;/strong&gt; -&amp;gt; Aquí pones un correo tuyo, si haces accesible tu web desde el Internet es bueno que pongas un correo para si alguien quiere comunicarse contigo.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Repita la contraseña&lt;/strong&gt; -&amp;gt; Aquí repites la contraseña anterior.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Dirección de correo electrónico&lt;/strong&gt; -&amp;gt; Aquí pones un correo tuyo, si haces accesible tu web desde el Internet es bueno que pongas un correo para si alguien quiere comunicarse contigo.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img alt="screenshot #3" src="http://aljavier.github.io/images/posts/mediawiki/wiki3.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Debajo donde dice &lt;em&gt;Subscribirse para recibir avisos de nuevas versiones&lt;/em&gt; te recomiendo que marques esa casilla, para que actualizes tu wiki siempre que sea necesario, ya que de vez en cuando se descubren bugs y esas cosas.&lt;/p&gt;
@@ -552,7 +552,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;li&gt;Házme mas preguntas&lt;/li&gt;
 &lt;li&gt;Ya estoy aburrido, sólo instala el wiki.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;De estas dos elegimos la segunda, los demás ajustes pueden realizarlos luego segun deseen. Ahora proseguimos a pulsar en continuar.&lt;/p&gt;
+&lt;p&gt;De estas dos elegimos la segunda, los demás ajustes pueden realizarlos luego según deseen. Ahora proseguimos a pulsar en continuar.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Nota: Guarda todos estos datos porque son tus datos de acceso a la wiki, lo necesitaras para poder escribir, editar y demás.&lt;/em&gt;**&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;La siguiente pagina nos dice:&lt;/strong&gt;&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;By&lt;/span&gt; &lt;span class="n"&gt;pressing&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Continuar →&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;you&lt;/span&gt; &lt;span class="n"&gt;will&lt;/span&gt; &lt;span class="n"&gt;begin&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;installation&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;MediaWiki&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="n"&gt;If&lt;/span&gt; &lt;span class="n"&gt;you&lt;/span&gt; &lt;span class="n"&gt;still&lt;/span&gt; &lt;span class="n"&gt;want&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;make&lt;/span&gt; &lt;span class="n"&gt;changes&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;press&lt;/span&gt; &lt;span class="n"&gt;back&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
@@ -630,7 +630,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Tuve problemas con yolk, asi que mejor use pip que es una alternativa a easy_install por cierto, y que tiene soporte para desinstalar y listar paquetes entre otras.&lt;/p&gt;
+&lt;p&gt;Tuve problemas con yolk, así que mejor use pip que es una alternativa a easy_install por cierto, y que tiene soporte para desinstalar y listar paquetes entre otras.&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt; &lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;list&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -640,7 +640,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;li&gt;&lt;a href="http://simononsoftware.com/virtualenv-tutorial/"&gt;http://simononsoftware.com/virtualenv-tutorial/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://www.virtualenv.org/en/latest/"&gt;http://www.virtualenv.org/en/latest/&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">A. J. Javier</dc:creator><pubDate>Fri, 16 Aug 2013 00:00:00 -0400</pubDate><guid>tag:aljavier.github.io,2013-08-16:tutorial-virtualenv.html</guid><category>python</category><category>virtualenv</category></item><item><title>Usando la API de Shodan para Python</title><link>http://aljavier.github.io/tutorial-api-shodan-para-python.html</link><description>&lt;p&gt;En este post veremos que usar la &lt;a href="http://docs.shodanhq.com/python/tutorial.html" title="Shodan"&gt;API de Shodan para Python&lt;/a&gt; es bastante sencillo, las ventajas de esto es que podemos utilizar este buscador desde nuestras aplicaciones en Python y desde la linea de comandos, la API también esta disponible para Perl y Ruby.&lt;/p&gt;
-&lt;p&gt;Sino sabes lo que es Shodan o simplemente aun no sabes usarlo del todo, te recomiendo leerte &lt;a href="http://www.slideshare.net/theprez98/shodan-for-penetration-testers-defcon-18" title="shodan for penestration testers"&gt;Shodan for Penetration Testers DefCon 18&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Sino sabes lo que es Shodan o simplemente aun no sabes usarlo del todo, te recomiendo leerte &lt;a href="http://www.slideshare.net/theprez98/shodan-for-penetration-testers-defcon-18" title="shodan for penetration testers"&gt;Shodan for Penetration Testers DefCon 18&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Ahora lo preliminar ante todo es que te registres en &lt;a href="http://www.shodanhq.com/" title="Shodan"&gt;Shodan&lt;/a&gt;, es necesario para poder realizar algunas búsquedas y para obtener una &lt;strong&gt;API KEY&lt;/strong&gt; necesaria para poder usar la API, luego de registrarte y loguearte tienes tu KEY en &lt;a href="http://www.shodanhq.com/api_doc" title=" &amp;quot;api key"&gt;este link&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Bien ya luego de eso, lo que va es instalar la librería de shodan en la distro que uses (si, estoy asumiendo que usas GNU/Linux), yo en este momento estoy usando Debian Wheezy. Si tenemos &lt;a href="http://packages.python.org/distribute/easy_install.html" title="easy_install"&gt;Easy Install&lt;/a&gt; es bastante fácil sino te recomiendo que busques en el link anterior como instalarlo en tu distro.&lt;/p&gt;
 &lt;h2&gt;Instalación&lt;/h2&gt;
@@ -660,7 +660,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;p&gt;Primero inicializamos el objeto API de la siguiente manera:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;shodan&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;WebAPI&lt;/span&gt;
 
-&lt;span class="n"&gt;SHODAN_API_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Aqui tu API KEY&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;SHODAN_API_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Aquí tu API KEY&amp;quot;&lt;/span&gt;
 
 &lt;span class="n"&gt;api&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;WebAPI&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;SHODAN_API_KEY&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -672,13 +672,13 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;shodan&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;WebAPI&lt;/span&gt;
 
-&lt;span class="n"&gt;SHODAN_API_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;TU_API_KEY_AQUI&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;SHODAN_API_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;TU_API_KEY_AQUÍ&amp;#39;&lt;/span&gt;
 
 &lt;span class="n"&gt;api&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;WebAPI&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;SHODAN_API_KEY&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="c"&gt;# Ponemos el codigo entre un try/catch para manejar los exceciones&lt;/span&gt;
+&lt;span class="c"&gt;# Ponemos el código entre un try/catch para manejar las excepciones&lt;/span&gt;
 &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="c"&gt;# Buscamos en Shodan con el metodo WebAPI.search()&lt;/span&gt;
+    &lt;span class="c"&gt;# Buscamos en Shodan con el método WebAPI.search()&lt;/span&gt;
     &lt;span class="n"&gt;resultados&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;apache&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
     &lt;span class="c"&gt;# Mostramos el resultado&lt;/span&gt;
@@ -736,7 +736,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
    &lt;span class="n"&gt;host&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;200.88.113.179&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-   &lt;span class="c"&gt;# Imprimiendo la informacion obtenida&lt;/span&gt;
+   &lt;span class="c"&gt;# Imprimiendo la información obtenida&lt;/span&gt;
    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;IP: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;ip&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Pais: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;country_name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;City: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;city&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -756,7 +756,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;p&gt;Suponiendo que ya hemos importado la librería e inicializado el objeto, con el código de arriba obtendríamos cierta información de esa IP. Por ejemplo, lo de arriba alojaría el siguiente resultado:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="shodan result" src="http://aljavier.github.io/images/posts/shodan/shodan1.png" title="shodan resultado" /&gt;&lt;/p&gt;
 &lt;h2&gt;Concluyendo...&lt;/h2&gt;
-&lt;p&gt;Esta librería también tiene métodos para buscar y descargar modulos y exploits de Metasploit y Exploit-DB, respectivamente, así además como un modulo para geolocalización por medio de la MAC/BSSID de routers wireless. La documentación al respecto puede verla en la web oficial, yo decidi no hablar de eso porque han dado resultados erráticos.&lt;/p&gt;
+&lt;p&gt;Esta librería también tiene métodos para buscar y descargar módulos y exploits de Metasploit y Exploit-DB, respectivamente, así además como un modulo para geolocalización por medio de la MAC/BSSID de routers wireless. La documentación al respecto puede verla en la web oficial, yo decidí no hablar de eso porque han dado resultados erráticos.&lt;/p&gt;
 &lt;p&gt;Es decir, de 20 intentos de descargas de algún modulo o exploit solo 1 logro descargarse  los demás me tiran  error &lt;strong&gt;HTTP Error 502: Bad Gateway&lt;/strong&gt; y sobre la geolocalización ésta ya en otras ocasiones igual me ha dado resultados inesperados. Por lo demás todo anda bien .&lt;/p&gt;
 &lt;p&gt;Acá les dejo mi script, esta muy nuevo aun le faltan funciones y demás y seguro que depurar unas que otras cosas, pero es un punto de partida :x Ya le iré preparando una nueva versión luego.&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env python&lt;/span&gt;
@@ -787,9 +787,9 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
     &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;api&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="n"&gt;WebAPI&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;API_KEY&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
     &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;buscar&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;cadena&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot; Busca segun la cadena dada &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot; Busca según la cadena dada &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
     &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-       &lt;span class="c"&gt;# Buscamos lo de la cadena pasada como parametro&lt;/span&gt;
+       &lt;span class="c"&gt;# Buscamos lo de la cadena pasada como parámetro&lt;/span&gt;
        &lt;span class="n"&gt;resultado&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cadena&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;resultado&lt;/span&gt;
     &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;Exception&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
@@ -812,8 +812,8 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;usage&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
     &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&amp;quot;Uso: Shodan3r.py {OPTION} {CADENA | HOST}&lt;/span&gt;
 &lt;span class="s"&gt;     OPCIONES:&lt;/span&gt;
-&lt;span class="s"&gt;     -s, --search: Para buscar segun una determinada cadena&lt;/span&gt;
-&lt;span class="s"&gt;     -h, --host: Para obtener la informacion de un host segun su IP&lt;/span&gt;
+&lt;span class="s"&gt;     -s, --search: Para buscar según una determinada cadena&lt;/span&gt;
+&lt;span class="s"&gt;     -h, --host: Para obtener la información de un host según su IP&lt;/span&gt;
 &lt;span class="s"&gt;     EJEMPLOS&lt;/span&gt;
 &lt;span class="s"&gt;      Shodan3r.py -s apache&lt;/span&gt;
 &lt;span class="s"&gt;      Shodan3r.py -h 8.8.8.8&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
@@ -825,14 +825,14 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;span class="s"&gt;            \___ \| &amp;#39;_ \ / _ \ / _` |/ _` | &amp;#39;_ \  |_ \| &amp;#39;__|&lt;/span&gt;
 &lt;span class="s"&gt;             ___) | | | | (_) | (_| | (_| | | | |___) | |   &lt;/span&gt;
 &lt;span class="s"&gt;            |____/|_| |_|\___/ \__,_|\__,_|_| |_|____/|_|&lt;/span&gt;
-&lt;span class="s"&gt;                                Version 1.0&lt;/span&gt;
+&lt;span class="s"&gt;                                Versión 1.0&lt;/span&gt;
 &lt;span class="s"&gt; &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
     &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
     &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;time&lt;/span&gt;
 
-    &lt;span class="n"&gt;API_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;API KEY AQUI&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;API_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;API KEY AQUÍ&amp;#39;&lt;/span&gt;
     &lt;span class="n"&gt;shodan&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Shodan&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;API_KEY&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
         &lt;span class="n"&gt;usage&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
@@ -904,7 +904,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;p&gt;&lt;strong&gt;Referencias&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://docs.shodanhq.com/python/tutorial.html" title="shodan tutorial oficial"&gt;shodan oficial tutorial&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">A. J. Javier</dc:creator><pubDate>Sun, 07 Jul 2013 05:12:00 -0400</pubDate><guid>tag:aljavier.github.io,2013-07-07:tutorial-api-shodan-para-python.html</guid><category>shodan</category><category>api</category><category>python</category><category>scripting</category></item><item><title>Diccionarios con HashMap y TreeMap en Java</title><link>http://aljavier.github.io/diccionarios-con-hashmap-y-treemap-en-java.html</link><description>&lt;p&gt;Las colecciones nos permiten agrupar un conjunto de objetos del mismo tipo o al menos lo ideal es eso, que sean del mismo tipo ya que pueden agrupar objetos diferentes pero no es aconsejable, le quita las ventajas de usar los llamados &lt;a href="http://docs.oracle.com/javase/tutorial/extra/generics/index.html" title="genericos"&gt;genéricos&lt;/a&gt; y haciendo así perdemos un poco el control sobre el tipo de objeto que manejamos.&lt;/p&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">A. J. Javier</dc:creator><pubDate>Sun, 07 Jul 2013 05:12:00 -0400</pubDate><guid>tag:aljavier.github.io,2013-07-07:tutorial-api-shodan-para-python.html</guid><category>shodan</category><category>api</category><category>python</category><category>scripting</category></item><item><title>Diccionarios con HashMap y TreeMap en Java</title><link>http://aljavier.github.io/diccionarios-con-hashmap-y-treemap-en-java.html</link><description>&lt;p&gt;Las colecciones nos permiten agrupar un conjunto de objetos del mismo tipo o al menos lo ideal es eso, que sean del mismo tipo ya que pueden agrupar objetos diferentes pero no es aconsejable, le quita las ventajas de usar los llamados &lt;a href="http://docs.oracle.com/javase/tutorial/extra/generics/index.html" title="genéricos"&gt;genéricos&lt;/a&gt; y haciendo así perdemos un poco el control sobre el tipo de objeto que manejamos.&lt;/p&gt;
 &lt;p&gt;Hay muchos objetos que entran en la categoría de collection en java, pero como siempre hay unos mas usados que otros, tenemos; &lt;em&gt;ArrayList, List, HashMap, TreeMap, TreeSet&lt;/em&gt;, etc. Los dos primeros almacenan objetos o mas bien referencia a objetos estilo los vectores, es decir que nos permite acceder por medio de su posición en el mismo, los otros dos siguientes entran en la categoría de diccionarios y el ultimo es como los vectores también pero elimina automáticamente los objetos idénticos. En esta entrada solo explicaré HashMap y TreeMap.&lt;/p&gt;
 &lt;p&gt;Para los ejemplos tengo una clase llamada Person.&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Person&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
@@ -960,7 +960,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;En el ejemplo arriba vemos perfectamente que &lt;em&gt;dictionary&lt;/em&gt; almacenará objetos del tipo &lt;em&gt;Person&lt;/em&gt; con una clave númerica tipo &lt;em&gt;Integer&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;En el ejemplo arriba vemos perfectamente que &lt;em&gt;dictionary&lt;/em&gt; almacenará objetos del tipo &lt;em&gt;Person&lt;/em&gt; con una clave numérica tipo &lt;em&gt;Integer&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;Podemos agregar los objetos al diccionario con el método put, el cual recibe dos parámetros; clave, valor, en ese orden. De igual forma tenemos el método get el cual recibe un parámetro como clave del objeto a buscar, si encuentra un objeto con la clave pasada como parámetro nos devuelve el objeto sino devuelve null. Veamos:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.util.HashMap&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
 
@@ -1020,21 +1020,21 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 
 
 &lt;p&gt;&lt;strong&gt;void clear()&lt;/strong&gt;: Este método vacía el diccionario y lo deja tal cual como estaba al momento de instanciarse.&lt;/p&gt;
-&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;dictionary&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;clear&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="c1"&gt;// vacia el diccionario&lt;/span&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;dictionary&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;clear&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="c1"&gt;// vacía el diccionario&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;strong&gt;boolean isEmpty&lt;/strong&gt;: Devuelve &lt;em&gt;true&lt;/em&gt; si el diccionario esta vacio o &lt;em&gt;false&lt;/em&gt; en caso contrario.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;boolean isEmpty&lt;/strong&gt;: Devuelve &lt;em&gt;true&lt;/em&gt; si el diccionario esta vacío o &lt;em&gt;false&lt;/em&gt; en caso contrario.&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dictionary&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;isEmpty&lt;/span&gt;&lt;span class="p"&gt;()){&lt;/span&gt; 
-    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Esta vacio&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Esta vacío&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
-    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;No esta vacio!!!&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;No esta vacío!!!&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;strong&gt;int size()&lt;/strong&gt;: Este método devuelve la cantidad de objetos/claves en el diccionario.&lt;/p&gt;
-&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Cantidad de objetos en el diccioanrio: &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;dictionary&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Cantidad de objetos en el diccionario: &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;dictionary&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 

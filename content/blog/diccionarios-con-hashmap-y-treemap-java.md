@@ -2,7 +2,7 @@ title: Diccionarios con HashMap y TreeMap en Java
 tags: java, HashMap, TreeMap, diccionarios, generics
 date: 2013-06-20
 
-Las colecciones nos permiten agrupar un conjunto de objetos del mismo tipo o al menos lo ideal es eso, que sean del mismo tipo ya que pueden agrupar objetos diferentes pero no es aconsejable, le quita las ventajas de usar los llamados [genéricos](http://docs.oracle.com/javase/tutorial/extra/generics/index.html "genericos") y haciendo así perdemos un poco el control sobre el tipo de objeto que manejamos.
+Las colecciones nos permiten agrupar un conjunto de objetos del mismo tipo o al menos lo ideal es eso, que sean del mismo tipo ya que pueden agrupar objetos diferentes pero no es aconsejable, le quita las ventajas de usar los llamados [genéricos](http://docs.oracle.com/javase/tutorial/extra/generics/index.html "genéricos") y haciendo así perdemos un poco el control sobre el tipo de objeto que manejamos.
 
 Hay muchos objetos que entran en la categoría de collection en java, pero como siempre hay unos mas usados que otros, tenemos; *ArrayList, List, HashMap, TreeMap, TreeSet*, etc. Los dos primeros almacenan objetos o mas bien referencia a objetos estilo los vectores, es decir que nos permite acceder por medio de su posición en el mismo, los otros dos siguientes entran en la categoría de diccionarios y el ultimo es como los vectores también pero elimina automáticamente los objetos idénticos. En esta entrada solo explicaré HashMap y TreeMap.
 
@@ -63,7 +63,7 @@ Tanto en `Key` como en `Value` lo que debemos especificar es el tipo, *Key* es l
 	HashMap<Integer, Person> dictionary = new HashMap<Integer, Person>();
 
 
-En el ejemplo arriba vemos perfectamente que *dictionary* almacenará objetos del tipo *Person* con una clave númerica tipo *Integer*.
+En el ejemplo arriba vemos perfectamente que *dictionary* almacenará objetos del tipo *Person* con una clave numérica tipo *Integer*.
 
 Podemos agregar los objetos al diccionario con el método put, el cual recibe dos parámetros; clave, valor, en ese orden. De igual forma tenemos el método get el cual recibe un parámetro como clave del objeto a buscar, si encuentra un objeto con la clave pasada como parámetro nos devuelve el objeto sino devuelve null. Veamos:
 
@@ -123,19 +123,19 @@ HashMap tiene entre otros los siguiente métodos:
 
 **void clear()**: Este método vacía el diccionario y lo deja tal cual como estaba al momento de instanciarse.
 
-	dictionary.clear(); // vacia el diccionario 
+	dictionary.clear(); // vacía el diccionario 
 
-**boolean isEmpty**: Devuelve *true* si el diccionario esta vacio o *false* en caso contrario.
+**boolean isEmpty**: Devuelve *true* si el diccionario esta vacío o *false* en caso contrario.
 
 	if(dictionary.isEmpty()){ 
-		System.out.println("Esta vacio");
+		System.out.println("Esta vacío");
 	}else{
-		System.out.println("No esta vacio!!!");
+		System.out.println("No esta vacío!!!");
 	}
 
 **int size()**: Este método devuelve la cantidad de objetos/claves en el diccionario.
 
-	System.out.println("Cantidad de objetos en el diccioanrio: " + dictionary.size());
+	System.out.println("Cantidad de objetos en el diccionario: " + dictionary.size());
 
 **Collection<Value> values()**: Este método devuelve todos los objetos contenidos en el diccionario.
 

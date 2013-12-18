@@ -6,7 +6,7 @@ date: 2013-07-07 05:12
 
 En este post veremos que usar la [API de Shodan para Python](http://docs.shodanhq.com/python/tutorial.html "Shodan") es bastante sencillo, las ventajas de esto es que podemos utilizar este buscador desde nuestras aplicaciones en Python y desde la linea de comandos, la API también esta disponible para Perl y Ruby.
 
-Sino sabes lo que es Shodan o simplemente aun no sabes usarlo del todo, te recomiendo leerte [Shodan for Penetration Testers DefCon 18](http://www.slideshare.net/theprez98/shodan-for-penetration-testers-defcon-18 "shodan for penestration testers").
+Sino sabes lo que es Shodan o simplemente aun no sabes usarlo del todo, te recomiendo leerte [Shodan for Penetration Testers DefCon 18](http://www.slideshare.net/theprez98/shodan-for-penetration-testers-defcon-18 "shodan for penetration testers").
 
 Ahora lo preliminar ante todo es que te registres en [Shodan](http://www.shodanhq.com/ "Shodan"), es necesario para poder realizar algunas búsquedas y para obtener una **API KEY** necesaria para poder usar la API, luego de registrarte y loguearte tienes tu KEY en [este link](http://www.shodanhq.com/api_doc" "api key").
 
@@ -36,7 +36,7 @@ Primero inicializamos el objeto API de la siguiente manera:
 
 	from shodan import WebAPI
 
-	SHODAN_API_KEY = "Aqui tu API KEY"
+	SHODAN_API_KEY = "Aquí tu API KEY"
 
 	api = WebAPI(SHODAN_API_KEY)
 
@@ -50,13 +50,13 @@ Perfecto, ya estamos ready, ahora veamos un ejemplo práctico usando el método 
 
 	from shodan import WebAPI
 
-	SHODAN_API_KEY = 'TU_API_KEY_AQUI'
+	SHODAN_API_KEY = 'TU_API_KEY_AQUÍ'
 
 	api = WebAPI(SHODAN_API_KEY)
 
-	# Ponemos el codigo entre un try/catch para manejar los exceciones
+	# Ponemos el código entre un try/catch para manejar las excepciones
 	try:
-	    # Buscamos en Shodan con el metodo WebAPI.search()
+	    # Buscamos en Shodan con el método WebAPI.search()
 	    resultados = api.search('apache')
 
 	    # Mostramos el resultado
@@ -117,7 +117,7 @@ Ahora veremos como obtener los posibles resultados que Shodan pueda tener sobre 
 	try:
 	   host = api.host('200.88.113.179')
 
-	   # Imprimiendo la informacion obtenida
+	   # Imprimiendo la información obtenida
 	   print 'IP: %s' % host['ip']
 	   print 'Pais: %s' % host.get('country_name')
 	   print 'City: %s' % host.get('city')
@@ -141,7 +141,7 @@ Suponiendo que ya hemos importado la librería e inicializado el objeto, con el 
 Concluyendo...
 --------------
 
-Esta librería también tiene métodos para buscar y descargar modulos y exploits de Metasploit y Exploit-DB, respectivamente, así además como un modulo para geolocalización por medio de la MAC/BSSID de routers wireless. La documentación al respecto puede verla en la web oficial, yo decidi no hablar de eso porque han dado resultados erráticos.
+Esta librería también tiene métodos para buscar y descargar módulos y exploits de Metasploit y Exploit-DB, respectivamente, así además como un modulo para geolocalización por medio de la MAC/BSSID de routers wireless. La documentación al respecto puede verla en la web oficial, yo decidí no hablar de eso porque han dado resultados erráticos.
 
 Es decir, de 20 intentos de descargas de algún modulo o exploit solo 1 logro descargarse  los demás me tiran  error **HTTP Error 502: Bad Gateway** y sobre la geolocalización ésta ya en otras ocasiones igual me ha dado resultados inesperados. Por lo demás todo anda bien .
 
@@ -176,9 +176,9 @@ Acá les dejo mi script, esta muy nuevo aun le faltan funciones y demás y segur
 		self.api =  WebAPI(API_KEY)    
 
 	    def buscar(self,cadena):
-		""" Busca segun la cadena dada """
+		""" Busca según la cadena dada """
 		try:
-		   # Buscamos lo de la cadena pasada como parametro
+		   # Buscamos lo de la cadena pasada como parámetro
 		   resultado = self.api.search(str(cadena))
 		   return resultado
 		except Exception as e:
@@ -201,8 +201,8 @@ Acá les dejo mi script, esta muy nuevo aun le faltan funciones y demás y segur
 	def usage():
 	    print """Uso: Shodan3r.py {OPTION} {CADENA | HOST}
 	     OPCIONES:
-	     -s, --search: Para buscar segun una determinada cadena
-	     -h, --host: Para obtener la informacion de un host segun su IP
+	     -s, --search: Para buscar según una determinada cadena
+	     -h, --host: Para obtener la información de un host según su IP
 	     EJEMPLOS
 	      Shodan3r.py -s apache
 	      Shodan3r.py -h 8.8.8.8"""
@@ -214,14 +214,14 @@ Acá les dejo mi script, esta muy nuevo aun le faltan funciones y demás y segur
 		        \___ \| '_ \ / _ \ / _` |/ _` | '_ \  |_ \| '__|
 		         ___) | | | | (_) | (_| | (_| | | | |___) | |   
 		        |____/|_| |_|\___/ \__,_|\__,_|_| |_|____/|_|
-		                            Version 1.0
+		                            Versión 1.0
 	 """ 
 
 	def main():
 	    import sys
 	    import time
 
-	    API_KEY = 'API KEY AQUI'
+	    API_KEY = 'API KEY AQUÍ'
 	    shodan = Shodan(API_KEY)
 	    if len(sys.argv) < 3:
 	    	usage()

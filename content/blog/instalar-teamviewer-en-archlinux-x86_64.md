@@ -5,10 +5,10 @@ date: 2013-10-07 10:07
 
 Para instalar Teamviewer en Arch Linux x86_64 (vamos 64 bits), hay que tener en cuenta unas cuantas cosas; teamviewer se ejecuta en 
 GNU/Linux emulando un entorno Windows, de modo que en verdad se ejecuta el binario para Windows usando wine, el mismo no requiere
-que tengas wine instalado porque usa una versión portable, el asunto es que teamviewer requiere de un sin número de librerias 32 bits
-para funcionar y por defecto la que tendras en tu sistema si es de 64 bits pues seran la de esa arquitectura, obviamente.
+que tengas wine instalado porque usa una versión portable, el asunto es que teamviewer requiere de un sin número de librerías 32 bits
+para funcionar y por defecto la que tendrás en tu sistema si es de 64 bits pues serán la de esa arquitectura, obviamente.
 
-Desconozco en verdad si instalando desde AUR se resuelven todos estos problemas de depencias aún en sistemas de 64 bits, por lo que he leído
+Desconozco en verdad si instalando desde AUR se resuelven todos estos problemas de dependencias aún en sistemas de 64 bits, por lo que he leído
 me parece que no, en todo caso yo preferí descargar el source desde la web oficial de [teamviewer](https://www.teamviewer.com/en/index.aspx)  y hacer todo yo mismo.
 
 Como Arch Linux no esta oficialmente soportada por Teamviewer nos descargamos el source del susodicho software:
@@ -22,18 +22,18 @@ Procedemos a descomprimirlo y lo enviamos de una vez a /opt:
 
 *Nota: Si estas con la cuenta de usuario normal necesitas permiso de super usuario para mover el teamviewer a /opt, en mi caso uso `sudo`.*
 
-En mi caso fue necesario cambiar de owner la carpeta del teamviewer a mi ususario normal, ya que uso *sudo* para poder moverlo a /opt:
+En mi caso fue necesario cambiar de owner la carpeta del teamviewer a mi usuario normal, ya que uso *sudo* para poder moverlo a /opt:
 
    	chown -R usuario /opt/teamviewer8
 
 Donde *usuario* es tu usuario normal obviamente.
 
-Luego de esto para no tener que escribir la ruta completa cada vez que quiera ejecutarlo hize un link simbolico del mismo:
+Luego de esto para no tener que escribir la ruta completa cada vez que quiera ejecutarlo hize un link simbólico del mismo:
 
   	ln -s /opt/teamviewer8/teamviewer /usr/local/bin/teamviewer
 
-Si usas gnome o algun entorno grafico de escritorio posiblemente preferiras crear algun lanzador en el menu del mismo, en mi caso solo uso manejador de ventanas
-asi que no requiero de hacer eso, especificamente ando usando DWM ahora mismo.
+Si usas gnome o algún entorno gráfico de escritorio posiblemente preferirás crear algún lanzador en el menú del mismo, en mi caso solo uso manejador de ventanas
+así que no requiero de hacer eso, específicamente ando usando DWM ahora mismo.
 
 Otra vez te recuerdo, que para el anterior comando necesitas permisos de super usuario.
 
@@ -51,8 +51,8 @@ Ahora si ejecutas *teamviewer* en una terminal podrás ver el siguiente error:
 Pensarás que es un problema del daemon e irás a ejecutar *kill -9 6697* entonces te responderá que no hay ningún proceso con ese pid corriendo, claro el pid posiblemente sera distinto...bueno eso hubieras hecho
 si antes no te lo hubiera pronosticado no? En fin...
 
-Llegue a leer por ahi que matando el proceso del daemon de teamviewer y ejecutandolo de nuevo se resolvia, pero no en nuestro caso. Como decia al principio es un problema de 
-librerias, estamos ejecutando un software que requiere librerias para sistemas de 32 bits y nosotros solo tenemos librerias de 64 bits actualmente.  Para corroborar esto ejecuta lo 
+Llegue a leer por ahí que matando el proceso del daemon de teamviewer y ejecutándolo de nuevo se resolvía, pero no en nuestro caso. Como decía al principio es un problema de 
+librerías, estamos ejecutando un software que requiere librerías para sistemas de 32 bits y nosotros solo tenemos librerías de 64 bits actualmente.  Para corroborar esto ejecuta lo 
 esto:
 
 	/opt/teamviewer8/tv-setup --checklibs
@@ -87,11 +87,11 @@ En mi caso la salida fue lo siguiente:
 	The libraries listed above seem to be missing
 	Find and install the corresponding packages.
 
-Pueden ver el *NOTE* arriba? Dice explicitamente que todas las librerias requeridas son de 32 bits, seguro que ya tenemos todas estas librerias instaladas o la mayoria de ellas
+Pueden ver el *NOTE* arriba? Dice explícitamente que todas las librerías requeridas son de 32 bits, seguro que ya tenemos todas estas librerías instaladas o la mayoría de ellas
 pero para 64 bits.
 
-Lo primero que debemos hacer en nuestro caso si aún no tenemos habilitados el repositorio `multilib` es habitarlo, entonces ya luego podremos instalar liberias de 32 bits. En mi caso 
-yo lo tenia comentado desde el dia que instalé el Arch Linux, asi que solo tuve que descomentarlo, asi que si lo tienes comentado descomentalo y sino lo tienes agregalo, de la siguiente forma:
+Lo primero que debemos hacer en nuestro caso si aún no tenemos habilitados el repositorio `multilib` es habilitarlo, entonces ya luego podremos instalar librerías de 32 bits. En mi caso 
+yo lo tenia comentado desde el día que instalé el Arch Linux, así que solo tuve que descomentarlo, así que si lo tienes comentado descomentalo y sino lo tienes agregalo, de la siguiente forma:
 
 Abre con tu editor de texto favorito (por ejemplo vim) el archivo **/etc/pacman.conf** y agrega o descomenta (según sea tu caso)  la siguiente linea:
 
@@ -102,18 +102,18 @@ Ahora queda sincronizar los repositorios:
 
 	pacman -Sy
 
-Podras ver como ahora tienes el repositorio multilib agregado. 
+Podrás ver como ahora tienes el repositorio multilib agregado. 
 
-Ahora es el momento de instalar las liberias que requiere el teamviewer, esto es medio tricky a veces, porque algunas liberias no tienen el mismo nombre que nos dice el comando que corrimos antes,
-ademas que como es en un sistema de 64 bits la mayoria de estas llevaran como prefijo *lib32-*, pero ya que yo he hecho todo esto no tendras que andar buscando los nombres de eesas liberias y demas,
-que en todo caso serian mas `pacman -Ss nomre_libreria` que cualquier otra cosa y algunas busquedas por la red en algunos casos.
+Ahora es el momento de instalar las librerías que requiere el teamviewer, esto es medio tricky a veces, porque algunas librerías no tienen el mismo nombre que nos dice el comando que corrimos antes,
+además que como es en un sistema de 64 bits la mayoría de estas llevaran como prefijo *lib32-*, pero ya que yo he hecho todo esto no tendrás que andar buscando los nombres de esas librerías y demás,
+que en todo caso serian mas `pacman -Ss nombre_librería` que cualquier otra cosa y algunas búsquedas por la red en algunos casos.
 
-Procedemos a instalar las librerias del siguiente modo:
+Procedemos a instalar las librerías del siguiente modo:
 
 	pacman -S lib32-libxau lib32-libsm lib32-libx11 lib32-libxdamage lib32-libxext lib32-libxfixes lib32-libxrender lib32-libxtst lib32-alsa-lib lib32-gcc-libs lib32-zlib lib32-libxft
 
-Espero que no se me este quedando ninguna, pero luego de haber instalado las liberias arribas, ya debes estar ready para ejecutar teamviewer sin problemas. Veamos, primero ejecutamos nuevamente 
-*/opt/teamviewer8/tv-setup --checklibs* ahora deberiamos recibir como salida lo siguiente:
+Espero que no se me este quedando ninguna, pero luego de haber instalado las librerías arribas, ya debes estar ready para ejecutar teamviewer sin problemas. Veamos, primero ejecutamos nuevamente 
+*/opt/teamviewer8/tv-setup --checklibs* ahora deberíamos recibir como salida lo siguiente:
 
        		-=-   TeamViewer tar.gz check   -=-      
 
@@ -127,8 +127,8 @@ Espero que no se me este quedando ninguna, pero luego de haber instalado las lib
 
    	All dependencies seem to be satisfied!   
 
-En caso que tu salida sea diferente y que aun te este diciendo que faltan algunas librerias, pues busca en los repos con `pacman -Ss nombre_libreria` e instala la que pertence al repositorio `multilib`
-que generalmente tendra como prefijo `lib32-`. Si no encuentras la libreria ahi busca en Internet que podria ser que el nombre sea diferente en Arch.
+En caso que tu salida sea diferente y que aun te este diciendo que faltan algunas librerías, pues busca en los repos con `pacman -Ss nombre_librería` e instala la que pertenece al repositorio `multilib`
+que generalmente tendrá como prefijo `lib32-`. Si no encuentras la librería ahí busca en Internet que podaría ser que el nombre sea diferente en Arch.
 
 Ya no queda más que simplemente ejecutar teamviewer nuevamente.
 

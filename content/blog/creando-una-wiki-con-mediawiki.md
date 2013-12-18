@@ -6,7 +6,7 @@ date: 2013-09-22 11:00
 Introducción
 ------------------------------------
 
-Veremos como instalar una wiki en un servidor web montado en nuestro propio ordenador, subirla a un hosting online no seria muy distinto de lo que haremos aquí así que si deseas subirla a algún hosting puedes hacerlo facilmente a raíz de lo explicado aquí. Las razones por las que querrías instalar tu propia wiki podrían ser varias, por ejemplo, tener una base de datos organizada con tus trabajos escolares indexados, crear contenido y compartirlo con otras personas, podrías ser un maestro por ejemplo  y querrías ofrecer algunos materiales de apoyo a tus alumnos. En fin, aquí mostraremos como montar tu propia wiki, ya para que vayas a utilizar tu wiki es cosa tuya, en todo caso cabe recalcar que el proyecto podría llevarse a cabo con facilidad en un colegio o escuela pública, o hasta un grupo de amigos que deseen colaborar en sus estudios unos con los otros, solo por dar algunas ideas.
+Veremos como instalar una wiki en un servidor web montado en nuestro propio ordenador, subirla a un hosting online no seria muy distinto de lo que haremos aquí así que si deseas subirla a algún hosting puedes hacerlo fácilmente a raíz de lo explicado aquí. Las razones por las que querrías instalar tu propia wiki podrían ser varias, por ejemplo, tener una base de datos organizada con tus trabajos escolares indexados, crear contenido y compartirlo con otras personas, podrías ser un maestro por ejemplo  y querrías ofrecer algunos materiales de apoyo a tus alumnos. En fin, aquí mostraremos como montar tu propia wiki, ya para que vayas a utilizar tu wiki es cosa tuya, en todo caso cabe recalcar que el proyecto podría llevarse a cabo con facilidad en un colegio o escuela pública, o hasta un grupo de amigos que deseen colaborar en sus estudios unos con los otros, solo por dar algunas ideas.
 
 **Que necesitamos:**
 
@@ -19,18 +19,18 @@ XAMPP es un servidor independiente de plataforma, software libre, que consiste p
 
 **Qué es MediaWiki?** 
 
-MediaWiki es un software wiki libre escrito originalmente para *Wikipedia*. Ahora es utilizado por otros proyectos wikis de la *Fundación Wikimedia* y por otras wikis.
+MediaWiki es un software wiki libre escrito originalmente para *Wikipedia*. Ahora es utilizado por otros proyectos wiki de la *Fundación Wikimedia* y por otras wikis.
 
 Como pueden deducir crearemos un proyecto totalmente *Open Source*, es decir, usando solo software libre.
 
- En el caso de *GNU/Linux* la distro que sea, podríamos a ver preferido por instalar un servidor web full, es decir, Apache, MySQL y PHP cada uno por su lado, haciendo así de nuestra PC un total servidor web. Pero en vez de eso, hemos elegido XAMPP ya que lo que haremos sera una instalación simple hogareña y no queremos tener un servidor corriendo todo el tiempo, además este nos sirve para nuestro proposito,  algo un poco mas intuitivo para hacerlo mas asequible a todos los lectores.
+ En el caso de *GNU/Linux* la distro que sea, podríamos a ver preferido por instalar un servidor web full, es decir, Apache, MySQL y PHP cada uno por su lado, haciendo así de nuestra PC un total servidor web. Pero en vez de eso, hemos elegido XAMPP ya que lo que haremos sera una instalación simple hogareña y no queremos tener un servidor corriendo todo el tiempo, además este nos sirve para nuestro propósito,  algo un poco mas intuitivo para hacerlo mas asequible a todos los lectores.
 
 Instalando el XAMPP
 --------------------
 
-Bueno ya que te descargaste el XAMPP del link puesto arriba vamos a empezar a instalarnos el XAMPP, en Windows lo descomprimimos y ejecutamos el instalador  y  seleccionamos como ruta de instalación **c:\xampp\**, que me parece que es la ruta por defecto (yo estoy usando ubuntu), en cuanto a la pregunta de que si quieren inicial el panel de control de XAMPP eligen No, ya que por el momento no es necesario. En Linux abrimos una terminal, nos autentificamos como usuario root, noa dirigimos a la carpeta donde descargamos el archivo y luego tecleamos;
+Bueno ya que te descargaste el XAMPP del link puesto arriba vamos a empezar a instalarnos el XAMPP, en Windows lo descomprimimos y ejecutamos el instalador  y  seleccionamos como ruta de instalación **c:\xampp\**, que me parece que es la ruta por defecto (yo estoy usando ubuntu), en cuanto a la pregunta de que si quieren inicial el panel de control de XAMPP eligen No, ya que por el momento no es necesario. En Linux abrimos una terminal, nos autentificamos como usuario root, nos dirigimos a la carpeta donde descargamos el archivo y luego tecleamos;
 
-    ar xvfz xampp-linux-1.7.7.tar.gz -C /opt
+    tar xvfz xampp-linux-1.7.7.tar.gz -C /opt
 
 Con eso ahora tendríamos el directorio /opt/lampp donde se encuentra el XAMPP.
 
@@ -52,7 +52,7 @@ Ahora tenemos una carpeta llamada  mediawiki-1.18.0 la movemos a /opt/lampp-htdo
 Iniciando los servidores
 -------------------------
 
-Ahora si vamos a iniciar los servidores, en windows dirigite a Inicio y busca XAMPP > XAMPP Control Panel, también puedes acceder por medio del acceso directo en el escritorio. Los servidores que necesitamos son Apache y MySQL, por lo que lo otros lo puedes detener; Filezilla y Mercury.
+Ahora si vamos a iniciar los servidores, en windows dirigete a Inicio y busca XAMPP > XAMPP Control Panel, también puedes acceder por medio del acceso directo en el escritorio. Los servidores que necesitamos son Apache y MySQL, los demás puedes detenerlo; Filezilla y Mercury.
 
 Nota: Si por alguna razón queremos detener los servidores, solo abrimos el control de panel de XAMPP y damos click en el apartado del servidor donde dice stop, para reiniciarlo por igual, dando click en restart.
 
@@ -69,9 +69,9 @@ Ahora para acceder al servidor desde el navegador, en la barra de navegación es
 Configurando MediaWiki
 ----------------------
 
-Ahora necesitamos configurar MediaWiki, para ellos nos dirigimos desde el navegador a la url localhost/nombre_wiki, en nombre_wiki va el nombre que le pusiste a la carpeta de MediaWiki en mi caso le puse wiki, así que seria asi *localhost/wiki*. Ahora ves una pagina de presentación  que dice que el archivo LocalSettings.php no fue encontrado, eso es normal ya nos encargaremos luego. Le damos click a  **set up de wiki**. En la pagina que tenemos ahora seleccionamos nuestro idioma y el idioma que queremos para la wiki, yo seleccioné es-Español en ambos casos y damos click a *continue*.
+Ahora necesitamos configurar MediaWiki, para ellos nos dirigimos desde el navegador a la url localhost/nombre_wiki, en nombre_wiki va el nombre que le pusiste a la carpeta de MediaWiki en mi caso le puse wiki, así que seria así *localhost/wiki*. Ahora ves una pagina de presentación  que dice que el archivo LocalSettings.php no fue encontrado, eso es normal ya nos encargaremos luego. Le damos click a  **set up de wiki**. En la pagina que tenemos ahora seleccionamos nuestro idioma y el idioma que queremos para la wiki, yo seleccioné es-Español en ambos casos y damos click a *continue*.
 
-En el siguiente apartado vemos una pagina de bienvenida, fijemonos debajo que diga lo siguiente; **El entorno ha sido comprobado. Puedes instalar MediaWiki**. Eso indica que todo va bien por el momento. Ahora damos  click en continuar nuevamente debajo.
+En el siguiente apartado vemos una pagina de bienvenida, miramos debajo que diga lo siguiente; **El entorno ha sido comprobado. Puedes instalar MediaWiki**. Eso indica que todo va bien por el momento. Ahora damos  click en continuar nuevamente debajo.
 
 ![screenshot #1](|filename|/images/posts/mediawiki/wiki1.png)
 
@@ -91,8 +91,8 @@ En el apartado **Cuenta de administrador** llenamos los datos solicitados para c
 
 + **Su nombre** -> Aquí va tu nombre para la cuenta de administrador.
 + **Contraseña** -> Una contraseña para tu cuenta.
-+ **Repita la contrasea** -> Aquí repites la contraseña anterior.
-+ **Dirección de correo electronico** -> Aquí pones un correo tuyo, si haces accesible tu web desde el Internet es bueno que pongas un correo para si alguien quiere comunicarse contigo.
++ **Repita la contraseña** -> Aquí repites la contraseña anterior.
++ **Dirección de correo electrónico** -> Aquí pones un correo tuyo, si haces accesible tu web desde el Internet es bueno que pongas un correo para si alguien quiere comunicarse contigo.
 
 ![screenshot #3](|filename|/images/posts/mediawiki/wiki3.png)
 
@@ -103,7 +103,7 @@ Debajo donde dice *Subscribirse para recibir avisos de nuevas versiones* te reco
   +  Házme mas preguntas
   +  Ya estoy aburrido, sólo instala el wiki.
 
-De estas dos elegimos la segunda, los demás ajustes pueden realizarlos luego segun deseen. Ahora proseguimos a pulsar en continuar.
+De estas dos elegimos la segunda, los demás ajustes pueden realizarlos luego según deseen. Ahora proseguimos a pulsar en continuar.
 
 *Nota: Guarda todos estos datos porque son tus datos de acceso a la wiki, lo necesitaras para poder escribir, editar y demás.***
 

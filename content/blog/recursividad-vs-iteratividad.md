@@ -40,7 +40,7 @@ Ahora veamos el método recursivo que en efecto produce el mismo resultado
 
 	:::python
 	#/usr/bin/env python
-	# Factorial funcion recursiva
+	# Factorial función recursiva
 
 	def factorial(n):
 		if n <= 1:
@@ -144,7 +144,7 @@ Como pueden ver la diferencia es muy poca, pero aún así las hay. Hay muchas co
 Ahora será con la sucesión de fibonacci, veamos la función recursiva primero.
 
 	#/usr/bin/env python
-	# Funcion fibonacci recursiva
+	# Función fibonacci recursiva
 
 	def fibonacci(n):
 		if n == 0 or n == 1:

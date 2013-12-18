@@ -42,7 +42,7 @@ Para listar los paquetes instalados en el entorno usamos yolk acá:
     
      sudo easy_install yolk
 
-Tuve problemas con yolk, asi que mejor use pip que es una alternativa a easy_install por cierto, y que tiene soporte para desinstalar y listar paquetes entre otras.
+Tuve problemas con yolk, así que mejor use pip que es una alternativa a easy_install por cierto, y que tiene soporte para desinstalar y listar paquetes entre otras.
     
      pip list
 

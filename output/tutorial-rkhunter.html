@@ -56,13 +56,13 @@
             por <a href="http://aljavier.github.io/author/a-j-javier.html">A. J. Javier</a>        </div>
       </header>
       <div class="post-content"> 
-        <p>En este post comparto con ustedes como podemos buscar rootkits, directorios y/o archivos ocultos en nuestro sistema Unix (Linux, BSD, etc.), entre otros, para ello usaremos esta estupenda herramienta llamada Rkhunter o Rootkit Hunter. Es una herramienta bastante conocido asi tambien como chkrootkit que es bastante popular. En este momento no podria recomendar una por encima de la otra. Pero si que ees bueno conocer estas herramientas, ya que es
+        <p>En este post comparto con ustedes como podemos buscar rootkits, directorios y/o archivos ocultos en nuestro sistema Unix (Linux, BSD, etc.), entre otros, para ello usaremos esta estupenda herramienta llamada Rkhunter o Rootkit Hunter. Es una herramienta bastante conocido así también como chkrootkit que es bastante popular. En este momento no podría recomendar una por encima de la otra. Pero si que es bueno conocer estas herramientas, ya que es
 bastante necesario mantener un chequeo rutinario del estado actual de nuestro sistemas para detectar a tiempo posibles intrusiones y actuar conforme el asunto.</p>
 <h2>Qué es rkhunter?</h2>
 <p>Según wikipedia es una herramienta para sistemas <a href="http://es.wikipedia.org/wiki/Unix" title="Unix">Unix</a> que detecta los <a href="http://es.wikipedia.org/wiki/Rootkits" title="Rootkits">rootkies</a>, las <a href="http://es.wikipedia.org/wiki/Puerta_trasera" title="Puertas traseras o backdoors">backdoors</a> y los exploit locales mediante la comparación de los <a href="http://es.wikipedia.org/wiki/MD5#Hashes_MD5" title="hashes MD5">Hashes MD5</a> de ficheros importantes con su firma correcta en una base de datos en línea, buscando los directorios por defecto (de rootkits), los permisos 
 incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del kernel, y las pruebas especiales para GNU/Linux y FreeBSD.</p>
 <h2>Qué son rootkits?</h2>
-<p>La mayoría de veces son herramientas que se auto-ocultan en los sistemas, estos son utilizados por <em>blackhats</em>, <em>crackers</em> y <em>scriptkiddies</em> para evitarser descubierto por el administrador del sistema.</p>
+<p>La mayoría de veces son herramientas que se auto-ocultan en los sistemas, estos son utilizados por <em>blackhats</em>, <em>crackers</em> y <em>scriptkiddies</em> para evitar ser descubierto por el administrador del sistema.</p>
 <h2>Instalando Rkhunter</h2>
 <p>Para instalar Rkhunter podríamos hacerlo desde los repositorios, ya que esta en lo repositorio de la mayoría de las distros GNU/Linux, o podríamos descargarlos desde su website e instalarlo. Eligiremos la ultima opción, ya que así nos aseguramos de tener la ultima versión del mismo, algo importantísimo en casos como este. En todo caso, si instalamos desde los repositorios podemos actualizar el Rkhunter con</p>
 <div class="codehilite"><pre><span class="n">sudo</span> <span class="n">rkhunter</span> <span class="o">--</span><span class="n">update</span>
@@ -76,7 +76,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 </pre></div>
 
 
-<p>Desde una terminal vamos a la carpeta que se nos creo al descomprimir el archivo, la carpeta tiene el formato de <strong>rkhunter-version</strong>, en mi caso</p>
+<p>Desde una terminal vamos a la carpeta que se nos creo al descomprimir el archivo, la carpeta tiene el formato de <strong>rkhunter-versión</strong>, en mi caso</p>
 <div class="codehilite"><pre><span class="n">cd</span> <span class="n">rkhunter</span><span class="o">-</span><span class="mf">1.3.8</span>
 </pre></div>
 
@@ -111,7 +111,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 <p>Por cierto, podemos ver en detalle el resultado del escaneo en el archivo <strong>/var/log/rkhunter.log</strong>, de modo que en caso de tener algún rootkit ahí podemos leer la ruta de su posible ubicación.</p>
 <p>La primera vez que ejecutamos Rkhunter recibimos mucho mensajes del tipo <span style="color: red;">Warning</span>, que en muchos casos son solo falsos positivos y son comandos del mismo sistema como /bin/who por ejemplo, por ello y otras razones es bueno leerse las <a href="http://rkhunter.cvs.sourceforge.net/viewvc/rkhunter/rkhunter/files/FAQ" title="FAQ de Rkhunter">FAQ</a></p>
 <p><em>Nota: Rkhunter no elimina los rootkits ni otros binarios maliciosos, solo los detecta el resto va por tu cuenta.</em></p>
-<p>Si quisieramos hacer un escaneo y que no nos muestre tanta información como con la opción <em>--check</em>, para buscar solo rootkits podríamos ejecutar </p>
+<p>Si quisiéramos hacer un escaneo y que no nos muestre tanta información como con la opción <em>--check</em>, para buscar solo rootkits podríamos ejecutar </p>
 <div class="codehilite"><pre><span class="n">rkhunter</span> <span class="o">--</span><span class="n">enable</span> <span class="n">rootkits</span>
 </pre></div>
 
@@ -122,12 +122,12 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 
 
 <p>Algo mas que es positivo es subscribirnos a la lista de correos para recibir información sobre bugs y otras cuestiones de seguridad relacionadas con Rkhunter, para eso podemos ir a <a href="https://lists.sourceforge.net/lists/listinfo/rkhunter-usershttps://lists.sourceforge.net/lists/listinfo/rkhunter-users" title="rkhunter-user-mailling list">user-mailing-lists</a></p>
-<p>Si por alguna razón quisieramos desinstalar el Rkhunter vamos a la carpeta descomprimida del programa y ejecutamos el script de instalación con la opcion <em>---remove</em></p>
+<p>Si por alguna razón quisiéramos desinstalar el Rkhunter vamos a la carpeta descomprimida del programa y ejecutamos el script de instalación con la opción <em>---remove</em></p>
 <div class="codehilite"><pre><span class="p">.</span><span class="o">/</span><span class="n">installer</span><span class="p">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">remove</span>
 </pre></div>
 
 
-<p>Hasta aquí el post, para mas info recomiendo consultar el manual de rkhunter, y leer las FAQ, así como seguir los demás consejos que he dado, que son los que recomiendan ellos mismos en su website. </p>
+<p>Hasta aquí el post, para mas información recomiendo consultar el manual de rkhunter, y leer las FAQ, así como seguir los demás consejos que he dado, que son los que recomiendan ellos mismos en su website. </p>
 <p>Nos leemos!</p>
 <p><em>Nota: Aunque este tutorial es 100% valido aún, cabe decir que data ya de un tiempo, fue rescatado de mi antiguo blog.</em></p>
       </div>
