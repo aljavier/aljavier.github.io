@@ -5,34 +5,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=endge, chrome=IE8" />
     <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
     <title>Creando una wiki con MediaWiki — // Sysflux</title>
-    <!--[if lte IE 8]><script type="text/javascript" src="/theme/js/html5shiv.js"></script><![endif]-->
-    <link rel="stylesheet" type="text/css" href="/theme/css/skeleton.css" />
-    <link rel="stylesheet" type="text/css" href="/theme/css/theme.css" />
+    <!--[if lte IE 8]><script type="text/javascript" src="http://aljavier.github.io/theme/js/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" type="text/css" href="http://aljavier.github.io/theme/css/skeleton.css" />
+    <link rel="stylesheet" type="text/css" href="http://aljavier.github.io/theme/css/theme.css" />
 	<link href='http://fonts.googleapis.com/css?family=Belleza' rel='stylesheet' type='text/css'>
-    <link rel="shortcut icon" type="image/png" href="/favicon.png" />
-    <!--[if lte IE 8]><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /><![endif]-->
+    <link rel="shortcut icon" type="image/png" href="http://aljavier.github.io/favicon.png" />
+    <!--[if lte IE 8]><link rel="shortcut icon" type="image/x-icon" href="http://aljavier.github.io/favicon.ico" /><![endif]-->
     <link rel="alternate" type="application/atom+xml"
                            title="// Sysflux — Flux Atom"
-                           href="/" /> 
+                           href="http://aljavier.github.io/" /> 
+    <link rel ="alternate" type="application/rss+xml"
+                           title="// Sysflux — Flux RSS"
+                           href="http://aljavier.github.io/rss.xml" /> 
 
     <meta name="author"   content="A. J. Javier" />
     <meta name="keywords" content="mediawiki, wiki, xampp" />
-    <link rel="stylesheet" media="not print" type="text/css" href="/theme/css/pygments.css" /> 
+    <link rel="stylesheet" media="not print" type="text/css" href="http://aljavier.github.io/theme/css/pygments.css" /> 
   </head>
   <body>
     <div id="page">
       <header id="page-head">
 		 <hgroup>
         	<h1>
-          		<a href="/index.html">// Sysflux</a>
+          		<a href="http://aljavier.github.io/index.html">// Sysflux</a>
         	</h1>
 			<h2>cat /dev/brain | grep 'code\|sysadmin\|linux\|random_stuff' >> blog.txt</h2>
 	     </hgroup>
 	<nav>
 	      	<ul>
-<li class="active"><a href="/category/blog.html">blog</a></li>			 <li><a href="/archives.html">archivo</a></li>
-			 <li><a href="/tags.html">etiquetas</a></li>
-<li><a href="/pages/about-me.html">about</a></li>	       </ul>
+<li class="active"><a href="http://aljavier.github.io/category/blog.html">blog</a></li>			 <li><a href="http://aljavier.github.io/archives.html">archivo</a></li>
+			 <li><a href="http://aljavier.github.io/tags.html">etiquetas</a></li>
+<li><a href="http://aljavier.github.io/pages/about-me.html">about</a></li>	       </ul>
      </nav>
 	
       </header>
@@ -42,7 +45,7 @@
       <header class="post-header">
         <h1>
           <a rel="bookmark"
-             href="/creando-una-wiki-con-mediawiki.html"
+             href="http://aljavier.github.io/creando-una-wiki-con-mediawiki.html"
              title="Enlace permanente a  «Creando una wiki con MediaWiki»">
              Creando una wiki con MediaWiki
           </a>
@@ -50,7 +53,7 @@
         <div class="meta">
 <!-- includes/article_meta.html -->
             Públicado el <time datetime="2013-09-22T11:00:00">Sun 22 September 2013</time>
-            por <a href="/author/a-j-javier.html">A. J. Javier</a>        </div>
+            por <a href="http://aljavier.github.io/author/a-j-javier.html">A. J. Javier</a>        </div>
       </header>
       <div class="post-content"> 
         <h2>Introducción</h2>
@@ -100,12 +103,12 @@
 <h2>Configurando MediaWiki</h2>
 <p>Ahora necesitamos configurar MediaWiki, para ellos nos dirigimos desde el navegador a la url localhost/nombre_wiki, en nombre_wiki va el nombre que le pusiste a la carpeta de MediaWiki en mi caso le puse wiki, así que seria asi <em>localhost/wiki</em>. Ahora ves una pagina de presentación  que dice que el archivo LocalSettings.php no fue encontrado, eso es normal ya nos encargaremos luego. Le damos click a  <strong>set up de wiki</strong>. En la pagina que tenemos ahora seleccionamos nuestro idioma y el idioma que queremos para la wiki, yo seleccioné es-Español en ambos casos y damos click a <em>continue</em>.</p>
 <p>En el siguiente apartado vemos una pagina de bienvenida, fijemonos debajo que diga lo siguiente; <strong>El entorno ha sido comprobado. Puedes instalar MediaWiki</strong>. Eso indica que todo va bien por el momento. Ahora damos  click en continuar nuevamente debajo.</p>
-<p><img alt="screenshot #1" src="/images/posts/mediawiki/wiki1.png" /></p>
+<p><img alt="screenshot #1" src="http://aljavier.github.io/images/posts/mediawiki/wiki1.png" /></p>
 <p>En la pagina que tenemos ahora (ver imagen arriba), en el apartado Tipo de base de datos dejamos MySQL que es la que esta preseleccionada por defecto y es la que usa XAMPP, en Configuración de MySQL &gt; servidor de la base de datos lo dejemos tal cual esta en localhost ya que es en nuestro ordenador donde tenemos montado nuestro servidor.</p>
 <p>En Nombre de base de datos si quieren pueden dejarlo tal cual esta como my_wiki yo usare otro nombre por cuestiones de seguridad en Prefijo para las tablas de la base de datos ponemos mw_ (nota el guión bajo), en Nombre de usuarios de base de datos lo dejamos como esta por defecto root que es el nombre por defecto de MySQL, en contraseña de base de datos lo dejamos en blanco tal cual esta, ya que así viene por defecto en MySQL eso podemos cambiarlo luego cuando nos aseguremos de que nuestra wiki funciona bien.</p>
 <p><em>Nota</em><em>:  Apunta estos datos porque son prioritarios, lo necesitaras luego</em>.</p>
 <p>Pues sin mas presionamos nuevamente en continuar, en la pagina que estamos ahora dejamos todo por defecto (ver imagen debajo) y presionamos una vez mas en continuar.</p>
-<p><img alt="screenshot #2" src="/images/posts/mediawiki/wiki2.png" /></p>
+<p><img alt="screenshot #2" src="http://aljavier.github.io/images/posts/mediawiki/wiki2.png" /></p>
 <p>Ahora procedemos a llenar los datos que nos solicitan en la pagina presente. En Nombre del wiki elegimos el nombre que nos plasca para nuestra wiki, yo le puse ElectroWiki ustedes pueden elegir el nombre que deseen. En Espacio de nombre de proyecto pueden dejarlo tal cual esta en la primera opción Igual como el nombre del wiki.</p>
 <p>En el apartado <strong>Cuenta de administrador</strong> llenamos los datos solicitados para crear nuestra cuenta de administrador como sigue:</p>
 <ul>
@@ -114,7 +117,7 @@
 <li><strong>Repita la contrasea</strong> -&gt; Aquí repites la contraseña anterior.</li>
 <li><strong>Dirección de correo electronico</strong> -&gt; Aquí pones un correo tuyo, si haces accesible tu web desde el Internet es bueno que pongas un correo para si alguien quiere comunicarse contigo.</li>
 </ul>
-<p><img alt="screenshot #3" src="/images/posts/mediawiki/wiki3.png" /></p>
+<p><img alt="screenshot #3" src="http://aljavier.github.io/images/posts/mediawiki/wiki3.png" /></p>
 <p>Debajo donde dice <em>Subscribirse para recibir avisos de nuevas versiones</em> te recomiendo que marques esa casilla, para que actualizes tu wiki siempre que sea necesario, ya que de vez en cuando se descubren bugs y esas cosas.</p>
 <p><strong>Debajo tenemos dos opciones en las cuales elegir:</strong></p>
 <ul>
@@ -141,7 +144,7 @@
 <li>Creating main page with default content... hecho</li>
 </ul>
 <p>Ahora proseguimos y presionamos en continuar. Entonces si todo ha ido bien, nos sale el siguiente mensaje de la imagen abajo y se inicia la descarga del archivo <strong>LocalSettings.php</strong> elegimos guardar, este tiene la configuración de toda nuestra wiki y el cual necesitaremos para modificar luego cualquier otra cosa y en general para el funcionamiento de la misma. Si no se inicio la descarga automáticamente damos click donde dice <strong><em>Download LocalSettings.php</em></strong>.</p>
-<p><img alt="screenshot #4" src="/images/posts/mediawiki/wiki4.png" /></p>
+<p><img alt="screenshot #4" src="http://aljavier.github.io/images/posts/mediawiki/wiki4.png" /></p>
 <p>Como nos dice la  misma pagina presente necesitamos mover el archivo <em>LocalSettings.php</em> al directorio donde se encuentra el index.php de nuestra wiki, en GNU/Linux lo movemos al directorio /opt/lampp/htdocs/wiki</p>
 <div class="codehilite"><pre><span class="n">mv</span> <span class="n">LocalSettings</span><span class="p">.</span><span class="n">php</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">lampp</span><span class="o">/</span><span class="n">htdocs</span><span class="o">/</span><span class="n">wiki</span><span class="o">/</span>
 </pre></div>
@@ -150,14 +153,14 @@
 <p>En windows lo copiamos y lo pegamos en el directorio c:\xampp\htdocs\wiki.</p>
 <p>Ahora en la misma pagina donde estamos situados aun, damos click debajo donde dice <strong><em>"When that has been done, you can enter your wiki"</em></strong> exactamente en la parte <strong>enter your wiki</strong>.</p>
 <p>Si todo ha ido bien veremos la pagina debajo (ver imagen) con nuestra wiki funcionando perfectamente.</p>
-<p><img alt="screenshot #5" src="/images/posts/mediawiki/wiki5.png" /></p>
+<p><img alt="screenshot #5" src="http://aljavier.github.io/images/posts/mediawiki/wiki5.png" /></p>
 <p>En lo adelante siempre que queramos acceder a nuestra wiki solo debemos poner en la ruta de direcciones del navegador web <strong>http://localhost/wiki</strong>, claro ten en cuenta que el XAMPP debe estar iniciado para poder acceder a tu wiki.</p>
 <p>Ya puedes empezar a escribir en tu propia wiki!!!</p>
 <p><em>nota final: Este articulo no es muy reciente a pesar de la fecha de publicación, fue rescatado de mi antiguo blog, pero aún sigue siendo útil, solo que las versiónes mas recientes de MediaWiki y XAMPP serán otras, por tanto, algunas cosas puede ser que hayan cambiado.</em></p>
       </div>
       <footer class="post-footer">
         <div class="meta">
-               Etiquetas:  #<a href="/tag/mediawiki.html">mediawiki</a> #<a href="/tag/wiki.html">wiki</a> #<a href="/tag/xampp.html">xampp</a>        </div>
+               Etiquetas:  #<a href="http://aljavier.github.io/tag/mediawiki.html">mediawiki</a> #<a href="http://aljavier.github.io/tag/wiki.html">wiki</a> #<a href="http://aljavier.github.io/tag/xampp.html">xampp</a>        </div>
       </footer>
       <hr />
       <div id="disqus_thread"></div>
@@ -181,13 +184,13 @@
           <nav>
             <h3>/dev/random</h3>
             <ul>
-				<li><a href="/recursividad-versus-iteratividad.html">Recursividad versus iteratividad</a></li>
-				<li><a href="/instalacion-teamviewer-archlinux-x86_64.html">Instalación de Teamviewer en Arch Linux x86_64</a></li>
-				<li><a href="/tutorial-rkhunter.html">Buscando rootkits con Rkhunter</a></li>
-				<li><a href="/creando-una-wiki-con-mediawiki.html">Creando una wiki con MediaWiki</a></li>
-				<li><a href="/tutorial-virtualenv.html">Virtualenv: Entornos virtuales de desarrollo para Python</a></li>
-				<li><a href="/tutorial-api-shodan-para-python.html">Usando la API de Shodan para Python</a></li>
-				<li><a href="/diccionarios-con-hashmap-y-treemap-en-java.html">Diccionarios con HashMap y TreeMap en Java</a></li>
+				<li><a href="http://aljavier.github.io/recursividad-versus-iteratividad.html">Recursividad versus iteratividad</a></li>
+				<li><a href="http://aljavier.github.io/instalacion-teamviewer-archlinux-x86_64.html">Instalación de Teamviewer en Arch Linux x86_64</a></li>
+				<li><a href="http://aljavier.github.io/tutorial-rkhunter.html">Buscando rootkits con Rkhunter</a></li>
+				<li><a href="http://aljavier.github.io/creando-una-wiki-con-mediawiki.html">Creando una wiki con MediaWiki</a></li>
+				<li><a href="http://aljavier.github.io/tutorial-virtualenv.html">Virtualenv: Entornos virtuales de desarrollo para Python</a></li>
+				<li><a href="http://aljavier.github.io/tutorial-api-shodan-para-python.html">Usando la API de Shodan para Python</a></li>
+				<li><a href="http://aljavier.github.io/diccionarios-con-hashmap-y-treemap-en-java.html">Diccionarios con HashMap y TreeMap en Java</a></li>
             </ul>
           </nav>
 
@@ -205,8 +208,9 @@
           <nav>
             <h3>/links</h3>
             <ul>
+              <li><a href="http://aljavier.github.io/rss.xml">Flux RSS</a></li>
               <li><a href="https://github.com/aljavier/" target="_blank">GitHub</a></li>
-              <li><a href="https://ddg.gg" target="_blank">DuckDuckGo</a></li>
+              <li><a href="http://ddg.gg" target="_blank">DuckDuckGo</a></li>
               <li><a href="#" target="_blank">Twitter</a></li>
             </ul>
           </nav>
