@@ -1,5 +1,5 @@
 title: Shadow passwords en Linux, ataque de diccionario con Python
-tags: Linux, python
+tags: Linux, python, crypt, security
 date:2013-12-18
 
 Hace unos meses ya, leyendo el libro de Violent Python había un script
