@@ -46,7 +46,7 @@ DELETE_OUTPUT_DIRECTORY = False  # True for debugging, False for productive
 # Change the locale. A list of locales can be provided here or a single string
 # representing one locale. When providing a list, all the locales will be tried
 # until one works.
-LOCALE = ""
+LOCALE = "C"
 
 #The timezone used in the date information, to generate atom and rss feeds.
 TIMEZONE = "America/Santo_Domingo"

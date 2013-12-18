@@ -38,7 +38,7 @@ DISPLAY_PAGES_ON_MENU = True
 MD_EXTENSIONS = ['codehilite', 'extra']
 
 # A list of any Jinja2 extensions you want to use.
-#JINJA_EXTENSIONS = ['jinja2.ext.do']
+JINJA_EXTENSIONS = ['jinja2.ext.do']
 
 # Delete the output directory and just the generated files. Default = False
 DELETE_OUTPUT_DIRECTORY = False  # True for debugging, False for productive
@@ -46,7 +46,7 @@ DELETE_OUTPUT_DIRECTORY = False  # True for debugging, False for productive
 # Change the locale. A list of locales can be provided here or a single string
 # representing one locale. When providing a list, all the locales will be tried
 # until one works.
-LOCALE = ""
+LOCALE = "C"
 
 #The timezone used in the date information, to generate atom and rss feeds.
 TIMEZONE = "America/Santo_Domingo"
@@ -188,11 +188,7 @@ SOCIAL = (('GitHub','https://github.com/aljavier/'),
 #DEFAULT_METADATA = (('yeah', 'it is'),)
 
 # A list of files to copy from the source to the destination
-STATIC_PATHS = (('extra/favicon.png', 'favicon.png'),)
-#                 ('extra/humans.txt', 'humans.txt'),
-#                 ('extra/favicon.ico', 'favicon.ico'),
-#                 ('extra/apple-touch-icon.png', 'apple-touch-icon.png'),
-#                 ('extra/.htaccess', '.htaccess'))
+FILES_TO_COPY = (('extra/favicon.png', 'favicon.png'),)
 
 # foobar will not be used, because it's not in caps. All configuration keys
 # have to be in caps
