@@ -54,10 +54,8 @@ Lo del *salt*, seguro es mas entendible leyendo lo que dice la wikipedia:
 Aclarando que "salt" en ingles es "sal" en español. Bien dicho eso, como ven, para generar los cifrados en el shadow,
 se usa un salt como entrada aleatoria de datos para generar el hash, y la password como tal.
 
-En python esto lo hacemos usando la librería crypt. Si tomas el hash y el id y le agregas un signo 
-de dolar "$" al final (honestamente no recuerdo porque se hace esto, pero lo leí cuando hacia el 
-script, no tengo la fuente ahora) tomas eso como segundo parámetro y como primer parámetro una password en texto plano, si la password en texto plano es la cifrada, entonces el hash sera igual que 
-el segundo parámetro de la función crypt.
+En python esto lo hacemos usando la librería crypt. Si tomas el hash mas el id como segundo parámetro y como primer parámetro una password en texto plano,
+si la password en texto plano es la cifrada entonces el hash sera igual que el segundo parámetro de la función crypt.
 
 Vamos a verlo de forma mas practica. Primera tenemos a un nuevo user llamado prueba:
 
@@ -74,15 +72,12 @@ Para ser mas explícito, el id es `$6$` y el la password cifrada (el hashed) es:
 Usando la librería crypt de python y llamando al método crypt, podemos comprobar o intentar adivinar cual es la password, del siguiente modo:
 
 	:::python
-	crypt.crypt(palabra, id+salt+$)
-
-*Repito de nuevo, ahora mismo no recuerdo porque hay que agregarle el "$" al final, pero ahí una 
-explicación muy técnica por ahí, sobre salt y shadow en Linux y todo eso, pero perdí el link.*
+	crypt.crypt(palabra, id+salt)
 
 Así que veamos cual es la password:
 
 	:::python
-	 crypt.crypt("passw0rd", "$6$kI8uI0MW$oj1B1xFlB35KuJY11ckxPCcU42K31hV7JFrsF/7dm1nbFDngu8.iJidAiAuxVmchDkIGEPY8WKrU/bctla3a1.$")
+	 crypt.crypt("passw0rd", "$6$kI8uI0MW$oj1B1xFlB35KuJY11ckxPCcU42K31hV7JFrsF/7dm1nbFDngu8.iJidAiAuxVmchDkIGEPY8WKrU/bctla3a1.")
 
 Eso nos devuelve lo siguiente:
 
@@ -92,20 +87,20 @@ Claramente es distinto al hash que pasamos como segundo parámetro, por tanto, "
 password cifrada aquí. Pero si ahora probamos del siguiente modo:
 
 	:::python
-	 crypt.crypt("123456789","$6$kI8uI0MW$oj1B1xFlB35KuJY11ckxPCcU42K31hV7JFrsF/7dm1nbFDngu8.iJidAiAuxVmchDkIGEPY8WKrU/bctla3a1.$")
+	 crypt.crypt("123456789","$6$kI8uI0MW$oj1B1xFlB35KuJY11ckxPCcU42K31hV7JFrsF/7dm1nbFDngu8.iJidAiAuxVmchDkIGEPY8WKrU/bctla3a1.")
 
 Nos devuelve como resultado:
 
 	$6$kI8uI0MW$oj1B1xFlB35KuJY11ckxPCcU42K31hV7JFrsF/7dm1nbFDngu8.iJidAiAuxVmchDkIGEPY8WKrU/bctla3a1.
 
-Es el mismo hash! Claro quitando el "$" final que agregamos en la llamada a crypt(), porque era necesario. Por lo tanto, 123456789, es la password real.
+Es el mismo hash! Por lo tanto, 123456789, es la password real.
 
 
 Así que hemos podido ver como generar el tipo de password que usa Linux para el /etc/shadow y así poder realizar
 un ataque de diccionario. Claro, igualmente podemos usar esto para generar passwords más seguras en nuestras aplicaciones
 tal como hace Linux con el /etc/shadow, es cuestión de tener en cuenta que el id es el tipo de cifrado, el salt es una palabra 
-aleatoria, para esto puedes prescindir del "$". Sería por ejemplo, así de simple: cryp.crypt(password, id+salt). De eso modo
-la función crypt te devolvería un hash usando el cifrado que sea, según el id que pusiste. Por cierto, crypt no soporta Blowfish ($2$).
+aleatoria. De eso modo la función crypt te devolvería un hash usando el cifrado que sea, según el id que pusiste. 
+Por cierto, crypt no soporta Blowfish ($2$).
 
 Ahora luego de esa leve explicación, les comparte el script completo que como dije antes habría hecho como upgrade
 al que tiene el libro Violent Python que era para sistemas unix viejos. Pero les dejare el link en github, no lo pegare aquí porque es un poco extenso, no mucho pero algo.
@@ -119,6 +114,5 @@ En verdad no es ningún cracker de passwords, ya que no es en el sentido estrict
 + [Ataque de diccionario](https://es.wikipedia.org/wiki/Ataque_de_diccionario "Ataque de diccionario")
 + [Explicación sobre salt](https://es.wikipedia.org/wiki/Sal_(criptograf%C3%ADa) "salt")
 + [Librería crypt de python](http://docs.python.org/2/library/crypt.html "crypt")
- 
 
-
+También tienen mas info en el man de crypt si usas Linux: `man 3 crypt`. 
