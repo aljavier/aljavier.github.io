@@ -73,7 +73,7 @@ RELATIVE_URL = False
 #base URL of your website. Note that this is not a way to tell pelican to use
 #relative urls or static ones. You should rather use the RELATIVE_URL setting
 #for such use.
-SITEURL = 'aljavier.github.io'
+SITEURL = 'http://aljavier.github.io'
 
 # The static paths you want to have accessible on the output path “static”. By
 # default, pelican will copy the ‘images’ folder to the output folder.
@@ -165,7 +165,7 @@ PIWIK_URL = ""
 
 # ID for the monitored website. You can find the ID in the Piwik admin
 # nterface > settings > websites.
-#PIWIK_SITE_ID = "1"
+PIWIK_SITE_ID = "1"
 
 # A list of tuples (Title, Url) for links to appear on the footer.
 LINKS = (('Chema Alonso\'s blog', 'http://www.elladodelmal.com/'),
@@ -176,7 +176,7 @@ LINKS = (('Chema Alonso\'s blog', 'http://www.elladodelmal.com/'),
 
 # A list of tuples (Title, Url) to appear in the “social” section.
 SOCIAL = (('GitHub','https://github.com/aljavier/'),
-           ('DuckDuckGo', 'ddg.gg'),
+        ('DuckDuckGo', 'http://ddg.gg'),
            ('Twitter','#'),)
 
 # Allows to add a button on the articles to tweet about them. Add you twitter
@@ -188,7 +188,7 @@ SOCIAL = (('GitHub','https://github.com/aljavier/'),
 #DEFAULT_METADATA = (('yeah', 'it is'),)
 
 # A list of files to copy from the source to the destination
-FILES_TO_COPY = (('extra/favicon.ico', 'favicon.ico'),)
+STATIC_PATHS = (('extra/favicon.png', 'favicon.png'),)
 #                 ('extra/humans.txt', 'humans.txt'),
 #                 ('extra/favicon.ico', 'favicon.ico'),
 #                 ('extra/apple-touch-icon.png', 'apple-touch-icon.png'),

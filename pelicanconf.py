@@ -38,7 +38,7 @@ DISPLAY_PAGES_ON_MENU = True
 MD_EXTENSIONS = ['codehilite', 'extra']
 
 # A list of any Jinja2 extensions you want to use.
-#JINJA_EXTENSIONS = ['jinja2.ext.do']
+JINJA_EXTENSIONS = ['jinja2.ext.do']
 
 # Delete the output directory and just the generated files. Default = False
 DELETE_OUTPUT_DIRECTORY = False  # True for debugging, False for productive
@@ -91,7 +91,7 @@ SITEURL = ''
 #FEED_ATOM = "atom.xml"
 
 # relative url to output the rss feed.
-FEED_RSS = 'rss.xml'
+#FEED_RSS = 'rss.xml'
 
 # relative url to output the tags atom feed. It should be defined using a “%s”
 # matchin the tag name
@@ -104,7 +104,7 @@ FEED_RSS = 'rss.xml'
 #TRANSLATION_FEED = "feeds/all-%s.atom.xml"
 
 #Maximum number of items allowed in a feed. Feeds are unrestricted by default.
-FEED_MAX_ITEMS = 12
+#FEED_MAX_ITEMS = 12
 
 
 # The minimum number of articles allowed on the last page. Use this when you
@@ -112,7 +112,7 @@ FEED_MAX_ITEMS = 12
 DEFAULT_ORPHANS = 0
 
 # The maximum number of articles to include on a page, not including orphans.
-DEFAULT_PAGINATION = 3
+DEFAULT_PAGINATION = 4
 
 #Activate pagination.
 WITH_PAGINATION = True
@@ -176,7 +176,7 @@ LINKS = (('Chema Alonso\'s blog', 'http://www.elladodelmal.com/'),
 
 # A list of tuples (Title, Url) to appear in the “social” section.
 SOCIAL = (('GitHub','https://github.com/aljavier/'),
-           ('DuckDuckGo', 'ddg.gg'),
+        ('DuckDuckGo', 'https://ddg.gg'),
            ('Twitter','#'),)
 
 # Allows to add a button on the articles to tweet about them. Add you twitter
@@ -188,11 +188,9 @@ SOCIAL = (('GitHub','https://github.com/aljavier/'),
 #DEFAULT_METADATA = (('yeah', 'it is'),)
 
 # A list of files to copy from the source to the destination
-FILES_TO_COPY = (('extra/favicon.ico', 'favicon.ico'),)
-#                 ('extra/humans.txt', 'humans.txt'),
-#                 ('extra/favicon.ico', 'favicon.ico'),
-#                 ('extra/apple-touch-icon.png', 'apple-touch-icon.png'),
-#                 ('extra/.htaccess', '.htaccess'))
+#STATIC_PATHS = ['extra/favicon.png']
+
+FILES_TO_COPY = (('extra/favicon.png', 'favicon.png'),)
 
 # foobar will not be used, because it's not in caps. All configuration keys
 # have to be in caps
