@@ -104,7 +104,7 @@ Es el mismo hash! Claro quitando el "$" final que agregamos en la llamada a cryp
 Así que hemos podido ver como generar el tipo de password que usa Linux para el /etc/shadow y así poder realizar
 un ataque de diccionario. Claro, igualmente podemos usar esto para generar passwords más seguras en nuestras aplicaciones
 tal como hace Linux con el /etc/shadow, es cuestión de tener en cuenta que el id es el tipo de cifrado, el salt es una palabra 
-aleatoria, para esto puedes prescindir del "$". Sería por ejemplo, así de simple: cryp.crypt(password, id+salt+"$"). De eso modo
+aleatoria, para esto puedes prescindir del "$". Sería por ejemplo, así de simple: cryp.crypt(password, id+salt). De eso modo
 la función crypt te devolvería un hash usando el cifrado que sea, según el id que pusiste. Por cierto, crypt no soporta Blowfish ($2$).
 
 Ahora luego de esa leve explicación, les comparte el script completo que como dije antes habría hecho como upgrade
