@@ -188,7 +188,7 @@ SOCIAL = (('GitHub','https://github.com/aljavier/'),
 #DEFAULT_METADATA = (('yeah', 'it is'),)
 
 # A list of files to copy from the source to the destination
-FILES_TO_COPY = (('extra/favicon.png', 'favicon.png'),)
+FILES_TO_COPY = (('extra/favicon.png', 'extra/favicon.png'),)
 
 # foobar will not be used, because it's not in caps. All configuration keys
 # have to be in caps
