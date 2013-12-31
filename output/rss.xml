@@ -1,5 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>// Sysflux</title><link>http://aljavier.github.io/</link><description>cat /dev/brain | grep 'code\|sysadmin\|linux\|random_stuff' &gt;&gt; blog.txt</description><atom:link href="http://aljavier.github.io/rss.xml" rel="self"></atom:link><lastBuildDate>Wed, 18 Dec 2013 00:00:00 -0400</lastBuildDate><item><title>Shadow passwords en Linux, ataque de diccionario con Python</title><link>http://aljavier.github.io/shadow-passwords-en-linux-ataque-de-diccionario-con-python.html</link><description>&lt;p&gt;Hace unos meses ya, leyendo el libro de Violent Python había un script
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>// Sysflux</title><link>http://aljavier.github.io/</link><description>cat /dev/brain | grep 'code\|sysadmin\|linux\|random_stuff' &gt;&gt; blog.txt</description><atom:link href="http://aljavier.github.io/rss.xml" rel="self"></atom:link><lastBuildDate>Tue, 31 Dec 2013 00:00:00 -0400</lastBuildDate><item><title>Subiendo archivos a la web por medio de POST con cURL</title><link>http://aljavier.github.io/curl-subiendo-archivos.html</link><description>&lt;p&gt;Si por algo soy fanático de los Sistemas Unix, específicamente de GNU/Linux, es por la cantidad
+inmensa de tools que hay para estos sistemas y en su mayoría herramientas para la linea de comandos
+de la cual soy un gran fanático. Me gusta usar la linea de comandos en gran medida.&lt;/p&gt;
+&lt;p&gt;En este post, que sera breve, hablamos de &lt;a href="http://curl.haxx.se/" title="cURL"&gt;cURL&lt;/a&gt; o más bien de uno de los
+tantos usos que podemos darle y entiéndase que cuando digo &lt;em&gt;cURL&lt;/em&gt; me refiero a la tool por linea de 
+comandos no a ninguna de sus librerías para sea cual sea el lenguaje. &lt;/p&gt;
+&lt;p&gt;Subir archivos por cURL es bastante simple, supongamos que tenemos un website con un formulario POST
+que tiene un campo para subir una imagen(o cualquier otro archivo), algo así:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;form&lt;/span&gt; &lt;span class="na"&gt;action=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;method=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;POST&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;enctype=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;multipart/form-data&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;input&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;file&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;upload&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;input&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;submit&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;send&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;value=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Enviar&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt; 
+&lt;span class="nt"&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Lo que haga el servidor para obtener el archivo o que lenguaje use del lado servidor nos es indiferente.
+Ya viendo lo de arriba, pueden verse los campos que usa el formulario, básicamente las opciones de cURL
+que nos importan en este caso es &lt;em&gt;--form&lt;/em&gt; o &lt;em&gt;-F&lt;/em&gt;, una sintaxis simple que nos permite subir un archivo en este 
+caso seria la siguiente:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;curl&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;form&lt;/span&gt; &lt;span class="n"&gt;upload&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;nombre_archivo&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;form&lt;/span&gt; &lt;span class="n"&gt;send&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Enviar&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Pueden usarse tantas opciones &lt;em&gt;--form&lt;/em&gt; como se quiera, según los campos que tenga el formulario. Nótese que en
+la primera opción &lt;em&gt;--form&lt;/em&gt; donde esta &lt;code&gt;upload=@nombre_archivo&lt;/code&gt;, &lt;em&gt;upload&lt;/em&gt; se refiere al nombre que tiene el campo
+con el &lt;code&gt;type="file"&lt;/code&gt; así que igualmente el nombre podría ser cualquier otro que el programador haya puesto, en ese
+caso es solo cambiar ese nombre, el &lt;code&gt;@nombre_archivo&lt;/code&gt; pues es el archivo que queremos subir, mas bien la dirección
+completa donde se encuentra. En la segunda opción con &lt;code&gt;--form&lt;/code&gt;, donde esta &lt;code&gt;send="Enviar"&lt;/code&gt;, &lt;em&gt;send&lt;/em&gt; es otra 
+variable en el formulario y &lt;strong&gt;Enviar&lt;/strong&gt; es el valor que le damos, esta parte no es muy necesaria ya que de por si
+la herramienta cURL hará el &lt;em&gt;submit&lt;/em&gt; automáticamente, en todo caso así ponen ellos un ejemplo en el manual, en la practica
+no he tenido que hacerlo, no con el campo del submit. &lt;/p&gt;
+&lt;p&gt;Hay un sitio web que uso bastante para compartir capturas de escritorios y demás, ese website es &lt;a href="http://uploadpie.com"&gt;uploadpie.com&lt;/a&gt;,
+pero me molestaba ya un poco tener que usar el navegador cada vez que quería subir una captura, es que suelo siempre tener
+varias terminales abiertas, como dije antes yo soy un amante de la linea de comandos se es mucho mas productivo así, el 
+asunto es que decidí hacerme un script sencillo en Bash usando cURL para poder subir las imágenes desde la terminal o tty.&lt;/p&gt;
+&lt;p&gt;Uplodpie permite subir archivos solo de forma temporal, archivos no mayores de 3 mb, con extensión gif, png, jpg, pdf o txt.
+De igual forma, se puede seleccionar el tiempo de expiración que queremos para nuestro archivo, que puede ser 30 minutos, 
+una hora, seis horas, un día o una semana.&lt;/p&gt;
+&lt;p&gt;El campo con el type='file' en el formulario se llama &lt;em&gt;uploadedfile&lt;/em&gt; y el campo que permite elegir la duración del archivo
+en el servidor se llama &lt;em&gt;expire&lt;/em&gt;, que en el formulario html es un &lt;em&gt;select&lt;/em&gt; con 5 &lt;em&gt;option&lt;/em&gt; con valores: 1 = 30 minutos,
+2 = 1 horas, 3 = 6 horas, 4 = 1 día y 5 = 1 semana. En el script verán que no tuve que enviar ningún campo del submit, aun así
+es bueno tenerlo en cuenta, por algo esta en el manual, solo es cuestión de experimentar y buscarle la vuelta si algo no nos
+sale bien.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="c"&gt;# Bash script for upload files to uploadpie.com&lt;/span&gt;
+&lt;span class="c"&gt;# Licensed under a BSD License&lt;/span&gt;
+&lt;span class="c"&gt;# Created by A.J.&lt;/span&gt;
+
+&lt;span class="nv"&gt;MAX_FILE_SIZE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;3145728
+&lt;span class="nv"&gt;DURATION&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1
+&lt;span class="nv"&gt;EXPIRE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;30 Minutos&amp;quot;&lt;/span&gt;
+&lt;span class="nv"&gt;USER_AGENT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Mozilla/5.0 (X11; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0&amp;quot;&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$#&amp;quot;&lt;/span&gt; -lt 1 &lt;span class="o"&gt;]]&lt;/span&gt;;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;\tUso: $FUNCNAME mi_archivo.ext [DURACION]\n&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;\tDonde DURACION es un numero del 1 al 5 (1 por defecto):\n\t1 = 30 minutos\t2 = 1 Hora\t3 = 6 Horas\t4 = 1 Día\t5 = 1 Semana\n&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; ! -f &lt;span class="nv"&gt;$1&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;\tEl archivo $(basename &amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;) no es un archivo regular\n&amp;quot;&lt;/span&gt;    
+&lt;span class="k"&gt;else&lt;/span&gt;
+&lt;span class="k"&gt;    if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$#&amp;quot;&lt;/span&gt; -gt 1 &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$2&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;~ ^-?&lt;span class="o"&gt;[&lt;/span&gt;0-9&lt;span class="o"&gt;]&lt;/span&gt;+&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="o"&gt;]]&lt;/span&gt;;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;        case&lt;/span&gt; &lt;span class="nv"&gt;$2&lt;/span&gt; in
+            2&lt;span class="o"&gt;)&lt;/span&gt;
+                &lt;span class="nv"&gt;DURATION&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;2      &lt;span class="c"&gt;# Duracion del archivo = 1 hora&lt;/span&gt;
+                &lt;span class="nv"&gt;EXPIRE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;1 Hora&amp;quot;&lt;/span&gt;
+                ;;
+            3&lt;span class="o"&gt;)&lt;/span&gt;
+                &lt;span class="nv"&gt;DURATION&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;3  &lt;span class="c"&gt;# Duracion del archivo = 6 horas&lt;/span&gt;
+                &lt;span class="nv"&gt;EXPIRE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;6 Horas&amp;quot;&lt;/span&gt;
+                ;;
+            4&lt;span class="o"&gt;)&lt;/span&gt;
+                &lt;span class="nv"&gt;DURATION&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;4      &lt;span class="c"&gt;# Duracion del archivo = 1 dia&lt;/span&gt;
+                &lt;span class="nv"&gt;EXPIRE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;1 Día&amp;quot;&lt;/span&gt;
+                ;;
+            5&lt;span class="o"&gt;)&lt;/span&gt;
+                &lt;span class="nv"&gt;DURATION&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;5      &lt;span class="c"&gt;# Duracion del archivo = 1 semana&lt;/span&gt;
+                &lt;span class="nv"&gt;EXPIRE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;1 Semana&amp;quot;&lt;/span&gt;
+                ;;
+            *&lt;span class="o"&gt;)&lt;/span&gt;
+                &lt;span class="c"&gt;# Esto esta aqui solo por convencion&lt;/span&gt;
+                ;;
+        &lt;span class="k"&gt;esac&lt;/span&gt;
+&lt;span class="k"&gt;    fi&lt;/span&gt;
+
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nv"&gt;FILE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;
+    &lt;span class="nv"&gt;SIZE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;stat &lt;span class="s2"&gt;&amp;quot;${FILE}&amp;quot;&lt;/span&gt; | grep -i size | cut -d&lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt; -f4&lt;span class="k"&gt;)&lt;/span&gt;
+    &lt;span class="c"&gt;#TYPE=$(file &amp;quot;${FILE}&amp;quot; | cut -d&amp;quot; &amp;quot; -f2)  # No necesito el mime type sino la extension&lt;/span&gt;
+    &lt;span class="nv"&gt;TYPE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;${FILE}&amp;quot;&lt;/span&gt; | cut -d&lt;span class="s2"&gt;&amp;quot;.&amp;quot;&lt;/span&gt; -f2 | tr a-z A-Z&lt;span class="k"&gt;)&lt;/span&gt;
+
+    &lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;\e[1;33mFile\e[0m: $(basename &amp;quot;&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;FILE&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;)\t\e[1;33mSize\e[0m: $SIZE\t\e[1;33mType\e[0m: $TYPE\t\e[1;33mExpiration\e[0m: $EXPIRE\n&amp;quot;&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$TYPE&amp;quot;&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;PNG&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$TYPE&amp;quot;&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;JPG&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$TYPE&amp;quot;&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;GIF&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$TYPE&amp;quot;&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;PDF&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$TYPE&amp;quot;&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;TXT&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;          &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;El tipo de archivo $TYPE no es soportado por  uploadpie.com.\n&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$SIZE&amp;quot;&lt;/span&gt; -gt &lt;span class="s2"&gt;&amp;quot;$MAX_FILE_SIZE&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;          &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;El archivo es demasiado grande, uploadpie.com permite un maximo de 3 mb.\n&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;
+&lt;span class="k"&gt;          &lt;/span&gt;curl --progress-bar -A &lt;span class="s2"&gt;&amp;quot;$USER_AGENT&amp;quot;&lt;/span&gt; --form &lt;span class="nv"&gt;uploadedfile&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;@&lt;span class="s2"&gt;&amp;quot;$FILE&amp;quot;&lt;/span&gt; --form &lt;span class="nv"&gt;upload&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1 --form &lt;span class="nv"&gt;MAX_FILE_SIZE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$MAX_FILE_SIZE&lt;/span&gt;  --form &lt;span class="nv"&gt;expire&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$DURATION&lt;/span&gt; http://uploadpie.com | grep &lt;span class="s1"&gt;&amp;#39;id=&amp;quot;uploaded&amp;quot;&amp;#39;&lt;/span&gt; | cut -d&lt;span class="s1"&gt;&amp;#39;&amp;quot;&amp;#39;&lt;/span&gt; -f6
+    &lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Claro, por si eres nuevo usando Linux, recuerda que tienes que darle permisos de ejecución al script:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;chmod&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="n"&gt;uploadpie&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Una captua del script sin  especificar el tiempo de expiración, solo el archivo:
+&lt;img alt="Uploadpie 1" src="http://aljavier.github.io/images/posts/uploadpie1.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Específicando el tiempo de expiración(el 3 equivale a 6 horas como se ve ahí):
+&lt;img alt="Uploadpie 2" src="http://aljavier.github.io/images/posts/uploadpie2.png" /&gt;&lt;/p&gt;
+&lt;p&gt;En mi caso, uso un directorio en mi &lt;em&gt;/home/&lt;/em&gt; llamado &lt;em&gt;bin&lt;/em&gt; y he agregado ese directorio en mi &lt;code&gt;.bashrc&lt;/code&gt; como un nuevo &lt;em&gt;PATH&lt;/em&gt;,
+simplemente agrega en tu .bashrc esta linea:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;=~/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;$PATH&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;En algunos distribuciones es posible que ya tengas ese directorio y agregado en tu &lt;em&gt;PATH&lt;/em&gt;, algunas distribuciones, según he leído, si creas una carpeta bin/
+en tu /home automáticamente lo agregan al &lt;em&gt;PATH&lt;/em&gt;, por lo que una vez inicie sesión de nuevo en una terminal podrás ejecutar los scripts o programas en ese 
+directorio como si estuvieran en /usr/bin o similar, sin tener que escribir el directorio completo, solo el nombre del programa. Es muy útil si sueles crear 
+tus propios scripts o programas para usos personales y esas cosas.&lt;/p&gt;
+&lt;p&gt;Si no tienes cURL recomiendo hacerlo, es una poderosa herramienta que tiene una cantidad inmensa de opciones.&lt;/p&gt;
+&lt;p&gt;En Arch Linux la instalas con:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pacman&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;S&lt;/span&gt; &lt;span class="n"&gt;curl&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;En Debian/Ubuntu instalas con apt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;curl&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Tienes mas información sobre &lt;strong&gt;&lt;em&gt;cURL&lt;/em&gt;&lt;/strong&gt; en este &lt;a href="http://curl.haxx.se/docs/" title="cURL docs"&gt;link&lt;/a&gt; o en tu distro GNU/Linux favorita consulta: man curl.&lt;/p&gt;
+&lt;p&gt;Ha sido todo por ahora, hasta luego y feliz año nuevo!&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">A. J. Javier</dc:creator><pubDate>Tue, 31 Dec 2013 00:00:00 -0400</pubDate><guid>tag:aljavier.github.io,2013-12-31:curl-subiendo-archivos.html</guid><category>cURL</category><category>bash</category><category>Linux</category><category>scripting</category></item><item><title>Shadow passwords en Linux, ataque de diccionario con Python</title><link>http://aljavier.github.io/shadow-passwords-en-linux-ataque-de-diccionario-con-python.html</link><description>&lt;p&gt;Hace unos meses ya, leyendo el libro de Violent Python había un script
 que alguien usó una vez para hackear una maquina Unix, haciendo un ataque
 de diccionario para averiguar la password del archivo /etc/passwd, cuando
 eso no usaban el ya famoso /etc/shadow.&lt;/p&gt;

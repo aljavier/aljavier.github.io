@@ -1,5 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>// Sysflux</title><link href="/" rel="alternate"></link><link href="/feeds/blog.atom.xml" rel="self"></link><id>/</id><updated>2013-12-18T00:00:00-04:00</updated><entry><title>Shadow passwords en Linux, ataque de diccionario con Python</title><link href="/shadow-passwords-en-linux-ataque-de-diccionario-con-python.html" rel="alternate"></link><updated>2013-12-18T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2013-12-18:shadow-passwords-en-linux-ataque-de-diccionario-con-python.html</id><summary type="html">&lt;p&gt;Hace unos meses ya, leyendo el libro de Violent Python había un script
+<feed xmlns="http://www.w3.org/2005/Atom"><title>// Sysflux</title><link href="http://aljavier.github.io/" rel="alternate"></link><link href="http://aljavier.github.io/feeds/blog.atom.xml" rel="self"></link><id>http://aljavier.github.io/</id><updated>2013-12-31T00:00:00-04:00</updated><entry><title>Subiendo archivos a la web por medio de POST con cURL</title><link href="http://aljavier.github.io/curl-subiendo-archivos.html" rel="alternate"></link><updated>2013-12-31T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:aljavier.github.io,2013-12-31:curl-subiendo-archivos.html</id><summary type="html">&lt;p&gt;Si por algo soy fanático de los Sistemas Unix, específicamente de GNU/Linux, es por la cantidad
+inmensa de tools que hay para estos sistemas y en su mayoría herramientas para la linea de comandos
+de la cual soy un gran fanático. Me gusta usar la linea de comandos en gran medida.&lt;/p&gt;
+&lt;p&gt;En este post, que sera breve, hablamos de &lt;a href="http://curl.haxx.se/" title="cURL"&gt;cURL&lt;/a&gt; o más bien de uno de los
+tantos usos que podemos darle y entiéndase que cuando digo &lt;em&gt;cURL&lt;/em&gt; me refiero a la tool por linea de 
+comandos no a ninguna de sus librerías para sea cual sea el lenguaje. &lt;/p&gt;
+&lt;p&gt;Subir archivos por cURL es bastante simple, supongamos que tenemos un website con un formulario POST
+que tiene un campo para subir una imagen(o cualquier otro archivo), algo así:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;form&lt;/span&gt; &lt;span class="na"&gt;action=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;method=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;POST&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;enctype=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;multipart/form-data&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;input&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;file&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;upload&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;input&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;submit&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;send&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;value=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Enviar&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt; 
+&lt;span class="nt"&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Lo que haga el servidor para obtener el archivo o que lenguaje use del lado servidor nos es indiferente.
+Ya viendo lo de arriba, pueden verse los campos que usa el formulario, básicamente las opciones de cURL
+que nos importan en este caso es &lt;em&gt;--form&lt;/em&gt; o &lt;em&gt;-F&lt;/em&gt;, una sintaxis simple que nos permite subir un archivo en este 
+caso seria la siguiente:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;curl&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;form&lt;/span&gt; &lt;span class="n"&gt;upload&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;nombre_archivo&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;form&lt;/span&gt; &lt;span class="n"&gt;send&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Enviar&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Pueden usarse tantas opciones &lt;em&gt;--form&lt;/em&gt; como se quiera, según los campos que tenga el formulario. Nótese que en
+la primera opción &lt;em&gt;--form&lt;/em&gt; donde esta &lt;code&gt;upload=@nombre_archivo&lt;/code&gt;, &lt;em&gt;upload&lt;/em&gt; se refiere al nombre que tiene el campo
+con el &lt;code&gt;type="file"&lt;/code&gt; así que igualmente el nombre podría ser cualquier otro que el programador haya puesto, en ese
+caso es solo cambiar ese nombre, el &lt;code&gt;@nombre_archivo&lt;/code&gt; pues es el archivo que queremos subir, mas bien la dirección
+completa donde se encuentra. En la segunda opción con &lt;code&gt;--form&lt;/code&gt;, donde esta &lt;code&gt;send="Enviar"&lt;/code&gt;, &lt;em&gt;send&lt;/em&gt; es otra 
+variable en el formulario y &lt;strong&gt;Enviar&lt;/strong&gt; es el valor que le damos, esta parte no es muy necesaria ya que de por si
+la herramienta cURL hará el &lt;em&gt;submit&lt;/em&gt; automáticamente, en todo caso así ponen ellos un ejemplo en el manual, en la practica
+no he tenido que hacerlo, no con el campo del submit. &lt;/p&gt;
+&lt;p&gt;Hay un sitio web que uso bastante para compartir capturas de escritorios y demás, ese website es &lt;a href="http://uploadpie.com"&gt;uploadpie.com&lt;/a&gt;,
+pero me molestaba ya un poco tener que usar el navegador cada vez que quería subir una captura, es que suelo siempre tener
+varias terminales abiertas, como dije antes yo soy un amante de la linea de comandos se es mucho mas productivo así, el 
+asunto es que decidí hacerme un script sencillo en Bash usando cURL para poder subir las imágenes desde la terminal o tty.&lt;/p&gt;
+&lt;p&gt;Uplodpie permite subir archivos solo de forma temporal, archivos no mayores de 3 mb, con extensión gif, png, jpg, pdf o txt.
+De igual forma, se puede seleccionar el tiempo de expiración que queremos para nuestro archivo, que puede ser 30 minutos, 
+una hora, seis horas, un día o una semana.&lt;/p&gt;
+&lt;p&gt;El campo con el type='file' en el formulario se llama &lt;em&gt;uploadedfile&lt;/em&gt; y el campo que permite elegir la duración del archivo
+en el servidor se llama &lt;em&gt;expire&lt;/em&gt;, que en el formulario html es un &lt;em&gt;select&lt;/em&gt; con 5 &lt;em&gt;option&lt;/em&gt; con valores: 1 = 30 minutos,
+2 = 1 horas, 3 = 6 horas, 4 = 1 día y 5 = 1 semana. En el script verán que no tuve que enviar ningún campo del submit, aun así
+es bueno tenerlo en cuenta, por algo esta en el manual, solo es cuestión de experimentar y buscarle la vuelta si algo no nos
+sale bien.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="c"&gt;# Bash script for upload files to uploadpie.com&lt;/span&gt;
+&lt;span class="c"&gt;# Licensed under a BSD License&lt;/span&gt;
+&lt;span class="c"&gt;# Created by A.J.&lt;/span&gt;
+
+&lt;span class="nv"&gt;MAX_FILE_SIZE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;3145728
+&lt;span class="nv"&gt;DURATION&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1
+&lt;span class="nv"&gt;EXPIRE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;30 Minutos&amp;quot;&lt;/span&gt;
+&lt;span class="nv"&gt;USER_AGENT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Mozilla/5.0 (X11; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0&amp;quot;&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$#&amp;quot;&lt;/span&gt; -lt 1 &lt;span class="o"&gt;]]&lt;/span&gt;;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;\tUso: $FUNCNAME mi_archivo.ext [DURACION]\n&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;\tDonde DURACION es un numero del 1 al 5 (1 por defecto):\n\t1 = 30 minutos\t2 = 1 Hora\t3 = 6 Horas\t4 = 1 Día\t5 = 1 Semana\n&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; ! -f &lt;span class="nv"&gt;$1&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;\tEl archivo $(basename &amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;) no es un archivo regular\n&amp;quot;&lt;/span&gt;    
+&lt;span class="k"&gt;else&lt;/span&gt;
+&lt;span class="k"&gt;    if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$#&amp;quot;&lt;/span&gt; -gt 1 &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$2&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;~ ^-?&lt;span class="o"&gt;[&lt;/span&gt;0-9&lt;span class="o"&gt;]&lt;/span&gt;+&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="o"&gt;]]&lt;/span&gt;;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;        case&lt;/span&gt; &lt;span class="nv"&gt;$2&lt;/span&gt; in
+            2&lt;span class="o"&gt;)&lt;/span&gt;
+                &lt;span class="nv"&gt;DURATION&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;2      &lt;span class="c"&gt;# Duracion del archivo = 1 hora&lt;/span&gt;
+                &lt;span class="nv"&gt;EXPIRE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;1 Hora&amp;quot;&lt;/span&gt;
+                ;;
+            3&lt;span class="o"&gt;)&lt;/span&gt;
+                &lt;span class="nv"&gt;DURATION&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;3  &lt;span class="c"&gt;# Duracion del archivo = 6 horas&lt;/span&gt;
+                &lt;span class="nv"&gt;EXPIRE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;6 Horas&amp;quot;&lt;/span&gt;
+                ;;
+            4&lt;span class="o"&gt;)&lt;/span&gt;
+                &lt;span class="nv"&gt;DURATION&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;4      &lt;span class="c"&gt;# Duracion del archivo = 1 dia&lt;/span&gt;
+                &lt;span class="nv"&gt;EXPIRE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;1 Día&amp;quot;&lt;/span&gt;
+                ;;
+            5&lt;span class="o"&gt;)&lt;/span&gt;
+                &lt;span class="nv"&gt;DURATION&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;5      &lt;span class="c"&gt;# Duracion del archivo = 1 semana&lt;/span&gt;
+                &lt;span class="nv"&gt;EXPIRE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;1 Semana&amp;quot;&lt;/span&gt;
+                ;;
+            *&lt;span class="o"&gt;)&lt;/span&gt;
+                &lt;span class="c"&gt;# Esto esta aqui solo por convencion&lt;/span&gt;
+                ;;
+        &lt;span class="k"&gt;esac&lt;/span&gt;
+&lt;span class="k"&gt;    fi&lt;/span&gt;
+
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nv"&gt;FILE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;
+    &lt;span class="nv"&gt;SIZE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;stat &lt;span class="s2"&gt;&amp;quot;${FILE}&amp;quot;&lt;/span&gt; | grep -i size | cut -d&lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt; -f4&lt;span class="k"&gt;)&lt;/span&gt;
+    &lt;span class="c"&gt;#TYPE=$(file &amp;quot;${FILE}&amp;quot; | cut -d&amp;quot; &amp;quot; -f2)  # No necesito el mime type sino la extension&lt;/span&gt;
+    &lt;span class="nv"&gt;TYPE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;${FILE}&amp;quot;&lt;/span&gt; | cut -d&lt;span class="s2"&gt;&amp;quot;.&amp;quot;&lt;/span&gt; -f2 | tr a-z A-Z&lt;span class="k"&gt;)&lt;/span&gt;
+
+    &lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;\e[1;33mFile\e[0m: $(basename &amp;quot;&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;FILE&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;)\t\e[1;33mSize\e[0m: $SIZE\t\e[1;33mType\e[0m: $TYPE\t\e[1;33mExpiration\e[0m: $EXPIRE\n&amp;quot;&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$TYPE&amp;quot;&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;PNG&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$TYPE&amp;quot;&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;JPG&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$TYPE&amp;quot;&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;GIF&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$TYPE&amp;quot;&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;PDF&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$TYPE&amp;quot;&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;TXT&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;          &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;El tipo de archivo $TYPE no es soportado por  uploadpie.com.\n&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$SIZE&amp;quot;&lt;/span&gt; -gt &lt;span class="s2"&gt;&amp;quot;$MAX_FILE_SIZE&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;          &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;El archivo es demasiado grande, uploadpie.com permite un maximo de 3 mb.\n&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;
+&lt;span class="k"&gt;          &lt;/span&gt;curl --progress-bar -A &lt;span class="s2"&gt;&amp;quot;$USER_AGENT&amp;quot;&lt;/span&gt; --form &lt;span class="nv"&gt;uploadedfile&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;@&lt;span class="s2"&gt;&amp;quot;$FILE&amp;quot;&lt;/span&gt; --form &lt;span class="nv"&gt;upload&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1 --form &lt;span class="nv"&gt;MAX_FILE_SIZE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$MAX_FILE_SIZE&lt;/span&gt;  --form &lt;span class="nv"&gt;expire&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$DURATION&lt;/span&gt; http://uploadpie.com | grep &lt;span class="s1"&gt;&amp;#39;id=&amp;quot;uploaded&amp;quot;&amp;#39;&lt;/span&gt; | cut -d&lt;span class="s1"&gt;&amp;#39;&amp;quot;&amp;#39;&lt;/span&gt; -f6
+    &lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Claro, por si eres nuevo usando Linux, recuerda que tienes que darle permisos de ejecución al script:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;chmod&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="n"&gt;uploadpie&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Una captua del script sin  especificar el tiempo de expiración, solo el archivo:
+&lt;img alt="Uploadpie 1" src="http://aljavier.github.io/images/posts/uploadpie1.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Específicando el tiempo de expiración(el 3 equivale a 6 horas como se ve ahí):
+&lt;img alt="Uploadpie 2" src="http://aljavier.github.io/images/posts/uploadpie2.png" /&gt;&lt;/p&gt;
+&lt;p&gt;En mi caso, uso un directorio en mi &lt;em&gt;/home/&lt;/em&gt; llamado &lt;em&gt;bin&lt;/em&gt; y he agregado ese directorio en mi &lt;code&gt;.bashrc&lt;/code&gt; como un nuevo &lt;em&gt;PATH&lt;/em&gt;,
+simplemente agrega en tu .bashrc esta linea:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;=~/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;$PATH&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;En algunos distribuciones es posible que ya tengas ese directorio y agregado en tu &lt;em&gt;PATH&lt;/em&gt;, algunas distribuciones, según he leído, si creas una carpeta bin/
+en tu /home automáticamente lo agregan al &lt;em&gt;PATH&lt;/em&gt;, por lo que una vez inicie sesión de nuevo en una terminal podrás ejecutar los scripts o programas en ese 
+directorio como si estuvieran en /usr/bin o similar, sin tener que escribir el directorio completo, solo el nombre del programa. Es muy útil si sueles crear 
+tus propios scripts o programas para usos personales y esas cosas.&lt;/p&gt;
+&lt;p&gt;Si no tienes cURL recomiendo hacerlo, es una poderosa herramienta que tiene una cantidad inmensa de opciones.&lt;/p&gt;
+&lt;p&gt;En Arch Linux la instalas con:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pacman&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;S&lt;/span&gt; &lt;span class="n"&gt;curl&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;En Debian/Ubuntu instalas con apt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;curl&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Tienes mas información sobre &lt;strong&gt;&lt;em&gt;cURL&lt;/em&gt;&lt;/strong&gt; en este &lt;a href="http://curl.haxx.se/docs/" title="cURL docs"&gt;link&lt;/a&gt; o en tu distro GNU/Linux favorita consulta: man curl.&lt;/p&gt;
+&lt;p&gt;Ha sido todo por ahora, hasta luego y feliz año nuevo!&lt;/p&gt;</summary><category term="cURL"></category><category term="bash"></category><category term="Linux"></category><category term="scripting"></category></entry><entry><title>Shadow passwords en Linux, ataque de diccionario con Python</title><link href="http://aljavier.github.io/shadow-passwords-en-linux-ataque-de-diccionario-con-python.html" rel="alternate"></link><updated>2013-12-18T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:aljavier.github.io,2013-12-18:shadow-passwords-en-linux-ataque-de-diccionario-con-python.html</id><summary type="html">&lt;p&gt;Hace unos meses ya, leyendo el libro de Violent Python había un script
 que alguien usó una vez para hackear una maquina Unix, haciendo un ataque
 de diccionario para averiguar la password del archivo /etc/passwd, cuando
 eso no usaban el ya famoso /etc/shadow.&lt;/p&gt;
@@ -123,7 +255,7 @@ al que tiene el libro Violent Python que era para sistemas unix viejos. Pero les
 &lt;li&gt;&lt;a href="https://es.wikipedia.org/wiki/Sal_(criptograf%C3%ADa)" title="salt"&gt;Explicación sobre salt&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://docs.python.org/2/library/crypt.html" title="crypt"&gt;Librería crypt de python&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;También tienen mas info en el man de crypt si usas Linux: &lt;code&gt;man 3 crypt&lt;/code&gt;. &lt;/p&gt;</summary><category term="Linux"></category><category term="python"></category><category term="crypt"></category><category term="security"></category></entry><entry><title>Recursividad versus iteratividad</title><link href="/recursividad-versus-iteratividad.html" rel="alternate"></link><updated>2013-11-01T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2013-11-01:recursividad-versus-iteratividad.html</id><summary type="html">&lt;p&gt;Una &lt;code&gt;función recursiva&lt;/code&gt; es aquella que se llama a si mismo, normalmente, un número 
+&lt;p&gt;También tienen mas info en el man de crypt si usas Linux: &lt;code&gt;man 3 crypt&lt;/code&gt;. &lt;/p&gt;</summary><category term="Linux"></category><category term="python"></category><category term="crypt"></category><category term="security"></category></entry><entry><title>Recursividad versus iteratividad</title><link href="http://aljavier.github.io/recursividad-versus-iteratividad.html" rel="alternate"></link><updated>2013-11-01T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:aljavier.github.io,2013-11-01:recursividad-versus-iteratividad.html</id><summary type="html">&lt;p&gt;Una &lt;code&gt;función recursiva&lt;/code&gt; es aquella que se llama a si mismo, normalmente, un número 
 finito de veces, aunque si el programador cometió un error lógico podría ser 
 infinito. Por su lado, la &lt;code&gt;iteratividad&lt;/code&gt; es ejecutar una determinada acción un
 x número de veces. &lt;/p&gt;
@@ -407,7 +539,7 @@ Más fácil de entender así no? &lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Nuevamente aquí la recursividad ganó en cuanto a rapidez, por la misma razón que antes, no tiene muchas llamadas al mismo método, en casos así funciona fluido. El marcador final en cuando a rapidez: recursividad 2 - iteratividad 1!&lt;/p&gt;</summary><category term="python"></category><category term="recursividad"></category><category term="time"></category><category term="iteratividad"></category><category term="fibonacci"></category><category term="factorial"></category></entry><entry><title>Instalación de Teamviewer en Arch Linux x86_64</title><link href="/instalacion-teamviewer-archlinux-x86_64.html" rel="alternate"></link><updated>2013-10-07T10:07:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2013-10-07:instalacion-teamviewer-archlinux-x86_64.html</id><summary type="html">&lt;p&gt;Para instalar Teamviewer en Arch Linux x86_64 (vamos 64 bits), hay que tener en cuenta unas cuantas cosas; teamviewer se ejecuta en 
+&lt;p&gt;Nuevamente aquí la recursividad ganó en cuanto a rapidez, por la misma razón que antes, no tiene muchas llamadas al mismo método, en casos así funciona fluido. El marcador final en cuando a rapidez: recursividad 2 - iteratividad 1!&lt;/p&gt;</summary><category term="python"></category><category term="recursividad"></category><category term="time"></category><category term="iteratividad"></category><category term="fibonacci"></category><category term="factorial"></category></entry><entry><title>Instalación de Teamviewer en Arch Linux x86_64</title><link href="http://aljavier.github.io/instalacion-teamviewer-archlinux-x86_64.html" rel="alternate"></link><updated>2013-10-07T10:07:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:aljavier.github.io,2013-10-07:instalacion-teamviewer-archlinux-x86_64.html</id><summary type="html">&lt;p&gt;Para instalar Teamviewer en Arch Linux x86_64 (vamos 64 bits), hay que tener en cuenta unas cuantas cosas; teamviewer se ejecuta en 
 GNU/Linux emulando un entorno Windows, de modo que en verdad se ejecuta el binario para Windows usando wine, el mismo no requiere
 que tengas wine instalado porque usa una versión portable, el asunto es que teamviewer requiere de un sin número de librerías 32 bits
 para funcionar y por defecto la que tendrás en tu sistema si es de 64 bits pues serán la de esa arquitectura, obviamente.&lt;/p&gt;
@@ -533,9 +665,9 @@ que en todo caso serian mas &lt;code&gt;pacman -Ss nombre_librería&lt;/code&gt;
 &lt;p&gt;En caso que tu salida sea diferente y que aun te este diciendo que faltan algunas librerías, pues busca en los repos con &lt;code&gt;pacman -Ss nombre_librería&lt;/code&gt; e instala la que pertenece al repositorio &lt;code&gt;multilib&lt;/code&gt;
 que generalmente tendrá como prefijo &lt;code&gt;lib32-&lt;/code&gt;. Si no encuentras la librería ahí busca en Internet que podaría ser que el nombre sea diferente en Arch.&lt;/p&gt;
 &lt;p&gt;Ya no queda más que simplemente ejecutar teamviewer nuevamente.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Teamviewer" src="/images/posts/misc/teamviewer.png" title="Teamviewer en Arch Linux x86_64" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Teamviewer" src="http://aljavier.github.io/images/posts/misc/teamviewer.png" title="Teamviewer en Arch Linux x86_64" /&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;Versión de Teamviewer&lt;/code&gt;: &lt;em&gt;8.0.20931&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;uname -a&lt;/code&gt;: &lt;em&gt;Linux arch-linux 3.11.3-1-ARCH #1 SMP PREEMPT Wed Oct 2 01:38:48 CEST 2013 x86_64 GNU/Linux&lt;/em&gt;&lt;/p&gt;</summary><category term="Arch Linux"></category><category term="teamviewer"></category><category term="pacman"></category></entry><entry><title>Buscando rootkits con Rkhunter</title><link href="/tutorial-rkhunter.html" rel="alternate"></link><updated>2013-09-23T01:28:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2013-09-23:tutorial-rkhunter.html</id><summary type="html">&lt;p&gt;En este post comparto con ustedes como podemos buscar rootkits, directorios y/o archivos ocultos en nuestro sistema Unix (Linux, BSD, etc.), entre otros, para ello usaremos esta estupenda herramienta llamada Rkhunter o Rootkit Hunter. Es una herramienta bastante conocido así también como chkrootkit que es bastante popular. En este momento no podría recomendar una por encima de la otra. Pero si que es bueno conocer estas herramientas, ya que es
+&lt;p&gt;&lt;code&gt;uname -a&lt;/code&gt;: &lt;em&gt;Linux arch-linux 3.11.3-1-ARCH #1 SMP PREEMPT Wed Oct 2 01:38:48 CEST 2013 x86_64 GNU/Linux&lt;/em&gt;&lt;/p&gt;</summary><category term="Arch Linux"></category><category term="teamviewer"></category><category term="pacman"></category></entry><entry><title>Buscando rootkits con Rkhunter</title><link href="http://aljavier.github.io/tutorial-rkhunter.html" rel="alternate"></link><updated>2013-09-23T01:28:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:aljavier.github.io,2013-09-23:tutorial-rkhunter.html</id><summary type="html">&lt;p&gt;En este post comparto con ustedes como podemos buscar rootkits, directorios y/o archivos ocultos en nuestro sistema Unix (Linux, BSD, etc.), entre otros, para ello usaremos esta estupenda herramienta llamada Rkhunter o Rootkit Hunter. Es una herramienta bastante conocido así también como chkrootkit que es bastante popular. En este momento no podría recomendar una por encima de la otra. Pero si que es bueno conocer estas herramientas, ya que es
 bastante necesario mantener un chequeo rutinario del estado actual de nuestro sistemas para detectar a tiempo posibles intrusiones y actuar conforme el asunto.&lt;/p&gt;
 &lt;h2&gt;Qué es rkhunter?&lt;/h2&gt;
 &lt;p&gt;Según wikipedia es una herramienta para sistemas &lt;a href="http://es.wikipedia.org/wiki/Unix" title="Unix"&gt;Unix&lt;/a&gt; que detecta los &lt;a href="http://es.wikipedia.org/wiki/Rootkits" title="Rootkits"&gt;rootkies&lt;/a&gt;, las &lt;a href="http://es.wikipedia.org/wiki/Puerta_trasera" title="Puertas traseras o backdoors"&gt;backdoors&lt;/a&gt; y los exploit locales mediante la comparación de los &lt;a href="http://es.wikipedia.org/wiki/MD5#Hashes_MD5" title="hashes MD5"&gt;Hashes MD5&lt;/a&gt; de ficheros importantes con su firma correcta en una base de datos en línea, buscando los directorios por defecto (de rootkits), los permisos 
@@ -585,7 +717,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 
 
 &lt;p&gt;Y empezará el escaneo inmediatamente, cuando nos diga &lt;em&gt;[Press &amp;lt;ENTER&amp;gt; to continue]&lt;/em&gt; entonces presionamos Enter para que continué.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Rkhunter" src="/images/posts/rkhunter/rkhunter1.png" title="Rkhunter" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Rkhunter" src="http://aljavier.github.io/images/posts/rkhunter/rkhunter1.png" title="Rkhunter" /&gt;&lt;/p&gt;
 &lt;p&gt;Ups! Parece que tengo un rootkit, por suerte, no era mas que un falso positivo, la alerta fue por la aplicación &lt;em&gt;hdparm&lt;/em&gt; que instale hace unos días, pero desde los repositorios oficiales, como debe de ser.&lt;/p&gt;
 &lt;p&gt;Por cierto, podemos ver en detalle el resultado del escaneo en el archivo &lt;strong&gt;/var/log/rkhunter.log&lt;/strong&gt;, de modo que en caso de tener algún rootkit ahí podemos leer la ruta de su posible ubicación.&lt;/p&gt;
 &lt;p&gt;La primera vez que ejecutamos Rkhunter recibimos mucho mensajes del tipo &lt;span style="color: red;"&gt;Warning&lt;/span&gt;, que en muchos casos son solo falsos positivos y son comandos del mismo sistema como /bin/who por ejemplo, por ello y otras razones es bueno leerse las &lt;a href="http://rkhunter.cvs.sourceforge.net/viewvc/rkhunter/rkhunter/files/FAQ" title="FAQ de Rkhunter"&gt;FAQ&lt;/a&gt;&lt;/p&gt;
@@ -608,7 +740,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 
 &lt;p&gt;Hasta aquí el post, para mas información recomiendo consultar el manual de rkhunter, y leer las FAQ, así como seguir los demás consejos que he dado, que son los que recomiendan ellos mismos en su website. &lt;/p&gt;
 &lt;p&gt;Nos leemos!&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Nota: Aunque este tutorial es 100% valido aún, cabe decir que data ya de un tiempo, fue rescatado de mi antiguo blog.&lt;/em&gt;&lt;/p&gt;</summary><category term="rkhunter"></category><category term="rootkits"></category><category term="security"></category><category term="unix"></category></entry><entry><title>Creando una wiki con MediaWiki</title><link href="/creando-una-wiki-con-mediawiki.html" rel="alternate"></link><updated>2013-09-22T11:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2013-09-22:creando-una-wiki-con-mediawiki.html</id><summary type="html">&lt;h2&gt;Introducción&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Nota: Aunque este tutorial es 100% valido aún, cabe decir que data ya de un tiempo, fue rescatado de mi antiguo blog.&lt;/em&gt;&lt;/p&gt;</summary><category term="rkhunter"></category><category term="rootkits"></category><category term="security"></category><category term="unix"></category></entry><entry><title>Creando una wiki con MediaWiki</title><link href="http://aljavier.github.io/creando-una-wiki-con-mediawiki.html" rel="alternate"></link><updated>2013-09-22T11:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:aljavier.github.io,2013-09-22:creando-una-wiki-con-mediawiki.html</id><summary type="html">&lt;h2&gt;Introducción&lt;/h2&gt;
 &lt;p&gt;Veremos como instalar una wiki en un servidor web montado en nuestro propio ordenador, subirla a un hosting online no seria muy distinto de lo que haremos aquí así que si deseas subirla a algún hosting puedes hacerlo fácilmente a raíz de lo explicado aquí. Las razones por las que querrías instalar tu propia wiki podrían ser varias, por ejemplo, tener una base de datos organizada con tus trabajos escolares indexados, crear contenido y compartirlo con otras personas, podrías ser un maestro por ejemplo  y querrías ofrecer algunos materiales de apoyo a tus alumnos. En fin, aquí mostraremos como montar tu propia wiki, ya para que vayas a utilizar tu wiki es cosa tuya, en todo caso cabe recalcar que el proyecto podría llevarse a cabo con facilidad en un colegio o escuela pública, o hasta un grupo de amigos que deseen colaborar en sus estudios unos con los otros, solo por dar algunas ideas.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Que necesitamos:&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
@@ -655,12 +787,12 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;h2&gt;Configurando MediaWiki&lt;/h2&gt;
 &lt;p&gt;Ahora necesitamos configurar MediaWiki, para ellos nos dirigimos desde el navegador a la url localhost/nombre_wiki, en nombre_wiki va el nombre que le pusiste a la carpeta de MediaWiki en mi caso le puse wiki, así que seria así &lt;em&gt;localhost/wiki&lt;/em&gt;. Ahora ves una pagina de presentación  que dice que el archivo LocalSettings.php no fue encontrado, eso es normal ya nos encargaremos luego. Le damos click a  &lt;strong&gt;set up de wiki&lt;/strong&gt;. En la pagina que tenemos ahora seleccionamos nuestro idioma y el idioma que queremos para la wiki, yo seleccioné es-Español en ambos casos y damos click a &lt;em&gt;continue&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;En el siguiente apartado vemos una pagina de bienvenida, miramos debajo que diga lo siguiente; &lt;strong&gt;El entorno ha sido comprobado. Puedes instalar MediaWiki&lt;/strong&gt;. Eso indica que todo va bien por el momento. Ahora damos  click en continuar nuevamente debajo.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="screenshot #1" src="/images/posts/mediawiki/wiki1.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot #1" src="http://aljavier.github.io/images/posts/mediawiki/wiki1.png" /&gt;&lt;/p&gt;
 &lt;p&gt;En la pagina que tenemos ahora (ver imagen arriba), en el apartado Tipo de base de datos dejamos MySQL que es la que esta preseleccionada por defecto y es la que usa XAMPP, en Configuración de MySQL &amp;gt; servidor de la base de datos lo dejemos tal cual esta en localhost ya que es en nuestro ordenador donde tenemos montado nuestro servidor.&lt;/p&gt;
 &lt;p&gt;En Nombre de base de datos si quieren pueden dejarlo tal cual esta como my_wiki yo usare otro nombre por cuestiones de seguridad en Prefijo para las tablas de la base de datos ponemos mw_ (nota el guión bajo), en Nombre de usuarios de base de datos lo dejamos como esta por defecto root que es el nombre por defecto de MySQL, en contraseña de base de datos lo dejamos en blanco tal cual esta, ya que así viene por defecto en MySQL eso podemos cambiarlo luego cuando nos aseguremos de que nuestra wiki funciona bien.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Nota&lt;/em&gt;&lt;em&gt;:  Apunta estos datos porque son prioritarios, lo necesitaras luego&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;Pues sin mas presionamos nuevamente en continuar, en la pagina que estamos ahora dejamos todo por defecto (ver imagen debajo) y presionamos una vez mas en continuar.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="screenshot #2" src="/images/posts/mediawiki/wiki2.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot #2" src="http://aljavier.github.io/images/posts/mediawiki/wiki2.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Ahora procedemos a llenar los datos que nos solicitan en la pagina presente. En Nombre del wiki elegimos el nombre que nos plasca para nuestra wiki, yo le puse ElectroWiki ustedes pueden elegir el nombre que deseen. En Espacio de nombre de proyecto pueden dejarlo tal cual esta en la primera opción Igual como el nombre del wiki.&lt;/p&gt;
 &lt;p&gt;En el apartado &lt;strong&gt;Cuenta de administrador&lt;/strong&gt; llenamos los datos solicitados para crear nuestra cuenta de administrador como sigue:&lt;/p&gt;
 &lt;ul&gt;
@@ -669,7 +801,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;li&gt;&lt;strong&gt;Repita la contraseña&lt;/strong&gt; -&amp;gt; Aquí repites la contraseña anterior.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Dirección de correo electrónico&lt;/strong&gt; -&amp;gt; Aquí pones un correo tuyo, si haces accesible tu web desde el Internet es bueno que pongas un correo para si alguien quiere comunicarse contigo.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img alt="screenshot #3" src="/images/posts/mediawiki/wiki3.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot #3" src="http://aljavier.github.io/images/posts/mediawiki/wiki3.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Debajo donde dice &lt;em&gt;Subscribirse para recibir avisos de nuevas versiones&lt;/em&gt; te recomiendo que marques esa casilla, para que actualizes tu wiki siempre que sea necesario, ya que de vez en cuando se descubren bugs y esas cosas.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Debajo tenemos dos opciones en las cuales elegir:&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
@@ -696,7 +828,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;li&gt;Creating main page with default content... hecho&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Ahora proseguimos y presionamos en continuar. Entonces si todo ha ido bien, nos sale el siguiente mensaje de la imagen abajo y se inicia la descarga del archivo &lt;strong&gt;LocalSettings.php&lt;/strong&gt; elegimos guardar, este tiene la configuración de toda nuestra wiki y el cual necesitaremos para modificar luego cualquier otra cosa y en general para el funcionamiento de la misma. Si no se inicio la descarga automáticamente damos click donde dice &lt;strong&gt;&lt;em&gt;Download LocalSettings.php&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="screenshot #4" src="/images/posts/mediawiki/wiki4.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot #4" src="http://aljavier.github.io/images/posts/mediawiki/wiki4.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Como nos dice la  misma pagina presente necesitamos mover el archivo &lt;em&gt;LocalSettings.php&lt;/em&gt; al directorio donde se encuentra el index.php de nuestra wiki, en GNU/Linux lo movemos al directorio /opt/lampp/htdocs/wiki&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;mv&lt;/span&gt; &lt;span class="n"&gt;LocalSettings&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;php&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lampp&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;htdocs&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;wiki&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -705,10 +837,10 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;p&gt;En windows lo copiamos y lo pegamos en el directorio c:\xampp\htdocs\wiki.&lt;/p&gt;
 &lt;p&gt;Ahora en la misma pagina donde estamos situados aun, damos click debajo donde dice &lt;strong&gt;&lt;em&gt;"When that has been done, you can enter your wiki"&lt;/em&gt;&lt;/strong&gt; exactamente en la parte &lt;strong&gt;enter your wiki&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Si todo ha ido bien veremos la pagina debajo (ver imagen) con nuestra wiki funcionando perfectamente.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="screenshot #5" src="/images/posts/mediawiki/wiki5.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot #5" src="http://aljavier.github.io/images/posts/mediawiki/wiki5.png" /&gt;&lt;/p&gt;
 &lt;p&gt;En lo adelante siempre que queramos acceder a nuestra wiki solo debemos poner en la ruta de direcciones del navegador web &lt;strong&gt;http://localhost/wiki&lt;/strong&gt;, claro ten en cuenta que el XAMPP debe estar iniciado para poder acceder a tu wiki.&lt;/p&gt;
 &lt;p&gt;Ya puedes empezar a escribir en tu propia wiki!!!&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;nota final: Este articulo no es muy reciente a pesar de la fecha de publicación, fue rescatado de mi antiguo blog, pero aún sigue siendo útil, solo que las versiónes mas recientes de MediaWiki y XAMPP serán otras, por tanto, algunas cosas puede ser que hayan cambiado.&lt;/em&gt;&lt;/p&gt;</summary><category term="mediawiki"></category><category term="wiki"></category><category term="xampp"></category></entry><entry><title>Virtualenv: Entornos virtuales de desarrollo para Python</title><link href="/tutorial-virtualenv.html" rel="alternate"></link><updated>2013-08-16T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2013-08-16:tutorial-virtualenv.html</id><summary type="html">&lt;h2&gt;Instalación&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;nota final: Este articulo no es muy reciente a pesar de la fecha de publicación, fue rescatado de mi antiguo blog, pero aún sigue siendo útil, solo que las versiónes mas recientes de MediaWiki y XAMPP serán otras, por tanto, algunas cosas puede ser que hayan cambiado.&lt;/em&gt;&lt;/p&gt;</summary><category term="mediawiki"></category><category term="wiki"></category><category term="xampp"></category></entry><entry><title>Virtualenv: Entornos virtuales de desarrollo para Python</title><link href="http://aljavier.github.io/tutorial-virtualenv.html" rel="alternate"></link><updated>2013-08-16T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:aljavier.github.io,2013-08-16:tutorial-virtualenv.html</id><summary type="html">&lt;h2&gt;Instalación&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;Debian/Ubuntu&lt;/strong&gt;  &lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;virtualenv&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -763,7 +895,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://simononsoftware.com/virtualenv-tutorial/"&gt;http://simononsoftware.com/virtualenv-tutorial/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://www.virtualenv.org/en/latest/"&gt;http://www.virtualenv.org/en/latest/&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</summary><category term="python"></category><category term="virtualenv"></category></entry><entry><title>Usando la API de Shodan para Python</title><link href="/tutorial-api-shodan-para-python.html" rel="alternate"></link><updated>2013-07-07T05:12:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2013-07-07:tutorial-api-shodan-para-python.html</id><summary type="html">&lt;p&gt;En este post veremos que usar la &lt;a href="http://docs.shodanhq.com/python/tutorial.html" title="Shodan"&gt;API de Shodan para Python&lt;/a&gt; es bastante sencillo, las ventajas de esto es que podemos utilizar este buscador desde nuestras aplicaciones en Python y desde la linea de comandos, la API también esta disponible para Perl y Ruby.&lt;/p&gt;
+&lt;/ul&gt;</summary><category term="python"></category><category term="virtualenv"></category></entry><entry><title>Usando la API de Shodan para Python</title><link href="http://aljavier.github.io/tutorial-api-shodan-para-python.html" rel="alternate"></link><updated>2013-07-07T05:12:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:aljavier.github.io,2013-07-07:tutorial-api-shodan-para-python.html</id><summary type="html">&lt;p&gt;En este post veremos que usar la &lt;a href="http://docs.shodanhq.com/python/tutorial.html" title="Shodan"&gt;API de Shodan para Python&lt;/a&gt; es bastante sencillo, las ventajas de esto es que podemos utilizar este buscador desde nuestras aplicaciones en Python y desde la linea de comandos, la API también esta disponible para Perl y Ruby.&lt;/p&gt;
 &lt;p&gt;Sino sabes lo que es Shodan o simplemente aun no sabes usarlo del todo, te recomiendo leerte &lt;a href="http://www.slideshare.net/theprez98/shodan-for-penetration-testers-defcon-18" title="shodan for penetration testers"&gt;Shodan for Penetration Testers DefCon 18&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Ahora lo preliminar ante todo es que te registres en &lt;a href="http://www.shodanhq.com/" title="Shodan"&gt;Shodan&lt;/a&gt;, es necesario para poder realizar algunas búsquedas y para obtener una &lt;strong&gt;API KEY&lt;/strong&gt; necesaria para poder usar la API, luego de registrarte y loguearte tienes tu KEY en &lt;a href="http://www.shodanhq.com/api_doc" title=" &amp;quot;api key"&gt;este link&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Bien ya luego de eso, lo que va es instalar la librería de shodan en la distro que uses (si, estoy asumiendo que usas GNU/Linux), yo en este momento estoy usando Debian Wheezy. Si tenemos &lt;a href="http://packages.python.org/distribute/easy_install.html" title="easy_install"&gt;Easy Install&lt;/a&gt; es bastante fácil sino te recomiendo que busques en el link anterior como instalarlo en tu distro.&lt;/p&gt;
@@ -878,7 +1010,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 
 
 &lt;p&gt;Suponiendo que ya hemos importado la librería e inicializado el objeto, con el código de arriba obtendríamos cierta información de esa IP. Por ejemplo, lo de arriba alojaría el siguiente resultado:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="shodan result" src="/images/posts/shodan/shodan1.png" title="shodan resultado" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="shodan result" src="http://aljavier.github.io/images/posts/shodan/shodan1.png" title="shodan resultado" /&gt;&lt;/p&gt;
 &lt;h2&gt;Concluyendo...&lt;/h2&gt;
 &lt;p&gt;Esta librería también tiene métodos para buscar y descargar módulos y exploits de Metasploit y Exploit-DB, respectivamente, así además como un modulo para geolocalización por medio de la MAC/BSSID de routers wireless. La documentación al respecto puede verla en la web oficial, yo decidí no hablar de eso porque han dado resultados erráticos.&lt;/p&gt;
 &lt;p&gt;Es decir, de 20 intentos de descargas de algún modulo o exploit solo 1 logro descargarse  los demás me tiran  error &lt;strong&gt;HTTP Error 502: Bad Gateway&lt;/strong&gt; y sobre la geolocalización ésta ya en otras ocasiones igual me ha dado resultados inesperados. Por lo demás todo anda bien .&lt;/p&gt;
@@ -1010,25 +1142,25 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 
 &lt;h2&gt;Algunas capturas a continuación...&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;&lt;em&gt;Uso o ayuda...&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img alt="ayuda" src="/images/posts/shodan/ayuda.png" title="ayuda" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="ayuda" src="http://aljavier.github.io/images/posts/shodan/ayuda.png" title="ayuda" /&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;&lt;em&gt;Buscando un dispositivo&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;Shodan3r&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt; &lt;span class="n"&gt;airos&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="search" src="/images/posts/shodan/search.png" title="search" /&gt;   &lt;/p&gt;
+&lt;p&gt;&lt;img alt="search" src="http://aljavier.github.io/images/posts/shodan/search.png" title="search" /&gt;   &lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;&lt;em&gt;Buscando un host&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;Shodan3r&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;host&lt;/span&gt; &lt;span class="mf"&gt;184.154.248.106&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="host" src="/images/posts/shodan/host.png" title="host" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="host" src="http://aljavier.github.io/images/posts/shodan/host.png" title="host" /&gt;&lt;/p&gt;
 &lt;p&gt;Espero que les haya gustado y servido el post, como siempre los comentarios son mas que bienvenidos.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Repositorio en github:&lt;/strong&gt; &lt;a href="https://github.com/n3x07/Shodan3r" title="Shodan3r"&gt;github.com/n3x07/Shodan3r&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Referencias&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://docs.shodanhq.com/python/tutorial.html" title="shodan tutorial oficial"&gt;shodan oficial tutorial&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</summary><category term="shodan"></category><category term="api"></category><category term="python"></category><category term="scripting"></category></entry><entry><title>Diccionarios con HashMap y TreeMap en Java</title><link href="/diccionarios-con-hashmap-y-treemap-en-java.html" rel="alternate"></link><updated>2013-06-20T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2013-06-20:diccionarios-con-hashmap-y-treemap-en-java.html</id><summary type="html">&lt;p&gt;Las colecciones nos permiten agrupar un conjunto de objetos del mismo tipo o al menos lo ideal es eso, que sean del mismo tipo ya que pueden agrupar objetos diferentes pero no es aconsejable, le quita las ventajas de usar los llamados &lt;a href="http://docs.oracle.com/javase/tutorial/extra/generics/index.html" title="genéricos"&gt;genéricos&lt;/a&gt; y haciendo así perdemos un poco el control sobre el tipo de objeto que manejamos.&lt;/p&gt;
+&lt;/ul&gt;</summary><category term="shodan"></category><category term="api"></category><category term="python"></category><category term="scripting"></category></entry><entry><title>Diccionarios con HashMap y TreeMap en Java</title><link href="http://aljavier.github.io/diccionarios-con-hashmap-y-treemap-en-java.html" rel="alternate"></link><updated>2013-06-20T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:aljavier.github.io,2013-06-20:diccionarios-con-hashmap-y-treemap-en-java.html</id><summary type="html">&lt;p&gt;Las colecciones nos permiten agrupar un conjunto de objetos del mismo tipo o al menos lo ideal es eso, que sean del mismo tipo ya que pueden agrupar objetos diferentes pero no es aconsejable, le quita las ventajas de usar los llamados &lt;a href="http://docs.oracle.com/javase/tutorial/extra/generics/index.html" title="genéricos"&gt;genéricos&lt;/a&gt; y haciendo así perdemos un poco el control sobre el tipo de objeto que manejamos.&lt;/p&gt;
 &lt;p&gt;Hay muchos objetos que entran en la categoría de collection en java, pero como siempre hay unos mas usados que otros, tenemos; &lt;em&gt;ArrayList, List, HashMap, TreeMap, TreeSet&lt;/em&gt;, etc. Los dos primeros almacenan objetos o mas bien referencia a objetos estilo los vectores, es decir que nos permite acceder por medio de su posición en el mismo, los otros dos siguientes entran en la categoría de diccionarios y el ultimo es como los vectores también pero elimina automáticamente los objetos idénticos. En esta entrada solo explicaré HashMap y TreeMap.&lt;/p&gt;
 &lt;p&gt;Para los ejemplos tengo una clase llamada Person.&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Person&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
@@ -1181,7 +1313,7 @@ incorrectos, los archivos ocultos, las cadenas sospechosas en los módulos del k
 &lt;/blockquote&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;De modo que la gran diferencia es que TreeMap ordena los objetos según la clave en forma ascendente, pero HashMap teóricamente nos devolverá los objetos en la secuencia que fueron introducidos. Entonces ¿Por qué no sólo usar TreeMap? Ah pues el caso es que cuando usamos un objeto definido por el usuario como clave (digamos una clase creada por nosotros) TreeMap no sabe como ordenar la colección, así que solo lo hace si es con datos primitivos (Integer, String, etc).&lt;/p&gt;
-&lt;p&gt;Tienen más información sobre TreeMap en &lt;a href="http://docs.oracle.com/javase/6/docs/api/java/util/TreeMap.html"&gt;este link de acá&lt;/a&gt;&lt;/p&gt;</summary><category term="java"></category><category term="HashMap"></category><category term="TreeMap"></category><category term="diccionarios"></category><category term="generics"></category></entry><entry><title>Redirecciones y expansiones en bash</title><link href="/bash-redirecciones-y-expansiones.html" rel="alternate"></link><updated>2013-06-10T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2013-06-10:bash-redirecciones-y-expansiones.html</id><summary type="html">&lt;p&gt;Veremos algo bien breve y sencillo para muchos, pero además muy importante principalmente a la hora de escribir bash scripts. Hablamos de las redirecciones, las expansiones aritméticas y las expansiones de llaves.&lt;/p&gt;
+&lt;p&gt;Tienen más información sobre TreeMap en &lt;a href="http://docs.oracle.com/javase/6/docs/api/java/util/TreeMap.html"&gt;este link de acá&lt;/a&gt;&lt;/p&gt;</summary><category term="java"></category><category term="HashMap"></category><category term="TreeMap"></category><category term="diccionarios"></category><category term="generics"></category></entry><entry><title>Redirecciones y expansiones en bash</title><link href="http://aljavier.github.io/bash-redirecciones-y-expansiones.html" rel="alternate"></link><updated>2013-06-10T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:aljavier.github.io,2013-06-10:bash-redirecciones-y-expansiones.html</id><summary type="html">&lt;p&gt;Veremos algo bien breve y sencillo para muchos, pero además muy importante principalmente a la hora de escribir bash scripts. Hablamos de las redirecciones, las expansiones aritméticas y las expansiones de llaves.&lt;/p&gt;
 &lt;h2&gt;Redirecciones&lt;/h2&gt;
 &lt;p&gt;A la hora de escribir un script en bash la mayoría de veces necesitaremos usar estas, al menos para redireccionar los posibles errores que pueda lanzar una determinada expresión.&lt;/p&gt;
 &lt;p&gt;Como muchos ya saben en Linux todo es un archivo, es así que la &lt;a href="http://es.wikipedia.org/wiki/Entrada_est%C3%A1ndar" target="_blank"&gt;Entrada y Salida estándar&lt;/a&gt;&amp;nbsp; son los archivos que se encuentran en /dev/stdin y dev/sdout respectivamente. Pero también tenemos el archivo stderr en /dev/stderr, pero estos además tienen un &lt;a href="http://es.wikipedia.org/wiki/Descriptor_de_archivo" target="_blank"&gt;descriptor de archivo&lt;/a&gt; (un numero) que nos permite referirnos a estos de ese modo. Sus descriptores son como sigue:&lt;/div&gt;&lt;/p&gt;
