@@ -51,9 +51,10 @@ sale bien.&lt;/p&gt;
 &lt;span class="nv"&gt;DURATION&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1
 &lt;span class="nv"&gt;EXPIRE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;30 Minutos&amp;quot;&lt;/span&gt;
 &lt;span class="nv"&gt;USER_AGENT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Mozilla/5.0 (X11; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0&amp;quot;&lt;/span&gt;
+&lt;span class="nv"&gt;SCRIPT_NAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;basename &lt;span class="s2"&gt;&amp;quot;$0&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
 
 &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$#&amp;quot;&lt;/span&gt; -lt 1 &lt;span class="o"&gt;]]&lt;/span&gt;;&lt;span class="k"&gt;then&lt;/span&gt;
-&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;\tUso: $FUNCNAME mi_archivo.ext [DURACION]\n&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;\tUso: &amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$SCRIPT_NAME&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; mi_archivo.ext [DURACION]\n&amp;quot;&lt;/span&gt;
     &lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;\tDonde DURACION es un numero del 1 al 5 (1 por defecto):\n\t1 = 30 minutos\t2 = 1 Hora\t3 = 6 Horas\t4 = 1 Día\t5 = 1 Semana\n&amp;quot;&lt;/span&gt;
 &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; ! -f &lt;span class="nv"&gt;$1&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;;&lt;span class="k"&gt;then&lt;/span&gt;
 &lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;\tEl archivo $(basename &amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;) no es un archivo regular\n&amp;quot;&lt;/span&gt;    
@@ -84,7 +85,6 @@ sale bien.&lt;/p&gt;
 
 &lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nv"&gt;FILE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;
     &lt;span class="nv"&gt;SIZE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;stat &lt;span class="s2"&gt;&amp;quot;${FILE}&amp;quot;&lt;/span&gt; | grep -i size | cut -d&lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt; -f4&lt;span class="k"&gt;)&lt;/span&gt;
-    &lt;span class="c"&gt;#TYPE=$(file &amp;quot;${FILE}&amp;quot; | cut -d&amp;quot; &amp;quot; -f2)  # No necesito el mime type sino la extension&lt;/span&gt;
     &lt;span class="nv"&gt;TYPE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;${FILE}&amp;quot;&lt;/span&gt; | cut -d&lt;span class="s2"&gt;&amp;quot;.&amp;quot;&lt;/span&gt; -f2 | tr a-z A-Z&lt;span class="k"&gt;)&lt;/span&gt;
 
     &lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;\e[1;33mFile\e[0m: $(basename &amp;quot;&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;FILE&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;)\t\e[1;33mSize\e[0m: $SIZE\t\e[1;33mType\e[0m: $TYPE\t\e[1;33mExpiration\e[0m: $EXPIRE\n&amp;quot;&lt;/span&gt;
@@ -94,14 +94,19 @@ sale bien.&lt;/p&gt;
     &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$SIZE&amp;quot;&lt;/span&gt; -gt &lt;span class="s2"&gt;&amp;quot;$MAX_FILE_SIZE&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;;&lt;span class="k"&gt;then&lt;/span&gt;
 &lt;span class="k"&gt;          &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;El archivo es demasiado grande, uploadpie.com permite un maximo de 3 mb.\n&amp;quot;&lt;/span&gt;
     &lt;span class="k"&gt;else&lt;/span&gt;
-&lt;span class="k"&gt;          &lt;/span&gt;curl --progress-bar -A &lt;span class="s2"&gt;&amp;quot;$USER_AGENT&amp;quot;&lt;/span&gt; --form &lt;span class="nv"&gt;uploadedfile&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;@&lt;span class="s2"&gt;&amp;quot;$FILE&amp;quot;&lt;/span&gt; --form &lt;span class="nv"&gt;upload&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1 --form &lt;span class="nv"&gt;MAX_FILE_SIZE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$MAX_FILE_SIZE&lt;/span&gt;  --form &lt;span class="nv"&gt;expire&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$DURATION&lt;/span&gt; http://uploadpie.com | grep &lt;span class="s1"&gt;&amp;#39;id=&amp;quot;uploaded&amp;quot;&amp;#39;&lt;/span&gt; | cut -d&lt;span class="s1"&gt;&amp;#39;&amp;quot;&amp;#39;&lt;/span&gt; -f6
+&lt;span class="k"&gt;          &lt;/span&gt;curl --progress-bar -A &lt;span class="s2"&gt;&amp;quot;$USER_AGENT&amp;quot;&lt;/span&gt; --form &lt;span class="nv"&gt;uploadedfile&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;@&lt;span class="s2"&gt;&amp;quot;$FILE&amp;quot;&lt;/span&gt; --form &lt;span class="nv"&gt;upload&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1 --form &lt;span class="nv"&gt;MAX_FILE_SIZE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;$MAX_FILE_SIZE&amp;quot;&lt;/span&gt;  --form &lt;span class="nv"&gt;expire&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;$DURATION&amp;quot;&lt;/span&gt; http://uploadpie.com | grep &lt;span class="s1"&gt;&amp;#39;id=&amp;quot;uploaded&amp;quot;&amp;#39;&lt;/span&gt; | cut -d&lt;span class="s1"&gt;&amp;#39;&amp;quot;&amp;#39;&lt;/span&gt; -f6
     &lt;span class="k"&gt;fi&lt;/span&gt;
 &lt;span class="k"&gt;fi&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;p&gt;El script si encuentra en &lt;a href="https://github.com/aljavier/uploadr-pie/blob/master/uploadr-pie" title="uploadr-pie"&gt;este repositorio&lt;/a&gt;, asi que puedes clonar el repositorio a tu ordenador:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;clone&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="c1"&gt;//github.com/aljavier/uploadr-pie.git&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;Claro, por si eres nuevo usando Linux, recuerda que tienes que darle permisos de ejecución al script:&lt;/p&gt;
-&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;chmod&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="n"&gt;uploadpie&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;chmod&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="n"&gt;uploadr&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;pie&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 

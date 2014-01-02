@@ -108,9 +108,10 @@ sale bien.</p>
 <span class="nv">DURATION</span><span class="o">=</span>1
 <span class="nv">EXPIRE</span><span class="o">=</span><span class="s2">&quot;30 Minutos&quot;</span>
 <span class="nv">USER_AGENT</span><span class="o">=</span><span class="s2">&quot;Mozilla/5.0 (X11; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0&quot;</span>
+<span class="nv">SCRIPT_NAME</span><span class="o">=</span><span class="k">$(</span>basename <span class="s2">&quot;$0&quot;</span><span class="k">)</span>
 
 <span class="k">if</span> <span class="o">[[</span> <span class="s2">&quot;$#&quot;</span> -lt 1 <span class="o">]]</span>;<span class="k">then</span>
-<span class="k">    </span><span class="nb">echo</span> -e <span class="s2">&quot;\tUso: $FUNCNAME mi_archivo.ext [DURACION]\n&quot;</span>
+<span class="k">    </span><span class="nb">echo</span> -e <span class="s2">&quot;\tUso: &quot;</span><span class="nv">$SCRIPT_NAME</span><span class="s2">&quot; mi_archivo.ext [DURACION]\n&quot;</span>
     <span class="nb">echo</span> -e <span class="s2">&quot;\tDonde DURACION es un numero del 1 al 5 (1 por defecto):\n\t1 = 30 minutos\t2 = 1 Hora\t3 = 6 Horas\t4 = 1 Día\t5 = 1 Semana\n&quot;</span>
 <span class="k">elif</span> <span class="o">[[</span> ! -f <span class="nv">$1</span> <span class="o">]]</span>;<span class="k">then</span>
 <span class="k">    </span><span class="nb">echo</span> -e <span class="s2">&quot;\tEl archivo $(basename &quot;</span><span class="nv">$1</span><span class="s2">&quot;) no es un archivo regular\n&quot;</span>    
@@ -141,7 +142,6 @@ sale bien.</p>
 
 <span class="k">    </span><span class="nv">FILE</span><span class="o">=</span><span class="nv">$1</span>
     <span class="nv">SIZE</span><span class="o">=</span><span class="k">$(</span>stat <span class="s2">&quot;${FILE}&quot;</span> | grep -i size | cut -d<span class="s2">&quot; &quot;</span> -f4<span class="k">)</span>
-    <span class="c">#TYPE=$(file &quot;${FILE}&quot; | cut -d&quot; &quot; -f2)  # No necesito el mime type sino la extension</span>
     <span class="nv">TYPE</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;${FILE}&quot;</span> | cut -d<span class="s2">&quot;.&quot;</span> -f2 | tr a-z A-Z<span class="k">)</span>
 
     <span class="nb">echo</span> -e <span class="s2">&quot;\e[1;33mFile\e[0m: $(basename &quot;</span><span class="k">${</span><span class="nv">FILE</span><span class="k">}</span><span class="s2">&quot;)\t\e[1;33mSize\e[0m: $SIZE\t\e[1;33mType\e[0m: $TYPE\t\e[1;33mExpiration\e[0m: $EXPIRE\n&quot;</span>
@@ -151,14 +151,19 @@ sale bien.</p>
     <span class="k">elif</span> <span class="o">[[</span> <span class="s2">&quot;$SIZE&quot;</span> -gt <span class="s2">&quot;$MAX_FILE_SIZE&quot;</span> <span class="o">]]</span>;<span class="k">then</span>
 <span class="k">          </span><span class="nb">echo</span> -e <span class="s2">&quot;El archivo es demasiado grande, uploadpie.com permite un maximo de 3 mb.\n&quot;</span>
     <span class="k">else</span>
-<span class="k">          </span>curl --progress-bar -A <span class="s2">&quot;$USER_AGENT&quot;</span> --form <span class="nv">uploadedfile</span><span class="o">=</span>@<span class="s2">&quot;$FILE&quot;</span> --form <span class="nv">upload</span><span class="o">=</span>1 --form <span class="nv">MAX_FILE_SIZE</span><span class="o">=</span><span class="nv">$MAX_FILE_SIZE</span>  --form <span class="nv">expire</span><span class="o">=</span><span class="nv">$DURATION</span> http://uploadpie.com | grep <span class="s1">&#39;id=&quot;uploaded&quot;&#39;</span> | cut -d<span class="s1">&#39;&quot;&#39;</span> -f6
+<span class="k">          </span>curl --progress-bar -A <span class="s2">&quot;$USER_AGENT&quot;</span> --form <span class="nv">uploadedfile</span><span class="o">=</span>@<span class="s2">&quot;$FILE&quot;</span> --form <span class="nv">upload</span><span class="o">=</span>1 --form <span class="nv">MAX_FILE_SIZE</span><span class="o">=</span><span class="s2">&quot;$MAX_FILE_SIZE&quot;</span>  --form <span class="nv">expire</span><span class="o">=</span><span class="s2">&quot;$DURATION&quot;</span> http://uploadpie.com | grep <span class="s1">&#39;id=&quot;uploaded&quot;&#39;</span> | cut -d<span class="s1">&#39;&quot;&#39;</span> -f6
     <span class="k">fi</span>
 <span class="k">fi</span>
 </pre></div>
 
 
+<p>El script si encuentra en <a href="https://github.com/aljavier/uploadr-pie/blob/master/uploadr-pie" title="uploadr-pie">este repositorio</a>, asi que puedes clonar el repositorio a tu ordenador:</p>
+<div class="codehilite"><pre><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="o">:</span><span class="c1">//github.com/aljavier/uploadr-pie.git</span>
+</pre></div>
+
+
 <p>Claro, por si eres nuevo usando Linux, recuerda que tienes que darle permisos de ejecución al script:</p>
-<div class="codehilite"><pre><span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="n">uploadpie</span><span class="p">.</span><span class="n">sh</span>
+<div class="codehilite"><pre><span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="n">uploadr</span><span class="o">-</span><span class="n">pie</span><span class="p">.</span><span class="n">sh</span>
 </pre></div>
 
 

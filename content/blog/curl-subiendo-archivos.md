@@ -61,9 +61,10 @@ sale bien.
 	DURATION=1
 	EXPIRE="30 Minutos"
 	USER_AGENT="Mozilla/5.0 (X11; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0"
+    SCRIPT_NAME=$(basename "$0")
 
 	if [[ "$#" -lt 1 ]];then
-		echo -e "\tUso: $FUNCNAME mi_archivo.ext [DURACION]\n"
+		echo -e "\tUso: "$SCRIPT_NAME" mi_archivo.ext [DURACION]\n"
 		echo -e "\tDonde DURACION es un numero del 1 al 5 (1 por defecto):\n\t1 = 30 minutos\t2 = 1 Hora\t3 = 6 Horas\t4 = 1 Día\t5 = 1 Semana\n"
 	elif [[ ! -f $1 ]];then
 		echo -e "\tEl archivo $(basename "$1") no es un archivo regular\n"    
@@ -94,23 +95,26 @@ sale bien.
         
 		FILE=$1
         SIZE=$(stat "${FILE}" | grep -i size | cut -d" " -f4)
-        #TYPE=$(file "${FILE}" | cut -d" " -f2)  # No necesito el mime type sino la extension
         TYPE=$(echo "${FILE}" | cut -d"." -f2 | tr a-z A-Z)  
-        
+
 		echo -e "\e[1;33mFile\e[0m: $(basename "${FILE}")\t\e[1;33mSize\e[0m: $SIZE\t\e[1;33mType\e[0m: $TYPE\t\e[1;33mExpiration\e[0m: $EXPIRE\n"
-        
+
 		if [[ "$TYPE" != "PNG" && "$TYPE" != "JPG" && "$TYPE" != "GIF" && "$TYPE" != "PDF" && "$TYPE" != "TXT" ]];then
               echo -e "El tipo de archivo $TYPE no es soportado por  uploadpie.com.\n"
         elif [[ "$SIZE" -gt "$MAX_FILE_SIZE" ]];then
               echo -e "El archivo es demasiado grande, uploadpie.com permite un maximo de 3 mb.\n"
         else
-              curl --progress-bar -A "$USER_AGENT" --form uploadedfile=@"$FILE" --form upload=1 --form MAX_FILE_SIZE=$MAX_FILE_SIZE  --form expire=$DURATION http://uploadpie.com | grep 'id="uploaded"' | cut -d'"' -f6
+              curl --progress-bar -A "$USER_AGENT" --form uploadedfile=@"$FILE" --form upload=1 --form MAX_FILE_SIZE="$MAX_FILE_SIZE"  --form expire="$DURATION" http://uploadpie.com | grep 'id="uploaded"' | cut -d'"' -f6
         fi
 	fi
 
+El script si encuentra en [este repositorio](https://github.com/aljavier/uploadr-pie/blob/master/uploadr-pie "uploadr-pie"), asi que puedes clonar el repositorio a tu ordenador:
+
+	git clone https://github.com/aljavier/uploadr-pie.git
+
 Claro, por si eres nuevo usando Linux, recuerda que tienes que darle permisos de ejecución al script:
 
-	chmod +x uploadpie.sh
+	chmod +x uploadr-pie.sh
 
 Una captua del script sin  especificar el tiempo de expiración, solo el archivo:
 ![Uploadpie 1]({filename}/images/posts/uploadpie1.png)
