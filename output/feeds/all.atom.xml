@@ -100,7 +100,7 @@ sale bien.&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;El script si encuentra en &lt;a href="https://github.com/aljavier/uploadr-pie/blob/master/uploadr-pie" title="uploadr-pie"&gt;este repositorio&lt;/a&gt;, asi que puedes clonar el repositorio a tu ordenador:&lt;/p&gt;
+&lt;p&gt;El script se encuentra en &lt;a href="https://github.com/aljavier/uploadr-pie/blob/master/uploadr-pie" title="uploadr-pie"&gt;este repositorio&lt;/a&gt;, asi que puedes clonar el repositorio a tu ordenador:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;clone&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="c1"&gt;//github.com/aljavier/uploadr-pie.git&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 

@@ -108,7 +108,7 @@ sale bien.
         fi
 	fi
 
-El script si encuentra en [este repositorio](https://github.com/aljavier/uploadr-pie/blob/master/uploadr-pie "uploadr-pie"), asi que puedes clonar el repositorio a tu ordenador:
+El script se encuentra en [este repositorio](https://github.com/aljavier/uploadr-pie/blob/master/uploadr-pie "uploadr-pie"), asi que puedes clonar el repositorio a tu ordenador:
 
 	git clone https://github.com/aljavier/uploadr-pie.git
 
