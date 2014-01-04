@@ -186,7 +186,7 @@ datos al servidor. Para esto, sigue los siguiente pasos:
 
 1. Crear un **URL**.
 2. Obtener el objeto **URLConnection**.
-3. Establecer capacidad de envío(outpu) en el URLConnection.
+3. Establecer capacidad de envío(output) en el URLConnection.
 4. Abrir una conexion al recurso.
 5. Obtener un `output stream` de la conexión.
 6. Escribir al `output stream`.
