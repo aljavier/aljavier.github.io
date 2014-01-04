@@ -1,5 +1,581 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>// Sysflux</title><link>http://aljavier.github.io/</link><description>cat /dev/brain | grep 'code\|sysadmin\|linux\|random_stuff' &gt;&gt; blog.txt</description><atom:link href="http://aljavier.github.io/rss.xml" rel="self"></atom:link><lastBuildDate>Fri, 01 Nov 2013 00:00:00 -0400</lastBuildDate><item><title>Recursividad versus iteratividad</title><link>http://aljavier.github.io/recursividad-versus-iteratividad.html</link><description>&lt;p&gt;Una &lt;code&gt;función recursiva&lt;/code&gt; es aquella que se llama a si mismo, normalmente, un número 
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>// Sysflux</title><link>http://aljavier.github.io/</link><description>cat /dev/brain | grep 'code\|sysadmin\|linux\|random_stuff' &gt;&gt; blog.txt</description><atom:link href="http://aljavier.github.io/rss.xml" rel="self"></atom:link><lastBuildDate>Fri, 03 Jan 2014 00:00:00 -0400</lastBuildDate><item><title>Manipulando URLs y haciendo solicitudes HTTP con Java</title><link>http://aljavier.github.io/manipulando-urls-y-haciendo-solicitudes-http-con-java.html</link><description>&lt;p&gt;Interactuar con formularios web desde una que otra aplicación que yo mismo
+programe siempre me ha parecido bastante interesante y en efecto es algo que 
+que uso de vez en vez, más con el lenguaje Python que con cualquier otro, pero se da que en
+uno que otro caso pueda ser interesante usar Java para estas cosas, quizás porque
+quiero hacer algo parecido en alguna aplicación que por una u otra razón haya
+decidido programar en Java. &lt;/p&gt;
+&lt;p&gt;En esta entrada vamos a usar las clases &lt;a href="http://docs.oracle.com/javase/6/docs/api/java/net/URLConnection.html" title="URLConnection"&gt;URLConnection&lt;/a&gt;
+y &lt;a href="http://docs.oracle.com/javase/6/docs/api/java/net/HttpURLConnection.html" title="HttpURLConnection"&gt;HttpURLConnection&lt;/a&gt; 
+para interactuar con formularios web y para acceder y manipular URLs, para definir
+una &lt;a href="https://es.wikipedia.org/wiki/Uniform_Resource_Locator" title="Uniform Resource Locator"&gt;URL&lt;/a&gt;
+en Java usamos la clase &lt;a href="http://docs.oracle.com/javase/7/docs/api/java/net/URL.html" title="java.net.URL"&gt;URL&lt;/a&gt; 
+lo cual por igual tiene algunos métodos que podrían ser útiles y pueden ser consultados
+en la documentación oficial. &lt;/p&gt;
+&lt;p&gt;Por otro lado, las clases URLConnection y HttpURLConnection no tienen mucha diferencia
+entre si y básicamente se podría usar cualquiera si la vamos a usar para el protocolo
+http, ya que URLConnection es una clase muy HTTP-céntrica como dice la documentación
+oficial, la misma es útil para establecer un enlace de comunicación entre una aplicación
+y una URL, que bien podría ser una de un ftp, servidor de archivos u otra. En cambio, 
+HttpURLConnection es una subclase directa de URLConnection para establecer conexiones
+con un servidor web, que no es lo mismo que ftp u otro.&lt;/p&gt;
+&lt;p&gt;Entrando en materia iniciamos con lo mas básico, la URL. Para crear una &lt;em&gt;URL absoluta&lt;/em&gt;
+es tan simple como esto:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="n"&gt;myURL&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;URL&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://example.com/&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;La URL podría ser cualquiera, sin importar si apunta a un recurso en el servidor, como
+lo seria &lt;code&gt;http://example.com/pdf/java-book.pdf&lt;/code&gt;. Ahora crear URLs relativas a una URL base
+como seria: http://example.com/pages/, lo haríamos del siguiente modo:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="n"&gt;baseURL&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;URL&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://example.com/pages/&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="n"&gt;page1URL&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;URL&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;baseURL&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;page1.html&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="n"&gt;page2URL&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;URL&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;baseURL&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;page2.html&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;La forma general de este &lt;code&gt;constructor&lt;/code&gt; es como sigue:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;URL&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="n"&gt;baseURL&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;relativeURL&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;El resultado es obvio, ahora bien si el primer parámetro(URL base) es &lt;code&gt;null&lt;/code&gt; el segundo
+parámetro(URL relativa) sera tratada como una URL absoluta. Si por otro lado, haya o no
+un primer elemento valido y el segundo es una URL absoluta entonces el constructor ignorará
+el primer argumento(URL base).&lt;/p&gt;
+&lt;p&gt;Igual podríamos hacer lo siguiente:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="n"&gt;page1BottomURL&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;URL&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;page1URL&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;#BOTTOM&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Así tendríamos un objeto URL apuntando específicamente al contenido en &lt;code&gt;http://example.com/pages/page1.hyml#BOTTOM&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Existen como dos constructores más, que pueden consultarse en la documentación
+oficial, en todo caso los aquí presentados me parecen los mas útiles.&lt;/p&gt;
+&lt;p&gt;Otra cosa que si quisiéramos encodear los caracteres especiales en nuestra URL(como podrían
+ser espacios en blancos y demás) podríamos usar la clase 
+&lt;a href="http://docs.oracle.com/javase/7/docs/api/java/net/URI.html" title="URI"&gt;URI&lt;/a&gt;, suponiendo
+que la URL completa es &lt;code&gt;http://example.com/hellow word/&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;URI&lt;/span&gt; &lt;span class="n"&gt;uri&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;URI&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;example.com&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/hello word/&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;span class="c1"&gt;// Para convertirla a URL&lt;/span&gt;
+&lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;uri&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;toURL&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Nota:&lt;/strong&gt; Las clases URLConnection, HttpURLConnection, URL, URI y URLEncoder(la cual veremos 
+más adelante) se encuentran en el paquete &lt;code&gt;java.net&lt;/code&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Los objetos URL lanzan una excepción del tipo &lt;code&gt;MalformedURLException&lt;/code&gt; si los argumentos del constructor
+son del tipo &lt;code&gt;null&lt;/code&gt; o algún protocolo desconocido. Algo importante, es que los objetos del tipo &lt;code&gt;URL&lt;/code&gt; 
+no se le puede cambiar el estado una vez creados, es decir, no se le pueden cambiar sus atributos una vez
+han sido creados.&lt;/p&gt;
+&lt;h2&gt;Leyendo directamente desde una URL&lt;/h2&gt;
+&lt;p&gt;Leer directamente desde una URL es bastante simple, una vez ya tenemos un objeto URL creado podemos
+llamar al método &lt;code&gt;openStream()&lt;/code&gt; para obtener un stream del cual se podrá leer el contenido de la URL.
+El método &lt;code&gt;openStream()&lt;/code&gt; como se puede imaginar devuelve un objeto &lt;code&gt;InputStream&lt;/code&gt;(&lt;a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html" title="InputStream"&gt;paquete java.io.InputStream&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;Veamos el siguiente ejemplo que ilustra claramente como leer directamente desde una URL:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.io.BufferedReader&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.io.InputStreamReader&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.net.URL&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+
+&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;URLReader&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="o"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;throws&lt;/span&gt; &lt;span class="n"&gt;Exception&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;URL&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://aljavier.github.io&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;BufferedReader&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;BufferedReader&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;InputStreamReader&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;URL&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;openStream&lt;/span&gt;&lt;span class="o"&gt;()));&lt;/span&gt;
+
+        &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;inputLine&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+        &lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="o"&gt;((&lt;/span&gt;&lt;span class="n"&gt;inputLine&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;readLine&lt;/span&gt;&lt;span class="o"&gt;())&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;inputLine&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;in&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;close&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;El código es tan simple que se explica así mismo, primero instanciamos la URL, luego obtenemos un &lt;code&gt;Stream&lt;/code&gt; de URL
+invocando su método &lt;code&gt;openStream()&lt;/code&gt;, pasamos el objeto devuelto por dicho método(cuyo objeto es un &lt;code&gt;InputStream&lt;/code&gt;) a un
+objeto del tipo &lt;code&gt;InputStreamReader&lt;/code&gt; y de igual forma éste al constructor de &lt;code&gt;BufferedReader&lt;/code&gt;, para así de esa forma 
+poder leer el contenido devuelvo por el sitio web como si leyéramos de un simple archivo.&lt;/p&gt;
+&lt;h2&gt;Conectándose a una URL&lt;/h2&gt;
+&lt;p&gt;Anteriormente habíamos visto como poder obtener un sitio web, leyendo directamente desde su URL, ahora veremos como
+conectarnos a una URL de tal forma que podamos establecer parámetros y propiedades para las solicitudes que haremos
+al website según sean nuestras necesidades.&lt;/p&gt;
+&lt;p&gt;Una vez ya tengamos un objeto &lt;code&gt;URL&lt;/code&gt; creado podemos llamar a su método &lt;code&gt;OpenConnection()&lt;/code&gt; para obtener un objeto 
+&lt;code&gt;URLConnection&lt;/code&gt; o una de sus subclases de protocolos específicos(como HttpURLConnection).  La conexión hacia la maquina
+y/o recurso remoto representado por el objeto &lt;code&gt;URL&lt;/code&gt; solo se inicia cuando se llama al método &lt;code&gt;connect()&lt;/code&gt; del objeto
+&lt;code&gt;URLConnection&lt;/code&gt;, con esto iniciamos un enlace de conexión entre nuestro aplicación Java y la URL a través de la red. Cabe
+decir que en algunos casos no es necesario llamar explícitamente el método &lt;code&gt;connect&lt;/code&gt;, ya que este es ejecutado de forma
+implícita cuando se ejecutan métodos como &lt;code&gt;getInputStream&lt;/code&gt;, &lt;code&gt;getOutputStream&lt;/code&gt; entre otros.&lt;/p&gt;
+&lt;p&gt;Veamos el siguiente ejemplo que esta en la documentación oficial tal cual(como casi todos en este post), el mismo
+abre una conexión al sitio &lt;code&gt;example.com&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="k"&gt;try&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+   &lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="n"&gt;myURL&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;URL&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://example.com/&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;URLConnection&lt;/span&gt; &lt;span class="n"&gt;myURLConnection&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;myURL&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;openConnection&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="n"&gt;myURLConnection&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;connect&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt; 
+    &lt;span class="k"&gt;catch&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MalformedURLException&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt; 
+    &lt;span class="c1"&gt;// new URL() failed&lt;/span&gt;
+    &lt;span class="c1"&gt;// ...&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt; 
+    &lt;span class="k"&gt;catch&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;IOException&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;   
+    &lt;span class="c1"&gt;// openConnection() failed&lt;/span&gt;
+    &lt;span class="c1"&gt;// ...&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Una vez conectado correctamente a nuestra URL estamos listo para usar URLConnection y ejecutar acciones como
+leer y/o escribir a esa conexión.&lt;/p&gt;
+&lt;h2&gt;Leyendo desde un objeto URLConnection&lt;/h2&gt;
+&lt;p&gt;A continuación veremos que leer desde URLConnection, primeramente como siempre creamos un objeto &lt;code&gt;URL&lt;/code&gt;, luego 
+un objeto &lt;code&gt;URLConnection&lt;/code&gt; y después de esto leemos el flujo de datos(o stream) con BufferedReader. El siguiente
+código lo ilustra de forma clara:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.io.BufferedReader&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.io.InputStreamReader&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.net.URL&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.net.URLConnection&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;URLConnectionReader&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="o"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;throws&lt;/span&gt; &lt;span class="n"&gt;Exception&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="n"&gt;my_URL&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;URL&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://aljavier.github.io&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;URLConnection&lt;/span&gt; &lt;span class="n"&gt;uc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;my_URL&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;openConnection&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+        &lt;span class="n"&gt;BufferedReader&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;BufferedReader&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;InputStreamReader&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;
+                &lt;span class="n"&gt;uc&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getInputStream&lt;/span&gt;&lt;span class="o"&gt;()));&lt;/span&gt;
+        &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;inputLine&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+        &lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="o"&gt;((&lt;/span&gt;&lt;span class="n"&gt;inputLine&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;readLine&lt;/span&gt;&lt;span class="o"&gt;())&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;inputLine&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;in&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;close&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;El código anterior hace lo mismo que el otro anterior que lee directamente desde URL y este mas arriba, de modo
+que ambas formas pueden usadas, no obstante, tiene sus ventajas usar &lt;code&gt;URLConnection&lt;/code&gt;, por ejemplo, que podemos
+realizar otras acciones además de leer, como es escribir a esa URL(como enviar datos a un formulario POST, ver más abajo).&lt;/p&gt;
+&lt;h2&gt;Escribiendo a un objeto URLConnection&lt;/h2&gt;
+&lt;p&gt;Es de esta forma que podemos por ejemplo enviar datos a un formulario web. Según la documentación oficial para un programa
+Java interactuar con proceso del lado servidor este simplemente escribir a un &lt;code&gt;URL&lt;/code&gt;(sí al objeto), de esta forma proveyendo los
+datos al servidor. Para esto, sigue los siguiente pasos:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Crear un &lt;strong&gt;URL&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Obtener el objeto &lt;strong&gt;URLConnection&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Establecer capacidad de envío(outpu) en el URLConnection.&lt;/li&gt;
+&lt;li&gt;Abrir una conexion al recurso.&lt;/li&gt;
+&lt;li&gt;Obtener un &lt;code&gt;output stream&lt;/code&gt; de la conexión.&lt;/li&gt;
+&lt;li&gt;Escribir al &lt;code&gt;output stream&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Cerrar el &lt;code&gt;output stream&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Para el siguiente ejemplo, ya que necesitamos un formulario con el cual interactuar tengo un servidor web en localhost corriendo
+con el siguiente formulario:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class="cp"&gt;if($_POST){&lt;/span&gt;
+&lt;span class="cp"&gt;        if(isset($_POST[&amp;#39;nombre&amp;#39;])){&lt;/span&gt;
+&lt;span class="cp"&gt;            echo &amp;quot;Hey, un grato saludo mister &amp;quot;.$_POST[&amp;#39;nombre&amp;#39;].&amp;quot;!\n&amp;quot;;&lt;/span&gt;
+&lt;span class="cp"&gt;        }else{&lt;/span&gt;
+&lt;span class="cp"&gt;            echo &amp;quot;Hey, que onda mister Anónimo!\n&amp;quot;;&lt;/span&gt;
+&lt;span class="cp"&gt;        }&lt;/span&gt;
+&lt;span class="cp"&gt;}&lt;/span&gt;
+&lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;html&lt;/span&gt; &lt;span class="na"&gt;lang=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;es&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;title&amp;gt;&lt;/span&gt; Formulario Simple&lt;span class="nt"&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;form&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;datos&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;action=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;method=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;POST&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;label&lt;/span&gt; &lt;span class="na"&gt;for=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;nombre&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;Nombre:&lt;span class="nt"&gt;&amp;lt;/label&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;input&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;nombre&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;nombre&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+            &lt;span class="nt"&gt;&amp;lt;input&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;submit&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;value=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Enviar&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;El archivo anterior le he llamado en mi servidor &lt;code&gt;form.php&lt;/code&gt;, ahora veamos el código que interactúa con el mismo usando URLConnection:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.io.BufferedReader&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.io.InputStreamReader&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.io.OutputStreamWriter&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.net.URL&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.net.URLConnection&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.net.URLEncoder&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;URLWriter&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="o"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;throws&lt;/span&gt; &lt;span class="n"&gt;Exception&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;USER_AGENT&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Mozilla/5.0 (X11; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;address&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;http://localhost/form.php&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;forSending&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Batman&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;charset&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;UTF-8&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+        &lt;span class="c1"&gt;// El metodo encode() de URLEncoder se encarga de encodear la cadena que enviaremos&lt;/span&gt;
+        &lt;span class="c1"&gt;// al servidor, sustituyendo espacios y caracteres especiales&lt;/span&gt;
+        &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;stringToSend&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;URLEncoder&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;encode&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;forSending&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;charset&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+
+        &lt;span class="c1"&gt;// 1. Creamos objeto URL&lt;/span&gt;
+        &lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;URL&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;address&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="c1"&gt;// 2. Obtenemos el objeto URLConnection llamando a openConnection() en URL&lt;/span&gt;
+        &lt;span class="n"&gt;URLConnection&lt;/span&gt; &lt;span class="n"&gt;connection&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;URL&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;openConnection&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+        &lt;span class="c1"&gt;// Establecemos algunas propiedas de envió, como es el User-Agent&lt;/span&gt;
+        &lt;span class="n"&gt;connection&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;addRequestProperty&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;User-Agent&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;USER_AGENT&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+
+        &lt;span class="c1"&gt;// 3. Esto es importantisímo, es aqui donde establecemos la capacidad de envió.&lt;/span&gt;
+        &lt;span class="n"&gt;connection&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setDoOutput&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+
+        &lt;span class="c1"&gt;// 4. Abrimos una conexión al recurso para poder escribir/enviar datos al formulario&lt;/span&gt;
+        &lt;span class="c1"&gt;// Nota que no se llama explícitamente a connect() porque llamados a getOutputStream()&lt;/span&gt;
+        &lt;span class="n"&gt;OutputStreamWriter&lt;/span&gt; &lt;span class="n"&gt;out&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;OutputStreamWriter&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;
+                &lt;span class="n"&gt;connection&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getOutputStream&lt;/span&gt;&lt;span class="o"&gt;());&lt;/span&gt;
+        &lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;write&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;nombre=&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;stringToSend&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// &amp;quot;nombre&amp;quot; es el campo del formulario web&lt;/span&gt;
+        &lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;close&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+        &lt;span class="c1"&gt;// Aquí leemos el resultado que nos devolvió el servidor, en efecto, lo que&lt;/span&gt;
+        &lt;span class="c1"&gt;// respondió form.php y luego de enviar los datos&lt;/span&gt;
+        &lt;span class="n"&gt;BufferedReader&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;BufferedReader&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;
+                &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nf"&gt;InputStreamReader&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;
+                        &lt;span class="n"&gt;connection&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getInputStream&lt;/span&gt;&lt;span class="o"&gt;()));&lt;/span&gt;
+        &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+        &lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="o"&gt;((&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;readLine&lt;/span&gt;&lt;span class="o"&gt;())&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;in&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;close&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;El servidor, nos responde perfectamente con algo como:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;Hey&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;un&lt;/span&gt; &lt;span class="n"&gt;grato&lt;/span&gt; &lt;span class="n"&gt;saludo&lt;/span&gt; &lt;span class="n"&gt;mister&lt;/span&gt; &lt;span class="n"&gt;Batman&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Con el código html de la pagina más abajo, si hubiese puesto el php en un solo archivo aparte
+solo tendría la respuesta de mas arriba, en todo caso, la idea del post es clara no? :|&lt;/p&gt;
+&lt;p&gt;Obviamente, lo que tengo mas arriba es un ejemplo sencillo básicamente tal cual esta en la documentación
+oficial, para ilustrar el como funciona todo esto, pero lo correcto seria crear alguna clase que podamos
+reutilizar y manejar un poco de mejor manera el manejo de las excepciones.&lt;/p&gt;
+&lt;h2&gt;Escribiendo a un objeto HttpURLConnection&lt;/h2&gt;
+&lt;p&gt;Ahora vamos a mostrar el mismo ejemplo pero usando &lt;code&gt;HttpURLConnection&lt;/code&gt; esta vez, no tiene mucho misterio
+ya que esta es una subclase directa de &lt;code&gt;URLConnection&lt;/code&gt; que bien sobreescribe y agrega algunos métodos, pero
+que comparten otros cuantos.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.io.BufferedReader&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.io.InputStreamReader&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.io.OutputStreamWriter&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.net.HttpURLConnection&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.net.URL&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.net.URLEncoder&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;URLWritterHttp&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="o"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;throws&lt;/span&gt; &lt;span class="n"&gt;Exception&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;USER_AGENT&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Mozilla/5.0 (X11; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;address&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;http://localhost/form.php&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;forSending&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Batman&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;charset&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;UTF-8&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+        &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;stringToSend&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;URLEncoder&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;encode&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;forSending&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;charset&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+
+        &lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;URL&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;address&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;HttpURLConnection&lt;/span&gt; &lt;span class="n"&gt;connection&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;HttpURLConnection&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="n"&gt;URL&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;openConnection&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+        &lt;span class="n"&gt;connection&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;addRequestProperty&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;User-Agent&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;USER_AGENT&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+
+        &lt;span class="c1"&gt;//Para poder escribir datos a la URL&lt;/span&gt;
+        &lt;span class="n"&gt;connection&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setDoOutput&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+
+        &lt;span class="c1"&gt;// Indicamos el tipo de request, POST en este caso&lt;/span&gt;
+        &lt;span class="n"&gt;connection&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setRequestMethod&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;POST&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+
+        &lt;span class="c1"&gt;// Indicamos un timeout de 10 segundos&lt;/span&gt;
+        &lt;span class="n"&gt;connection&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setReadTimeout&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;1000&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+
+        &lt;span class="n"&gt;OutputStreamWriter&lt;/span&gt; &lt;span class="n"&gt;out&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;OutputStreamWriter&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;
+                &lt;span class="n"&gt;connection&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getOutputStream&lt;/span&gt;&lt;span class="o"&gt;());&lt;/span&gt;
+        &lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;write&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;nombre=&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;stringToSend&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;close&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+        &lt;span class="n"&gt;BufferedReader&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;BufferedReader&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;
+                &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nf"&gt;InputStreamReader&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;
+                        &lt;span class="n"&gt;connection&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getInputStream&lt;/span&gt;&lt;span class="o"&gt;()));&lt;/span&gt;
+        &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+        &lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="o"&gt;((&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;readLine&lt;/span&gt;&lt;span class="o"&gt;())&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;in&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;close&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;}&lt;/p&gt;
+&lt;p&gt;Como puede verse los cambios son muy pocos, como dije antes aunque HttpURLConnection es una clase especifica para comunicaciones
+con el protocolo http, la clase URLConnection es muy http-céntrica. En este ultimo ejemplo agregue un timeout, además
+puede verse como el HttpURLConnection tiene un método &lt;code&gt;setRequestMethod()&lt;/code&gt; que permite especificar el tipo de método
+de envío(los más usados son POST y GET, pero también existen PUT, HEAD y otros).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Referencias&lt;/strong&gt;
++ &lt;a href="http://docs.oracle.com/javase/tutorial/networking/URLs/index.html" title="Working with URLs"&gt;Oracle docs - Java SE - Working with URLs&lt;/a&gt; &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Más información&lt;/strong&gt;
++ &lt;a href="http://stackoverflow.com/questions/2793150/how-to-use-java-net-URLconnection-to-fire-and-handle-http-requests" title="stackoverflow "&gt;StackOverflow - How to use URLConnection to fire and handle HTTP requests&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">A. J. Javier</dc:creator><pubDate>Fri, 03 Jan 2014 00:00:00 -0400</pubDate><guid>tag:aljavier.github.io,2014-01-03:manipulando-urls-y-haciendo-solicitudes-http-con-java.html</guid><category>java</category><category>URL</category><category>networking</category><category>HTTP</category></item><item><title>Subiendo archivos a la web por medio de POST con cURL</title><link>http://aljavier.github.io/curl-subiendo-archivos.html</link><description>&lt;p&gt;Si por algo soy fanático de los Sistemas Unix, específicamente de GNU/Linux, es por la cantidad
+inmensa de tools que hay para estos sistemas y en su mayoría herramientas para la linea de comandos
+de la cual soy un gran fanático. Me gusta usar la linea de comandos en gran medida.&lt;/p&gt;
+&lt;p&gt;En este post, que sera breve, hablamos de &lt;a href="http://curl.haxx.se/" title="cURL"&gt;cURL&lt;/a&gt; o más bien de uno de los
+tantos usos que podemos darle y entiéndase que cuando digo &lt;em&gt;cURL&lt;/em&gt; me refiero a la tool por linea de 
+comandos no a ninguna de sus librerías para sea cual sea el lenguaje. &lt;/p&gt;
+&lt;p&gt;Subir archivos por cURL es bastante simple, supongamos que tenemos un website con un formulario POST
+que tiene un campo para subir una imagen(o cualquier otro archivo), algo así:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;form&lt;/span&gt; &lt;span class="na"&gt;action=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;method=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;POST&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;enctype=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;multipart/form-data&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;input&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;file&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;upload&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;input&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;submit&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;send&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;value=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Enviar&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt; 
+&lt;span class="nt"&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Lo que haga el servidor para obtener el archivo o que lenguaje use del lado servidor nos es indiferente.
+Ya viendo lo de arriba, pueden verse los campos que usa el formulario, básicamente las opciones de cURL
+que nos importan en este caso es &lt;em&gt;--form&lt;/em&gt; o &lt;em&gt;-F&lt;/em&gt;, una sintaxis simple que nos permite subir un archivo en este 
+caso seria la siguiente:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;curl&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;form&lt;/span&gt; &lt;span class="n"&gt;upload&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;nombre_archivo&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;form&lt;/span&gt; &lt;span class="n"&gt;send&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Enviar&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Pueden usarse tantas opciones &lt;em&gt;--form&lt;/em&gt; como se quiera, según los campos que tenga el formulario. Nótese que en
+la primera opción &lt;em&gt;--form&lt;/em&gt; donde esta &lt;code&gt;upload=@nombre_archivo&lt;/code&gt;, &lt;em&gt;upload&lt;/em&gt; se refiere al nombre que tiene el campo
+con el &lt;code&gt;type="file"&lt;/code&gt; así que igualmente el nombre podría ser cualquier otro que el programador haya puesto, en ese
+caso es solo cambiar ese nombre, el &lt;code&gt;@nombre_archivo&lt;/code&gt; pues es el archivo que queremos subir, mas bien la dirección
+completa donde se encuentra. En la segunda opción con &lt;code&gt;--form&lt;/code&gt;, donde esta &lt;code&gt;send="Enviar"&lt;/code&gt;, &lt;em&gt;send&lt;/em&gt; es otra 
+variable en el formulario y &lt;strong&gt;Enviar&lt;/strong&gt; es el valor que le damos, esta parte no es muy necesaria ya que de por si
+la herramienta cURL hará el &lt;em&gt;submit&lt;/em&gt; automáticamente, en todo caso así ponen ellos un ejemplo en el manual, en la practica
+no he tenido que hacerlo, no con el campo del submit. &lt;/p&gt;
+&lt;p&gt;Hay un sitio web que uso bastante para compartir capturas de escritorios y demás, ese website es &lt;a href="http://uploadpie.com"&gt;uploadpie.com&lt;/a&gt;,
+pero me molestaba ya un poco tener que usar el navegador cada vez que quería subir una captura, es que suelo siempre tener
+varias terminales abiertas, como dije antes yo soy un amante de la linea de comandos se es mucho mas productivo así, el 
+asunto es que decidí hacerme un script sencillo en Bash usando cURL para poder subir las imágenes desde la terminal o tty.&lt;/p&gt;
+&lt;p&gt;Uplodpie permite subir archivos solo de forma temporal, archivos no mayores de 3 mb, con extensión gif, png, jpg, pdf o txt.
+De igual forma, se puede seleccionar el tiempo de expiración que queremos para nuestro archivo, que puede ser 30 minutos, 
+una hora, seis horas, un día o una semana.&lt;/p&gt;
+&lt;p&gt;El campo con el type='file' en el formulario se llama &lt;em&gt;uploadedfile&lt;/em&gt; y el campo que permite elegir la duración del archivo
+en el servidor se llama &lt;em&gt;expire&lt;/em&gt;, que en el formulario html es un &lt;em&gt;select&lt;/em&gt; con 5 &lt;em&gt;option&lt;/em&gt; con valores: 1 = 30 minutos,
+2 = 1 horas, 3 = 6 horas, 4 = 1 día y 5 = 1 semana. En el script verán que no tuve que enviar ningún campo del submit, aun así
+es bueno tenerlo en cuenta, por algo esta en el manual, solo es cuestión de experimentar y buscarle la vuelta si algo no nos
+sale bien.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="c"&gt;# Bash script for upload files to uploadpie.com&lt;/span&gt;
+&lt;span class="c"&gt;# Licensed under a BSD License&lt;/span&gt;
+&lt;span class="c"&gt;# Created by A.J.&lt;/span&gt;
+
+&lt;span class="nv"&gt;MAX_FILE_SIZE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;3145728
+&lt;span class="nv"&gt;DURATION&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1
+&lt;span class="nv"&gt;EXPIRE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;30 Minutos&amp;quot;&lt;/span&gt;
+&lt;span class="nv"&gt;USER_AGENT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Mozilla/5.0 (X11; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0&amp;quot;&lt;/span&gt;
+&lt;span class="nv"&gt;SCRIPT_NAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;basename &lt;span class="s2"&gt;&amp;quot;$0&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$#&amp;quot;&lt;/span&gt; -lt 1 &lt;span class="o"&gt;]]&lt;/span&gt;;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;\tUso: &amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$SCRIPT_NAME&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; mi_archivo.ext [DURACION]\n&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;\tDonde DURACION es un numero del 1 al 5 (1 por defecto):\n\t1 = 30 minutos\t2 = 1 Hora\t3 = 6 Horas\t4 = 1 Día\t5 = 1 Semana\n&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; ! -f &lt;span class="nv"&gt;$1&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;\tEl archivo $(basename &amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;) no es un archivo regular\n&amp;quot;&lt;/span&gt;    
+&lt;span class="k"&gt;else&lt;/span&gt;
+&lt;span class="k"&gt;    if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$#&amp;quot;&lt;/span&gt; -gt 1 &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$2&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;~ ^-?&lt;span class="o"&gt;[&lt;/span&gt;0-9&lt;span class="o"&gt;]&lt;/span&gt;+&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="o"&gt;]]&lt;/span&gt;;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;        case&lt;/span&gt; &lt;span class="nv"&gt;$2&lt;/span&gt; in
+            2&lt;span class="o"&gt;)&lt;/span&gt;
+                &lt;span class="nv"&gt;DURATION&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;2      &lt;span class="c"&gt;# Duracion del archivo = 1 hora&lt;/span&gt;
+                &lt;span class="nv"&gt;EXPIRE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;1 Hora&amp;quot;&lt;/span&gt;
+                ;;
+            3&lt;span class="o"&gt;)&lt;/span&gt;
+                &lt;span class="nv"&gt;DURATION&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;3  &lt;span class="c"&gt;# Duracion del archivo = 6 horas&lt;/span&gt;
+                &lt;span class="nv"&gt;EXPIRE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;6 Horas&amp;quot;&lt;/span&gt;
+                ;;
+            4&lt;span class="o"&gt;)&lt;/span&gt;
+                &lt;span class="nv"&gt;DURATION&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;4      &lt;span class="c"&gt;# Duracion del archivo = 1 dia&lt;/span&gt;
+                &lt;span class="nv"&gt;EXPIRE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;1 Día&amp;quot;&lt;/span&gt;
+                ;;
+            5&lt;span class="o"&gt;)&lt;/span&gt;
+                &lt;span class="nv"&gt;DURATION&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;5      &lt;span class="c"&gt;# Duracion del archivo = 1 semana&lt;/span&gt;
+                &lt;span class="nv"&gt;EXPIRE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;1 Semana&amp;quot;&lt;/span&gt;
+                ;;
+            *&lt;span class="o"&gt;)&lt;/span&gt;
+                &lt;span class="c"&gt;# Esto esta aqui solo por convencion&lt;/span&gt;
+                ;;
+        &lt;span class="k"&gt;esac&lt;/span&gt;
+&lt;span class="k"&gt;    fi&lt;/span&gt;
+
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="nv"&gt;FILE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;
+    &lt;span class="nv"&gt;SIZE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;stat &lt;span class="s2"&gt;&amp;quot;${FILE}&amp;quot;&lt;/span&gt; | grep -i size | cut -d&lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt; -f4&lt;span class="k"&gt;)&lt;/span&gt;
+    &lt;span class="nv"&gt;TYPE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;${FILE}&amp;quot;&lt;/span&gt; | cut -d&lt;span class="s2"&gt;&amp;quot;.&amp;quot;&lt;/span&gt; -f2 | tr a-z A-Z&lt;span class="k"&gt;)&lt;/span&gt;
+
+    &lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;\e[1;33mFile\e[0m: $(basename &amp;quot;&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;FILE&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;)\t\e[1;33mSize\e[0m: $SIZE\t\e[1;33mType\e[0m: $TYPE\t\e[1;33mExpiration\e[0m: $EXPIRE\n&amp;quot;&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$TYPE&amp;quot;&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;PNG&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$TYPE&amp;quot;&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;JPG&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$TYPE&amp;quot;&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;GIF&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$TYPE&amp;quot;&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;PDF&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$TYPE&amp;quot;&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;TXT&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;          &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;El tipo de archivo $TYPE no es soportado por  uploadpie.com.\n&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;$SIZE&amp;quot;&lt;/span&gt; -gt &lt;span class="s2"&gt;&amp;quot;$MAX_FILE_SIZE&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;          &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;El archivo es demasiado grande, uploadpie.com permite un maximo de 3 mb.\n&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;
+&lt;span class="k"&gt;          &lt;/span&gt;curl --progress-bar -A &lt;span class="s2"&gt;&amp;quot;$USER_AGENT&amp;quot;&lt;/span&gt; --form &lt;span class="nv"&gt;uploadedfile&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;@&lt;span class="s2"&gt;&amp;quot;$FILE&amp;quot;&lt;/span&gt; --form &lt;span class="nv"&gt;upload&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1 --form &lt;span class="nv"&gt;MAX_FILE_SIZE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;$MAX_FILE_SIZE&amp;quot;&lt;/span&gt;  --form &lt;span class="nv"&gt;expire&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;$DURATION&amp;quot;&lt;/span&gt; http://uploadpie.com | grep &lt;span class="s1"&gt;&amp;#39;id=&amp;quot;uploaded&amp;quot;&amp;#39;&lt;/span&gt; | cut -d&lt;span class="s1"&gt;&amp;#39;&amp;quot;&amp;#39;&lt;/span&gt; -f6
+    &lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;El script se encuentra en &lt;a href="https://github.com/aljavier/uploadr-pie/blob/master/uploadr-pie" title="uploadr-pie"&gt;este repositorio&lt;/a&gt;, asi que puedes clonar el repositorio a tu ordenador:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;clone&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="c1"&gt;//github.com/aljavier/uploadr-pie.git&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Claro, por si eres nuevo usando Linux, recuerda que tienes que darle permisos de ejecución al script:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;chmod&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="n"&gt;uploadr&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;pie&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Una captua del script sin  especificar el tiempo de expiración, solo el archivo:
+&lt;img alt="Uploadpie 1" src="http://aljavier.github.io/images/posts/uploadpie1.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Específicando el tiempo de expiración(el 3 equivale a 6 horas como se ve ahí):
+&lt;img alt="Uploadpie 2" src="http://aljavier.github.io/images/posts/uploadpie2.png" /&gt;&lt;/p&gt;
+&lt;p&gt;En mi caso, uso un directorio en mi &lt;em&gt;/home/&lt;/em&gt; llamado &lt;em&gt;bin&lt;/em&gt; y he agregado ese directorio en mi &lt;code&gt;.bashrc&lt;/code&gt; como un nuevo &lt;em&gt;PATH&lt;/em&gt;,
+simplemente agrega en tu .bashrc esta linea:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;=~/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;$PATH&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;En algunos distribuciones es posible que ya tengas ese directorio y agregado en tu &lt;em&gt;PATH&lt;/em&gt;, algunas distribuciones, según he leído, si creas una carpeta bin/
+en tu /home automáticamente lo agregan al &lt;em&gt;PATH&lt;/em&gt;, por lo que una vez inicie sesión de nuevo en una terminal podrás ejecutar los scripts o programas en ese 
+directorio como si estuvieran en /usr/bin o similar, sin tener que escribir el directorio completo, solo el nombre del programa. Es muy útil si sueles crear 
+tus propios scripts o programas para usos personales y esas cosas.&lt;/p&gt;
+&lt;p&gt;Si no tienes cURL recomiendo hacerlo, es una poderosa herramienta que tiene una cantidad inmensa de opciones.&lt;/p&gt;
+&lt;p&gt;En Arch Linux la instalas con:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pacman&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;S&lt;/span&gt; &lt;span class="n"&gt;curl&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;En Debian/Ubuntu instalas con apt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;curl&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Tienes mas información sobre &lt;strong&gt;&lt;em&gt;cURL&lt;/em&gt;&lt;/strong&gt; en este &lt;a href="http://curl.haxx.se/docs/" title="cURL docs"&gt;link&lt;/a&gt; o en tu distro GNU/Linux favorita consulta: man curl.&lt;/p&gt;
+&lt;p&gt;Ha sido todo por ahora, hasta luego y feliz año nuevo!&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">A. J. Javier</dc:creator><pubDate>Tue, 31 Dec 2013 00:00:00 -0400</pubDate><guid>tag:aljavier.github.io,2013-12-31:curl-subiendo-archivos.html</guid><category>cURL</category><category>bash</category><category>Linux</category><category>scripting</category></item><item><title>Shadow passwords en Linux, ataque de diccionario con Python</title><link>http://aljavier.github.io/shadow-passwords-en-linux-ataque-de-diccionario-con-python.html</link><description>&lt;p&gt;Hace unos meses ya, leyendo el libro de Violent Python había un script
+que alguien usó una vez para hackear una maquina Unix, haciendo un ataque
+de diccionario para averiguar la password del archivo /etc/passwd, cuando
+eso no usaban el ya famoso /etc/shadow.&lt;/p&gt;
+&lt;p&gt;El autor dejó como un reto al lector el actualizar el script para funcionar
+con el actual formato de los sistemas Linux. En aquel entonces del script original
+me parece que para el cifrado de las passwords usaban MD5, era por mucho mas fácil de
+hacer un ataque de diccionario, ahora es un poco mas enredado, pero igual posible,
+suponiendo que tienes acceso al archivo /etc/shadow o aun mejor a una copia de este.&lt;/p&gt;
+&lt;p&gt;Claro como ha de saberse, los ataques por diccionarios desesperan, esto siempre dependerá
+del tipo de password usadas y demás. En todo caso, la idea era pasarla bien escribiendo
+ese script en Python.&lt;/p&gt;
+&lt;p&gt;Según lo que nos interesa, veamos lo siguiente (si quieres entender mejor el fichero
+shadow, mirate este &lt;a href="https://encrypted.google.com/search?hl=en&amp;amp;q=entendiendo%20%2Fetc%2Fshadow" title="Entendiendo /etc/shadow"&gt;link&lt;/a&gt;):
+&lt;pre&gt;
+jota:$6$62vNvZQgN$RcwvBFj7NV9hNGXR3/1Gtb3Fd0HMN1:15951:0:99999:7:::
+ |    |                 |
+user id              hashed                     &lt;br /&gt;
+&lt;/pre&gt;&lt;/p&gt;
+&lt;p&gt;Volviendo a lo anterior, primero tenemos el &lt;em&gt;user&lt;/em&gt;, luego de los dos puntos el hash, nuestra password
+cifrada, pero los 3 primeros dígitos indican el tipo de hash con el que ha sido
+cifrada.&lt;/p&gt;
+&lt;p&gt;Para entenderlo mejor, Wikipedia lo pone como sigue:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;salt&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;hashed&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;En donde el id debe interpretarse  como sigue:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align="left"&gt;id&lt;/th&gt;
+&lt;th align="right"&gt;algoritmo&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;$1$&lt;/td&gt;
+&lt;td align="right"&gt;MD5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;$2$&lt;/td&gt;
+&lt;td align="right"&gt;Blowfish&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;$5$&lt;/td&gt;
+&lt;td align="right"&gt;SHA-256&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;$6$&lt;/td&gt;
+&lt;td align="right"&gt;SHA-512&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Si donde debería salir el $id$salt$hashed, es decir luego de &lt;code&gt;user:&lt;/code&gt;, tenemos un "NP" significa
+que no tiene password el user, si tiene un "!" significa que la cuenta esta bloqueada, si es "!!"
+ quiere decir que la cuenta ha expirado.&lt;/p&gt;
+&lt;p&gt;Lo del &lt;em&gt;salt&lt;/em&gt;, seguro es mas entendible leyendo lo que dice la wikipedia:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;En criptografía, la sal comprende bits aleatorios que son usados como una de las entradas en una función derivadora de claves. La otra entrada es habitualmente una contraseña. La salida de la función derivadora de claves se almacena como la versión cifrada de la contraseña. La sal puede también ser usada como parte de una clave en un cifrado u otro algoritmo criptográfico. La función de derivación de claves generalmente usa una función hash. A veces el vector de inicialización, un valor generado previamente, es usado como sal.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Aclarando que "salt" en ingles es "sal" en español. Bien dicho eso, como ven, para generar los cifrados en el shadow,
+se usa un salt como entrada aleatoria de datos para generar el hash, y la password como tal.&lt;/p&gt;
+&lt;p&gt;En python esto lo hacemos usando la librería crypt. Si tomas el hash mas el id como segundo parámetro y como primer parámetro una password en texto plano,
+si la password en texto plano es la cifrada entonces el hash sera igual que el segundo parámetro de la función crypt.&lt;/p&gt;
+&lt;p&gt;Vamos a verlo de forma mas practica. Primera tenemos a un nuevo user llamado prueba:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nl"&gt;prueba:&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;kI8uI0MW&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;oj1B1xFlB35KuJY11ckxPCcU42K31hV7JFrsF&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="n"&gt;dm1nbFDngu8&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;iJidAiAuxVmchDkIGEPY8WKrU&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bctla3a1&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;16057&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;99999&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="o"&gt;:::&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Por tanto de ahí tenemos que su hash mas el id del hash es el siguiente:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;kI8uI0MW&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;oj1B1xFlB35KuJY11ckxPCcU42K31hV7JFrsF&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="n"&gt;dm1nbFDngu8&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;iJidAiAuxVmchDkIGEPY8WKrU&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bctla3a1&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Para ser mas explícito, el id es &lt;code&gt;$6$&lt;/code&gt; y el la password cifrada (el hashed) es:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;kI8uI0MW&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;oj1B1xFlB35KuJY11ckxPCcU42K31hV7JFrsF&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="n"&gt;dm1nbFDngu8&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;iJidAiAuxVmchDkIGEPY8WKrU&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bctla3a1&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Usando la librería crypt de python y llamando al método crypt, podemos comprobar o intentar adivinar cual es la password, del siguiente modo:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;crypt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;crypt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;palabra&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;salt&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Así que veamos cual es la password:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt; &lt;span class="n"&gt;crypt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;crypt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;passw0rd&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;$6$kI8uI0MW$oj1B1xFlB35KuJY11ckxPCcU42K31hV7JFrsF/7dm1nbFDngu8.iJidAiAuxVmchDkIGEPY8WKrU/bctla3a1.&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Eso nos devuelve lo siguiente:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="err"&gt;&amp;#39;$&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;kI8uI0MW&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;vrAM1PcLjFpMccU2OcVKnaWpZUYyZJax84o6KWoehvEpyP6&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;CHtZAfZifEtVPFXBZbCwArVhLjAtF9xHg98ko&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Claramente es distinto al hash que pasamos como segundo parámetro, por tanto, "passw0rd", no es la
+password cifrada aquí. Pero si ahora probamos del siguiente modo:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt; &lt;span class="n"&gt;crypt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;crypt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;123456789&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;$6$kI8uI0MW$oj1B1xFlB35KuJY11ckxPCcU42K31hV7JFrsF/7dm1nbFDngu8.iJidAiAuxVmchDkIGEPY8WKrU/bctla3a1.&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Nos devuelve como resultado:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;kI8uI0MW&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;oj1B1xFlB35KuJY11ckxPCcU42K31hV7JFrsF&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="n"&gt;dm1nbFDngu8&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;iJidAiAuxVmchDkIGEPY8WKrU&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bctla3a1&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Es el mismo hash! Por lo tanto, 123456789, es la password real.&lt;/p&gt;
+&lt;p&gt;Así que hemos podido ver como generar el tipo de password que usa Linux para el /etc/shadow y así poder realizar
+un ataque de diccionario. Claro, igualmente podemos usar esto para generar passwords más seguras en nuestras aplicaciones
+tal como hace Linux con el /etc/shadow, es cuestión de tener en cuenta que el id es el tipo de cifrado, el salt es una palabra 
+aleatoria. De eso modo la función crypt te devolvería un hash usando el cifrado que sea, según el id que pusiste. 
+Por cierto, crypt no soporta Blowfish ($2$).&lt;/p&gt;
+&lt;p&gt;Ahora luego de esa leve explicación, les comparte el script completo que como dije antes habría hecho como upgrade
+al que tiene el libro Violent Python que era para sistemas unix viejos. Pero les dejare el link en github, no lo pegare aquí porque es un poco extenso, no mucho pero algo.&lt;/p&gt;
+&lt;p&gt;Link a mi script &lt;a href="https://github.com/aljavier/violent-python-stuff/tree/master/UnixPasswordCracker" title="Unix Password Cracker"&gt;Unix Password Cracker&lt;/a&gt; en github.&lt;/p&gt;
+&lt;p&gt;En verdad no es ningún cracker de passwords, ya que no es en el sentido estricto de la palabra ataque por fuerza bruta pura, sino simplemente ataque por diccionario, pero se ve mejor el nombre así :|&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Más información&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://es.wikipedia.org/wiki/Ataque_de_diccionario" title="Ataque de diccionario"&gt;Ataque de diccionario&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://es.wikipedia.org/wiki/Sal_(criptograf%C3%ADa)" title="salt"&gt;Explicación sobre salt&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://docs.python.org/2/library/crypt.html" title="crypt"&gt;Librería crypt de python&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;También tienen mas info en el man de crypt si usas Linux: &lt;code&gt;man 3 crypt&lt;/code&gt;. &lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">A. J. Javier</dc:creator><pubDate>Wed, 18 Dec 2013 00:00:00 -0400</pubDate><guid>tag:aljavier.github.io,2013-12-18:shadow-passwords-en-linux-ataque-de-diccionario-con-python.html</guid><category>Linux</category><category>python</category><category>crypt</category><category>security</category></item><item><title>Recursividad versus iteratividad</title><link>http://aljavier.github.io/recursividad-versus-iteratividad.html</link><description>&lt;p&gt;Una &lt;code&gt;función recursiva&lt;/code&gt; es aquella que se llama a si mismo, normalmente, un número 
 finito de veces, aunque si el programador cometió un error lógico podría ser 
 infinito. Por su lado, la &lt;code&gt;iteratividad&lt;/code&gt; es ejecutar una determinada acción un
 x número de veces. &lt;/p&gt;
