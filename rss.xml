@@ -164,7 +164,7 @@ datos al servidor. Para esto, sigue los siguiente pasos:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Crear un &lt;strong&gt;URL&lt;/strong&gt;.&lt;/li&gt;
 &lt;li&gt;Obtener el objeto &lt;strong&gt;URLConnection&lt;/strong&gt;.&lt;/li&gt;
-&lt;li&gt;Establecer capacidad de envío(outpu) en el URLConnection.&lt;/li&gt;
+&lt;li&gt;Establecer capacidad de envío(output) en el URLConnection.&lt;/li&gt;
 &lt;li&gt;Abrir una conexion al recurso.&lt;/li&gt;
 &lt;li&gt;Obtener un &lt;code&gt;output stream&lt;/code&gt; de la conexión.&lt;/li&gt;
 &lt;li&gt;Escribir al &lt;code&gt;output stream&lt;/code&gt;.&lt;/li&gt;
