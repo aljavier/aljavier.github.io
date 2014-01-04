@@ -232,7 +232,7 @@ El archivo anterior le he llamado en mi servidor `form.php`, ahora veamos el có
 	public class URLWriter {
 
 		public static void main(String[] args) throws Exception{
-			String USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0";
+			String userAgent = "Mozilla/5.0 (X11; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0";
 			String address = "http://localhost/form.php";
 			String forSending = "Batman";
 		    String charset = "UTF-8";
@@ -246,7 +246,7 @@ El archivo anterior le he llamado en mi servidor `form.php`, ahora veamos el có
 			// 2. Obtenemos el objeto URLConnection llamando a openConnection() en URL
 			URLConnection connection = URL.openConnection();
 			// Establecemos algunas propiedas de envió, como es el User-Agent
-			connection.addRequestProperty("User-Agent", USER_AGENT);
+			connection.addRequestProperty("User-Agent", userAgent);
 			
 			// 3. Esto es importantisímo, es aqui donde establecemos la capacidad de envió.
 			connection.setDoOutput(true);
@@ -297,7 +297,7 @@ que comparten otros cuantos.
 
 	public class URLWritterHttp {
 		public static void main(String[] args) throws Exception{
-			String USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0";
+			String userAgent = "Mozilla/5.0 (X11; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0";
 			String address = "http://localhost/form.php";
 			String forSending = "Batman";
 		    String charset = "UTF-8";
@@ -306,7 +306,7 @@ que comparten otros cuantos.
 		
 			URL URL = new URL(address);
 			HttpURLConnection connection = (HttpURLConnection)URL.openConnection();
-			connection.addRequestProperty("User-Agent", USER_AGENT);
+			connection.addRequestProperty("User-Agent", userAgent);
 		
 			//Para poder escribir datos a la URL
 			connection.setDoOutput(true);
