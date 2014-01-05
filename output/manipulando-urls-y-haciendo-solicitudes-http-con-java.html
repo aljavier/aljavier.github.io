@@ -301,6 +301,7 @@ con el siguiente formulario:</p>
             <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>
         <span class="n">in</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
     <span class="o">}</span>
+<span class="o">}</span>
 </pre></div>
 
 
@@ -359,11 +360,11 @@ que comparten otros cuantos.</p>
         <span class="k">while</span><span class="o">((</span><span class="n">response</span> <span class="o">=</span> <span class="n">in</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
             <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>
         <span class="n">in</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
 
 
-<p>}</p>
 <p>Como puede verse los cambios son muy pocos, como dije antes aunque HttpURLConnection es una clase especifica para comunicaciones
 con el protocolo http, la clase URLConnection es muy http-céntrica. En este ultimo ejemplo agregue un timeout, además
 puede verse como el HttpURLConnection tiene un método <code>setRequestMethod()</code> que permite especificar el tipo de método

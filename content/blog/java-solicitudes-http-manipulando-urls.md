@@ -268,6 +268,7 @@ El archivo anterior le he llamado en mi servidor `form.php`, ahora veamos el có
 				System.out.println(response);
 			in.close();
 		}
+	}
 
 El servidor, nos responde perfectamente con algo como:
 
@@ -329,8 +330,8 @@ que comparten otros cuantos.
 			while((response = in.readLine()) != null)
 				System.out.println(response);
 			in.close();
+		}
 	}
-}
 
 Como puede verse los cambios son muy pocos, como dije antes aunque HttpURLConnection es una clase especifica para comunicaciones
 con el protocolo http, la clase URLConnection es muy http-céntrica. En este ultimo ejemplo agregue un timeout, además
