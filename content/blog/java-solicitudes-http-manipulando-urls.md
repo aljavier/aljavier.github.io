@@ -340,7 +340,7 @@ de envío(los más usados son POST y GET, pero también existen PUT, HEAD y otro
 
 
 **Referencias**
-+ [Oracle docs - Java SE - Working with URLs](http://docs.oracle.com/javase/tutorial/networking/URLs/index.html "Working with URLs") 
++ [Oracle docs - Java SE - Working with URLs](http://docs.oracle.com/javase/tutorial/networking/urls/index.html "Working with URLs") 
 
 **Más información**
 + [StackOverflow - How to use URLConnection to fire and handle HTTP requests](http://stackoverflow.com/questions/2793150/how-to-use-java-net-URLconnection-to-fire-and-handle-http-requests "stackoverflow ")
