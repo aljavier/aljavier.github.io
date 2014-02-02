@@ -576,10 +576,9 @@ al que tiene el libro Violent Python que era para sistemas unix viejos. Pero les
 &lt;li&gt;&lt;a href="https://es.wikipedia.org/wiki/Sal_(criptograf%C3%ADa)" title="salt"&gt;Explicación sobre salt&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://docs.python.org/2/library/crypt.html" title="crypt"&gt;Librería crypt de python&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;También tienen mas info en el man de crypt si usas Linux: &lt;code&gt;man 3 crypt&lt;/code&gt;. &lt;/p&gt;</summary><category term="Linux"></category><category term="python"></category><category term="crypt"></category><category term="security"></category></entry><entry><title>Recursividad versus iteratividad</title><link href="http://aljavier.github.io/recursividad-versus-iteratividad.html" rel="alternate"></link><updated>2013-11-01T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:aljavier.github.io,2013-11-01:recursividad-versus-iteratividad.html</id><summary type="html">&lt;p&gt;Una &lt;code&gt;función recursiva&lt;/code&gt; es aquella que se llama a si mismo, normalmente, un número 
-finito de veces, aunque si el programador cometió un error lógico podría ser 
-infinito. Por su lado, la &lt;code&gt;iteratividad&lt;/code&gt; es ejecutar una determinada acción un
-x número de veces. &lt;/p&gt;
+&lt;p&gt;También tienen mas info en el man de crypt si usas Linux: &lt;code&gt;man 3 crypt&lt;/code&gt;. &lt;/p&gt;</summary><category term="Linux"></category><category term="python"></category><category term="crypt"></category><category term="security"></category></entry><entry><title>Recursividad versus iteratividad</title><link href="http://aljavier.github.io/recursividad-versus-iteratividad.html" rel="alternate"></link><updated>2013-11-01T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:aljavier.github.io,2013-11-01:recursividad-versus-iteratividad.html</id><summary type="html">&lt;p&gt;Una &lt;code&gt;función recursiva&lt;/code&gt; es aquella que se llama a sí mismo, normalmente, un número 
+finito de veces. Por su lado, la &lt;code&gt;iteratividad&lt;/code&gt; ejecuta unas determinadas acciones
+un determinado numero de veces tambien, pero de forma secuencial.&lt;/p&gt;
 &lt;p&gt;El contraste esta cuando queremos ejecutar una determinada acción una cantidad de veces, que bien podríamos hacerlo con recursividad o iteratividad, aunque escoger la mejor opción es la interrogante aquí.&lt;/p&gt;
 &lt;p&gt;Cuando usamos recursividad estamos haciendo caso al método "divide y vencerás", ya que 
 dividimos el problema en partes mas pequeñas para su resolución. Cuando se emplea una 

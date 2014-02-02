@@ -2,10 +2,9 @@ title: Recursividad versus iteratividad
 date: 01-11-2013
 tags: python, recursividad, time, iteratividad, fibonacci, factorial
 
-Una `función recursiva` es aquella que se llama a si mismo, normalmente, un número 
-finito de veces, aunque si el programador cometió un error lógico podría ser 
-infinito. Por su lado, la `iteratividad` es ejecutar una determinada acción un
-x número de veces. 
+Una `función recursiva` es aquella que se llama a sí mismo, normalmente, un número 
+finito de veces. Por su lado, la `iteratividad` ejecuta unas determinadas acciones
+un determinado numero de veces tambien, pero de forma secuencial.
 
 El contraste esta cuando queremos ejecutar una determinada acción una cantidad de veces, que bien podríamos hacerlo con recursividad o iteratividad, aunque escoger la mejor opción es la interrogante aquí.
 
