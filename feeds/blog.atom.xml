@@ -1,96 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>// Sysflux</title><link href="/" rel="alternate"></link><link href="/feeds/blog.atom.xml" rel="self"></link><id>/</id><updated>2014-05-23T00:00:00-04:00</updated><entry><title>Tweepy: API de Twitter desde Python</title><link href="/tweepy-api-twitter-para-python.html" rel="alternate"></link><updated>2014-05-23T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2014-05-23:tweepy-api-twitter-para-python.html</id><summary type="html">&lt;p&gt;Hace poco me había surgido la idea de hacer un script en &lt;code&gt;Python&lt;/code&gt; para &lt;code&gt;Twitter&lt;/code&gt;, con
+<feed xmlns="http://www.w3.org/2005/Atom"><title>// Sysflux</title><link href="/" rel="alternate"></link><link href="/feeds/blog.atom.xml" rel="self"></link><id>/</id><updated>2014-05-23T00:00:00-04:00</updated><entry><title>Tweepy: Manejando la API de Twitter desde Python</title><link href="/tweepy-api-twitter-para-python.html" rel="alternate"></link><updated>2014-05-23T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2014-05-23:tweepy-api-twitter-para-python.html</id><summary type="html">&lt;p&gt;Hace poco me había surgido la idea de hacer un script en &lt;code&gt;Python&lt;/code&gt; para &lt;code&gt;Twitter&lt;/code&gt;, con
 la idea de mantener un registro de las personas que me dieran unfollow. Ya había usado
 hace tiempo la librería de la que hoy vengo a hablar que es nada mas y nada menos que
 &lt;a href="http://www.tweepy.org/"&gt;Tweepy&lt;/a&gt; una librería de Python para acceder a la &lt;code&gt;API&lt;/code&gt; de Twitter.&lt;/p&gt;
 &lt;p&gt;Como casi todo en el fabuloso mundo del lenguaje de programación Python, Tweepy es relativamente
 intuitiva y de fácil uso. Lo primero que necesitamos es instalar la librería, que como la mayoría de librerías puedes instalar con &lt;code&gt;pip&lt;/code&gt; o &lt;code&gt;easy_install&lt;/code&gt; o usando el instalador 
 desde el código fuente, el típico &lt;code&gt;python setup.py install&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Instalación con pip:&lt;/em&gt;
-    pip search tweepy # para buscar si esta en los repositorios
-    pip install tweepy&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Instalación con easy_install:&lt;/em&gt;
-    easy_install tweepy&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Instalación desde código fuente:&lt;/em&gt;
-    python setup.py install&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Nota: Necesitas permiso de super usuario para eso.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Instalación con pip:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;search&lt;/span&gt; &lt;span class="n"&gt;tweepy&lt;/span&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;para&lt;/span&gt; &lt;span class="n"&gt;buscar&lt;/span&gt; &lt;span class="n"&gt;si&lt;/span&gt; &lt;span class="n"&gt;esta&lt;/span&gt; &lt;span class="n"&gt;en&lt;/span&gt; &lt;span class="n"&gt;los&lt;/span&gt; &lt;span class="n"&gt;repositorios&lt;/span&gt;
+&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;tweepy&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;Instalación con easy_install:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;easy_install&lt;/span&gt; &lt;span class="n"&gt;tweepy&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;Instalación desde código fuente:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;em&gt;Nota: Necesitas permiso de super usuario para eso.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Este no esta pensado para ser un tutorial extenso o bastante detallado(debo admitir que 
 yo mismo no es que tenga un conocimiento tan pronunciado sobre esta librería) sino mas bien una breve introducción, en todo caso la documentación oficial es buena.&lt;/p&gt;
 &lt;p&gt;Así que para empezar, tener en cuenta que necesitaras registrar tu app en Twitter, específicamente en &lt;a href="https://apps.twitter.com/"&gt;este link&lt;/a&gt;, luego de registrarte y elegir los 
 permisos correspondientes para tu app en &lt;code&gt;API Keys&lt;/code&gt; puedes encontrar tu &lt;code&gt;API key&lt;/code&gt; y &lt;code&gt;API 
 secret&lt;/code&gt;. Como cambiar permiso y demás, no es algo que explicare, supongo que esta bastante intuitivo la interfaz del &lt;code&gt;Twitter Application Manager&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Una vez obtengas el API key y el API secret(en lo adelante &lt;code&gt;consumer_key&lt;/code&gt; y &lt;code&gt;consumer_secret&lt;/code&gt;, respectivamente) ya podemos iniciar con lo mas básico, que es la &lt;code&gt;autenticación&lt;/code&gt;(claro, luego de import la librería con &lt;code&gt;import tweepy&lt;/code&gt;):&lt;/p&gt;
-&lt;p&gt;:::python
-   consumer_key = raw_input("Introduzca el consumer_key &amp;gt;&amp;gt;&amp;gt; ")
-   consumer_secret = raw_input("Introduzca el consumer_secret &amp;gt;&amp;gt;&amp;gt; ")&lt;/p&gt;
-&lt;p&gt;auth = tweepy.OAuthHandler(consumer_key, consumer_secret)&lt;/p&gt;
-&lt;p&gt;# Ahora necesitamos el access token para los permmisos
-   redirect_url = auth.get_authorization_url()
-   print "Puede obtener el access token en este link &amp;gt;&amp;gt;&amp;gt; ", redirect_url
-   verifier = raw_input("Introduzca el codigo verificador: ")&lt;/p&gt;
-&lt;p&gt;# Obtenemos y pasamos al objeto 'auth' el token con el codigo antes provisto
-   auth.get_access_token(verifier)&lt;/p&gt;
-&lt;p&gt;# Obtenemos un objeto api que necesitaremos para hacer los requests a Twitter
-   api = tweepy.API(auth)   # Pasando el objeto 'auth' como parámetro&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;consumer_key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;raw_input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Introduzca el consumer_key &amp;gt;&amp;gt;&amp;gt; &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;consumer_secret&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;raw_input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Introduzca el consumer_secret &amp;gt;&amp;gt;&amp;gt; &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;auth&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tweepy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;OAuthHandler&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;consumer_key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;consumer_secret&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c"&gt;# Ahora necesitamos el access token para los permmisos&lt;/span&gt;
+&lt;span class="n"&gt;redirect_url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;auth&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_authorization_url&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Puede obtener el access token en este link &amp;gt;&amp;gt;&amp;gt; &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;redirect_url&lt;/span&gt;
+&lt;span class="n"&gt;verifier&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;raw_input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Introduzca el codigo verificador: &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c"&gt;# Obtenemos y pasamos al objeto &amp;#39;auth&amp;#39; el token con el codigo antes provisto&lt;/span&gt;
+&lt;span class="n"&gt;auth&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_access_token&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;verifier&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c"&gt;# Obtenemos un objeto api que necesitaremos para hacer los requests a Twitter&lt;/span&gt;
+&lt;span class="n"&gt;api&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tweepy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;API&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;auth&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;   &lt;span class="c"&gt;# Pasando el objeto &amp;#39;auth&amp;#39; como parámetro&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;Esa es una posible forma de hacerlo, obviamente no querrás introducir esos mismos datos
 cada vez que inicias la aplicación, por eso lo ideal seria guardar el &lt;code&gt;access_token&lt;/code&gt; y el
 &lt;code&gt;consumer_key&lt;/code&gt; así como el &lt;code&gt;consumer_secret&lt;/code&gt; en un archivo o base de datos(no de fácil acceso
 a todo mundo, por seguridad), en ese caso para el access_token tendrías que setear su valor
 de esta manera:&lt;/p&gt;
-&lt;p&gt;auth.set_access_token(key, secret)&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;auth&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_access_token&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;secret&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;Si haces lo siguiente puedes obtener el key y el secret del token así:&lt;/p&gt;
-&lt;p&gt;:::python
-   acces_token = auth.get_access_token()
-   key = acces_token.key
-   secret = access_token.secret&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;acces_token&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;auth&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_access_token&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;acces_token&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;
+&lt;span class="n"&gt;secret&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;access_token&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;secret&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;De ahí almacenas esos datos en algún medio de persistencia(archivo, base de datos) y seteas cada vez esos valores conforme quieras.&lt;/p&gt;
 &lt;p&gt;Para ilustrar el uso de la librería procederé a hacer una especie de &lt;code&gt;Hello World&lt;/code&gt; usando algunos ejemplos combinados de la documentación oficial:&lt;/p&gt;
-&lt;p&gt;:::python
-   import tweepy&lt;/p&gt;
-&lt;p&gt;consumer_key = raw_input("Introduzca consumer key &amp;gt;&amp;gt;&amp;gt; ")
-   consumer_secret = raw_input("Introduzca consumer secret &amp;gt;&amp;gt;&amp;gt; ")&lt;/p&gt;
-&lt;p&gt;# Autentificamos la app
-   auth = tweepy.OAuthHandler(consumer_key, consumer_secret)&lt;/p&gt;
-&lt;p&gt;# Obtenemos autorización del usuario para acceder/usar su perfil desde nuestra app
-   redirect_url = aut.get_authorization_url()
-   print "Autorize esta app para usar su perfil en &amp;gt;&amp;gt;&amp;gt; ", redirect_url
-   verifier = raw_input("Ahora introduzca el codigo de verificación aquí &amp;gt;&amp;gt;&amp;gt; ")&lt;/p&gt;
-&lt;p&gt;# Seteamos la autorización
-   auth.get_access_token(verifier)&lt;/p&gt;
-&lt;p&gt;# Obtenemos nuestro objeto 'api'
-   api = tweepy.API(auth)&lt;/p&gt;
-&lt;p&gt;# Si quisiéramos obtener para guardar en algún lado el token de acceso
-   # podríamos obtenerlo así
-   # key = auth.access_token.key
-   # secret = auth.access_token.secret&lt;/p&gt;
-&lt;p&gt;# Ahora leamos nuestro timeline
-   public_tweets = api.home_timeline()
-   for tweet in public_tweets:
-       print "[+] %s" % tweet.text&lt;/p&gt;
-&lt;p&gt;# Obteniendo información de un usuario en especifico
-   user = api.get_user('twitter')
-   print "Nombre publico o nick: %s" % user.scree_name
-   print "Cantidad de seguidores: %s" % user.followers_count
-   print " &amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt; LISTA DE AMIGOS &amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;"
-   for friend in user.friends():
-       print friend.screen_name&lt;/p&gt;
-&lt;p&gt;# Seguir a todo el que me sigue
-   for follower in tweepy.Cursor(api.followers).items():
-       follower.follow()
-       print "Ahora siguiendo a &amp;gt;&amp;gt;&amp;gt; %s" follower.scree_name&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;tweepy&lt;/span&gt;
+
+&lt;span class="n"&gt;consumer_key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;raw_input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Introduzca consumer key &amp;gt;&amp;gt;&amp;gt; &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;consumer_secret&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;raw_input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Introduzca consumer secret &amp;gt;&amp;gt;&amp;gt; &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c"&gt;# Autentificamos la app&lt;/span&gt;
+&lt;span class="n"&gt;auth&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tweepy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;OAuthHandler&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;consumer_key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;consumer_secret&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c"&gt;# Obtenemos autorización del usuario para acceder/usar su perfil desde nuestra app&lt;/span&gt;
+&lt;span class="n"&gt;redirect_url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;aut&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_authorization_url&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Autorize esta app para usar su perfil en &amp;gt;&amp;gt;&amp;gt; &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;redirect_url&lt;/span&gt;
+&lt;span class="n"&gt;verifier&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;raw_input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Ahora introduzca el codigo de verificación aquí &amp;gt;&amp;gt;&amp;gt; &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c"&gt;# Seteamos la autorización&lt;/span&gt;
+&lt;span class="n"&gt;auth&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_access_token&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;verifier&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c"&gt;# Obtenemos nuestro objeto &amp;#39;api&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;api&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tweepy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;API&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;auth&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c"&gt;# Si quisiéramos obtener para guardar en algún lado el token de acceso&lt;/span&gt;
+&lt;span class="c"&gt;# podríamos obtenerlo así&lt;/span&gt;
+&lt;span class="c"&gt;# key = auth.access_token.key&lt;/span&gt;
+&lt;span class="c"&gt;# secret = auth.access_token.secret&lt;/span&gt;
+
+
+&lt;span class="c"&gt;# Ahora leamos nuestro timeline&lt;/span&gt;
+&lt;span class="n"&gt;public_tweets&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;home_timeline&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;tweet&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;public_tweets&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;[+] &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;tweet&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;
+
+&lt;span class="c"&gt;# Obteniendo información de un usuario en especifico&lt;/span&gt;
+&lt;span class="n"&gt;user&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_user&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;twitter&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Nombre publico o nick: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;scree_name&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Cantidad de seguidores: &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;followers_count&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot; &amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt; LISTA DE AMIGOS &amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;friend&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;friends&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;friend&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;screen_name&lt;/span&gt;
+
+&lt;span class="c"&gt;# Seguir a todo el que me sigue&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;follower&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;tweepy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Cursor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;followers&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="n"&gt;follower&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;follow&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Ahora siguiendo a &amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt; &lt;span class="n"&gt;follower&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;screen_name&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;Algo muy útil que no se ilustra en el codigo anterior son los &lt;a href="http://tweepy.readthedocs.org/en/v2.3.0/cursor_tutorial.html"&gt;objetos Cursores&lt;/a&gt; para limitar la cantidad de resultados, por ejemplo en el 
 codigo anterior para seguir a todo mundo podríamos haber limitado la cantidad de personas 
 a seguir que nos devolviera el api a 10 de la siguiente manera:&lt;/p&gt;
-&lt;p&gt;:::python
-   for follower in tweepy.Cursor(api.followers).items(10)
-       follower.follow&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;follower&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;tweepy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Cursor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;followers&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;follower&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;follow&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;Muchas otras cosas se pueden hacer, buscar usuarios, como la búsqueda que se realiza en el mismo twitter 
 con el botón buscar, navegar a través de su lista de amigos, sus fotos de perfil, websites, etc.. Cosas
 que podrían ser muy útil para practicar &lt;code&gt;análisis de datos&lt;/code&gt; con Python.&lt;/p&gt;
 &lt;p&gt;Por el momento es todo, lo que puedan necesitar sobre esta api en la documentación oficial lo encuentran. &lt;/p&gt;
 &lt;p&gt;Shalom!&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Referencias&lt;/em&gt;
-* &lt;a href="http://tweepy.readthedocs.org/en/v2.3.0/index.html"&gt;Tweepy Documentation&lt;/a&gt;&lt;/p&gt;</summary><category term="python"></category><category term="tweepy"></category></entry><entry><title>Manipulando URLs y haciendo solicitudes HTTP con Java</title><link href="/manipulando-urls-y-haciendo-solicitudes-http-con-java.html" rel="alternate"></link><updated>2014-01-03T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2014-01-03:manipulando-urls-y-haciendo-solicitudes-http-con-java.html</id><summary type="html">&lt;p&gt;Interactuar con formularios web desde una que otra aplicación que yo mismo
+&lt;p&gt;&lt;strong&gt;Referencias&lt;/strong&gt;
+* &lt;a href="http://tweepy.readthedocs.org/en/v2.3.0/index.html"&gt;Tweepy Documentation&lt;/a&gt;&lt;/p&gt;</summary><category term="twitter"></category><category term="python"></category><category term="tweepy"></category></entry><entry><title>Manipulando URLs y haciendo solicitudes HTTP con Java</title><link href="/manipulando-urls-y-haciendo-solicitudes-http-con-java.html" rel="alternate"></link><updated>2014-01-03T00:00:00-04:00</updated><author><name>A. J. Javier</name></author><id>tag:,2014-01-03:manipulando-urls-y-haciendo-solicitudes-http-con-java.html</id><summary type="html">&lt;p&gt;Interactuar con formularios web desde una que otra aplicación que yo mismo
 programe siempre me ha parecido bastante interesante y en efecto es algo que 
 que uso de vez en vez, más con el lenguaje Python que con cualquier otro, pero se da que en
 uno que otro caso pueda ser interesante usar Java para estas cosas, quizás porque
