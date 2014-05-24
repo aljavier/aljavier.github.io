@@ -14,7 +14,7 @@ body {
     font-size: 18px;
     line-height: 1.5em;
     color: #444;
-    background-color: #fffafa;
+    background-color: #ffffe0;
     -webkit-animation: fade 600ms 1 ease-in-out;
     -moz-animation: fade 600ms 1 ease-in-out;
     -ms-animation: fade 600ms 1 ease-in-out;
@@ -257,11 +257,20 @@ img{
     height:auto;
 }
 
+/*
+pre {
+    font-family: monospace;
+    font-size: 0.95em;
+    line-height: 1.15em;
+    background-color: #F5F5F5;
+    padding: 0.5em;
+    max-width: 100%;
+}
 
-/*pre{background-color:#000000;border:0;border-radius:4px;padding:10px 10px 10px 20px;margin:10px;overflow:auto;font-size:15px;font-family:Consolas,Monaco,"Liberation Mono","Lucida Console",Monospace;}
+pre{background-color:#000000;border:0;border-radius:4px;padding:10px 10px 10px 20px;margin:10px;overflow:auto;font-size:15px;font-family:Consolas,Monaco,"Liberation Mono","Lucida Console",Monospace;}*/
 .no_mrkdwn{overflow-x:hidden;overflow-y:hidden;white-space:pre-wrap;font-family:Consolas,Monaco,"Liberation Mono","Lucida Console",Monospace;border:1px solid lightGray;box-shadow:0px 2px 3px #aaa;}
 blockquote{margin:20px;font-style:italic;}
-*/
+
 figure * { border: none; margin: auto; padding: auto; }
 
 .post-header h1 a{color:#2f4f4f;}
@@ -285,26 +294,6 @@ figure * { border: none; margin: auto; padding: auto; }
     padding: .15em .3em;
 }*/
 
-pre {
-    border-radius:4px !important;
-    font-family: Monospace,'Consolas';
-    font-size: 14px;
-    line-height: 1.15em;
-    overflow-x: auto;
-    padding: 0.5em;
-    max-width: 100%;
-}
-
-.pre-especial{
-    float:left;
-    background-color:transparent;
-    color:#000;
-}
-
-#about{
-    float:right;
-    padding:5px;
-}
 
 @media screen and (max-width: 650px) {
     body {
