@@ -56,7 +56,7 @@
             por <a href="/author/a-j-javier.html">A. J. Javier</a>        </div>
       </header>
       <div class="post-content"> 
-        <p>Los patrones de diseño(desing patterns en ingles) en síntesis son técnicas que resuelven problemas conocidos
+        <p>Los patrones de diseño(design patterns en ingles) en síntesis son técnicas que resuelven problemas conocidos
 de diseño de software. Por lo que no tenemos que rompernos la cabeza buscándole una 
 solución a dichos problemas, sino que podemos asirnos de los distintos patrones que 
 ya otros genios del área han figurado. </p>
@@ -64,19 +64,21 @@ ya otros genios del área han figurado. </p>
 mucho mejor si los mantenemos en mente, esto es crear códigos extensibles y de fácil
 mantenimiento, sobre los mismos suelen basarse los patrones de diseño. </p>
 <p>A continuación presento tres <code>principios de diseño</code>:</p>
-<ol>
-<li>Identifica los aspectos de tu aplicación que varían y separalo de aquellos que permanecen
-iguales.</li>
-</ol>
+<p>1.)</p>
+<blockquote>
+<p><strong>Identifica los aspectos de tu aplicación que varían y separalo de aquellos que permanecen
+iguales.</strong></p>
+</blockquote>
 <p>Un ejemplo, en un vídeo juego una clase <em>Character</em> tiene un método <em>fight()</em> los personajes siempre 
 van a pelear en este hipotético juego que es un genero de pelea por así decir, de modo que usaran algún 
 tipo de arma pero el personaje a su vez puede cambiar de armas varias veces, por tanto, si implementamos 
 la lógica del arma dentro de la clase <em>Character</em> no podríamos extender esa característica del juego luego 
 si quisiéramos agregar algo nuevo en cuanto a las armas, sin tener que modificar el código de la clase, 
 violando así otro principio llamado <a href="images/strategy.png" title="Diagrama Strategy Pattern">open/closed principle</a>.</p>
-<ol>
-<li>Programa orientado a una interfaz, no a una implementación.</li>
-</ol>
+<p>2.)</p>
+<blockquote>
+<p><strong>Programa orientado a una interfaz, no a una implementación.</strong></p>
+</blockquote>
 <p>Interfaz aquí no se refiere exactamente a una interfaz como tienen Java o C#, es decir, que interfaz aquí
 se refiere tanto a un <em>interface</em> como seria en los lenguajes antes mencionado o igualmente podría ser una
 clase abstracta, la cuestión es que este principio nos exhorta a usar en nuestras aplicaciones un super tipo
@@ -91,9 +93,10 @@ si creamos una Interfaz o una clase abstracta como plantilla de la cual extender
 demás armas y que el campo en la clase <em>Character</em> vendría siendo precisamente esa clase padre, por lo que en el
 cliente donde instanciemos <em>Character</em> podríamos pasarle cualquier clase como arma que sea del tipo de la 
 anterior clase padre, así pudiendo extender esta para crear nuevas sin tener que modificar el código existente.</p>
-<ol>
-<li>Favorece <code>composición</code> sobre herencia.</li>
-</ol>
+<p>3.)</p>
+<blockquote>
+<p><strong>Favorece <code>composición</code> sobre herencia.</strong></p>
+</blockquote>
 <p>Hay que entender bien esto aquí, porque herencia aun sigue siendo la mejor opción en algunos casos, así que
 hay que entender digamos el contexto. Este principio se refiere a que si quieres agregar una funcionalidad(o 
 un mínimo de las funcionalidades de esta) de otra clase a otra en vez de usar herencia que te limitaría en 
@@ -117,182 +120,182 @@ posiblemente no haya necesidad de sobreescribirlo jamas.</p>
 claro evidentemente no todos los lenguajes permiten hacer esto, la wikipedia sobre los requisitos para 
 implementar el Strategy pattern dice:</p>
 <blockquote>
-<p>The essential requirement in the programming language is the ability to store a reference to some code in a data structure and retrieve it. This can be achieved by mechanisms such as the native function pointer, the first-class function, classes or class instances in object-oriented programming languages, or accessing the language implementation's internal storage of code via reflection.</p>
+<p><em>The essential requirement in the programming language is the ability to store a reference to some code in a data structure and retrieve it. This can be achieved by mechanisms such as the native function pointer, the first-class function, classes or class instances in object-oriented programming languages, or accessing the language implementation's internal storage of code via reflection.</em></p>
 </blockquote>
 <p><strong><em>Character.java</em></strong></p>
-<div class="codehilite"><pre><span class="n">public</span> <span class="n">abstract</span> <span class="n">class</span> <span class="n">Character</span><span class="p">{</span>
-    <span class="n">WeaponBehavior</span> <span class="n">weapon</span><span class="p">;</span>
+<div class="codehilite"><pre><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Character</span><span class="o">{</span>
+    <span class="n">WeaponBehavior</span> <span class="n">weapon</span><span class="o">;</span>
 
-    <span class="n">public</span> <span class="nf">Character</span><span class="p">(</span><span class="n">WeaponBehavior</span> <span class="n">weapon</span><span class="p">){</span>
-        <span class="n">this</span><span class="p">.</span><span class="n">setWeapon</span><span class="p">(</span><span class="n">weapon</span><span class="p">);</span>
-    <span class="p">}</span>
+    <span class="kd">public</span> <span class="nf">Character</span><span class="o">(</span><span class="n">WeaponBehavior</span> <span class="n">weapon</span><span class="o">){</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">setWeapon</span><span class="o">(</span><span class="n">weapon</span><span class="o">);</span>
+    <span class="o">}</span>
 
-    <span class="n">public</span> <span class="n">abstract</span> <span class="kt">void</span> <span class="nf">fight</span><span class="p">();</span>
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">fight</span><span class="o">();</span>
 
-    <span class="n">public</span> <span class="kt">void</span> <span class="nf">setWeapon</span><span class="p">(</span><span class="n">WeaponBehavior</span> <span class="n">weapon</span><span class="p">){</span>
-        <span class="n">this</span><span class="p">.</span><span class="n">weapon</span> <span class="o">=</span> <span class="n">weapon</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setWeapon</span><span class="o">(</span><span class="n">WeaponBehavior</span> <span class="n">weapon</span><span class="o">){</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">weapon</span> <span class="o">=</span> <span class="n">weapon</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
 </pre></div>
 
 
 <p><strong><em>Queen.java</em></strong></p>
-<div class="codehilite"><pre><span class="n">public</span> <span class="n">class</span> <span class="n">Queen</span> <span class="n">extends</span> <span class="n">Character</span><span class="p">{</span>
+<div class="codehilite"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Queen</span> <span class="kd">extends</span> <span class="n">Character</span><span class="o">{</span>
 
-        <span class="n">public</span> <span class="n">Queen</span><span class="p">(</span><span class="n">WeaponBehavior</span> <span class="n">weapon</span><span class="p">){</span>
-            <span class="n">super</span><span class="p">(</span><span class="n">weapon</span><span class="p">);</span>
-            <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;La Reina ha entrado al juego...inclinate!&quot;</span><span class="p">);</span>
-        <span class="p">}</span>
+        <span class="kd">public</span> <span class="nf">Queen</span><span class="o">(</span><span class="n">WeaponBehavior</span> <span class="n">weapon</span><span class="o">){</span>
+            <span class="kd">super</span><span class="o">(</span><span class="n">weapon</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;La Reina ha entrado al juego...inclinate!&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
 
-        <span class="n">public</span> <span class="kt">void</span> <span class="n">fight</span><span class="p">(){</span>
-            <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Como toda mujer(o casi) aruña, grita y muerde...y de momento...&quot;</span><span class="p">);</span>
-            <span class="n">weapon</span><span class="p">.</span><span class="n">useWeapon</span><span class="p">();</span>
-        <span class="p">}</span>
-<span class="p">}</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">fight</span><span class="o">(){</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Como toda mujer(o casi) aruña, grita y muerde...y de momento...&quot;</span><span class="o">);</span>
+            <span class="n">weapon</span><span class="o">.</span><span class="na">useWeapon</span><span class="o">();</span>
+        <span class="o">}</span>
+<span class="o">}</span>
 </pre></div>
 
 
 <p><strong><em>Knight.java</em></strong></p>
-<div class="codehilite"><pre><span class="n">public</span> <span class="n">class</span> <span class="n">Knight</span> <span class="n">extends</span> <span class="n">Character</span><span class="p">{</span>
+<div class="codehilite"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Knight</span> <span class="kd">extends</span> <span class="n">Character</span><span class="o">{</span>
 
-    <span class="n">public</span> <span class="n">Knight</span><span class="p">(</span><span class="n">WeaponBehavior</span> <span class="n">weapon</span><span class="p">){</span>
-        <span class="n">super</span><span class="p">(</span><span class="n">weapon</span><span class="p">);</span>
-        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Un noble caballero ha entrado al juego!&quot;</span><span class="p">);</span>
-    <span class="p">}</span>
+    <span class="kd">public</span> <span class="nf">Knight</span><span class="o">(</span><span class="n">WeaponBehavior</span> <span class="n">weapon</span><span class="o">){</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">weapon</span><span class="o">);</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Un noble caballero ha entrado al juego!&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
 
-    <span class="n">public</span> <span class="kt">void</span> <span class="n">fight</span><span class="p">(){</span>
-        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;El Caballero de repende...&quot;</span><span class="p">);</span>
-        <span class="n">weapon</span><span class="p">.</span><span class="n">useWeapon</span><span class="p">();</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">fight</span><span class="o">(){</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;El Caballero de repende...&quot;</span><span class="o">);</span>
+        <span class="n">weapon</span><span class="o">.</span><span class="na">useWeapon</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
 </pre></div>
 
 
 <p><strong><em>Troll.java</em></strong></p>
-<div class="codehilite"><pre><span class="n">public</span> <span class="n">class</span> <span class="n">Troll</span> <span class="n">extends</span> <span class="n">Character</span><span class="p">{</span>
+<div class="codehilite"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Troll</span> <span class="kd">extends</span> <span class="n">Character</span><span class="o">{</span>
 
-    <span class="n">public</span> <span class="n">Troll</span><span class="p">(</span><span class="n">WeaponBehavior</span> <span class="n">weapon</span><span class="p">){</span>
-        <span class="n">super</span><span class="p">(</span><span class="n">weapon</span><span class="p">);</span>
-        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Un infame troll ha entrado al juego!&quot;</span><span class="p">);</span>
-    <span class="p">}</span>
+    <span class="kd">public</span> <span class="nf">Troll</span><span class="o">(</span><span class="n">WeaponBehavior</span> <span class="n">weapon</span><span class="o">){</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">weapon</span><span class="o">);</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Un infame troll ha entrado al juego!&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
 
-    <span class="n">public</span> <span class="kt">void</span> <span class="n">fight</span><span class="p">(){</span>
-        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Y el troll cual criatura malvada...&quot;</span><span class="p">);</span>
-        <span class="n">weapon</span><span class="p">.</span><span class="n">useWeapon</span><span class="p">();</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">fight</span><span class="o">(){</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Y el troll cual criatura malvada...&quot;</span><span class="o">);</span>
+        <span class="n">weapon</span><span class="o">.</span><span class="na">useWeapon</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
 </pre></div>
 
 
 <p><strong><em>WeaponBehavior.java</em></strong></p>
-<div class="codehilite"><pre><span class="n">public</span> <span class="n">interface</span> <span class="n">WeaponBehavior</span><span class="p">{</span>
+<div class="codehilite"><pre><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">WeaponBehavior</span><span class="o">{</span>
 
-    <span class="n">public</span> <span class="kt">void</span> <span class="n">useWeapon</span><span class="p">();</span>
-<span class="p">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">useWeapon</span><span class="o">();</span>
+<span class="o">}</span>
 </pre></div>
 
 
 <p><strong><em>KnifeBehavior.java</em></strong></p>
-<div class="codehilite"><pre><span class="n">public</span> <span class="n">class</span> <span class="n">KnifeBehavior</span> <span class="n">implements</span> <span class="n">WeaponBehavior</span><span class="p">{</span>
+<div class="codehilite"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">KnifeBehavior</span> <span class="kd">implements</span> <span class="n">WeaponBehavior</span><span class="o">{</span>
 
-    <span class="n">public</span> <span class="n">KnifeBehavior</span><span class="p">(){</span>
-        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Cuchillo activado...&quot;</span><span class="p">);</span>
-    <span class="p">}</span>
+    <span class="kd">public</span> <span class="nf">KnifeBehavior</span><span class="o">(){</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Cuchillo activado...&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
 
-    <span class="n">public</span> <span class="kt">void</span> <span class="n">useWeapon</span><span class="p">(){</span>
-        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Fuaa!!!! Cuchillo arriba, cuchillo abajo...y un brazo mano!&quot;</span><span class="p">);</span> <span class="c1">// Btw, no a la violencia</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">useWeapon</span><span class="o">(){</span> 
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Fuaa!!! Cuchillo arriba, cuchillo abajo...y un brazo menos!&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
 </pre></div>
 
 
 <p><strong><em>SwordBehavior.java</em></strong></p>
-<div class="codehilite"><pre><span class="n">public</span> <span class="n">class</span> <span class="n">SwordBehavior</span> <span class="n">implements</span> <span class="n">WeaponBehavior</span><span class="p">{</span>
+<div class="codehilite"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SwordBehavior</span> <span class="kd">implements</span> <span class="n">WeaponBehavior</span><span class="o">{</span>
 
-    <span class="n">public</span> <span class="n">SwordBehavior</span><span class="p">(){</span>
-        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Espada activada...&quot;</span><span class="p">);</span>
-    <span class="p">}</span>
+    <span class="kd">public</span> <span class="nf">SwordBehavior</span><span class="o">(){</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Espada activada...&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
 
-    <span class="n">public</span> <span class="kt">void</span> <span class="n">useWeapon</span><span class="p">(){</span>
-        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Saca la espada como un samurai, directo al corazon&quot;</span>
-                        <span class="o">+</span> <span class="s">&quot; y baaaaam! El enemigo es historia&quot;</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">useWeapon</span><span class="o">(){</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Saca la espada como un samurai, directo al corazon&quot;</span>
+                        <span class="o">+</span> <span class="s">&quot; y baaaaam! El enemigo es historia&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
 </pre></div>
 
 
 <p><strong><em>AxeBehavior.java</em></strong></p>
-<div class="codehilite"><pre><span class="n">public</span> <span class="n">class</span> <span class="n">AxeBehavior</span> <span class="n">implements</span> <span class="n">WeaponBehavior</span><span class="p">{</span>
+<div class="codehilite"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AxeBehavior</span> <span class="kd">implements</span> <span class="n">WeaponBehavior</span><span class="o">{</span>
 
-    <span class="n">public</span> <span class="n">AxeBehavior</span><span class="p">(){</span>
-        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Hacha activada...&quot;</span><span class="p">);</span>
-    <span class="p">}</span>
+    <span class="kd">public</span> <span class="nf">AxeBehavior</span><span class="o">(){</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Hacha activada...&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
 
-    <span class="n">public</span> <span class="kt">void</span> <span class="n">useWeapon</span><span class="p">(){</span>
-        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Agarra el hacha por el palo, la hala en forma &quot;</span> 
-                        <span class="o">+</span> <span class="s">&quot;de media luna y buuum! Enemigo abatido!&quot;</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">useWeapon</span><span class="o">(){</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Agarra el hacha por el palo, la hala en forma &quot;</span> 
+                        <span class="o">+</span> <span class="s">&quot;de media luna y buuum! Enemigo abatido!&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
 </pre></div>
 
 
 <p><strong><em>BowAndArrowBehavior.java</em></strong></p>
-<div class="codehilite"><pre><span class="n">public</span> <span class="n">class</span> <span class="n">BowAndArrowBehavior</span> <span class="n">implements</span> <span class="n">WeaponBehavior</span><span class="p">{</span>
+<div class="codehilite"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BowAndArrowBehavior</span> <span class="kd">implements</span> <span class="n">WeaponBehavior</span><span class="o">{</span>
 
-    <span class="n">public</span> <span class="n">BowAndArrowBehavior</span><span class="p">(){</span>
-        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
-    <span class="p">}</span>
+    <span class="kd">public</span> <span class="nf">BowAndArrowBehavior</span><span class="o">(){</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
 
-    <span class="n">public</span> <span class="kt">void</span> <span class="n">useWeapon</span><span class="p">(){</span>
-        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Se sube a un alto, agarra su arco, flecha en mano,&quot;</span>
-                        <span class="o">+</span> <span class="s">&quot;todo listo, suelta y baaaaam</span><span class="se">\n</span><span class="s"> a la cabeza del enemigo!&quot;</span>
-                        <span class="o">+</span> <span class="s">&quot; Totalmente enfermo!&quot;</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">useWeapon</span><span class="o">(){</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Se sube a un alto, agarra su arco, flecha en mano,&quot;</span>
+                        <span class="o">+</span> <span class="s">&quot;todo listo, suelta y baaaaam\n a la cabeza del enemigo!&quot;</span>
+                        <span class="o">+</span> <span class="s">&quot; Totalmente enfermo!&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
 </pre></div>
 
 
 <p>Por último, una clase para probar todo esto <strong><em>MainClass.java</em></strong></p>
-<div class="codehilite"><pre><span class="n">public</span> <span class="n">class</span> <span class="n">MainClass</span><span class="p">{</span>
+<div class="codehilite"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainClass</span><span class="o">{</span>
 
-    <span class="n">public</span> <span class="k">static</span> <span class="kt">void</span> <span class="n">main</span><span class="p">(</span><span class="n">String</span><span class="p">[]</span> <span class="n">args</span><span class="p">){</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
         <span class="c1">// Declaramos e instanciamos los personajes</span>
-        <span class="n">Character</span> <span class="n">c1</span> <span class="o">=</span> <span class="n">new</span> <span class="n">King</span><span class="p">(</span><span class="n">new</span> <span class="n">KnifeBehavior</span><span class="p">());</span>
-        <span class="n">Character</span> <span class="n">c2</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Queen</span><span class="p">(</span><span class="n">new</span> <span class="n">KnifeBehavior</span><span class="p">());</span>
-        <span class="n">Character</span> <span class="n">c3</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Knight</span><span class="p">(</span><span class="n">new</span> <span class="n">KnifeBehavior</span><span class="p">());</span>
-        <span class="n">Character</span> <span class="n">c4</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Troll</span><span class="p">(</span><span class="n">new</span> <span class="n">KnifeBehavior</span><span class="p">());</span>
+        <span class="n">Character</span> <span class="n">c1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">King</span><span class="o">(</span><span class="k">new</span> <span class="n">KnifeBehavior</span><span class="o">());</span>
+        <span class="n">Character</span> <span class="n">c2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Queen</span><span class="o">(</span><span class="k">new</span> <span class="n">KnifeBehavior</span><span class="o">());</span>
+        <span class="n">Character</span> <span class="n">c3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Knight</span><span class="o">(</span><span class="k">new</span> <span class="n">KnifeBehavior</span><span class="o">());</span>
+        <span class="n">Character</span> <span class="n">c4</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Troll</span><span class="o">(</span><span class="k">new</span> <span class="n">KnifeBehavior</span><span class="o">());</span>
 
-        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">();</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">();</span>
 
         <span class="c1">// Y a pelear!!! - Instancia de King</span>
-        <span class="n">c1</span><span class="p">.</span><span class="n">fight</span><span class="p">();</span> <span class="c1">//  Primero con la arma por defecto que es el cuchillo</span>
-        <span class="n">c1</span><span class="p">.</span><span class="n">setWeapon</span><span class="p">(</span><span class="n">new</span> <span class="n">AxeBehavior</span><span class="p">());</span> <span class="c1">// Y en runtime cambiamos el arma a Hacha </span>
-        <span class="n">c1</span><span class="p">.</span><span class="n">fight</span><span class="p">();</span> <span class="c1">// Atacamos con nuestra flamante nueva arma</span>
+        <span class="n">c1</span><span class="o">.</span><span class="na">fight</span><span class="o">();</span> <span class="c1">//  Primero con la arma por defecto que es el cuchillo</span>
+        <span class="n">c1</span><span class="o">.</span><span class="na">setWeapon</span><span class="o">(</span><span class="k">new</span> <span class="n">AxeBehavior</span><span class="o">());</span> <span class="c1">// Y en runtime cambiamos el arma a Hacha </span>
+        <span class="n">c1</span><span class="o">.</span><span class="na">fight</span><span class="o">();</span> <span class="c1">// Atacamos con nuestra flamante nueva arma</span>
 
-        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">();</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">();</span>
 
         <span class="c1">// Lo mismo que en lo anterior con diferentes armas</span>
         <span class="c1">// Instancia de Queen</span>
-        <span class="n">c2</span><span class="p">.</span><span class="n">fight</span><span class="p">();</span>
-        <span class="n">c2</span><span class="p">.</span><span class="n">setWeapon</span><span class="p">(</span><span class="n">new</span> <span class="n">SwordBehavior</span><span class="p">());</span> <span class="c1">// Cambiamos el arma a espada</span>
-        <span class="n">c2</span><span class="p">.</span><span class="n">fight</span><span class="p">();</span>
+        <span class="n">c2</span><span class="o">.</span><span class="na">fight</span><span class="o">();</span>
+        <span class="n">c2</span><span class="o">.</span><span class="na">setWeapon</span><span class="o">(</span><span class="k">new</span> <span class="n">SwordBehavior</span><span class="o">());</span> <span class="c1">// Cambiamos el arma a espada</span>
+        <span class="n">c2</span><span class="o">.</span><span class="na">fight</span><span class="o">();</span>
 
-        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">();</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">();</span>
 
         <span class="c1">// Instancia de Knight</span>
-        <span class="n">c3</span><span class="p">.</span><span class="n">fight</span><span class="p">();</span>
-        <span class="n">c3</span><span class="p">.</span><span class="n">setWeapon</span><span class="p">(</span><span class="n">new</span> <span class="n">BowAndArrowBehavior</span><span class="p">());</span> <span class="c1">// Cambiamos el arma a arco y flecha</span>
-        <span class="n">c3</span><span class="p">.</span><span class="n">fight</span><span class="p">();</span>
+        <span class="n">c3</span><span class="o">.</span><span class="na">fight</span><span class="o">();</span>
+        <span class="n">c3</span><span class="o">.</span><span class="na">setWeapon</span><span class="o">(</span><span class="k">new</span> <span class="n">BowAndArrowBehavior</span><span class="o">());</span> <span class="c1">// Cambiamos el arma a arco y flecha</span>
+        <span class="n">c3</span><span class="o">.</span><span class="na">fight</span><span class="o">();</span>
 
-        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">();</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">();</span>
 
         <span class="c1">// Instancia de Troll</span>
-        <span class="n">c4</span><span class="p">.</span><span class="n">fight</span><span class="p">();</span>
-        <span class="n">c4</span><span class="p">.</span><span class="n">setWeapon</span><span class="p">(</span><span class="n">new</span> <span class="n">SwordBehavior</span><span class="p">());</span> <span class="c1">// Cambiamos el arma a espada</span>
-        <span class="n">c4</span><span class="p">.</span><span class="n">fight</span><span class="p">();</span>
-    <span class="p">}</span>
+        <span class="n">c4</span><span class="o">.</span><span class="na">fight</span><span class="o">();</span>
+        <span class="n">c4</span><span class="o">.</span><span class="na">setWeapon</span><span class="o">(</span><span class="k">new</span> <span class="n">SwordBehavior</span><span class="o">());</span> <span class="c1">// Cambiamos el arma a espada</span>
+        <span class="n">c4</span><span class="o">.</span><span class="na">fight</span><span class="o">();</span>
+    <span class="o">}</span>
 
-<span class="p">}</span>
+<span class="o">}</span>
 </pre></div>
 
 
@@ -335,7 +338,7 @@ implementar el Strategy pattern dice:</p>
 
 <p>Esa fue una demostración del patrón de diseño Strategy...usando el lenguaje Java en esta
 ocasión.</p>
-<p>exit(0)</p>
+<p>exit(0);</p>
 <p>[+] <strong>Referencias</strong></p>
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/Strategy_pattern">Wikipedia: Strategy Pattern</a></li>
