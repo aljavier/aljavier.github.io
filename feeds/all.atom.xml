@@ -44,10 +44,11 @@ anterior clase padre, así pudiendo extender esta para crear nuevas sin tener qu
 hay que entender digamos el contexto. Este principio se refiere a que si quieres agregar una funcionalidad(o 
 un mínimo de las funcionalidades de esta) de otra clase a otra en vez de usar herencia que te limitaría en 
 muchas cosas, ya que de por si la relación de tu clase con la que heredes seria del tipo &lt;a href="https://en.wikipedia.org/wiki/IS-A"&gt;"IS-A"&lt;/a&gt;(es decir, 
-que es del mismo tipo), encima que no se soporta la herencia múltiple en algunos lenguajes, así que vaye 
-imaginándose, además de eso todo el código que no necesitas de la misma. Lo otro es, que me parece a mi
-(en verdad no estoy 100% seguro) que &lt;code&gt;composición&lt;/code&gt; aquí se refiere a que la clase en cuestión contenga 
-la otra clase, por lo que igual seria valido &lt;code&gt;composición&lt;/code&gt; o &lt;code&gt;agregación&lt;/code&gt; en términos estrictos de UML. &lt;/p&gt;
+que es del mismo tipo en otras palabras la extiende o implementa), encima que no se soporta la herencia múltiple 
+en algunos lenguajes, así que vaye imaginándose, además de eso todo el código que no necesitas de la misma. 
+Lo otro es, que me parece a mi (en verdad no estoy 100% seguro) que &lt;code&gt;composición&lt;/code&gt; aquí se refiere a que la 
+clase en cuestión contenga la otra clase, por lo que igual seria valido &lt;code&gt;composición&lt;/code&gt; o &lt;code&gt;agregación&lt;/code&gt; en términos 
+estrictos de UML. &lt;/p&gt;
 &lt;h2&gt;Patrón de diseño Strategy(Strategy pattern)&lt;/h2&gt;
 &lt;p&gt;Define una familia de protocolos, encapsula cada uno de ellos y los hace intercambiables. Strategy
 permite al algoritmo variar independientemente de los clientes que lo usen. &lt;/p&gt;
