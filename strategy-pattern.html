@@ -74,7 +74,7 @@ van a pelear en este hipotético juego que es un genero de pelea por así decir,
 tipo de arma pero el personaje a su vez puede cambiar de armas varias veces, por tanto, si implementamos 
 la lógica del arma dentro de la clase <em>Character</em> no podríamos extender esa característica del juego luego 
 si quisiéramos agregar algo nuevo en cuanto a las armas, sin tener que modificar el código de la clase, 
-violando así otro principio llamado <a href="images/posts/strategy.png" title="Diagrama Strategy Pattern">open/closed principle</a>.</p>
+violando así otro principio llamado <a href="https://en.wikipedia.org/wiki/Open/closed_principle">open/closed principle</a>.</p>
 <p>2.)</p>
 <blockquote>
 <p><strong>Programa orientado a una interfaz, no a una implementación.</strong></p>
@@ -112,7 +112,7 @@ permite al algoritmo variar independientemente de los clientes que lo usen. </p>
 mas arriba), el mismo utiliza Strategy para ofrecer la flexibilidad de poder agregar cuantas armas se quieren
 y poder cambiarlas en tiempo de ejecución, observar como se reflejan los tres principios de diseño de los que
 se hablo antes.</p>
-<p><img alt="AdventureGame Strategy Pattern" src="images/posts/strategy.png" title="Diagrama Strategy Pattern" /></p>
+<p><img alt="Diagrama Strategy Pattern" src="images/posts/strategy.png" title="Diagrama Strategy Pattern" /></p>
 <p>El diagrama se explica así mismo, notar que <em>Character</em> es una clase abstracta y que usamos el método <em>setWeapon()</em>
 para poder cambiar de arma(estrategia) en runtime el cual definimos en la misma clase padre <em>Character</em> ya que
 posiblemente no haya necesidad de sobreescribirlo jamas.</p>
