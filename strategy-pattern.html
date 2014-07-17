@@ -120,7 +120,10 @@ posiblemente no haya necesidad de sobreescribirlo jamas.</p>
 claro evidentemente no todos los lenguajes permiten hacer esto, la wikipedia sobre los requisitos para 
 implementar el Strategy pattern dice:</p>
 <blockquote>
-<p><em>The essential requirement in the programming language is the ability to store a reference to some code in a data structure and retrieve it. This can be achieved by mechanisms such as the native function pointer, the first-class function, classes or class instances in object-oriented programming languages, or accessing the language implementation's internal storage of code via reflection.</em></p>
+<p><em>The essential requirement in the programming language is the ability to store a reference to some code in a data 
+structure and retrieve it. This can be achieved by mechanisms such as the native function pointer, the first-class 
+function, classes or class instances in object-oriented programming languages, or accessing the language implementation's 
+internal storage of code via reflection.</em></p>
 </blockquote>
 <p><strong><em>Character.java</em></strong></p>
 <div class="codehilite"><pre><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Character</span><span class="o">{</span>
@@ -134,6 +137,23 @@ implementar el Strategy pattern dice:</p>
 
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setWeapon</span><span class="o">(</span><span class="n">WeaponBehavior</span> <span class="n">weapon</span><span class="o">){</span>
         <span class="k">this</span><span class="o">.</span><span class="na">weapon</span> <span class="o">=</span> <span class="n">weapon</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p><strong><em>King.java</em></strong></p>
+<div class="codehilite"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">King</span> <span class="kd">extends</span> <span class="n">Character</span><span class="o">{</span>
+
+    <span class="kd">public</span> <span class="nf">King</span><span class="o">(</span><span class="n">WeaponBehavior</span> <span class="n">weapon</span><span class="o">){</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">weapon</span><span class="o">);</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;El Rey ha entrado al juego...inclinate!&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">fight</span><span class="o">(){</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;El rey da un paso hacia un lado como &quot;</span>
+                    <span class="o">+</span> <span class="s">&quot;en el ajedrez y de repente...&quot;</span><span class="o">);</span>
+        <span class="n">weapon</span><span class="o">.</span><span class="na">useWeapon</span><span class="o">();</span>
     <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
@@ -164,7 +184,7 @@ implementar el Strategy pattern dice:</p>
     <span class="o">}</span>
 
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">fight</span><span class="o">(){</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;El Caballero de repende...&quot;</span><span class="o">);</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;El Caballero de repente...&quot;</span><span class="o">);</span>
         <span class="n">weapon</span><span class="o">.</span><span class="na">useWeapon</span><span class="o">();</span>
     <span class="o">}</span>
 <span class="o">}</span>
@@ -309,10 +329,10 @@ implementar el Strategy pattern dice:</p>
 <span class="n">Cuchillo</span> <span class="n">activado</span><span class="p">...</span>
 <span class="n">Un</span> <span class="n">infame</span> <span class="n">troll</span> <span class="n">ha</span> <span class="n">entrado</span> <span class="n">al</span> <span class="n">juego</span><span class="o">!</span>
 
-<span class="n">El</span> <span class="n">rey</span> <span class="n">da</span> <span class="n">un</span> <span class="n">paso</span> <span class="n">hacia</span> <span class="n">un</span> <span class="n">lado</span> <span class="n">como</span> <span class="n">en</span> <span class="n">el</span> <span class="n">ajedrez</span> <span class="n">y</span> <span class="n">de</span> <span class="n">repende</span><span class="p">...</span>
+<span class="n">El</span> <span class="n">rey</span> <span class="n">da</span> <span class="n">un</span> <span class="n">paso</span> <span class="n">hacia</span> <span class="n">un</span> <span class="n">lado</span> <span class="n">como</span> <span class="n">en</span> <span class="n">el</span> <span class="n">ajedrez</span> <span class="n">y</span> <span class="n">de</span> <span class="n">repente</span><span class="p">...</span>
 <span class="n">Fuaa</span><span class="o">!!!!</span> <span class="n">Cuchillo</span> <span class="n">arriba</span><span class="p">,</span> <span class="n">cuchillo</span> <span class="n">abajo</span><span class="p">...</span><span class="n">y</span> <span class="n">un</span> <span class="n">brazo</span> <span class="n">mano</span><span class="o">!</span>
 <span class="n">Hacha</span> <span class="n">activada</span><span class="p">...</span>
-<span class="n">El</span> <span class="n">rey</span> <span class="n">da</span> <span class="n">un</span> <span class="n">paso</span> <span class="n">hacia</span> <span class="n">un</span> <span class="n">lado</span> <span class="n">como</span> <span class="n">en</span> <span class="n">el</span> <span class="n">ajedrez</span> <span class="n">y</span> <span class="n">de</span> <span class="n">repende</span><span class="p">...</span>
+<span class="n">El</span> <span class="n">rey</span> <span class="n">da</span> <span class="n">un</span> <span class="n">paso</span> <span class="n">hacia</span> <span class="n">un</span> <span class="n">lado</span> <span class="n">como</span> <span class="n">en</span> <span class="n">el</span> <span class="n">ajedrez</span> <span class="n">y</span> <span class="n">de</span> <span class="n">repente</span><span class="p">...</span>
 <span class="n">Agarra</span> <span class="n">el</span> <span class="n">hacha</span> <span class="n">por</span> <span class="n">el</span> <span class="n">palo</span><span class="p">,</span> <span class="n">la</span> <span class="n">hala</span> <span class="n">en</span> <span class="n">forma</span> <span class="n">de</span> <span class="n">media</span> <span class="n">luna</span> <span class="n">y</span> <span class="n">buuum</span><span class="o">!</span> <span class="n">Enemigo</span> <span class="n">abatido</span><span class="o">!</span>
 
 <span class="n">Como</span> <span class="n">toda</span> <span class="n">mujer</span><span class="p">(</span><span class="n">o</span> <span class="n">casi</span><span class="p">)</span> <span class="n">aru</span><span class="err">ñ</span><span class="n">a</span><span class="p">,</span> <span class="n">grita</span> <span class="n">y</span> <span class="n">muerde</span><span class="p">...</span><span class="n">y</span> <span class="n">de</span> <span class="n">momento</span><span class="p">...</span>
@@ -321,10 +341,10 @@ implementar el Strategy pattern dice:</p>
 <span class="n">Como</span> <span class="n">toda</span> <span class="n">mujer</span><span class="p">(</span><span class="n">o</span> <span class="n">casi</span><span class="p">)</span> <span class="n">aru</span><span class="err">ñ</span><span class="n">a</span><span class="p">,</span> <span class="n">grita</span> <span class="n">y</span> <span class="n">muerde</span><span class="p">...</span><span class="n">y</span> <span class="n">de</span> <span class="n">momento</span><span class="p">...</span>
 <span class="n">Saca</span> <span class="n">la</span> <span class="n">espada</span> <span class="n">como</span> <span class="n">un</span> <span class="n">samurai</span><span class="p">,</span> <span class="n">directo</span> <span class="n">al</span> <span class="n">corazon</span> <span class="n">y</span> <span class="n">baaaaam</span><span class="o">!</span> <span class="n">El</span> <span class="n">enemigo</span> <span class="n">es</span> <span class="n">historia</span>
 
-<span class="n">El</span> <span class="n">Caballero</span> <span class="n">de</span> <span class="n">repende</span><span class="p">...</span>
+<span class="n">El</span> <span class="n">Caballero</span> <span class="n">de</span> <span class="n">repente</span><span class="p">...</span>
 <span class="n">Fuaa</span><span class="o">!!!!</span> <span class="n">Cuchillo</span> <span class="n">arriba</span><span class="p">,</span> <span class="n">cuchillo</span> <span class="n">abajo</span><span class="p">...</span><span class="n">y</span> <span class="n">un</span> <span class="n">brazo</span> <span class="n">mano</span><span class="o">!</span>
 
-<span class="n">El</span> <span class="n">Caballero</span> <span class="n">de</span> <span class="n">repende</span><span class="p">...</span>
+<span class="n">El</span> <span class="n">Caballero</span> <span class="n">de</span> <span class="n">repente</span><span class="p">...</span>
 <span class="n">Se</span> <span class="n">sube</span> <span class="n">a</span> <span class="n">un</span> <span class="n">alto</span><span class="p">,</span> <span class="n">agarra</span> <span class="n">su</span> <span class="n">arco</span><span class="p">,</span> <span class="n">flecha</span> <span class="n">en</span> <span class="n">mano</span><span class="p">,</span><span class="n">todo</span> <span class="n">listo</span><span class="p">,</span> <span class="n">suelta</span> <span class="n">y</span> <span class="n">baaaaam</span>
 <span class="n">a</span> <span class="n">la</span> <span class="n">cabeza</span> <span class="n">del</span> <span class="n">enemigo</span><span class="o">!</span> <span class="n">Totalmente</span> <span class="n">enfermo</span><span class="o">!</span>
 
