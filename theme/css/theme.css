@@ -258,10 +258,6 @@ img{
 }
 
 
-/*pre{background-color:#000000;border:0;border-radius:4px;padding:10px 10px 10px 20px;margin:10px;overflow:auto;font-size:15px;font-family:Consolas,Monaco,"Liberation Mono","Lucida Console",Monospace;}
-.no_mrkdwn{overflow-x:hidden;overflow-y:hidden;white-space:pre-wrap;font-family:Consolas,Monaco,"Liberation Mono","Lucida Console",Monospace;border:1px solid lightGray;box-shadow:0px 2px 3px #aaa;}
-blockquote{margin:20px;font-style:italic;}
-*/
 figure * { border: none; margin: auto; padding: auto; }
 
 .post-header h1 a{color:#2f4f4f;}
@@ -299,7 +295,10 @@ pre {
     float:left;
     background-color:transparent;
     color:#000;
+    overflow-x:auto;
 }
+
+pre { white-space: pre; overflow: auto; }
 
 #about{
     float:right;

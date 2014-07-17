@@ -68,4 +68,4 @@
 .codehilite .vg { color: #cae682; background-color: #242424 } /* Name.Variable.Global */
 .codehilite .vi { color: #cae682; background-color: #242424 } /* Name.Variable.Instance */
 .codehilite .il { color: #e5786d; background-color: #242424 } /* Literal.Number.Integer.Long */
-pre{overflow-x:auto;white-space:pre;}
+.codehilite pre{overflow-x:auto !important;white-space:pre;}
