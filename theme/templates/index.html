@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+
+{% block content %} 
+    <section id="articles">
+           <ul class="list-square">
+               {% for article in articles %}
+                    <li><time datetime="{{ article.date|string }}"><span class="date-index">{{ article.date.strftime('%d %b %Y')|capitalize }}</time></span> - <a href="{{ article.slug }}.html">{{ article.title }}</a></li>
+               {% endfor %}
+           </ul>
+       </section>
+{% endblock %}

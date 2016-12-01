@@ -1,0 +1,35 @@
+    {% extends 'layout.html' %}
+    
+    {% block title %}
+        <title>acerca - {{ blog_name }}</title>
+    {% endblock %}
+    
+    {% block content %}
+    
+        <article>
+            <div class="post-content">
+        
+                <h2>Acerca de este blog</h2>
+                
+                <p>Este blog es sólo un espacio en dónde comparto algunos de mis
+                apuntes de programación, GNU/Linux y otros posibles temas relacionados.</p>
+                
+                <p>Los articulos de este blog son escritos en texto plano usando 
+                el formato <a href="https://en.wikipedia.org/wiki/Markdown">markdown</a>.
+                Generalmente uso <a href="http://www.vim.org/">vim</a> para escribirlos,
+                por comodidad y preferencia. Un script en Python se encarga de convertir
+                esos articulos de textos plano a html aplicando estilos y plantillas
+                ya predefinidas, para las plantillas uso <a href="http://jinja.pocoo.org/">Jinja2</a>.</p>
+                
+                <p>El script es muy simple, esta en github en el siguiente <a href="https://github.com/aljavier/pynote-it">enlace</a>.</p>
+                
+                
+                
+                <h3>Quien soy yo?</h3>
+                
+                <p>Ah eso, pues un simple programador =)</p>
+        
+            </div>
+        </article>
+        
+    {% endblock %}
