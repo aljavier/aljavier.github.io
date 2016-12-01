@@ -1,7 +1,7 @@
 title: Error en Python: Unsupported locale setting
 slug: unsupported-locale-setting
 tags: python, locale, ubuntu, unsupported locale setting
-date: 2016-11-01
+date: 2016-12-01
 
 
 Supongamos que tenemos el siguiente código en Python:
