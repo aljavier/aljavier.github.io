@@ -1,0 +1,239 @@
+      <!DOCTYPE html>
+  <html lang="es">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=endge, chrome=IE8" />
+      <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
+      <meta name="keywords" content="java,HashMap,TreeMap,diccionarios,generics" />
+      <meta name="description" content="Apuntes y notas de un newbie." />
+      <meta name="author" content="root" />
+      
+        <title> Diccionarios con HashMap y TreeMap en Java
+ - [ root@paranoia ~/blog ]# _</title>
+     
+      <!--[if lte IE 8]><script type="text/javascript" src="/theme/js/html5shiv.js"></script><![endif]-->
+      <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" type="text/css" href="css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="css/pygment.css" />
+      <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+      <!--[if lte IE 8]><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /><![endif]-->
+    </head>
+    <body>
+        <div class="container">
+        <header id="menu">
+            <nav>
+                <ul>
+                    <li><a href="index.html">inicio</a></li>
+                    <li><a target="_blank" href="https://github.com/aljavier">github</a></li>
+                    <li><a href="enlaces.html">enlaces</a></li>
+                    <li><a href="about.html">acerca</a></li>
+                </ul>
+                <h4>[ root@paranoia ~/blog ]# _</h4>
+            </nav>
+        </header>
+         
+         
+         <article>
+                <header class="post-header">
+                    <div class="meta"><time datetime="2013-06-20 00:00:00">junio 20, 2013</time></div>
+                <h1>
+                     Diccionarios con HashMap y TreeMap en Java
+
+                </h1>
+                </header>
+                <div class="post-content"> 
+                    <p>Las colecciones nos permiten agrupar un conjunto de objetos del mismo tipo o al menos lo ideal es eso, que sean del mismo tipo ya que pueden agrupar objetos diferentes pero no es aconsejable, le quita las ventajas de usar los llamados <a href="http://docs.oracle.com/javase/tutorial/extra/generics/index.html" title="genéricos">genéricos</a> y haciendo así perdemos un poco el control sobre el tipo de objeto que manejamos.</p>
+<p>Hay muchos objetos que entran en la categoría de collection en java, pero como siempre hay unos mas usados que otros, tenemos; <em>ArrayList, List, HashMap, TreeMap, TreeSet</em>, etc. Los dos primeros almacenan objetos o mas bien referencia a objetos estilo los vectores, es decir que nos permite acceder por medio de su posición en el mismo, los otros dos siguientes entran en la categoría de diccionarios y el ultimo es como los vectores también pero elimina automáticamente los objetos idénticos. En esta entrada solo explicaré HashMap y TreeMap.</p>
+<p>Para los ejemplos tengo una clase llamada Person.</p>
+<div class="codehilite"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Person</span> <span class="o">{</span>
+     <span class="kd">private</span> <span class="n">String</span> <span class="n">nombre</span><span class="o">;</span>
+     <span class="kd">private</span> <span class="n">String</span> <span class="n">apellido</span><span class="o">;</span>
+     <span class="kd">private</span> <span class="kt">int</span> <span class="n">edad</span><span class="o">;</span>
+
+     <span class="kd">public</span> <span class="nf">Person</span><span class="o">(){}</span>
+
+     <span class="kd">public</span> <span class="nf">Person</span><span class="o">(</span><span class="n">String</span> <span class="n">nombre</span><span class="o">,</span> <span class="n">String</span> <span class="n">apellido</span><span class="o">,</span> <span class="kt">int</span> <span class="n">edad</span><span class="o">)</span> <span class="o">{</span>
+          <span class="kd">super</span><span class="o">();</span>
+          <span class="k">this</span><span class="o">.</span><span class="na">nombre</span> <span class="o">=</span> <span class="n">nombre</span><span class="o">;</span>
+          <span class="k">this</span><span class="o">.</span><span class="na">apellido</span> <span class="o">=</span> <span class="n">apellido</span><span class="o">;</span>
+          <span class="k">this</span><span class="o">.</span><span class="na">edad</span> <span class="o">=</span> <span class="n">edad</span><span class="o">;</span>
+         <span class="o">}</span>
+
+     <span class="kd">public</span> <span class="n">String</span> <span class="nf">getNombre</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">nombre</span><span class="o">;</span>
+     <span class="o">}</span>
+
+     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setNombre</span><span class="o">(</span><span class="n">String</span> <span class="n">nombre</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">nombre</span> <span class="o">=</span> <span class="n">nombre</span><span class="o">;</span>
+     <span class="o">}</span>
+
+     <span class="kd">public</span> <span class="n">String</span> <span class="nf">getApellido</span><span class="o">()</span> <span class="o">{</span>
+         <span class="k">return</span> <span class="n">apellido</span><span class="o">;</span>
+     <span class="o">}</span>
+
+     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setApellido</span><span class="o">(</span><span class="n">String</span> <span class="n">apellido</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">this</span><span class="o">.</span><span class="na">apellido</span> <span class="o">=</span> <span class="n">apellido</span><span class="o">;</span>
+     <span class="o">}</span>
+
+     <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getEdad</span><span class="o">()</span> <span class="o">{</span>
+         <span class="k">return</span> <span class="n">edad</span><span class="o">;</span>
+     <span class="o">}</span>
+
+     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setEdad</span><span class="o">(</span><span class="kt">int</span> <span class="n">edad</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">this</span><span class="o">.</span><span class="na">edad</span> <span class="o">=</span> <span class="n">edad</span><span class="o">;</span>
+     <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<h2>HashMap</h2>
+<p>Los diccionarios nos permiten acceder a los elementos por medio de una clave que elijamos nosotros, en vez de una posición como eventualmente son los arrays o vectores. La clase HashMap se encuentra en el paquete <strong>java.util.HashMap</strong>.</p>
+<p>Podemos inicializar un objeto de este tipo de la siguiente manera (cabe decir que HashMap también tiene otras tipos de constructores):</p>
+<div class="codehilite"><pre><span></span>HashMap&lt;Key,Value &gt; dictionary = new HashMap&lt;Key, Value&gt;();
+</pre></div>
+
+
+<p>Tanto en <code>Key</code> como en <code>Value</code> lo que debemos especificar es el tipo, <em>Key</em> es la clave del diccionario y <em>Value</em> es el valor del mismo. </p>
+<div class="codehilite"><pre><span></span>HashMap&lt;Integer, Person&gt; dictionary = new HashMap&lt;Integer, Person&gt;();
+</pre></div>
+
+
+<p>En el ejemplo arriba vemos perfectamente que <em>dictionary</em> almacenará objetos del tipo <em>Person</em> con una clave numérica tipo <em>Integer</em>.</p>
+<p>Podemos agregar los objetos al diccionario con el método put, el cual recibe dos parámetros; clave, valor, en ese orden. De igual forma tenemos el método get el cual recibe un parámetro como clave del objeto a buscar, si encuentra un objeto con la clave pasada como parámetro nos devuelve el objeto sino devuelve null. Veamos:</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">java.util.HashMap</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainClass</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Person</span><span class="o">&gt;</span> <span class="n">dictionary</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Person</span><span class="o">&gt;();</span>
+        <span class="n">Person</span> <span class="n">person1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Person</span><span class="o">(</span><span class="s">&quot;Juan&quot;</span><span class="o">,</span> <span class="s">&quot;Pineda&quot;</span><span class="o">,</span> <span class="mi">19</span><span class="o">);</span>
+        <span class="n">Person</span> <span class="n">person2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Person</span><span class="o">(</span><span class="s">&quot;Alex&quot;</span><span class="o">,</span> <span class="s">&quot;Rodriguez&quot;</span><span class="o">,</span> <span class="mi">35</span><span class="o">);</span>
+        <span class="n">Person</span> <span class="n">person3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Person</span><span class="o">(</span><span class="s">&quot;Juan&quot;</span><span class="o">,</span> <span class="s">&quot;Guerra&quot;</span><span class="o">,</span> <span class="mi">40</span><span class="o">);</span>
+        <span class="n">Person</span> <span class="n">person4</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Person</span><span class="o">(</span><span class="s">&quot;Mike&quot;</span><span class="o">,</span> <span class="s">&quot;Martinez&quot;</span><span class="o">,</span> <span class="mi">60</span><span class="o">);</span>
+        <span class="n">dictionary</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">person1</span><span class="o">.</span><span class="na">getEdad</span><span class="o">(),</span> <span class="n">person1</span><span class="o">);</span>
+        <span class="n">dictionary</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">person2</span><span class="o">.</span><span class="na">getEdad</span><span class="o">(),</span> <span class="n">person2</span><span class="o">);</span>
+        <span class="n">dictionary</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">person3</span><span class="o">.</span><span class="na">getEdad</span><span class="o">(),</span> <span class="n">person3</span><span class="o">);</span>
+        <span class="n">dictionary</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">person4</span><span class="o">.</span><span class="na">getEdad</span><span class="o">(),</span> <span class="n">person4</span><span class="o">);</span>
+
+        <span class="c1">// Obtenemos el objeto con clave igual a la edad de person3</span>
+        <span class="n">Person</span> <span class="n">x</span> <span class="o">=</span> <span class="n">dictionary</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">person3</span><span class="o">.</span><span class="na">getEdad</span><span class="o">());</span>
+
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Nombre: &quot;</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="na">getNombre</span><span class="o">());</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Apellido: &quot;</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="na">getApellido</span><span class="o">());</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Edad: &quot;</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="na">getEdad</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>Obtuvimos como salida del programa:</p>
+<div class="codehilite"><pre><span></span><span class="n">Nombre</span><span class="o">:</span> <span class="n">Juan</span>
+<span class="n">Apellido</span><span class="o">:</span> <span class="n">Guerra</span>
+<span class="n">Edad</span><span class="o">:</span> <span class="mi">40</span>
+</pre></div>
+
+
+<p>HashMap tiene entre otros los siguiente métodos:</p>
+<p><strong>Object remove(Object key)</strong>: Este método borra el objeto de clave key en el diccionario.</p>
+<div class="codehilite"><pre><span></span>dictionary.remove(person4.getEdad());
+</pre></div>
+
+
+<p><strong>boolean containsValue(Object value)</strong>: Devuelve <em>true</em> si el diccionario contiene una referencia a ese objeto pasado como parámetro, en caso contrario devuelve <em>false</em>.</p>
+<div class="codehilite"><pre><span></span>if(dictionary.containsValue(person2)){ // devuelve true
+    System.out.println(&quot;Si existe!&quot;);
+}else{
+    System.out.println(&quot;No existe!&quot;);
+}
+</pre></div>
+
+
+<p><strong>boolean containsKey(Object key)</strong>: Devuelve <em>true</em> si el diccionario contiene una referencia a un objeto con la clave pasada como parámetro, en caso contrario devuelve <em>false</em>.</p>
+<div class="codehilite"><pre><span></span>if(dictionary.containsKey(person2.getEdad())){
+    System.out.println(&quot;Si existe!&quot;);
+}else{
+    System.out.println(&quot;No existe!&quot;);
+}
+</pre></div>
+
+
+<p><strong>void clear()</strong>: Este método vacía el diccionario y lo deja tal cual como estaba al momento de instanciarse.</p>
+<div class="codehilite"><pre><span></span>dictionary.clear(); // vacía el diccionario
+</pre></div>
+
+
+<p><strong>boolean isEmpty</strong>: Devuelve <em>true</em> si el diccionario esta vacío o <em>false</em> en caso contrario.</p>
+<div class="codehilite"><pre><span></span>if(dictionary.isEmpty()){ 
+    System.out.println(&quot;Esta vacío&quot;);
+}else{
+    System.out.println(&quot;No esta vacío!!!&quot;);
+}
+</pre></div>
+
+
+<p><strong>int size()</strong>: Este método devuelve la cantidad de objetos/claves en el diccionario.</p>
+<div class="codehilite"><pre><span></span><span class="nt">System</span><span class="nc">.out.println</span><span class="o">(</span><span class="s2">&quot;Cantidad de objetos en el diccionario: &quot;</span> <span class="o">+</span> <span class="nt">dictionary</span><span class="nc">.size</span><span class="o">());</span>
+</pre></div>
+
+
+<p><strong>Collection<Value> values()</strong>: Este método devuelve todos los objetos contenidos en el diccionario.</p>
+<div class="codehilite"><pre><span></span><span class="nt">for</span><span class="o">(</span><span class="nt">Person</span> <span class="nt">p</span> <span class="o">:</span> <span class="nt">dictionary</span><span class="nc">.values</span><span class="o">())</span><span class="p">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="s2">&quot;Nombre&quot;</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">getNombre</span><span class="p">());</span>
+        <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="s2">&quot;Apellido: &quot;</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">getApellido</span><span class="p">());</span>
+        <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="s2">&quot;Edad: &quot;</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">getEdad</span><span class="p">());</span>
+        <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Tienen otros métodos de HashMap así también como otros tipos de constructores en <a href="http://docs.oracle.com/javase/6/docs/api/java/util/HashMap.html" title="docs oracle">este link</a>.</p>
+<h2>TreeMap</h2>
+<p>De este no podemos decir mucho, ya que es idéntico al HashMap incluso tiene los mismos métodos explicados anteriormente, entre otros, pero hay ciertas diferencias:</p>
+<blockquote>
+<blockquote>
+<p>Cuando iteramos un objeto TreeMap los objetos son extraídos de la colección en forma ascendente según sus claves, ya que TreeMap ordena los objetos según la clave.</p>
+</blockquote>
+</blockquote>
+<p>De modo que la gran diferencia es que TreeMap ordena los objetos según la clave en forma ascendente, pero HashMap teóricamente nos devolverá los objetos en la secuencia que fueron introducidos. Entonces ¿Por qué no sólo usar TreeMap? Ah pues el caso es que cuando usamos un objeto definido por el usuario como clave (digamos una clase creada por nosotros) TreeMap no sabe como ordenar la colección, así que solo lo hace si es con datos primitivos (Integer, String, etc).</p>
+<p>Tienen más información sobre TreeMap en <a href="http://docs.oracle.com/javase/6/docs/api/java/util/TreeMap.html">este link de acá</a></p>
+                </div>
+              
+                <hr/>
+                <!-- discus comments go here -->
+                 <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                    var disqus_shortname = 'sysflux'; // required: replace example with your forum shortname
+                    /* * * DON'T EDIT BELOW THIS LINE * * */
+                    (function() {
+                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                        dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+          </article>
+    
+       
+        <footer id="page-foot">
+            <p>
+                Contenido bajo licencia <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"> CC BY-SA</a> 
+                | Powered by <a href="https://www.python.org/">Python</a> &copy;
+            </p>
+        </footer>
+        </div>
+        <!-- Google Analytics here -->
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-45917501-1']);
+            _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); 
+          ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+    </body>
+    </html>

@@ -1,0 +1,402 @@
+      <!DOCTYPE html>
+  <html lang="es">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=endge, chrome=IE8" />
+      <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
+      <meta name="keywords" content="java,URL,networking,HTTP" />
+      <meta name="description" content="Apuntes y notas de un newbie." />
+      <meta name="author" content="root" />
+      
+        <title> Manipulando URLs y haciendo solicitudes HTTP con Java
+ - [ root@paranoia ~/blog ]# _</title>
+     
+      <!--[if lte IE 8]><script type="text/javascript" src="/theme/js/html5shiv.js"></script><![endif]-->
+      <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" type="text/css" href="css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="css/pygment.css" />
+      <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+      <!--[if lte IE 8]><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /><![endif]-->
+    </head>
+    <body>
+        <div class="container">
+        <header id="menu">
+            <nav>
+                <ul>
+                    <li><a href="index.html">inicio</a></li>
+                    <li><a target="_blank" href="https://github.com/aljavier">github</a></li>
+                    <li><a href="enlaces.html">enlaces</a></li>
+                    <li><a href="about.html">acerca</a></li>
+                </ul>
+                <h4>[ root@paranoia ~/blog ]# _</h4>
+            </nav>
+        </header>
+         
+         
+         <article>
+                <header class="post-header">
+                    <div class="meta"><time datetime="2014-01-03 00:00:00">enero 03, 2014</time></div>
+                <h1>
+                     Manipulando URLs y haciendo solicitudes HTTP con Java
+
+                </h1>
+                </header>
+                <div class="post-content"> 
+                    <p>Interactuar con formularios web desde una que otra aplicación que yo mismo
+programe siempre me ha parecido bastante interesante y en efecto es algo que 
+que uso de vez en vez, más con el lenguaje Python que con cualquier otro, pero se da que en
+uno que otro caso pueda ser interesante usar Java para estas cosas, quizás porque
+quiero hacer algo parecido en alguna aplicación que por una u otra razón haya
+decidido programar en Java. </p>
+<p>En esta entrada vamos a usar las clases <a href="http://docs.oracle.com/javase/6/docs/api/java/net/URLConnection.html" title="URLConnection">URLConnection</a>
+y <a href="http://docs.oracle.com/javase/6/docs/api/java/net/HttpURLConnection.html" title="HttpURLConnection">HttpURLConnection</a> 
+para interactuar con formularios web y para acceder y manipular URLs, para definir
+una <a href="https://es.wikipedia.org/wiki/Uniform_Resource_Locator" title="Uniform Resource Locator">URL</a>
+en Java usamos la clase <a href="http://docs.oracle.com/javase/7/docs/api/java/net/URL.html" title="java.net.URL">URL</a> 
+lo cual por igual tiene algunos métodos que podrían ser útiles y pueden ser consultados
+en la documentación oficial. </p>
+<p>Por otro lado, las clases URLConnection y HttpURLConnection no tienen mucha diferencia
+entre si y básicamente se podría usar cualquiera si la vamos a usar para el protocolo
+http, ya que URLConnection es una clase muy HTTP-céntrica como dice la documentación
+oficial, la misma es útil para establecer un enlace de comunicación entre una aplicación
+y una URL, que bien podría ser una de un ftp, servidor de archivos u otra. En cambio, 
+HttpURLConnection es una subclase directa de URLConnection para establecer conexiones
+con un servidor web, que no es lo mismo que ftp u otro.</p>
+<p>Entrando en materia iniciamos con lo mas básico, la URL. Para crear una <em>URL absoluta</em>
+es tan simple como esto:</p>
+<div class="codehilite"><pre><span></span><span class="n">URL</span> <span class="n">myURL</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">&quot;http://example.com/&quot;</span><span class="o">);</span>
+</pre></div>
+
+
+<p>La URL podría ser cualquiera, sin importar si apunta a un recurso en el servidor, como
+lo seria <code>http://example.com/pdf/java-book.pdf</code>. Ahora crear URLs relativas a una URL base
+como seria: http://example.com/pages/, lo haríamos del siguiente modo:</p>
+<div class="codehilite"><pre><span></span><span class="n">URL</span> <span class="n">baseURL</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">&quot;http://example.com/pages/&quot;</span><span class="o">);</span>
+<span class="n">URL</span> <span class="n">page1URL</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="n">baseURL</span><span class="o">,</span> <span class="s">&quot;page1.html&quot;</span><span class="o">);</span>
+<span class="n">URL</span> <span class="n">page2URL</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="n">baseURL</span><span class="o">,</span> <span class="s">&quot;page2.html&quot;</span><span class="o">);</span>
+</pre></div>
+
+
+<p>La forma general de este <code>constructor</code> es como sigue:</p>
+<div class="codehilite"><pre><span></span><span class="n">URL</span><span class="o">(</span><span class="n">URL</span> <span class="n">baseURL</span><span class="o">,</span> <span class="n">String</span> <span class="n">relativeURL</span><span class="o">);</span>
+</pre></div>
+
+
+<p>El resultado es obvio, ahora bien si el primer parámetro(URL base) es <code>null</code> el segundo
+parámetro(URL relativa) sera tratada como una URL absoluta. Si por otro lado, haya o no
+un primer elemento valido y el segundo es una URL absoluta entonces el constructor ignorará
+el primer argumento(URL base).</p>
+<p>Igual podríamos hacer lo siguiente:</p>
+<div class="codehilite"><pre><span></span><span class="n">URL</span> <span class="n">page1BottomURL</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="n">page1URL</span><span class="o">,</span> <span class="s">&quot;#BOTTOM&quot;</span><span class="o">);</span>
+</pre></div>
+
+
+<p>Así tendríamos un objeto URL apuntando específicamente al contenido en <code>http://example.com/pages/page1.hyml#BOTTOM</code>.</p>
+<p>Existen como dos constructores más, que pueden consultarse en la documentación
+oficial, en todo caso los aquí presentados me parecen los mas útiles.</p>
+<p>Otra cosa que si quisiéramos encodear los caracteres especiales en nuestra URL(como podrían
+ser espacios en blancos y demás) podríamos usar la clase 
+<a href="http://docs.oracle.com/javase/7/docs/api/java/net/URI.html" title="URI">URI</a>, suponiendo
+que la URL completa es <code>http://example.com/hellow word/</code>:</p>
+<div class="codehilite"><pre><span></span><span class="n">URI</span> <span class="n">uri</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URI</span><span class="o">(</span><span class="s">&quot;http&quot;</span><span class="o">,</span><span class="s">&quot;example.com&quot;</span><span class="o">,</span> <span class="s">&quot;/hello word/&quot;</span><span class="o">,</span><span class="s">&quot;&quot;</span><span class="o">);</span>
+<span class="c1">// Para convertirla a URL</span>
+<span class="n">URL</span> <span class="n">URL</span> <span class="o">=</span> <span class="n">uri</span><span class="o">.</span><span class="na">toURL</span><span class="o">();</span>
+</pre></div>
+
+
+<blockquote>
+<blockquote>
+<p><strong>Nota:</strong> Las clases URLConnection, HttpURLConnection, URL, URI y URLEncoder(la cual veremos 
+más adelante) se encuentran en el paquete <code>java.net</code>.</p>
+</blockquote>
+</blockquote>
+<p>Los objetos URL lanzan una excepción del tipo <code>MalformedURLException</code> si los argumentos del constructor
+son del tipo <code>null</code> o algún protocolo desconocido. Algo importante, es que los objetos del tipo <code>URL</code> 
+no se le puede cambiar el estado una vez creados, es decir, no se le pueden cambiar sus atributos una vez
+han sido creados.</p>
+<h2>Leyendo directamente desde una URL</h2>
+<p>Leer directamente desde una URL es bastante simple, una vez ya tenemos un objeto URL creado podemos
+llamar al método <code>openStream()</code> para obtener un stream del cual se podrá leer el contenido de la URL.
+El método <code>openStream()</code> como se puede imaginar devuelve un objeto <code>InputStream</code>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/InputStream.html" title="InputStream">paquete java.io.InputStream</a>).</p>
+<p>Veamos el siguiente ejemplo que ilustra claramente como leer directamente desde una URL:</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">java.io.BufferedReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStreamReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.URL</span><span class="o">;</span>
+
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">URLReader</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span><span class="o">{</span>
+        <span class="n">URL</span> <span class="n">URL</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">&quot;http://aljavier.github.io&quot;</span><span class="o">);</span>
+        <span class="n">BufferedReader</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span><span class="n">URL</span><span class="o">.</span><span class="na">openStream</span><span class="o">()));</span>
+
+        <span class="n">String</span> <span class="n">inputLine</span><span class="o">;</span>
+        <span class="k">while</span><span class="o">((</span><span class="n">inputLine</span> <span class="o">=</span> <span class="n">in</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">inputLine</span><span class="o">);</span>
+        <span class="n">in</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>El código es tan simple que se explica así mismo, primero instanciamos la URL, luego obtenemos un <code>Stream</code> de URL
+invocando su método <code>openStream()</code>, pasamos el objeto devuelto por dicho método(cuyo objeto es un <code>InputStream</code>) a un
+objeto del tipo <code>InputStreamReader</code> y de igual forma éste al constructor de <code>BufferedReader</code>, para así de esa forma 
+poder leer el contenido devuelvo por el sitio web como si leyéramos de un simple archivo.</p>
+<h2>Conectándose a una URL</h2>
+<p>Anteriormente habíamos visto como poder obtener un sitio web, leyendo directamente desde su URL, ahora veremos como
+conectarnos a una URL de tal forma que podamos establecer parámetros y propiedades para las solicitudes que haremos
+al website según sean nuestras necesidades.</p>
+<p>Una vez ya tengamos un objeto <code>URL</code> creado podemos llamar a su método <code>OpenConnection()</code> para obtener un objeto 
+<code>URLConnection</code> o una de sus subclases de protocolos específicos(como HttpURLConnection).  La conexión hacia la maquina
+y/o recurso remoto representado por el objeto <code>URL</code> solo se inicia cuando se llama al método <code>connect()</code> del objeto
+<code>URLConnection</code>, con esto iniciamos un enlace de conexión entre nuestro aplicación Java y la URL a través de la red. Cabe
+decir que en algunos casos no es necesario llamar explícitamente el método <code>connect</code>, ya que este es ejecutado de forma
+implícita cuando se ejecutan métodos como <code>getInputStream</code>, <code>getOutputStream</code> entre otros.</p>
+<p>Veamos el siguiente ejemplo que esta en la documentación oficial tal cual(como casi todos en este post), el mismo
+abre una conexión al sitio <code>example.com</code>:</p>
+<div class="codehilite"><pre><span></span><span class="k">try</span> <span class="o">{</span>
+   <span class="n">URL</span> <span class="n">myURL</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">&quot;http://example.com/&quot;</span><span class="o">);</span>
+    <span class="n">URLConnection</span> <span class="n">myURLConnection</span> <span class="o">=</span> <span class="n">myURL</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
+    <span class="n">myURLConnection</span><span class="o">.</span><span class="na">connect</span><span class="o">();</span>
+<span class="o">}</span> 
+    <span class="k">catch</span> <span class="o">(</span><span class="n">MalformedURLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span> 
+    <span class="c1">// new URL() failed</span>
+    <span class="c1">// ...</span>
+<span class="o">}</span> 
+    <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>   
+    <span class="c1">// openConnection() failed</span>
+    <span class="c1">// ...</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>Una vez conectado correctamente a nuestra URL estamos listo para usar URLConnection y ejecutar acciones como
+leer y/o escribir a esa conexión.</p>
+<h2>Leyendo desde un objeto URLConnection</h2>
+<p>A continuación veremos que leer desde URLConnection, primeramente como siempre creamos un objeto <code>URL</code>, luego 
+un objeto <code>URLConnection</code> y después de esto leemos el flujo de datos(o stream) con BufferedReader. El siguiente
+código lo ilustra de forma clara:</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">java.io.BufferedReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStreamReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.URL</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.URLConnection</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">URLConnectionReader</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span><span class="o">{</span>
+        <span class="n">URL</span> <span class="n">my_URL</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">&quot;http://aljavier.github.io&quot;</span><span class="o">);</span>
+        <span class="n">URLConnection</span> <span class="n">uc</span> <span class="o">=</span> <span class="n">my_URL</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
+
+        <span class="n">BufferedReader</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span>
+                <span class="n">uc</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">()));</span>
+        <span class="n">String</span> <span class="n">inputLine</span><span class="o">;</span>
+        <span class="k">while</span><span class="o">((</span><span class="n">inputLine</span> <span class="o">=</span> <span class="n">in</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">inputLine</span><span class="o">);</span>
+        <span class="n">in</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>El código anterior hace lo mismo que el otro anterior que lee directamente desde URL y este mas arriba, de modo
+que ambas formas pueden usadas, no obstante, tiene sus ventajas usar <code>URLConnection</code>, por ejemplo, que podemos
+realizar otras acciones además de leer, como es escribir a esa URL(como enviar datos a un formulario POST, ver más abajo).</p>
+<h2>Escribiendo a un objeto URLConnection</h2>
+<p>Es de esta forma que podemos por ejemplo enviar datos a un formulario web. Según la documentación oficial para un programa
+Java interactuar con proceso del lado servidor este simplemente escribir a un <code>URL</code>(sí al objeto), de esta forma proveyendo los
+datos al servidor. Para esto, sigue los siguiente pasos:</p>
+<ol>
+<li>Crear un <strong>URL</strong>.</li>
+<li>Obtener el objeto <strong>URLConnection</strong>.</li>
+<li>Establecer capacidad de envío(output) en el URLConnection.</li>
+<li>Abrir una conexion al recurso.</li>
+<li>Obtener un <code>output stream</code> de la conexión.</li>
+<li>Escribir al <code>output stream</code>.</li>
+<li>Cerrar el <code>output stream</code>.</li>
+</ol>
+<p>Para el siguiente ejemplo, ya que necesitamos un formulario con el cual interactuar tengo un servidor web en localhost corriendo
+con el siguiente formulario:</p>
+<div class="codehilite"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="cp">if($_POST){</span>
+<span class="cp">        if(isset($_POST[&#39;nombre&#39;])){</span>
+<span class="cp">            echo &quot;Hey, un grato saludo mister &quot;.$_POST[&#39;nombre&#39;].&quot;!\n&quot;;</span>
+<span class="cp">        }else{</span>
+<span class="cp">            echo &quot;Hey, que onda mister Anónimo!\n&quot;;</span>
+<span class="cp">        }</span>
+<span class="cp">}</span>
+<span class="cp">?&gt;</span>
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;es&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span> Formulario Simple<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">form</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;datos&quot;</span> <span class="na">action</span><span class="o">=</span><span class="s">&quot;&quot;</span> <span class="na">method</span><span class="o">=</span><span class="s">&quot;POST&quot;</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&quot;nombre&quot;</span><span class="p">&gt;</span>Nombre:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">input</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;nombre&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;nombre&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span><span class="p">/&gt;</span>
+            <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;submit&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;Enviar&quot;</span><span class="p">/&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>El archivo anterior le he llamado en mi servidor <code>form.php</code>, ahora veamos el código que interactúa con el mismo usando URLConnection:</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">java.io.BufferedReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStreamReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.OutputStreamWriter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.URL</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.URLConnection</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.URLEncoder</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">URLWriter</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span><span class="o">{</span>
+        <span class="n">String</span> <span class="n">userAgent</span> <span class="o">=</span> <span class="s">&quot;Mozilla/5.0 (X11; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0&quot;</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">address</span> <span class="o">=</span> <span class="s">&quot;http://localhost/form.php&quot;</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">forSending</span> <span class="o">=</span> <span class="s">&quot;Batman&quot;</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">charset</span> <span class="o">=</span> <span class="s">&quot;UTF-8&quot;</span><span class="o">;</span>
+
+        <span class="c1">// El metodo encode() de URLEncoder se encarga de encodear la cadena que enviaremos</span>
+        <span class="c1">// al servidor, sustituyendo espacios y caracteres especiales</span>
+        <span class="n">String</span> <span class="n">stringToSend</span> <span class="o">=</span> <span class="n">URLEncoder</span><span class="o">.</span><span class="na">encode</span><span class="o">(</span><span class="n">forSending</span><span class="o">,</span> <span class="n">charset</span><span class="o">);</span>
+
+        <span class="c1">// 1. Creamos objeto URL</span>
+        <span class="n">URL</span> <span class="n">URL</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="n">address</span><span class="o">);</span>
+        <span class="c1">// 2. Obtenemos el objeto URLConnection llamando a openConnection() en URL</span>
+        <span class="n">URLConnection</span> <span class="n">connection</span> <span class="o">=</span> <span class="n">URL</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
+        <span class="c1">// Establecemos algunas propiedas de envió, como es el User-Agent</span>
+        <span class="n">connection</span><span class="o">.</span><span class="na">addRequestProperty</span><span class="o">(</span><span class="s">&quot;User-Agent&quot;</span><span class="o">,</span> <span class="n">userAgent</span><span class="o">);</span>
+
+        <span class="c1">// 3. Esto es importantisímo, es aqui donde establecemos la capacidad de envió.</span>
+        <span class="n">connection</span><span class="o">.</span><span class="na">setDoOutput</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+
+        <span class="c1">// 4. Abrimos una conexión al recurso para poder escribir/enviar datos al formulario</span>
+        <span class="c1">// Nota que no se llama explícitamente a connect() porque llamados a getOutputStream()</span>
+        <span class="n">OutputStreamWriter</span> <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OutputStreamWriter</span><span class="o">(</span>
+                <span class="n">connection</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">());</span>
+        <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">&quot;nombre=&quot;</span> <span class="o">+</span> <span class="n">stringToSend</span><span class="o">);</span> <span class="c1">// &quot;nombre&quot; es el campo del formulario web</span>
+        <span class="n">out</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+
+        <span class="c1">// Aquí leemos el resultado que nos devolvió el servidor, en efecto, lo que</span>
+        <span class="c1">// respondió form.php y luego de enviar los datos</span>
+        <span class="n">BufferedReader</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span>
+                <span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span>
+                        <span class="n">connection</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">()));</span>
+        <span class="n">String</span> <span class="n">response</span><span class="o">;</span>
+        <span class="k">while</span><span class="o">((</span><span class="n">response</span> <span class="o">=</span> <span class="n">in</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>
+        <span class="n">in</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>El servidor, nos responde perfectamente con algo como:</p>
+<div class="codehilite"><pre><span></span>Hey, un grato saludo mister Batman!
+</pre></div>
+
+
+<p>Con el código html de la pagina más abajo, si hubiese puesto el php en un solo archivo aparte
+solo tendría la respuesta de mas arriba, en todo caso, la idea del post es clara no? :|</p>
+<p>Obviamente, lo que tengo mas arriba es un ejemplo sencillo básicamente tal cual esta en la documentación
+oficial, para ilustrar el como funciona todo esto, pero lo correcto seria crear alguna clase que podamos
+reutilizar y manejar un poco de mejor manera el manejo de las excepciones.</p>
+<h2>Escribiendo a un objeto HttpURLConnection</h2>
+<p>Ahora vamos a mostrar el mismo ejemplo pero usando <code>HttpURLConnection</code> esta vez, no tiene mucho misterio
+ya que esta es una subclase directa de <code>URLConnection</code> que bien sobreescribe y agrega algunos métodos, pero
+que comparten otros cuantos.</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">java.io.BufferedReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStreamReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.OutputStreamWriter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.HttpURLConnection</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.URL</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.URLEncoder</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">URLWritterHttp</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span><span class="o">{</span>
+        <span class="n">String</span> <span class="n">userAgent</span> <span class="o">=</span> <span class="s">&quot;Mozilla/5.0 (X11; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0&quot;</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">address</span> <span class="o">=</span> <span class="s">&quot;http://localhost/form.php&quot;</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">forSending</span> <span class="o">=</span> <span class="s">&quot;Batman&quot;</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">charset</span> <span class="o">=</span> <span class="s">&quot;UTF-8&quot;</span><span class="o">;</span>
+
+        <span class="n">String</span> <span class="n">stringToSend</span> <span class="o">=</span> <span class="n">URLEncoder</span><span class="o">.</span><span class="na">encode</span><span class="o">(</span><span class="n">forSending</span><span class="o">,</span> <span class="n">charset</span><span class="o">);</span>
+
+        <span class="n">URL</span> <span class="n">URL</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="n">address</span><span class="o">);</span>
+        <span class="n">HttpURLConnection</span> <span class="n">connection</span> <span class="o">=</span> <span class="o">(</span><span class="n">HttpURLConnection</span><span class="o">)</span><span class="n">URL</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
+        <span class="n">connection</span><span class="o">.</span><span class="na">addRequestProperty</span><span class="o">(</span><span class="s">&quot;User-Agent&quot;</span><span class="o">,</span> <span class="n">userAgent</span><span class="o">);</span>
+
+        <span class="c1">//Para poder escribir datos a la URL</span>
+        <span class="n">connection</span><span class="o">.</span><span class="na">setDoOutput</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+
+        <span class="c1">// Indicamos el tipo de request, POST en este caso</span>
+        <span class="n">connection</span><span class="o">.</span><span class="na">setRequestMethod</span><span class="o">(</span><span class="s">&quot;POST&quot;</span><span class="o">);</span>
+
+        <span class="c1">// Indicamos un timeout de 10 segundos</span>
+        <span class="n">connection</span><span class="o">.</span><span class="na">setReadTimeout</span><span class="o">(</span><span class="mi">10</span><span class="o">*</span><span class="mi">1000</span><span class="o">);</span>
+
+        <span class="n">OutputStreamWriter</span> <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OutputStreamWriter</span><span class="o">(</span>
+                <span class="n">connection</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">());</span>
+        <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">&quot;nombre=&quot;</span> <span class="o">+</span> <span class="n">stringToSend</span><span class="o">);</span>
+        <span class="n">out</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+
+        <span class="n">BufferedReader</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span>
+                <span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span>
+                        <span class="n">connection</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">()));</span>
+        <span class="n">String</span> <span class="n">response</span><span class="o">;</span>
+        <span class="k">while</span><span class="o">((</span><span class="n">response</span> <span class="o">=</span> <span class="n">in</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>
+        <span class="n">in</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>Como puede verse los cambios son muy pocos, como dije antes aunque HttpURLConnection es una clase especifica para comunicaciones
+con el protocolo http, la clase URLConnection es muy http-céntrica. En este ultimo ejemplo agregue un timeout, además
+puede verse como el HttpURLConnection tiene un método <code>setRequestMethod()</code> que permite especificar el tipo de método
+de envío(los más usados son POST y GET, pero también existen PUT, HEAD y otros).</p>
+<p><strong>Referencias</strong>
++ <a href="http://docs.oracle.com/javase/tutorial/networking/urls/index.html" title="Working with URLs">Oracle docs - Java SE - Working with URLs</a> </p>
+<p><strong>Más información</strong>
++ <a href="http://stackoverflow.com/questions/2793150/how-to-use-java-net-URLconnection-to-fire-and-handle-http-requests" title="stackoverflow ">StackOverflow - How to use URLConnection to fire and handle HTTP requests</a></p>
+                </div>
+              
+                <hr/>
+                <!-- discus comments go here -->
+                 <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                    var disqus_shortname = 'sysflux'; // required: replace example with your forum shortname
+                    /* * * DON'T EDIT BELOW THIS LINE * * */
+                    (function() {
+                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                        dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+          </article>
+    
+       
+        <footer id="page-foot">
+            <p>
+                Contenido bajo licencia <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"> CC BY-SA</a> 
+                | Powered by <a href="https://www.python.org/">Python</a> &copy;
+            </p>
+        </footer>
+        </div>
+        <!-- Google Analytics here -->
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-45917501-1']);
+            _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); 
+          ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+    </body>
+    </html>

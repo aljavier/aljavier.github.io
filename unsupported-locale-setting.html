@@ -1,0 +1,129 @@
+      <!DOCTYPE html>
+  <html lang="es">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=endge, chrome=IE8" />
+      <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
+      <meta name="keywords" content="python,locale,ubuntu,unsupported locale setting" />
+      <meta name="description" content="Apuntes y notas de un newbie." />
+      <meta name="author" content="root" />
+      
+        <title> Error en Python: Unsupported locale setting
+ - [ root@paranoia ~/blog ]# _</title>
+     
+      <!--[if lte IE 8]><script type="text/javascript" src="/theme/js/html5shiv.js"></script><![endif]-->
+      <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" type="text/css" href="css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="css/pygment.css" />
+      <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+      <!--[if lte IE 8]><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /><![endif]-->
+    </head>
+    <body>
+        <div class="container">
+        <header id="menu">
+            <nav>
+                <ul>
+                    <li><a href="index.html">inicio</a></li>
+                    <li><a target="_blank" href="https://github.com/aljavier">github</a></li>
+                    <li><a href="enlaces.html">enlaces</a></li>
+                    <li><a href="about.html">acerca</a></li>
+                </ul>
+                <h4>[ root@paranoia ~/blog ]# _</h4>
+            </nav>
+        </header>
+         
+         
+         <article>
+                <header class="post-header">
+                    <div class="meta"><time datetime="2016-11-01 00:00:00">noviembre 01, 2016</time></div>
+                <h1>
+                     Error en Python: Unsupported locale setting
+
+                </h1>
+                </header>
+                <div class="post-content"> 
+                    <p>Supongamos que tenemos el siguiente código en Python:</p>
+<div class="codehilite"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">locale</span>
+
+<span class="n">locale</span><span class="o">.</span><span class="n">setlocale</span><span class="p">(</span><span class="n">locale</span><span class="o">.</span><span class="n">LC_TIME</span><span class="p">,</span> <span class="s1">&#39;es_DO.UTF-8&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>La última línea nos sirve para cambiar las <a href="https://wiki.archlinux.org/index.php/Locale_(Espa%C3%B1ol)">locales</a> en GNU/Linux.
+De manera que no sólo nos cambie el idioma sino que también nos cambia el formato de fechas y otros cosas relacionadas
+que varía por idioma y región.</p>
+<p>El caso es que si no tenemos instalado esa <em>locale</em> que le pasamos al método <em>setlocale</em>, que en nuestro caso es <em>es_DO.UTF-8</em>,
+entonces nos lanzará un error parecido al siguiente:</p>
+<div class="codehilite"><pre><span></span>Traceback (most recent call last):
+ File &quot;script.py&quot;, line 6, in &lt;module&gt;
+ locale.setlocale(locale.LC_TIME, LOCALE)
+File &quot;/usr/lib/python2.7/locale.py&quot;, line 579, in setlocale
+ return _setlocale(category, locale)
+locale.Error: unsupported locale setting
+</pre></div>
+
+
+<p>En Ubuntu podemos resolver esto de la siguiente manera. Primero verificamos que el <em>locale</em> no existe en 
+nuestro sistema corriendo el siguiente comando en un terminal:</p>
+<div class="codehilite"><pre><span></span>locale -a
+</pre></div>
+
+
+<p>En mi caso esto retornó lo siguiente:</p>
+<div class="codehilite"><pre><span></span>C
+C.UTF-8
+POSIX
+</pre></div>
+
+
+<p>Realmente no tenemos ese <em>locale</em> instalado. Entonces procemos a instalarlo de la siguiente manera, en una terminal:</p>
+<div class="codehilite"><pre><span></span>sudo locale-gen es_DO.UTF-8
+</pre></div>
+
+
+<p>Claro, <code>es_DO.UTF-8</code> debe ser sustituido por el <em>locale</em> que se quiera instalar. Una vez instalado esto ya podemos
+ejecutar nuestro script sin ningún problema.</p>
+                </div>
+              
+                <hr/>
+                <!-- discus comments go here -->
+                 <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                    var disqus_shortname = 'sysflux'; // required: replace example with your forum shortname
+                    /* * * DON'T EDIT BELOW THIS LINE * * */
+                    (function() {
+                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                        dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+          </article>
+    
+       
+        <footer id="page-foot">
+            <p>
+                Contenido bajo licencia <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"> CC BY-SA</a> 
+                | Powered by <a href="https://www.python.org/">Python</a> &copy;
+            </p>
+        </footer>
+        </div>
+        <!-- Google Analytics here -->
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-45917501-1']);
+            _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); 
+          ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+    </body>
+    </html>
