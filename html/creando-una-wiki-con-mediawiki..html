@@ -1,0 +1,186 @@
+      <!DOCTYPE html>
+  <html lang="es">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=endge, chrome=IE8" />
+      <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
+      <meta name="keywords" content="mediawiki,wiki,xampp" />
+      <meta name="description" content="Apuntes y notas de un newbie." />
+      <meta name="author" content="root" />
+      
+        <title> Creando una wiki con MediaWiki 
+ - [ root@paranoia ~/blog ]# _</title>
+     
+      <!--[if lte IE 8]><script type="text/javascript" src="/theme/js/html5shiv.js"></script><![endif]-->
+      <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" type="text/css" href="css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="css/pygment.css" />
+      <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+      <!--[if lte IE 8]><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /><![endif]-->
+    </head>
+    <body>
+        <div class="container">
+        <header id="menu">
+            <nav>
+                <ul>
+                    <li><a href="index.html">inicio</a></li>
+                    <li><a target="_blank" href="https://github.com/aljavier">github</a></li>
+                    <li><a href="enlaces.html">enlaces</a></li>
+                    <li><a href="about.html">acerca</a></li>
+                </ul>
+                <h4>[ root@paranoia ~/blog ]# _</h4>
+            </nav>
+        </header>
+         
+         
+         <article>
+                <header class="post-header">
+                    <div class="meta"><time datetime="2013-09-22 00:00:00">septiembre 22, 2013</time></div>
+                <h1>
+                     Creando una wiki con MediaWiki 
+
+                </h1>
+                </header>
+                <div class="post-content"> 
+                    <h2>Introducción</h2>
+<p>Veremos como instalar una wiki en un servidor web montado en nuestro propio ordenador, subirla a un hosting online no seria muy distinto de lo que haremos aquí así que si deseas subirla a algún hosting puedes hacerlo fácilmente a raíz de lo explicado aquí. Las razones por las que querrías instalar tu propia wiki podrían ser varias, por ejemplo, tener una base de datos organizada con tus trabajos escolares indexados, crear contenido y compartirlo con otras personas, podrías ser un maestro por ejemplo  y querrías ofrecer algunos materiales de apoyo a tus alumnos. En fin, aquí mostraremos como montar tu propia wiki, ya para que vayas a utilizar tu wiki es cosa tuya, en todo caso cabe recalcar que el proyecto podría llevarse a cabo con facilidad en un colegio o escuela pública, o hasta un grupo de amigos que deseen colaborar en sus estudios unos con los otros, solo por dar algunas ideas.</p>
+<p><strong>Que necesitamos:</strong></p>
+<ul>
+<li>XAMPP, este trae consigo Apache, MySQL y PHP, haciendo que el uso y la instalación del  mismo sea bastante intuitiva. Puedes descargarlo según tu sistema operativo  <a href="http://www.apachefriends.org/en/xampp.html" title="clickando aquí">XAMPP</a>.</li>
+<li>MediaWiki, este es el software que usaremos para crear la wiki y puedes descargarlo <a href="http://www.mediawiki.org/wiki/Download" title="clickando aquí">MediaWiki</a>.</li>
+</ul>
+<p><strong>Qué es XAMPP?</strong> </p>
+<p>XAMPP es un servidor independiente de plataforma, software libre, que consiste principalmente en la base de datos MySQL, el servidor web Apache y los intérpretes para lenguajes de script: PHP y Perl. El nombre proviene del acrónimo de X (para cualquiera de los diferentes sistemas operativos), Apache, MySQL, PHP, Perl. El programa está liberado bajo la licencia GNU y actúa como un servidor web libre, fácil de usar y capaz de interpretar páginas dinámicas. Actualmente XAMPP está disponible para Microsoft Windows, GNU/Linux, Solaris y MacOS X.</p>
+<p><strong>Qué es MediaWiki?</strong> </p>
+<p>MediaWiki es un software wiki libre escrito originalmente para <em>Wikipedia</em>. Ahora es utilizado por otros proyectos wiki de la <em>Fundación Wikimedia</em> y por otras wikis.</p>
+<p>Como pueden deducir crearemos un proyecto totalmente <em>Open Source</em>, es decir, usando solo software libre.</p>
+<p>En el caso de <em>GNU/Linux</em> la distro que sea, podríamos a ver preferido por instalar un servidor web full, es decir, Apache, MySQL y PHP cada uno por su lado, haciendo así de nuestra PC un total servidor web. Pero en vez de eso, hemos elegido XAMPP ya que lo que haremos sera una instalación simple hogareña y no queremos tener un servidor corriendo todo el tiempo, además este nos sirve para nuestro propósito,  algo un poco mas intuitivo para hacerlo mas asequible a todos los lectores.</p>
+<h2>Instalando el XAMPP</h2>
+<p>Bueno ya que te descargaste el XAMPP del link puesto arriba vamos a empezar a instalarnos el XAMPP, en Windows lo descomprimimos y ejecutamos el instalador  y  seleccionamos como ruta de instalación *<em>c:\xampp*</em>, que me parece que es la ruta por defecto (yo estoy usando ubuntu), en cuanto a la pregunta de que si quieren inicial el panel de control de XAMPP eligen No, ya que por el momento no es necesario. En Linux abrimos una terminal, nos autentificamos como usuario root, nos dirigimos a la carpeta donde descargamos el archivo y luego tecleamos;</p>
+<div class="codehilite"><pre><span></span>tar xvfz xampp-linux-1.7.7.tar.gz -C /opt
+</pre></div>
+
+
+<p>Con eso ahora tendríamos el directorio /opt/lampp donde se encuentra el XAMPP.</p>
+<h2>Instalando MediaWiki</h2>
+<p>Luego de habernos descargado el MediaWiki 1.18.0 del link que  deje arriba, el cual esta en formato tar.gz bien conocido en sistemas GNU/Linux pero no así en windows, en todo caso en windows puedes extraerlo con winrar o 7zip, pues bien, en windows extraemos la carpeta en el directorio C:\xampp\htdocs.</p>
+<p>En <strong><em>GNU/Linux</em></strong> lo extraemos del modo siguiente, abrimos una terminal y nos situamos en el directorio donde descargamos el archivo y lo extraemos así:</p>
+<div class="codehilite"><pre><span></span>tar -zxvf mediawiki-1.18.0.tar.gz
+</pre></div>
+
+
+<p>Ahora tenemos una carpeta llamada  mediawiki-1.18.0 la movemos a /opt/lampp-htdocs;</p>
+<div class="codehilite"><pre><span></span>mv mediawiki-1.18.0 /opt/lampp/htdocs
+</pre></div>
+
+
+<p>Ahora para hacer la wiki mas asequible, mas fácil de escribir en la barra de direcciones, renombramos la carpeta mediawiki-1.18.0 a algo como wiki o mediawiki, yo la renombré a wiki por ser mas corto.</p>
+<h2>Iniciando los servidores</h2>
+<p>Ahora si vamos a iniciar los servidores, en windows dirigete a Inicio y busca XAMPP &gt; XAMPP Control Panel, también puedes acceder por medio del acceso directo en el escritorio. Los servidores que necesitamos son Apache y MySQL, los demás puedes detenerlo; Filezilla y Mercury.</p>
+<p>Nota: Si por alguna razón queremos detener los servidores, solo abrimos el control de panel de XAMPP y damos click en el apartado del servidor donde dice stop, para reiniciarlo por igual, dando click en restart.</p>
+<p>En GNU/Linux iniciamos los servidores de la siguiente manera;</p>
+<div class="codehilite"><pre><span></span>/opt/lampp/lampp start
+</pre></div>
+
+
+<p><em>Nota:</em><em> Debemos ser root para poder iniciar los servidores en Linux.  Siempre que encendamos nuestra PC y queramos usar la wiki, debemos iniciar lo servidores como hemos hecho anteriormente.</em></p>
+<p>Otra nota: Para reiniciar los servidores en Linux, hacemos desde la terminal como root /opt/lampp/lampp restart, para detenerlos /opt/lampp/lampp stop. En la segunda parte veremos mas acerca de manejar los servidores en Linux.</p>
+<p>Ahora para acceder al servidor desde el navegador, en la barra de navegación escribe localhost, veras una pagina de bienvenida en esta elige tu idioma.</p>
+<h2>Configurando MediaWiki</h2>
+<p>Ahora necesitamos configurar MediaWiki, para ellos nos dirigimos desde el navegador a la url localhost/nombre_wiki, en nombre_wiki va el nombre que le pusiste a la carpeta de MediaWiki en mi caso le puse wiki, así que seria así <em>localhost/wiki</em>. Ahora ves una pagina de presentación  que dice que el archivo LocalSettings.php no fue encontrado, eso es normal ya nos encargaremos luego. Le damos click a  <strong>set up de wiki</strong>. En la pagina que tenemos ahora seleccionamos nuestro idioma y el idioma que queremos para la wiki, yo seleccioné es-Español en ambos casos y damos click a <em>continue</em>.</p>
+<p>En el siguiente apartado vemos una pagina de bienvenida, miramos debajo que diga lo siguiente; <strong>El entorno ha sido comprobado. Puedes instalar MediaWiki</strong>. Eso indica que todo va bien por el momento. Ahora damos  click en continuar nuevamente debajo.</p>
+<p><img alt="screenshot #1" src="images/mediawiki/wiki1.png" /></p>
+<p>En la pagina que tenemos ahora (ver imagen arriba), en el apartado Tipo de base de datos dejamos MySQL que es la que esta preseleccionada por defecto y es la que usa XAMPP, en Configuración de MySQL &gt; servidor de la base de datos lo dejemos tal cual esta en localhost ya que es en nuestro ordenador donde tenemos montado nuestro servidor.</p>
+<p>En Nombre de base de datos si quieren pueden dejarlo tal cual esta como my_wiki yo usare otro nombre por cuestiones de seguridad en Prefijo para las tablas de la base de datos ponemos mw_ (nota el guión bajo), en Nombre de usuarios de base de datos lo dejamos como esta por defecto root que es el nombre por defecto de MySQL, en contraseña de base de datos lo dejamos en blanco tal cual esta, ya que así viene por defecto en MySQL eso podemos cambiarlo luego cuando nos aseguremos de que nuestra wiki funciona bien.</p>
+<p><em>Nota</em><em>:  Apunta estos datos porque son prioritarios, lo necesitaras luego</em>.</p>
+<p>Pues sin mas presionamos nuevamente en continuar, en la pagina que estamos ahora dejamos todo por defecto (ver imagen debajo) y presionamos una vez mas en continuar.</p>
+<p><img alt="screenshot #2" src="images/mediawiki/wiki2.png" /></p>
+<p>Ahora procedemos a llenar los datos que nos solicitan en la pagina presente. En Nombre del wiki elegimos el nombre que nos plasca para nuestra wiki, yo le puse ElectroWiki ustedes pueden elegir el nombre que deseen. En Espacio de nombre de proyecto pueden dejarlo tal cual esta en la primera opción Igual como el nombre del wiki.</p>
+<p>En el apartado <strong>Cuenta de administrador</strong> llenamos los datos solicitados para crear nuestra cuenta de administrador como sigue:</p>
+<ul>
+<li><strong>Su nombre</strong> -&gt; Aquí va tu nombre para la cuenta de administrador.</li>
+<li><strong>Contraseña</strong> -&gt; Una contraseña para tu cuenta.</li>
+<li><strong>Repita la contraseña</strong> -&gt; Aquí repites la contraseña anterior.</li>
+<li><strong>Dirección de correo electrónico</strong> -&gt; Aquí pones un correo tuyo, si haces accesible tu web desde el Internet es bueno que pongas un correo para si alguien quiere comunicarse contigo.</li>
+</ul>
+<p><img alt="screenshot #3" src="images/mediawiki/wiki3.png" /></p>
+<p>Debajo donde dice <em>Subscribirse para recibir avisos de nuevas versiones</em> te recomiendo que marques esa casilla, para que actualizes tu wiki siempre que sea necesario, ya que de vez en cuando se descubren bugs y esas cosas.</p>
+<p><strong>Debajo tenemos dos opciones en las cuales elegir:</strong></p>
+<ul>
+<li>Házme mas preguntas</li>
+<li>Ya estoy aburrido, sólo instala el wiki.</li>
+</ul>
+<p>De estas dos elegimos la segunda, los demás ajustes pueden realizarlos luego según deseen. Ahora proseguimos a pulsar en continuar.</p>
+<p><em>Nota: Guarda todos estos datos porque son tus datos de acceso a la wiki, lo necesitaras para poder escribir, editar y demás.</em>**</p>
+<p><strong>La siguiente pagina nos dice:</strong></p>
+<div class="codehilite"><pre><span></span>By pressing &quot;Continuar →&quot;, you will begin the installation of MediaWiki. If you still want to make changes, press back.
+</pre></div>
+
+
+<p>Presionamos continuar para instalar nuestra wiki y en unos segundos esta nos muestra lo siguiente, en caso de que todo ha ido bien:</p>
+<p><strong>Instalar</strong></p>
+<ul>
+<li>Configurando la base de datos... hecho</li>
+<li>Creando tablas... hecho</li>
+<li>Creando el usuario de la base de datos... hecho</li>
+<li>Llenando la tabla interwiki predeterminada... hecho</li>
+<li>Initializing statistics... hecho</li>
+<li>Generación de claves secretas... hecho</li>
+<li>Creando cuenta de usuario del administrador... hecho</li>
+<li>Creating main page with default content... hecho</li>
+</ul>
+<p>Ahora proseguimos y presionamos en continuar. Entonces si todo ha ido bien, nos sale el siguiente mensaje de la imagen abajo y se inicia la descarga del archivo <strong>LocalSettings.php</strong> elegimos guardar, este tiene la configuración de toda nuestra wiki y el cual necesitaremos para modificar luego cualquier otra cosa y en general para el funcionamiento de la misma. Si no se inicio la descarga automáticamente damos click donde dice <strong><em>Download LocalSettings.php</em></strong>.</p>
+<p><img alt="screenshot #4" src="images/mediawiki/wiki4.png" /></p>
+<p>Como nos dice la  misma pagina presente necesitamos mover el archivo <em>LocalSettings.php</em> al directorio donde se encuentra el index.php de nuestra wiki, en GNU/Linux lo movemos al directorio /opt/lampp/htdocs/wiki</p>
+<div class="codehilite"><pre><span></span>mv LocalSettings.php /opt/lampp/htdocs/wiki/
+</pre></div>
+
+
+<p>En windows lo copiamos y lo pegamos en el directorio c:\xampp\htdocs\wiki.</p>
+<p>Ahora en la misma pagina donde estamos situados aun, damos click debajo donde dice <strong><em>"When that has been done, you can enter your wiki"</em></strong> exactamente en la parte <strong>enter your wiki</strong>.</p>
+<p>Si todo ha ido bien veremos la pagina debajo (ver imagen) con nuestra wiki funcionando perfectamente.</p>
+<p><img alt="screenshot #5" src="images/mediawiki/wiki5.png" /></p>
+<p>En lo adelante siempre que queramos acceder a nuestra wiki solo debemos poner en la ruta de direcciones del navegador web <strong>http://localhost/wiki</strong>, claro ten en cuenta que el XAMPP debe estar iniciado para poder acceder a tu wiki.</p>
+<p>Ya puedes empezar a escribir en tu propia wiki!!!</p>
+<p><em>nota final: Este articulo no es muy reciente a pesar de la fecha de publicación, fue rescatado de mi antiguo blog, pero aún sigue siendo útil, solo que las versiónes mas recientes de MediaWiki y XAMPP serán otras, por tanto, algunas cosas puede ser que hayan cambiado.</em></p>
+                </div>
+              
+                <hr/>
+                <!-- discus comments go here -->
+                 <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                    var disqus_shortname = 'sysflux'; // required: replace example with your forum shortname
+                    /* * * DON'T EDIT BELOW THIS LINE * * */
+                    (function() {
+                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                        dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+          </article>
+    
+       
+        <footer id="page-foot">
+            <p>
+                Contenido bajo licencia <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"> CC BY-SA</a> 
+                | Powered by <a href="https://www.python.org/">Python</a> &copy;
+            </p>
+        </footer>
+        </div>
+        <!-- Google Analytics here -->
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-45917501-1']);
+            _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); 
+          ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+    </body>
+    </html>

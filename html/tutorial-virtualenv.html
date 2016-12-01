@@ -1,0 +1,141 @@
+      <!DOCTYPE html>
+  <html lang="es">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=endge, chrome=IE8" />
+      <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
+      <meta name="keywords" content="python,virtualenv" />
+      <meta name="description" content="Apuntes y notas de un newbie." />
+      <meta name="author" content="root" />
+      
+        <title> Virtualenv: Entornos virtuales de desarrollo para Python 
+ - [ root@paranoia ~/blog ]# _</title>
+     
+      <!--[if lte IE 8]><script type="text/javascript" src="/theme/js/html5shiv.js"></script><![endif]-->
+      <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" type="text/css" href="css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="css/pygment.css" />
+      <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+      <!--[if lte IE 8]><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /><![endif]-->
+    </head>
+    <body>
+        <div class="container">
+        <header id="menu">
+            <nav>
+                <ul>
+                    <li><a href="index.html">inicio</a></li>
+                    <li><a target="_blank" href="https://github.com/aljavier">github</a></li>
+                    <li><a href="enlaces.html">enlaces</a></li>
+                    <li><a href="about.html">acerca</a></li>
+                </ul>
+                <h4>[ root@paranoia ~/blog ]# _</h4>
+            </nav>
+        </header>
+         
+         
+         <article>
+                <header class="post-header">
+                    <div class="meta"><time datetime="2013-08-16 00:00:00">agosto 16, 2013</time></div>
+                <h1>
+                     Virtualenv: Entornos virtuales de desarrollo para Python 
+
+                </h1>
+                </header>
+                <div class="post-content"> 
+                    <h2>Instalación</h2>
+<p><strong>Debian/Ubuntu</strong>  </p>
+<div class="codehilite"><pre><span></span>apt-get install virtualenv
+</pre></div>
+
+
+<p><strong>Arch Linux</strong> </p>
+<div class="codehilite"><pre><span></span>pacman -S virtualenv
+</pre></div>
+
+
+<p>Se creo el directorio donde guardar todos los entornos virtuales:</p>
+<div class="codehilite"><pre><span></span>~/virtualenv
+</pre></div>
+
+
+<p>Para crear un entorno virtual cualquiera:</p>
+<div class="codehilite"><pre><span></span>virtualenv ~/virtualenv/nombre
+</pre></div>
+
+
+<p>En el caso que no se quiera usar ningún paquete instalado en el sistema seria así:</p>
+<div class="codehilite"><pre><span></span> virtualenv ~/virtualenv/nombre --no-site-packages
+</pre></div>
+
+
+<p>El entorno se carga de esta forma:</p>
+<div class="codehilite"><pre><span></span> source ~/virtualenv/nombre/bin/activate
+</pre></div>
+
+
+<p>Y cambia el prompt a algo como:</p>
+<div class="codehilite"><pre><span></span> (nombre)tu_prompt
+</pre></div>
+
+
+<p>Y se desactiva el entorno con:</p>
+<div class="codehilite"><pre><span></span> deactivate
+</pre></div>
+
+
+<p>Para listar los paquetes instalados en el entorno usamos yolk acá:</p>
+<div class="codehilite"><pre><span></span> sudo easy_install yolk
+</pre></div>
+
+
+<p>Tuve problemas con yolk, así que mejor use pip que es una alternativa a easy_install por cierto, y que tiene soporte para desinstalar y listar paquetes entre otras.</p>
+<div class="codehilite"><pre><span></span> pip list
+</pre></div>
+
+
+<p><strong>Referencias</strong></p>
+<ul>
+<li><a href="http://simononsoftware.com/virtualenv-tutorial/">http://simononsoftware.com/virtualenv-tutorial/</a></li>
+<li><a href="http://www.virtualenv.org/en/latest/">http://www.virtualenv.org/en/latest/</a></li>
+</ul>
+                </div>
+              
+                <hr/>
+                <!-- discus comments go here -->
+                 <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                    var disqus_shortname = 'sysflux'; // required: replace example with your forum shortname
+                    /* * * DON'T EDIT BELOW THIS LINE * * */
+                    (function() {
+                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                        dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+          </article>
+    
+       
+        <footer id="page-foot">
+            <p>
+                Contenido bajo licencia <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"> CC BY-SA</a> 
+                | Powered by <a href="https://www.python.org/">Python</a> &copy;
+            </p>
+        </footer>
+        </div>
+        <!-- Google Analytics here -->
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-45917501-1']);
+            _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); 
+          ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+    </body>
+    </html>

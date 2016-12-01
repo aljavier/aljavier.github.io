@@ -1,0 +1,275 @@
+      <!DOCTYPE html>
+  <html lang="es">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=endge, chrome=IE8" />
+      <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
+      <meta name="keywords" content="bash,shell,scripting" />
+      <meta name="description" content="Apuntes y notas de un newbie." />
+      <meta name="author" content="root" />
+      
+        <title> Redirecciones y expansiones en bash
+ - [ root@paranoia ~/blog ]# _</title>
+     
+      <!--[if lte IE 8]><script type="text/javascript" src="/theme/js/html5shiv.js"></script><![endif]-->
+      <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" type="text/css" href="css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="css/pygment.css" />
+      <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+      <!--[if lte IE 8]><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /><![endif]-->
+    </head>
+    <body>
+        <div class="container">
+        <header id="menu">
+            <nav>
+                <ul>
+                    <li><a href="index.html">inicio</a></li>
+                    <li><a target="_blank" href="https://github.com/aljavier">github</a></li>
+                    <li><a href="enlaces.html">enlaces</a></li>
+                    <li><a href="about.html">acerca</a></li>
+                </ul>
+                <h4>[ root@paranoia ~/blog ]# _</h4>
+            </nav>
+        </header>
+         
+         
+         <article>
+                <header class="post-header">
+                    <div class="meta"><time datetime="2013-06-10 00:00:00">junio 10, 2013</time></div>
+                <h1>
+                     Redirecciones y expansiones en bash
+
+                </h1>
+                </header>
+                <div class="post-content"> 
+                    <p>Veremos algo bien breve y sencillo para muchos, pero además muy importante principalmente a la hora de escribir bash scripts. Hablamos de las redirecciones, las expansiones aritméticas y las expansiones de llaves.</p>
+<h2>Redirecciones</h2>
+<p>A la hora de escribir un script en bash la mayoría de veces necesitaremos usar estas, al menos para redireccionar los posibles errores que pueda lanzar una determinada expresión.</p>
+<p>Como muchos ya saben en Linux todo es un archivo, es así que la <a href="http://es.wikipedia.org/wiki/Entrada_est%C3%A1ndar" target="_blank">Entrada y Salida estándar</a>&nbsp; son los archivos que se encuentran en /dev/stdin y dev/sdout respectivamente. Pero también tenemos el archivo stderr en /dev/stderr, pero estos además tienen un <a href="http://es.wikipedia.org/wiki/Descriptor_de_archivo" target="_blank">descriptor de archivo</a> (un numero) que nos permite referirnos a estos de ese modo. Sus descriptores son como sigue:</div></p>
+<table>
+<thead>
+<tr>
+<th>Valor entero</th>
+<th>Nombre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Entrada estándar(stdin)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Salida estándar(stdout)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Error estándar(stderr)</td>
+</tr>
+</tbody>
+</table>
+<p>Normalmente si queremos redireccionar la salida de un comando, los cuales usan la salida estándar por defecto, a un archivo por ejemplo, es tan simple como hacer esto:</p>
+<div class="codehilite"><pre><span></span>ls -l /usr/bin &gt; programas.txt
+</pre></div>
+
+
+<p>Ese es su uso mas simple, claro la salida estándar también podría redirigirse a otro comando usando <a href="http://es.tldp.org/COMO-INSFLUG/COMOs/Bash-Prog-Intro-COMO/Bash-Prog-Intro-COMO-4.html" title="tuberías bash">tuberia</a></p>
+<p>Los operadores que usamos en redirecciones son los siguientes:</p>
+<table>
+<thead>
+<tr>
+<th>Operador</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&gt;</td>
+<td>Redirecciona la salida al archivo que le sigue, si no existe se crea y si existe se sobre escribe.</td>
+</tr>
+<tr>
+<td>&gt;&gt;</td>
+<td>Igual que al anterior con la excepción de que este añade la salida al final del archivo, es decir, no lo sobreescribe.</td>
+</tr>
+<tr>
+<td>2&gt;&amp;1</td>
+<td>Redirecciona la salida estándar y error estándar si hay alguno, del comando o programa al mismo archivo.(Este es mas bien  una combinación de operadores, no un operador en si).</td>
+</tr>
+<tr>
+<td>&amp;&gt;</td>
+<td>Lo mismo que el anterior, pero este funciona en versiones mas recientes, no en versiones muy viejas.(Este es mas bien una  combinación de operadores, no un operador en si)                                                                              .</td>
+</tr>
+</tbody>
+</table>
+<p>*Nota: Reconozco que lo anterior esta pobre-mente explicado y deja muchas cosas de lado, por eso recomiendo leer <a href="http://0x945.wordpress.com/2011/05/01/bash-operadores-de-redireccion/">en este link</a> al respecto.</p>
+<p>Algunas cosas de lo que vemos en esa tabla podría no quedar claro sin un ejemplo, así que veamos algunos ejemplos básicos: </p>
+<div class="codehilite"><pre><span></span> ls -l /usr/bin /usr/local/bin | uniq &gt; programas.txt
+</pre></div>
+
+
+<p>Ahora se nos ha creado un archivo llamado programas.txt con una lista de los programas instalados en el sistema (claro exceptuando los que puedan haber en /opt).</p>
+<div class="codehilite"><pre><span></span>ls /opt &gt;&gt; programas.txt
+</pre></div>
+
+
+<p>Ahora también se nos agrego al archivo los programas instalados en /opt.</p>
+<div class="codehilite"><pre><span></span>ls /etc/bin &gt; lista.txt 2&gt;&amp;1
+</pre></div>
+
+
+<p>He puesto /etc/bin a sabiendas de que no existe, lo que hace lo de arriba es lo siguiente: Primero redirecciona la salida del comando ls a lista.txt, si se produce algún error(observa el 2, identificador de stderr) lo redirecciona a la salida estándar nuevamente, el cual ya ha sido redireccionado al archivo, de modo que, tanto si el comando es exitoso como si se produce un error se enviara al archivo.txt.</p>
+<p>El orden es importante, si se cambia el orden de las redirecciones en este caso (el de este ejemplo), no funcionaria.</p>
+<p>En la mayoría de los sistemas mas recientes (o en todos) podríamos hacer lo anterior con &amp;&gt; del siguiente modo:</p>
+<div class="codehilite"><pre><span></span>ls /etc/bin &amp;&gt; lista.txt
+</pre></div>
+
+
+<p>Sin duda, es mas sutil la ultima forma.</p>
+<p>Pero lo mas usado según yo es redirigir la salida de errores que se puedan producir en un programa, comando o script a <a href="http://es.wikipedia.org/wiki//dev/null">/dev/null</a>. Este archivo es el black hole de Linux, es la nada, todo lo que va ahí simplemente se pierde.</p>
+<p>Veamos el siguiente ejemplo:</p>
+<div class="codehilite"><pre><span></span>tar jcvf logs.tar.bz2  /var/log/messages 2&gt; /dev/null
+</pre></div>
+
+
+<p>Ese tipo de uso es bastante común y útil, lo que hacemos ahí es redireccionar la salida de errores (observar el 2) a /dev/null, así no veríamos errores ni seria interrumpido el script por posibles salida de errores.</p>
+<h2>Expansiones aritméticas</h2>
+<p>Esto es muy interesante y es bastante simple también, esto nos permite ejecutar operaciones aritméticas en la terminal! El formato es:</p>
+<div class="codehilite"><pre><span></span>$((expresion))
+</pre></div>
+
+
+<p>Los operadores aritméticos:</p>
+<table>
+<thead>
+<tr>
+<th>Operador</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+</td>
+<td>Suma</td>
+</tr>
+<tr>
+<td>-</td>
+<td>Resta</td>
+</tr>
+<tr>
+<td>*</td>
+<td>Multiplicación</td>
+</tr>
+<tr>
+<td>/</td>
+<td>División</td>
+</tr>
+<tr>
+<td>%</td>
+<td>Modulo o Resto</td>
+</tr>
+<tr>
+<td>**</td>
+<td>Exponenciación</td>
+</tr>
+</tbody>
+</table>
+<p><em>Nota: Cabe aclarar que las expresiones aritméticas solo trabajan con números enteros, así que estos serán redondeados automáticamente 
+aquí. Por ejemplo, si divides 7 entre 2, obtendra como resultado solo 3 y no la parte decimal.</em></p>
+<p><strong>Algunos ejemplos básicos:</strong></p>
+<div class="codehilite"><pre><span></span>[stallman@linux ~]$ echo &quot;Suma de 5 + 4 = &quot; $((5+4))
+Suma de 5 + 4 =  9
+
+[stallman@linux ~]$ echo &quot;50 - 10 es &quot; $((50 - 10))
+50 - 10 es  40
+
+[stallman@linux ~]$ echo &quot;5 x 5 = &quot; $((5*5))
+5 x 5 =  25
+
+[stallman@linux ~]$ echo &quot;7 / 2 es &quot;$((7/2))
+7 / 2 es 3
+
+[stallman@linux ~]$ echo &quot;Resto de 7 / 2 es &quot;$((7%2))
+Resto de 7 / 2 es 1
+
+[stallman@linux ~]$ echo &quot;10^10 es: &quot; $((10**10))
+10^10 es:  10000000000
+</pre></div>
+
+
+<p>Cabe decir, que el espacio que se pueda dejar entre la expresión no es relevante, es decir, $((2*2)) y $((2 * 2)) es igual, no da error ni resultados desiguales.</p>
+<p><strong>Estas también soportan expresiones anidadas:</strong></p>
+<div class="codehilite"><pre><span></span>[stallman@linux ~]$ echo &quot;(5+4)*10 = &quot;$(($((5+4))*10))
+(5+4)*10 =  90
+</pre></div>
+
+
+<p>También se podría usar paréntesis simples (no dobles) cuando usemos subexpresiones como aquí, ejemplo:</p>
+<div class="codehilite"><pre><span></span>[stallman@linux ~]$ echo &quot;5 + 4 * 10 = &quot; $(((5+4)*10))
+5 + 4 * 10 = 90
+</pre></div>
+
+
+<p>Como ven ahí no tuvimos que usar en la subexpresion dobles paréntesis ni el signo de dolar $.</p>
+<h2>Expansiones de llaves</h2>
+<p>Con estas puedes crear varios archivos por ejemplo, mejor veamos como funcionan luego podrán darles los usos que quieran.</p>
+<p>Digamos que quieren imprimir todas las posibles combinaciones de dos palabras en el abecedario, entonces haríamos lo siguiente:</p>
+<div class="codehilite"><pre><span></span>echo {A..Z}{A..Z}
+</pre></div>
+
+
+<p>Entonces echo imprimirá todas las combinaciones de dos letras en el abecedario, haganlo en su terminal y verán el resultado, no lo pongo aquí porque es algo extenso.</p>
+<p>Entonces ya tenemos una idea de como funciona, mas o menos funciona así {element1, elemento2, elemento3...elemtoN} es decir todos los elementos que quieren, también se puede con {A..Z} esto es desde A hasta Z, {a..z} igual que la anterior pero minúsculas, {0..9} si como lo has pensado, los números del 0 al 9, también puedes intercambiarlos: {Z..A}, {z..a} y {9..0}, etc., en fin, rangos.</p>
+<p>Supongamos que tenemos una cámara de videovigilancia de la cual guardamos las grabaciones por mes, supongamos que queremos hacer directorios para guardar todas las grabaciones del año 2012, haríamos así:</p>
+<div class="codehilite"><pre><span></span>[stallman@linux ~]$ mkdir grabacion_2012-0{1..9} grabacion_2012-{10..12}
+</pre></div>
+
+
+<p>Y listo se ahorraron hacer todas esos directorios uno a uno.</p>
+<p>Estas también permiten expresiones anidadas, ejemplo:</p>
+<div class="codehilite"><pre><span></span>[stallman@linux ~]$ echo a{A{0..9},B{A..Z}}z
+</pre></div>
+
+
+<p>Eso es todo por ahora, pueden profundizar en ese tema en el manual de bash.</p>
+<p>Un saludo!</p>
+                </div>
+              
+                <hr/>
+                <!-- discus comments go here -->
+                 <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                    var disqus_shortname = 'sysflux'; // required: replace example with your forum shortname
+                    /* * * DON'T EDIT BELOW THIS LINE * * */
+                    (function() {
+                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                        dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+          </article>
+    
+       
+        <footer id="page-foot">
+            <p>
+                Contenido bajo licencia <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"> CC BY-SA</a> 
+                | Powered by <a href="https://www.python.org/">Python</a> &copy;
+            </p>
+        </footer>
+        </div>
+        <!-- Google Analytics here -->
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-45917501-1']);
+            _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); 
+          ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+    </body>
+    </html>

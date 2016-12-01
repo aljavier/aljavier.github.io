@@ -1,0 +1,214 @@
+      <!DOCTYPE html>
+  <html lang="es">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=endge, chrome=IE8" />
+      <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
+      <meta name="keywords" content="Arch Linux,teamviewer,pacman" />
+      <meta name="description" content="Apuntes y notas de un newbie." />
+      <meta name="author" content="root" />
+      
+        <title> Instalación de Teamviewer en Arch Linux x86_64
+ - [ root@paranoia ~/blog ]# _</title>
+     
+      <!--[if lte IE 8]><script type="text/javascript" src="/theme/js/html5shiv.js"></script><![endif]-->
+      <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" type="text/css" href="css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="css/pygment.css" />
+      <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+      <!--[if lte IE 8]><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /><![endif]-->
+    </head>
+    <body>
+        <div class="container">
+        <header id="menu">
+            <nav>
+                <ul>
+                    <li><a href="index.html">inicio</a></li>
+                    <li><a target="_blank" href="https://github.com/aljavier">github</a></li>
+                    <li><a href="enlaces.html">enlaces</a></li>
+                    <li><a href="about.html">acerca</a></li>
+                </ul>
+                <h4>[ root@paranoia ~/blog ]# _</h4>
+            </nav>
+        </header>
+         
+         
+         <article>
+                <header class="post-header">
+                    <div class="meta"><time datetime="2013-10-07 00:00:00">octubre 07, 2013</time></div>
+                <h1>
+                     Instalación de Teamviewer en Arch Linux x86_64
+
+                </h1>
+                </header>
+                <div class="post-content"> 
+                    <p>Para instalar Teamviewer en Arch Linux x86_64 (vamos 64 bits), hay que tener en cuenta unas cuantas cosas; teamviewer se ejecuta en 
+GNU/Linux emulando un entorno Windows, de modo que en verdad se ejecuta el binario para Windows usando wine, el mismo no requiere
+que tengas wine instalado porque usa una versión portable, el asunto es que teamviewer requiere de un sin número de librerías 32 bits
+para funcionar y por defecto la que tendrás en tu sistema si es de 64 bits pues serán la de esa arquitectura, obviamente.</p>
+<p>Desconozco en verdad si instalando desde AUR se resuelven todos estos problemas de dependencias aún en sistemas de 64 bits, por lo que he leído
+me parece que no, en todo caso yo preferí descargar el source desde la web oficial de <a href="https://www.teamviewer.com/en/index.aspx">teamviewer</a>  y hacer todo yo mismo.</p>
+<p>Como Arch Linux no esta oficialmente soportada por Teamviewer nos descargamos el source del susodicho software:</p>
+<div class="codehilite"><pre><span></span>wget http://download.teamviewer.com/download/teamviewer_linux.tar.gz
+</pre></div>
+
+
+<p>Procedemos a descomprimirlo y lo enviamos de una vez a /opt:</p>
+<div class="codehilite"><pre><span></span>tar zxvf teamviewer_linux.tar.gz -C /opt
+</pre></div>
+
+
+<p><em>Nota: Si estas con la cuenta de usuario normal necesitas permiso de super usuario para mover el teamviewer a /opt, en mi caso uso <code>sudo</code>.</em></p>
+<p>En mi caso fue necesario cambiar de owner la carpeta del teamviewer a mi usuario normal, ya que uso <em>sudo</em> para poder moverlo a /opt:</p>
+<div class="codehilite"><pre><span></span>chown -R usuario /opt/teamviewer8
+</pre></div>
+
+
+<p>Donde <em>usuario</em> es tu usuario normal obviamente.</p>
+<p>Luego de esto para no tener que escribir la ruta completa cada vez que quiera ejecutarlo hize un link simbólico del mismo:</p>
+<div class="codehilite"><pre><span></span>ln -s /opt/teamviewer8/teamviewer /usr/local/bin/teamviewer
+</pre></div>
+
+
+<p>Si usas gnome o algún entorno gráfico de escritorio posiblemente preferirás crear algún lanzador en el menú del mismo, en mi caso solo uso manejador de ventanas
+así que no requiero de hacer eso, específicamente ando usando DWM ahora mismo.</p>
+<p>Otra vez te recuerdo, que para el anterior comando necesitas permisos de super usuario.</p>
+<p>Ahora si ejecutas <em>teamviewer</em> en una terminal podrás ver el siguiente error:</p>
+<div class="codehilite"><pre><span></span>[10:37] [jota@arch-linux ~ \ ]$ teamviewer
+
+Init...
+Checking setup...
+Launching TeamViewer...
+Daemon not running!
+Starting network process... pid 6697
+Network process already started (or error)
+</pre></div>
+
+
+<p>Pensarás que es un problema del daemon e irás a ejecutar <em>kill -9 6697</em> entonces te responderá que no hay ningún proceso con ese pid corriendo, claro el pid posiblemente sera distinto...bueno eso hubieras hecho
+si antes no te lo hubiera pronosticado no? En fin...</p>
+<p>Llegue a leer por ahí que matando el proceso del daemon de teamviewer y ejecutándolo de nuevo se resolvía, pero no en nuestro caso. Como decía al principio es un problema de 
+librerías, estamos ejecutando un software que requiere librerías para sistemas de 32 bits y nosotros solo tenemos librerías de 64 bits actualmente.  Para corroborar esto ejecuta lo 
+esto:</p>
+<div class="codehilite"><pre><span></span>/opt/teamviewer8/tv-setup --checklibs
+</pre></div>
+
+
+<p>En mi caso la salida fue lo siguiente:</p>
+<div class="codehilite"><pre><span></span>    -=-   TeamViewer tar.gz check   -=-
+
+In order to use the tar.gz version of TeamViewer, 
+you have to make sure that the necessary libraries are installed.
+NOTE: All needed libraries are 32 bit libraries, even if you are on a 64 bit system!
+
+
+Writing raw output to /opt/teamviewer8/logfiles/tv_sys_check.log
+Analyzing ...
+
+    libSM.so.6 =&gt; not found
+    libX11.so.6 =&gt; not found
+    libX11.so.6 =&gt; not found
+    libXau.so.6 =&gt; not found
+    libXdamage.so.1 =&gt; not found
+    libXext.so.6 =&gt; not found
+    libXfixes.so.3 =&gt; not found
+    libXrender.so.1 =&gt; not found
+    libXtst.so.6 =&gt; not found
+    libasound.so.2 =&gt; not found
+    libfreetype.so.6 =&gt; not found
+    libgcc_s.so.1 =&gt; not found
+    libgcc_s.so.1 =&gt; not found
+    libz.so.1 =&gt; not found
+
+The libraries listed above seem to be missing
+Find and install the corresponding packages.
+</pre></div>
+
+
+<p>Pueden ver el <em>NOTE</em> arriba? Dice explícitamente que todas las librerías requeridas son de 32 bits, seguro que ya tenemos todas estas librerías instaladas o la mayoría de ellas
+pero para 64 bits.</p>
+<p>Lo primero que debemos hacer en nuestro caso si aún no tenemos habilitados el repositorio <code>multilib</code> es habilitarlo, entonces ya luego podremos instalar librerías de 32 bits. En mi caso 
+yo lo tenia comentado desde el día que instalé el Arch Linux, así que solo tuve que descomentarlo, así que si lo tienes comentado descomentalo y sino lo tienes agregalo, de la siguiente forma:</p>
+<p>Abre con tu editor de texto favorito (por ejemplo vim) el archivo <strong>/etc/pacman.conf</strong> y agrega o descomenta (según sea tu caso)  la siguiente linea:</p>
+<div class="codehilite"><pre><span></span><span class="k">[multilib]</span>
+<span class="na">Include</span> <span class="o">=</span> <span class="s">/etc/pacman.d/mirrorlist</span>
+</pre></div>
+
+
+<p>Ahora queda sincronizar los repositorios:</p>
+<div class="codehilite"><pre><span></span>pacman -Sy
+</pre></div>
+
+
+<p>Podrás ver como ahora tienes el repositorio multilib agregado. </p>
+<p>Ahora es el momento de instalar las librerías que requiere el teamviewer, esto es medio tricky a veces, porque algunas librerías no tienen el mismo nombre que nos dice el comando que corrimos antes,
+además que como es en un sistema de 64 bits la mayoría de estas llevaran como prefijo <em>lib32-</em>, pero ya que yo he hecho todo esto no tendrás que andar buscando los nombres de esas librerías y demás,
+que en todo caso serian mas <code>pacman -Ss nombre_librería</code> que cualquier otra cosa y algunas búsquedas por la red en algunos casos.</p>
+<p>Procedemos a instalar las librerías del siguiente modo:</p>
+<div class="codehilite"><pre><span></span>pacman -S lib32-libxau lib32-libsm lib32-libx11 lib32-libxdamage lib32-libxext lib32-libxfixes lib32-libxrender lib32-libxtst lib32-alsa-lib lib32-gcc-libs lib32-zlib lib32-libxft
+</pre></div>
+
+
+<p>Espero que no se me este quedando ninguna, pero luego de haber instalado las librerías arribas, ya debes estar ready para ejecutar teamviewer sin problemas. Veamos, primero ejecutamos nuevamente 
+<em>/opt/teamviewer8/tv-setup --checklibs</em> ahora deberíamos recibir como salida lo siguiente:</p>
+<div class="codehilite"><pre><span></span>        -=-   TeamViewer tar.gz check   -=-
+
+In order to use the tar.gz version of TeamViewer, 
+you have to make sure that the necessary libraries are installed.
+NOTE: All needed libraries are 32 bit libraries, even if you are on a 64 bit system!
+
+
+Writing raw output to /opt/teamviewer8/logfiles/tv_sys_check.log
+Analyzing ...
+
+All dependencies seem to be satisfied!
+</pre></div>
+
+
+<p>En caso que tu salida sea diferente y que aun te este diciendo que faltan algunas librerías, pues busca en los repos con <code>pacman -Ss nombre_librería</code> e instala la que pertenece al repositorio <code>multilib</code>
+que generalmente tendrá como prefijo <code>lib32-</code>. Si no encuentras la librería ahí busca en Internet que podaría ser que el nombre sea diferente en Arch.</p>
+<p>Ya no queda más que simplemente ejecutar teamviewer nuevamente.</p>
+<p><img alt="Teamviewer" src="images/misc/teamviewer.png" title="Teamviewer en Arch Linux x86_64" /></p>
+<p><code>Versión de Teamviewer</code>: <em>8.0.20931</em></p>
+<p><code>uname -a</code>: <em>Linux arch-linux 3.11.3-1-ARCH #1 SMP PREEMPT Wed Oct 2 01:38:48 CEST 2013 x86_64 GNU/Linux</em></p>
+                </div>
+              
+                <hr/>
+                <!-- discus comments go here -->
+                 <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                    var disqus_shortname = 'sysflux'; // required: replace example with your forum shortname
+                    /* * * DON'T EDIT BELOW THIS LINE * * */
+                    (function() {
+                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                        dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+          </article>
+    
+       
+        <footer id="page-foot">
+            <p>
+                Contenido bajo licencia <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"> CC BY-SA</a> 
+                | Powered by <a href="https://www.python.org/">Python</a> &copy;
+            </p>
+        </footer>
+        </div>
+        <!-- Google Analytics here -->
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-45917501-1']);
+            _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); 
+          ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+    </body>
+    </html>

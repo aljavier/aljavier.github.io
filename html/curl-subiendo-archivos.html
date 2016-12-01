@@ -1,0 +1,223 @@
+      <!DOCTYPE html>
+  <html lang="es">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=endge, chrome=IE8" />
+      <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
+      <meta name="keywords" content="cURL,bash,Linux,scripting" />
+      <meta name="description" content="Apuntes y notas de un newbie." />
+      <meta name="author" content="root" />
+      
+        <title> Subiendo archivos a la web por medio de POST con cURL 
+ - [ root@paranoia ~/blog ]# _</title>
+     
+      <!--[if lte IE 8]><script type="text/javascript" src="/theme/js/html5shiv.js"></script><![endif]-->
+      <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" type="text/css" href="css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="css/pygment.css" />
+      <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+      <!--[if lte IE 8]><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /><![endif]-->
+    </head>
+    <body>
+        <div class="container">
+        <header id="menu">
+            <nav>
+                <ul>
+                    <li><a href="index.html">inicio</a></li>
+                    <li><a target="_blank" href="https://github.com/aljavier">github</a></li>
+                    <li><a href="enlaces.html">enlaces</a></li>
+                    <li><a href="about.html">acerca</a></li>
+                </ul>
+                <h4>[ root@paranoia ~/blog ]# _</h4>
+            </nav>
+        </header>
+         
+         
+         <article>
+                <header class="post-header">
+                    <div class="meta"><time datetime="2013-12-31 00:00:00">diciembre 31, 2013</time></div>
+                <h1>
+                     Subiendo archivos a la web por medio de POST con cURL 
+
+                </h1>
+                </header>
+                <div class="post-content"> 
+                    <p>Si por algo soy fanático de los Sistemas Unix, específicamente de GNU/Linux, es por la cantidad
+inmensa de tools que hay para estos sistemas y en su mayoría herramientas para la linea de comandos
+de la cual soy un gran fanático. Me gusta usar la linea de comandos en gran medida.</p>
+<p>En este post, que sera breve, hablamos de <a href="http://curl.haxx.se/" title="cURL">cURL</a> o más bien de uno de los
+tantos usos que podemos darle y entiéndase que cuando digo <em>cURL</em> me refiero a la tool por linea de 
+comandos no a ninguna de sus librerías para sea cual sea el lenguaje. </p>
+<p>Subir archivos por cURL es bastante simple, supongamos que tenemos un website con un formulario POST
+que tiene un campo para subir una imagen(o cualquier otro archivo), algo así:</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">&quot;&quot;</span> <span class="na">method</span><span class="o">=</span><span class="s">&quot;POST&quot;</span> <span class="na">enctype</span><span class="o">=</span><span class="s">&quot;multipart/form-data&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;file&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;upload&quot;</span><span class="p">/&gt;</span>
+    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;submit&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;send&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;Enviar&quot;</span><span class="p">/&gt;</span> 
+<span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>Lo que haga el servidor para obtener el archivo o que lenguaje use del lado servidor nos es indiferente.
+Ya viendo lo de arriba, pueden verse los campos que usa el formulario, básicamente las opciones de cURL
+que nos importan en este caso es <em>--form</em> o <em>-F</em>, una sintaxis simple que nos permite subir un archivo en este 
+caso seria la siguiente:</p>
+<div class="codehilite"><pre><span></span>curl --form upload=@nombre_archivo --form send=&quot;Enviar&quot;
+</pre></div>
+
+
+<p>Pueden usarse tantas opciones <em>--form</em> como se quiera, según los campos que tenga el formulario. Nótese que en
+la primera opción <em>--form</em> donde esta <code>upload=@nombre_archivo</code>, <em>upload</em> se refiere al nombre que tiene el campo
+con el <code>type="file"</code> así que igualmente el nombre podría ser cualquier otro que el programador haya puesto, en ese
+caso es solo cambiar ese nombre, el <code>@nombre_archivo</code> pues es el archivo que queremos subir, mas bien la dirección
+completa donde se encuentra. En la segunda opción con <code>--form</code>, donde esta <code>send="Enviar"</code>, <em>send</em> es otra 
+variable en el formulario y <strong>Enviar</strong> es el valor que le damos, esta parte no es muy necesaria ya que de por si
+la herramienta cURL hará el <em>submit</em> automáticamente, en todo caso así ponen ellos un ejemplo en el manual, en la practica
+no he tenido que hacerlo, no con el campo del submit. </p>
+<p>Hay un sitio web que uso bastante para compartir capturas de escritorios y demás, ese website es <a href="http://uploadpie.com">uploadpie.com</a>,
+pero me molestaba ya un poco tener que usar el navegador cada vez que quería subir una captura, es que suelo siempre tener
+varias terminales abiertas, como dije antes yo soy un amante de la linea de comandos se es mucho mas productivo así, el 
+asunto es que decidí hacerme un script sencillo en Bash usando cURL para poder subir las imágenes desde la terminal o tty.</p>
+<p>Uplodpie permite subir archivos solo de forma temporal, archivos no mayores de 3 mb, con extensión gif, png, jpg, pdf o txt.
+De igual forma, se puede seleccionar el tiempo de expiración que queremos para nuestro archivo, que puede ser 30 minutos, 
+una hora, seis horas, un día o una semana.</p>
+<p>El campo con el type='file' en el formulario se llama <em>uploadedfile</em> y el campo que permite elegir la duración del archivo
+en el servidor se llama <em>expire</em>, que en el formulario html es un <em>select</em> con 5 <em>option</em> con valores: 1 = 30 minutos,
+2 = 1 horas, 3 = 6 horas, 4 = 1 día y 5 = 1 semana. En el script verán que no tuve que enviar ningún campo del submit, aun así
+es bueno tenerlo en cuenta, por algo esta en el manual, solo es cuestión de experimentar y buscarle la vuelta si algo no nos
+sale bien.</p>
+<div class="codehilite"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># Bash script for upload files to uploadpie.com</span>
+<span class="c1"># Licensed under a BSD License</span>
+<span class="c1"># Created by A.J.</span>
+
+<span class="nv">MAX_FILE_SIZE</span><span class="o">=</span>3145728
+<span class="nv">DURATION</span><span class="o">=</span>1
+<span class="nv">EXPIRE</span><span class="o">=</span><span class="s2">&quot;30 Minutos&quot;</span>
+<span class="nv">USER_AGENT</span><span class="o">=</span><span class="s2">&quot;Mozilla/5.0 (X11; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0&quot;</span>
+<span class="nv">SCRIPT_NAME</span><span class="o">=</span><span class="k">$(</span>basename <span class="s2">&quot;</span><span class="nv">$0</span><span class="s2">&quot;</span><span class="k">)</span>
+
+<span class="k">if</span> <span class="o">[[</span> <span class="s2">&quot;</span><span class="nv">$#</span><span class="s2">&quot;</span> -lt <span class="m">1</span> <span class="o">]]</span><span class="p">;</span><span class="k">then</span>
+    <span class="nb">echo</span> -e <span class="s2">&quot;\tUso: &quot;</span><span class="nv">$SCRIPT_NAME</span><span class="s2">&quot; mi_archivo.ext [DURACION]\n&quot;</span>
+    <span class="nb">echo</span> -e <span class="s2">&quot;\tDonde DURACION es un numero del 1 al 5 (1 por defecto):\n\t1 = 30 minutos\t2 = 1 Hora\t3 = 6 Horas\t4 = 1 Día\t5 = 1 Semana\n&quot;</span>
+<span class="k">elif</span> <span class="o">[[</span> ! -f <span class="nv">$1</span> <span class="o">]]</span><span class="p">;</span><span class="k">then</span>
+    <span class="nb">echo</span> -e <span class="s2">&quot;\tEl archivo </span><span class="k">$(</span>basename <span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="k">)</span><span class="s2"> no es un archivo regular\n&quot;</span>    
+<span class="k">else</span>
+    <span class="k">if</span> <span class="o">[[</span> <span class="s2">&quot;</span><span class="nv">$#</span><span class="s2">&quot;</span> -gt <span class="m">1</span> <span class="o">&amp;&amp;</span> <span class="s2">&quot;</span><span class="nv">$2</span><span class="s2">&quot;</span> <span class="o">=</span>~ ^-?<span class="o">[</span>0-9<span class="o">]</span>+$ <span class="o">]]</span><span class="p">;</span><span class="k">then</span>
+        <span class="k">case</span> <span class="nv">$2</span> in
+            2<span class="o">)</span>
+                <span class="nv">DURATION</span><span class="o">=</span><span class="m">2</span>      <span class="c1"># Duracion del archivo = 1 hora</span>
+                <span class="nv">EXPIRE</span><span class="o">=</span><span class="s2">&quot;1 Hora&quot;</span>
+                <span class="p">;;</span>
+            3<span class="o">)</span>
+                <span class="nv">DURATION</span><span class="o">=</span><span class="m">3</span>  <span class="c1"># Duracion del archivo = 6 horas</span>
+                <span class="nv">EXPIRE</span><span class="o">=</span><span class="s2">&quot;6 Horas&quot;</span>
+                <span class="p">;;</span>
+            4<span class="o">)</span>
+                <span class="nv">DURATION</span><span class="o">=</span><span class="m">4</span>      <span class="c1"># Duracion del archivo = 1 dia</span>
+                <span class="nv">EXPIRE</span><span class="o">=</span><span class="s2">&quot;1 Día&quot;</span>
+                <span class="p">;;</span>
+            5<span class="o">)</span>
+                <span class="nv">DURATION</span><span class="o">=</span><span class="m">5</span>      <span class="c1"># Duracion del archivo = 1 semana</span>
+                <span class="nv">EXPIRE</span><span class="o">=</span><span class="s2">&quot;1 Semana&quot;</span>
+                <span class="p">;;</span>
+            *<span class="o">)</span>
+                <span class="c1"># Esto esta aqui solo por convencion</span>
+                <span class="p">;;</span>
+        <span class="k">esac</span>
+    <span class="k">fi</span>
+
+    <span class="nv">FILE</span><span class="o">=</span><span class="nv">$1</span>
+    <span class="nv">SIZE</span><span class="o">=</span><span class="k">$(</span>stat <span class="s2">&quot;</span><span class="si">${</span><span class="nv">FILE</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">|</span> grep -i size <span class="p">|</span> cut -d<span class="s2">&quot; &quot;</span> -f4<span class="k">)</span>
+    <span class="nv">TYPE</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">FILE</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">|</span> cut -d<span class="s2">&quot;.&quot;</span> -f2 <span class="p">|</span> tr a-z A-Z<span class="k">)</span>
+
+    <span class="nb">echo</span> -e <span class="s2">&quot;\e[1;33mFile\e[0m: </span><span class="k">$(</span>basename <span class="s2">&quot;</span><span class="si">${</span><span class="nv">FILE</span><span class="si">}</span><span class="s2">&quot;</span><span class="k">)</span><span class="s2">\t\e[1;33mSize\e[0m: </span><span class="nv">$SIZE</span><span class="s2">\t\e[1;33mType\e[0m: </span><span class="nv">$TYPE</span><span class="s2">\t\e[1;33mExpiration\e[0m: </span><span class="nv">$EXPIRE</span><span class="s2">\n&quot;</span>
+
+    <span class="k">if</span> <span class="o">[[</span> <span class="s2">&quot;</span><span class="nv">$TYPE</span><span class="s2">&quot;</span> !<span class="o">=</span> <span class="s2">&quot;PNG&quot;</span> <span class="o">&amp;&amp;</span> <span class="s2">&quot;</span><span class="nv">$TYPE</span><span class="s2">&quot;</span> !<span class="o">=</span> <span class="s2">&quot;JPG&quot;</span> <span class="o">&amp;&amp;</span> <span class="s2">&quot;</span><span class="nv">$TYPE</span><span class="s2">&quot;</span> !<span class="o">=</span> <span class="s2">&quot;GIF&quot;</span> <span class="o">&amp;&amp;</span> <span class="s2">&quot;</span><span class="nv">$TYPE</span><span class="s2">&quot;</span> !<span class="o">=</span> <span class="s2">&quot;PDF&quot;</span> <span class="o">&amp;&amp;</span> <span class="s2">&quot;</span><span class="nv">$TYPE</span><span class="s2">&quot;</span> !<span class="o">=</span> <span class="s2">&quot;TXT&quot;</span> <span class="o">]]</span><span class="p">;</span><span class="k">then</span>
+          <span class="nb">echo</span> -e <span class="s2">&quot;El tipo de archivo </span><span class="nv">$TYPE</span><span class="s2"> no es soportado por  uploadpie.com.\n&quot;</span>
+    <span class="k">elif</span> <span class="o">[[</span> <span class="s2">&quot;</span><span class="nv">$SIZE</span><span class="s2">&quot;</span> -gt <span class="s2">&quot;</span><span class="nv">$MAX_FILE_SIZE</span><span class="s2">&quot;</span> <span class="o">]]</span><span class="p">;</span><span class="k">then</span>
+          <span class="nb">echo</span> -e <span class="s2">&quot;El archivo es demasiado grande, uploadpie.com permite un maximo de 3 mb.\n&quot;</span>
+    <span class="k">else</span>
+          curl --progress-bar -A <span class="s2">&quot;</span><span class="nv">$USER_AGENT</span><span class="s2">&quot;</span> --form <span class="nv">uploadedfile</span><span class="o">=</span>@<span class="s2">&quot;</span><span class="nv">$FILE</span><span class="s2">&quot;</span> --form <span class="nv">upload</span><span class="o">=</span><span class="m">1</span> --form <span class="nv">MAX_FILE_SIZE</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$MAX_FILE_SIZE</span><span class="s2">&quot;</span>  --form <span class="nv">expire</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$DURATION</span><span class="s2">&quot;</span> http://uploadpie.com <span class="p">|</span> grep <span class="s1">&#39;id=&quot;uploaded&quot;&#39;</span> <span class="p">|</span> cut -d<span class="s1">&#39;&quot;&#39;</span> -f6
+    <span class="k">fi</span>
+<span class="k">fi</span>
+</pre></div>
+
+
+<p>El script se encuentra en <a href="https://github.com/aljavier/uploadr-pie/blob/master/uploadr-pie" title="uploadr-pie">este repositorio</a>, asi que puedes clonar el repositorio a tu ordenador:</p>
+<div class="codehilite"><pre><span></span>git clone https://github.com/aljavier/uploadr-pie.git
+</pre></div>
+
+
+<p>Claro, por si eres nuevo usando Linux, recuerda que tienes que darle permisos de ejecución al script:</p>
+<div class="codehilite"><pre><span></span>chmod +x uploadr-pie.sh
+</pre></div>
+
+
+<p>Una captua del script sin  especificar el tiempo de expiración, solo el archivo:
+<img alt="Uploadpie 1" src="images/uploadpie1.png" /></p>
+<p>Específicando el tiempo de expiración(el 3 equivale a 6 horas como se ve ahí):
+<img alt="Uploadpie 2" src="images/uploadpie2.png" /></p>
+<p>En mi caso, uso un directorio en mi <em>/home/</em> llamado <em>bin</em> y he agregado ese directorio en mi <code>.bashrc</code> como un nuevo <em>PATH</em>,
+simplemente agrega en tu .bashrc esta linea:</p>
+<div class="codehilite"><pre><span></span><span class="x">export PATH=~/bin:&quot;</span><span class="p">$</span><span class="nv">PATH</span><span class="x">&quot;</span>
+</pre></div>
+
+
+<p>En algunos distribuciones es posible que ya tengas ese directorio y agregado en tu <em>PATH</em>, algunas distribuciones, según he leído, si creas una carpeta bin/
+en tu /home automáticamente lo agregan al <em>PATH</em>, por lo que una vez inicie sesión de nuevo en una terminal podrás ejecutar los scripts o programas en ese 
+directorio como si estuvieran en /usr/bin o similar, sin tener que escribir el directorio completo, solo el nombre del programa. Es muy útil si sueles crear 
+tus propios scripts o programas para usos personales y esas cosas.</p>
+<p>Si no tienes cURL recomiendo hacerlo, es una poderosa herramienta que tiene una cantidad inmensa de opciones.</p>
+<p>En Arch Linux la instalas con:</p>
+<div class="codehilite"><pre><span></span>pacman -S curl
+</pre></div>
+
+
+<p>En Debian/Ubuntu instalas con apt;</p>
+<div class="codehilite"><pre><span></span>apt-get install curl
+</pre></div>
+
+
+<p>Tienes mas información sobre <strong><em>cURL</em></strong> en este <a href="http://curl.haxx.se/docs/" title="cURL docs">link</a> o en tu distro GNU/Linux favorita consulta: man curl.</p>
+<p>Ha sido todo por ahora, hasta luego y feliz año nuevo!</p>
+                </div>
+              
+                <hr/>
+                <!-- discus comments go here -->
+                 <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                    var disqus_shortname = 'sysflux'; // required: replace example with your forum shortname
+                    /* * * DON'T EDIT BELOW THIS LINE * * */
+                    (function() {
+                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                        dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+          </article>
+    
+       
+        <footer id="page-foot">
+            <p>
+                Contenido bajo licencia <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"> CC BY-SA</a> 
+                | Powered by <a href="https://www.python.org/">Python</a> &copy;
+            </p>
+        </footer>
+        </div>
+        <!-- Google Analytics here -->
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-45917501-1']);
+            _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); 
+          ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+    </body>
+    </html>

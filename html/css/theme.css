@@ -1,0 +1,253 @@
+/* vim: set ts=4 sw=4 et: */
+
+@import url(normalize.css);
+
+@-webkit-keyframes fade {from {opacity: 0;} to { opacity: 1;}}
+@-moz-keyframes    fade {from {opacity: 0;} to { opacity: 1;}}
+@-ms-keyframes     fade {from {opacity: 0;} to { opacity: 1;}}
+@-o-keyframes      fade {from {opacity: 0;} to { opacity: 1;}}
+@keyframes         fade {from {opacity: 0;} to { opacity: 1;}}
+
+
+body {
+    color:#272727;
+    background:#fff;
+    font-family:"Inconsolata";
+    font-size:100%;
+    font-weight:400;
+    -webkit-animation: fade 600ms 1 ease-in-out;
+    -moz-animation: fade 600ms 1 ease-in-out;
+    -ms-animation: fade 600ms 1 ease-in-out;
+    -o-animation: fade 600ms 1 ease-in-out;
+    animation: fade 600ms 1 ease-in-out;
+}
+
+p{font-size:1em;line-height:150%}
+
+h1, h2, h3,
+h4, h5, h6,
+.meta {
+    color: #222;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+hr {
+    visibility: hidden;
+    padding-bottom: 1em; 
+}
+
+hr:after {
+    visibility: visible;
+    content: '\2694'; /* 2042*/
+    display: block;
+    text-align: center;
+}
+
+article {
+    margin-bottom: 1em;
+    padding:2px;
+}
+
+article p code{
+    /*font-family:"Belleza", "Courier";
+    font-size:15px;*/
+    background-color:#efefef;
+}
+
+article p{
+   text-align:justify;
+}
+
+
+article header{
+    text-align:left;
+}
+
+article header h1 {
+    padding: 0;
+    margin: 0;
+}
+
+article header .meta {
+    text-transform:uppercase;
+}
+
+
+article:last-of-type:after {
+    content: '';
+}
+
+.post-content {
+    font-size:18px;
+}
+
+#page-foot {
+    font-size: .8em;
+    border-top:1px solid #ccc;
+    margin-top:50px;
+    height:20px;
+}
+
+#page-foot p { text-align:center; }
+
+h1.small-title {
+    font-size: 1em;
+    font-style: italic;
+    font-weight: normal;
+}
+
+a, a:visited {
+    color: #0000C0;
+    text-decoration: none;
+}
+
+a:hover {
+    border: none;
+    text-decoration: underline;
+}
+
+a:active, a:focus {
+    outline-width: 1px;
+    outline-style: dotted;
+}
+
+h1 a, h1 a:visited,
+h2 a, h2 a:visited,
+h3 a, h3 a:visited,
+h4 a, h4 a:visited,
+h5 a, h5 a:visited,
+h6 a, h6 a:visited {
+    /*color: #222;*/
+    text-decoration: none;
+}
+
+a.goto {
+    font-size: .8em;
+    color: #444;
+    padding: 0;
+    margin: 0em .2em;
+}
+
+pre, img, figure {
+    margin: 1em auto;
+    overflow-x: auto;
+    border:0;
+}
+
+img{
+    width:80%;
+    margin-left:auto;
+    margin-right:auto;
+    height:auto;
+}
+
+
+figure * { border: none; margin: auto; padding: auto; }
+
+table{margin:9px auto 27px auto;width:98%;font-size:15px;}
+thead{font-weight:bold;}
+thead th{padding:10px;text-align:center;background:#2f4f4f;color:#d3d3d3;border:2px solid #fff;}
+thead td{}
+tbody td{padding:6px 4px;vertical-align:middle;}
+tbody th{}
+tbody .alt td{}
+tbody .alt th{}
+tfoot th{}
+tfoot td{}
+
+.post-header h1 {
+    font-family: 'Garamond', 'Georgia', serif;
+    font-weight: bold;
+}
+
+.post-header h1 a:hover {
+    color:#2F4F4F;
+}
+
+.post-header .meta {
+    text-transform:uppercase;
+    font-size:.6em;
+}
+
+.post-footer p{font-weight:normal;text-align:right;}
+.post-footer p a{color:#2f4f4f;}
+.post-footer p a:after{content: " \00BB";}
+.footer-right{float:right;}
+.footer-left{float:left}
+
+pre {
+    border-radius:4px !important;
+    font-family: Monospace,'Consolas';
+    font-size: 14px;
+    line-height: 1.15em;
+    overflow-x: auto;
+    padding: 0.5em;
+    max-width: 100%;
+}
+
+.date-index {
+    text-transform:capitalize;
+}
+
+pre { white-space: pre; overflow: auto; }
+
+
+.container {
+    max-width:720px; 
+    height:100%;
+    padding:5px;
+    margin:20px auto;
+}
+
+ul.list-square {
+    list-style-type: square;
+}
+
+#menu {
+    margin-bottom:50px;
+}
+
+#menu ul {
+    float:right;
+    margin-top:0;
+}
+
+#menu ul li {
+    display:inline;
+    padding:10px;
+}
+
+#menu ul li a {
+    color:#000;
+    font-family: 'Garamond', 'Georgia', serif;
+}
+
+#menu h4 {
+    font-weight:bold;
+    color:#000;
+}
+
+
+#articles ul li {
+    line-height:27px;
+}
+
+@media screen and (max-width:425px) {
+    #menu ul {
+        float:left;
+        padding:0;
+        font-size:.8em;
+    } 
+    
+    #menu ul li {
+        padding:5px;
+    }
+}
+
+@media screen and (max-width:674px) {
+    #menu h4 { 
+        clear:both;
+        padding-top:20px;
+    }
+}

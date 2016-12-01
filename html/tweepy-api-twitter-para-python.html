@@ -1,0 +1,211 @@
+      <!DOCTYPE html>
+  <html lang="es">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=endge, chrome=IE8" />
+      <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
+      <meta name="keywords" content="twitter,python,tweepy" />
+      <meta name="description" content="Apuntes y notas de un newbie." />
+      <meta name="author" content="root" />
+      
+        <title> Tweepy: Manejando la API de Twitter desde Python
+ - [ root@paranoia ~/blog ]# _</title>
+     
+      <!--[if lte IE 8]><script type="text/javascript" src="/theme/js/html5shiv.js"></script><![endif]-->
+      <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" type="text/css" href="css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="css/pygment.css" />
+      <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+      <!--[if lte IE 8]><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /><![endif]-->
+    </head>
+    <body>
+        <div class="container">
+        <header id="menu">
+            <nav>
+                <ul>
+                    <li><a href="index.html">inicio</a></li>
+                    <li><a target="_blank" href="https://github.com/aljavier">github</a></li>
+                    <li><a href="enlaces.html">enlaces</a></li>
+                    <li><a href="about.html">acerca</a></li>
+                </ul>
+                <h4>[ root@paranoia ~/blog ]# _</h4>
+            </nav>
+        </header>
+         
+         
+         <article>
+                <header class="post-header">
+                    <div class="meta"><time datetime="2014-05-23 00:00:00">mayo 23, 2014</time></div>
+                <h1>
+                     Tweepy: Manejando la API de Twitter desde Python
+
+                </h1>
+                </header>
+                <div class="post-content"> 
+                    <p>Hace poco me había surgido la idea de hacer un script en <code>Python</code> para <code>Twitter</code>, con
+la idea de mantener un registro de las personas que me dieran unfollow. Ya había usado
+hace tiempo la librería de la que hoy vengo a hablar que es nada mas y nada menos que
+<a href="http://www.tweepy.org/">Tweepy</a> una librería de Python para acceder a la <code>API</code> de Twitter.</p>
+<p>Como casi todo en el fabuloso mundo del lenguaje de programación Python, Tweepy es relativamente
+intuitiva y de fácil uso. Lo primero que necesitamos es instalar la librería, que como la mayoría de librerías puedes instalar con <code>pip</code> o <code>easy_install</code> o usando el instalador 
+desde el código fuente, el típico <code>python setup.py install</code>.</p>
+<p><strong>Instalación con pip:</strong></p>
+<div class="codehilite"><pre><span></span>pip search tweepy # para buscar si esta en los repositorios
+pip install tweepy
+</pre></div>
+
+
+<p><strong>Instalación con easy_install:</strong></p>
+<div class="codehilite"><pre><span></span>easy_install tweepy
+</pre></div>
+
+
+<p><strong>Instalación desde código fuente:</strong></p>
+<div class="codehilite"><pre><span></span>python setup.py install
+</pre></div>
+
+
+<p><em>Nota: Necesitas permiso de super usuario para eso.</em></p>
+<p>Este no esta pensado para ser un tutorial extenso o bastante detallado(debo admitir que 
+yo mismo no es que tenga un conocimiento tan pronunciado sobre esta librería) sino mas bien una breve introducción, en todo caso la documentación oficial es buena.</p>
+<p>Así que para empezar, tener en cuenta que necesitaras registrar tu app en Twitter, específicamente en <a href="https://apps.twitter.com/">este link</a>, luego de registrarte y elegir los 
+permisos correspondientes para tu app en <code>API Keys</code> puedes encontrar tu <code>API key</code> y <code>API 
+secret</code>. Como cambiar permiso y demás, no es algo que explicare, supongo que esta bastante intuitivo la interfaz del <code>Twitter Application Manager</code>.</p>
+<p>Una vez obtengas el API key y el API secret(en lo adelante <code>consumer_key</code> y <code>consumer_secret</code>, respectivamente) ya podemos iniciar con lo mas básico, que es la <code>autenticación</code>(claro, luego de import la librería con <code>import tweepy</code>):</p>
+<div class="codehilite"><pre><span></span><span class="n">consumer_key</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s2">&quot;Introduzca el consumer_key &gt;&gt;&gt; &quot;</span><span class="p">)</span>
+<span class="n">consumer_secret</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s2">&quot;Introduzca el consumer_secret &gt;&gt;&gt; &quot;</span><span class="p">)</span>
+
+<span class="n">auth</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">OAuthHandler</span><span class="p">(</span><span class="n">consumer_key</span><span class="p">,</span> <span class="n">consumer_secret</span><span class="p">)</span>
+
+<span class="c1"># Ahora necesitamos el access token para los permmisos</span>
+<span class="n">redirect_url</span> <span class="o">=</span> <span class="n">auth</span><span class="o">.</span><span class="n">get_authorization_url</span><span class="p">()</span>
+<span class="k">print</span> <span class="s2">&quot;Puede obtener el access token en este link &gt;&gt;&gt; &quot;</span><span class="p">,</span> <span class="n">redirect_url</span>
+<span class="n">verifier</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s2">&quot;Introduzca el codigo verificador: &quot;</span><span class="p">)</span>
+
+<span class="c1"># Obtenemos y pasamos al objeto &#39;auth&#39; el token con el codigo antes provisto</span>
+<span class="n">auth</span><span class="o">.</span><span class="n">get_access_token</span><span class="p">(</span><span class="n">verifier</span><span class="p">)</span>
+
+<span class="c1"># Obtenemos un objeto api que necesitaremos para hacer los requests a Twitter</span>
+<span class="n">api</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">API</span><span class="p">(</span><span class="n">auth</span><span class="p">)</span>   <span class="c1"># Pasando el objeto &#39;auth&#39; como parámetro</span>
+</pre></div>
+
+
+<p>Esa es una posible forma de hacerlo, obviamente no querrás introducir esos mismos datos
+cada vez que inicias la aplicación, por eso lo ideal seria guardar el <code>access_token</code> y el
+<code>consumer_key</code> así como el <code>consumer_secret</code> en un archivo o base de datos(no de fácil acceso
+a todo mundo, por seguridad), en ese caso para el access_token tendrías que setear su valor
+de esta manera:</p>
+<div class="codehilite"><pre><span></span>auth.set_access_token(key, secret)
+</pre></div>
+
+
+<p>Si haces lo siguiente puedes obtener el key y el secret del token así:</p>
+<div class="codehilite"><pre><span></span><span class="n">acces_token</span> <span class="o">=</span> <span class="n">auth</span><span class="o">.</span><span class="n">get_access_token</span><span class="p">()</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">acces_token</span><span class="o">.</span><span class="n">key</span>
+<span class="n">secret</span> <span class="o">=</span> <span class="n">access_token</span><span class="o">.</span><span class="n">secret</span>
+</pre></div>
+
+
+<p>De ahí almacenas esos datos en algún medio de persistencia(archivo, base de datos) y seteas cada vez esos valores conforme quieras.</p>
+<p>Para ilustrar el uso de la librería procederé a hacer una especie de <code>Hello World</code> usando algunos ejemplos combinados de la documentación oficial:</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">tweepy</span>
+
+<span class="n">consumer_key</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s2">&quot;Introduzca consumer key &gt;&gt;&gt; &quot;</span><span class="p">)</span>
+<span class="n">consumer_secret</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s2">&quot;Introduzca consumer secret &gt;&gt;&gt; &quot;</span><span class="p">)</span>
+
+<span class="c1"># Autentificamos la app</span>
+<span class="n">auth</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">OAuthHandler</span><span class="p">(</span><span class="n">consumer_key</span><span class="p">,</span> <span class="n">consumer_secret</span><span class="p">)</span>
+
+<span class="c1"># Obtenemos autorización del usuario para acceder/usar su perfil desde nuestra app</span>
+<span class="n">redirect_url</span> <span class="o">=</span> <span class="n">aut</span><span class="o">.</span><span class="n">get_authorization_url</span><span class="p">()</span>
+<span class="k">print</span> <span class="s2">&quot;Autorize esta app para usar su perfil en &gt;&gt;&gt; &quot;</span><span class="p">,</span> <span class="n">redirect_url</span>
+<span class="n">verifier</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s2">&quot;Ahora introduzca el codigo de verificación aquí &gt;&gt;&gt; &quot;</span><span class="p">)</span>
+
+<span class="c1"># Seteamos la autorización</span>
+<span class="n">auth</span><span class="o">.</span><span class="n">get_access_token</span><span class="p">(</span><span class="n">verifier</span><span class="p">)</span>
+
+<span class="c1"># Obtenemos nuestro objeto &#39;api&#39;</span>
+<span class="n">api</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">API</span><span class="p">(</span><span class="n">auth</span><span class="p">)</span>
+
+<span class="c1"># Si quisiéramos obtener para guardar en algún lado el token de acceso</span>
+<span class="c1"># podríamos obtenerlo así</span>
+<span class="c1"># key = auth.access_token.key</span>
+<span class="c1"># secret = auth.access_token.secret</span>
+
+
+<span class="c1"># Ahora leamos nuestro timeline</span>
+<span class="n">public_tweets</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">home_timeline</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">public_tweets</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s2">&quot;[+] </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">tweet</span><span class="o">.</span><span class="n">text</span>
+
+<span class="c1"># Obteniendo información de un usuario en especifico</span>
+<span class="n">user</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get_user</span><span class="p">(</span><span class="s1">&#39;twitter&#39;</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;Nombre publico o nick: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">user</span><span class="o">.</span><span class="n">scree_name</span>
+<span class="k">print</span> <span class="s2">&quot;Cantidad de seguidores: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">user</span><span class="o">.</span><span class="n">followers_count</span>
+<span class="k">print</span> <span class="s2">&quot; &lt;&lt;&lt;&lt;&lt; LISTA DE AMIGOS &gt;&gt;&gt;&gt;&gt;&quot;</span>
+<span class="k">for</span> <span class="n">friend</span> <span class="ow">in</span> <span class="n">user</span><span class="o">.</span><span class="n">friends</span><span class="p">():</span>
+    <span class="k">print</span> <span class="n">friend</span><span class="o">.</span><span class="n">screen_name</span>
+
+<span class="c1"># Seguir a todo el que me sigue</span>
+<span class="k">for</span> <span class="n">follower</span> <span class="ow">in</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">Cursor</span><span class="p">(</span><span class="n">api</span><span class="o">.</span><span class="n">followers</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">follower</span><span class="o">.</span><span class="n">follow</span><span class="p">()</span>
+    <span class="k">print</span> <span class="s2">&quot;Ahora siguiendo a &gt;&gt;&gt; </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="n">follower</span><span class="o">.</span><span class="n">screen_name</span>
+</pre></div>
+
+
+<p>Algo muy útil que no se ilustra en el codigo anterior son los <a href="http://tweepy.readthedocs.org/en/v2.3.0/cursor_tutorial.html">objetos Cursores</a> para limitar la cantidad de resultados, por ejemplo en el 
+codigo anterior para seguir a todo mundo podríamos haber limitado la cantidad de personas 
+a seguir que nos devolviera el api a 10 de la siguiente manera:</p>
+<div class="codehilite"><pre><span></span><span class="k">for</span> <span class="n">follower</span> <span class="ow">in</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">Cursor</span><span class="p">(</span><span class="n">api</span><span class="o">.</span><span class="n">followers</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">follower</span><span class="o">.</span><span class="n">follow</span>
+</pre></div>
+
+
+<p>Muchas otras cosas se pueden hacer, buscar usuarios, como la búsqueda que se realiza en el mismo twitter 
+con el botón buscar, navegar a través de su lista de amigos, sus fotos de perfil, websites, etc.. Cosas
+que podrían ser muy útil para practicar <code>análisis de datos</code> con Python.</p>
+<p>Por el momento es todo, lo que puedan necesitar sobre esta api en la documentación oficial lo encuentran. </p>
+<p>Shalom!</p>
+<p><strong>Referencias</strong>
+* <a href="http://tweepy.readthedocs.org/en/v2.3.0/index.html">Tweepy Documentation</a></p>
+                </div>
+              
+                <hr/>
+                <!-- discus comments go here -->
+                 <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                    var disqus_shortname = 'sysflux'; // required: replace example with your forum shortname
+                    /* * * DON'T EDIT BELOW THIS LINE * * */
+                    (function() {
+                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                        dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+          </article>
+    
+       
+        <footer id="page-foot">
+            <p>
+                Contenido bajo licencia <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"> CC BY-SA</a> 
+                | Powered by <a href="https://www.python.org/">Python</a> &copy;
+            </p>
+        </footer>
+        </div>
+        <!-- Google Analytics here -->
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-45917501-1']);
+            _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); 
+          ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+    </body>
+    </html>

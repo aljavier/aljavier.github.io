@@ -1,0 +1,369 @@
+      <!DOCTYPE html>
+  <html lang="es">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=endge, chrome=IE8" />
+      <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
+      <meta name="keywords" content="python,recursividad,time,iteratividad,fibonacci,factorial" />
+      <meta name="description" content="Apuntes y notas de un newbie." />
+      <meta name="author" content="root" />
+      
+        <title> Recursividad versus iteratividad
+ - [ root@paranoia ~/blog ]# _</title>
+     
+      <!--[if lte IE 8]><script type="text/javascript" src="/theme/js/html5shiv.js"></script><![endif]-->
+      <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" type="text/css" href="css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="css/pygment.css" />
+      <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+      <!--[if lte IE 8]><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /><![endif]-->
+    </head>
+    <body>
+        <div class="container">
+        <header id="menu">
+            <nav>
+                <ul>
+                    <li><a href="index.html">inicio</a></li>
+                    <li><a target="_blank" href="https://github.com/aljavier">github</a></li>
+                    <li><a href="enlaces.html">enlaces</a></li>
+                    <li><a href="about.html">acerca</a></li>
+                </ul>
+                <h4>[ root@paranoia ~/blog ]# _</h4>
+            </nav>
+        </header>
+         
+         
+         <article>
+                <header class="post-header">
+                    <div class="meta"><time datetime="2013-11-01 00:00:00">noviembre 01, 2013</time></div>
+                <h1>
+                     Recursividad versus iteratividad
+
+                </h1>
+                </header>
+                <div class="post-content"> 
+                    <p>Una <code>función recursiva</code> es aquella que se llama a sí mismo, normalmente, un número 
+finito de veces. Por su lado, la <code>iteratividad</code> ejecuta unas determinadas acciones
+un determinado numero de veces tambien, pero de forma secuencial.</p>
+<p>El contraste esta cuando queremos ejecutar una determinada acción una cantidad de veces, que bien podríamos hacerlo con recursividad o iteratividad, aunque escoger la mejor opción es la interrogante aquí.</p>
+<p>Cuando usamos recursividad estamos haciendo caso al método "divide y vencerás", ya que 
+dividimos el problema en partes mas pequeñas para su resolución. Cuando se emplea una 
+función recursiva básicamente se divide la función en dos partes: 1) <code>paso recursivo</code>, es la parte que hace la llamada recursiva, por tanto también se llama <code>llamada recursiva</code>, 2) <code>caso base</code> que igualmente podrían ser más de uno, es aquí cuando el método en verdad devuelve un resultado, por lo que se podría decir que es lo único que se resuelve en una función recursividad.</p>
+<p>A continuación veremos un ejemplo de función recursiva para buscar el factorial de un número entero positivo. El factorial de un numero se define como</p>
+<div class="codehilite"><pre><span></span>n * (n-1) (n-2) * ... * 1
+</pre></div>
+
+
+<p>Teniendo en cuenta que 1! y 0! es igual a 1, primero presentaré la solución con una función iterativa:</p>
+<div class="codehilite"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># Función factorial usando un método iterativo</span>
+
+<span class="k">def</span> <span class="nf">factorial</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">retorno</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">retorno</span> <span class="o">*=</span><span class="n">x</span>
+    <span class="k">return</span> <span class="n">retorno</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">11</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">! =  </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">factorial</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Ahora veamos el método recursivo que en efecto produce el mismo resultado</p>
+<div class="codehilite"><pre><span></span><span class="c1">#/usr/bin/env python</span>
+<span class="c1"># Factorial función recursiva</span>
+
+<span class="k">def</span> <span class="nf">factorial</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="n">factorial</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">11</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">! = </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">factorial</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+
+<p><strong>En este caso n =&lt; 1 es lo que llamamos <code>caso base</code> y <code>n * factorial(n-1)</code> es el <code>paso recursivo</code> o <code>llamada recursiva</code>.</strong></p>
+<p>La secuencia de llamadas recursivas y retornos para el factorial de 5 va como se muestra en lo adelante.
+<pre> <br />
+    +----+              +----+  valor final = 120
+    | 5! |              | 5! |
+    +----+              +-^--+
+      |                   |
+      |                   |
+      V                   |       se devuelve 5! = 5 * 24 = 120
+     +-------+          +--------+
+     | 5 * 4!|          | 5 * 4! |
+     +-------+          +-----^--+
+           |                  |
+           |                  |
+           V                  |     se devuelve 4! = 4 * 6 = 24
+         +-------+      +---------+
+         | 4 * 3!|      | 4 * 3!  |
+         +-------+      +------^--+
+           |                   |          <br />
+           |                   |
+           V                   |   se devuelve 3! = 3 * 2 = 6
+        +-------+        +--------+
+        | 3 * 2!|        | 3 * 2! |
+        +-------+        +-----^--+
+              |                |
+              |                |
+              V                |   se devuelve 2! = 2 * 1 = 2
+            +-------+         +--------+
+            | 2 * 1 |         | 2 * 1! |
+            +-------+         +-----^--+
+              |                     | 
+              |                     |
+              V                     |   se devuelve 1
+            +------+             +-------+
+            |  1   |             |   1   |
+            +------+             +-------+
+   Secuencia de llamadas recursivas     Valores devueltos de cada llamada
+</pre></p>
+<p><strong>Ojo, que la secuencia de las llamadas recursivas esta ilustrada de arriba para abajo y los valores devueltos de abajo para arriba.</strong></p>
+<p>Ejecutamos ambos scripts (uno a uno claro) precedido por el comando <code>time</code> para medir el tiempo de ejecución de ambos scripts, time esta por defecto creo en todas las distros GNU/Linux - sí, supongo que usas Linux, no? no?.</p>
+<div class="codehilite"><pre><span></span>time python factorial.py
+</pre></div>
+
+
+<p>Debo decir, que estoy usando Python 2.7, veamos ahora la salida de ambos programas.</p>
+<p>Función recursiva</p>
+<div class="codehilite"><pre><span></span>0! = 1
+1! = 1
+2! = 2
+3! = 6
+4! = 24
+5! = 120
+6! = 720
+7! = 5040
+8! = 40320
+9! = 362880
+10! = 3628800
+
+real    0m0.025s
+user    0m0.017s
+sys     0m0.007s
+</pre></div>
+
+
+<p>Función iterativa</p>
+<div class="codehilite"><pre><span></span>0! =  1
+1! =  1
+2! =  2
+3! =  6
+4! =  24
+5! =  120
+6! =  720
+7! =  5040
+8! =  40320
+9! =  362880
+10! =  3628800
+
+real    0m0.027s
+user    0m0.020s
+sys     0m0.003s
+</pre></div>
+
+
+<p>Como pueden ver la diferencia es muy poca, pero aún así las hay. Hay muchas cosas que se pueden decir al respecto ahora, pero mejor veamos otro ejemplo más.</p>
+<p>Ahora será con la sucesión de fibonacci, veamos la función recursiva primero.</p>
+<div class="codehilite"><pre><span></span>#/usr/bin/env python
+# Función fibonacci recursiva
+
+def fibonacci(n):
+    if n == 0 or n == 1:
+        return n
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)
+
+def main():
+    for x in range(11):
+        print &quot;Fibonnaci de %d es %d&quot; % (x, fibonacci(x))
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</pre></div>
+
+
+<p>Aquí el <code>caso base</code> es n == 0 or n == 1, ya que es cuando sabemos con seguridad el valor que debemos devolver, el cual es el mismo parámetro.</p>
+<p>Graficando el conjunto de llamadas sucesivas para fibonacci(3) tenemos:
+<pre>
+                  +---------------+
+                  | fibonacci(3)  |
+                  +---------------+
+                     |
+                     |<br />
+                     V
+          -----------------------^---------------------------
+        return fibonacci(2)      +      fibonacci(1)
+              --------------           --------------
+                 /                              \
+                /                                \
+               /                                  \
+    ------------------^------------------        -------------
+         return fibonacci(1)  +  fibonacci(0)           return 1
+                ------------     ------------        <br />
+             |                      |
+             |                      |
+             |                      |
+        -----^-----          -------^------
+         return 1               return 0
+</pre>
+Más fácil de entender así no? </p>
+<p>Ahora veamos la salida de ambos programas, tanto el que tiene usa la función recursiva como el que usa la función iterativa.</p>
+<p>Función recursiva</p>
+<div class="codehilite"><pre><span></span>Fibonnaci de 0 es 0
+Fibonnaci de 1 es 1
+Fibonnaci de 2 es 1
+Fibonnaci de 3 es 2
+Fibonnaci de 4 es 3
+Fibonnaci de 5 es 5
+Fibonnaci de 6 es 8
+Fibonnaci de 7 es 13
+Fibonnaci de 8 es 21
+Fibonnaci de 9 es 34
+Fibonnaci de 10 es 55
+
+real    0m0.028s
+user    0m0.023s
+sys 0m0.003s
+</pre></div>
+
+
+<p>Función iterativa
+    Fibonacci de 0 es 0
+    Fibonacci de 1 es 1
+    Fibonacci de 2 es 1
+    Fibonacci de 3 es 2
+    Fibonacci de 4 es 3
+    Fibonacci de 5 es 5
+    Fibonacci de 6 es 8
+    Fibonacci de 7 es 13
+    Fibonacci de 8 es 21
+    Fibonacci de 9 es 34
+    Fibonacci de 10 es 55</p>
+<div class="codehilite"><pre><span></span>real    0m0.024s
+user    0m0.017s
+sys 0m0.003s
+</pre></div>
+
+
+<p>Ahh, pues ya tenemos dos ejemplos con los cuales poder ir haciendo conclusiones, como podemos ver en algunos casos la recursividad es más rápida y en otros casos la iteratividad es más rápida. Pero se puede ver claramente que el problema esta cuando hacemos demasiadas llamadas al mismo método, se consume mucha memoria, es el problema aquí con la función recursiva fibonacci, hacemos bastantes llamadas al mismo método, de hecho personas con más conocimientos que el wannabe que escribe esto aconsejan a no usar recursividad en casos así, porque se carga bastante el sistema. </p>
+<p>Así que donde se hacen bastante llamadas a un mismo método el resultado podría no ser muy óptimo, en otros casos si, por eso vemos que con el factorial el método recursivo es en efecto más rápido.</p>
+<p>La recursividad así como la iteración se basan en una instrucción de control: la iteración utiliza una instrucción de repetición (for, while o do...while), mientras que la recursividad utiliza una instrucción de selección (if, if...else o switch), de modo que ambas implican repetición, sólo que difieren en el como lo hacen.</p>
+<p>Del libro Java Como programar de Deitel nos aconsejan lo siguiente:</p>
+<blockquote>
+<p>Cualquier problema que se pueda resolver mediante la recursividad, se puede también mediante la iteración(sin recursividad). Por lo general, se prefiere un método recursivo a uno iterativo cuando el primero refleja con más naturalidad el problema, y se produce un programa más fácil de entender y de depurar. A menudo, puede implementarse un método recursivo con menos lineas de código. Otra razón por la que es preferible elegir un método recursivo es que uno iterativo podría no ser aparente.</p>
+<p>Evite usar la recursividad en situaciones en las que se requiera un alto rendimiento. Las llamadas recursivas requieren tiempo y consumen memoria adicional.</p>
+</blockquote>
+<p>Dicho esos sabios consejos, podemos sacar de ahí que un método recursivo implica bien menos código pero a veces no es aconsejable por cuestiones de rendimiento, aunque ahí dice que podría ser además más obvio y legible yo diría que más podaría confundir a veces, pero bueno básicamente es saber donde utilizarlos son muy buenos recursos, solo toca analizar bien, porque si nos afecta bastante el rendimiento pues usar un método iterativo es la mejor opción.</p>
+<p>Un último ejemplo, usamos una función recursiva y una iterativa en diferentes programas, para calcular la potencia de un número.</p>
+<p>Primero veamos la solución iterativa:</p>
+<div class="codehilite"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># Exponenciacion iterativo</span>
+
+<span class="k">def</span> <span class="nf">exponenciacion</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">exponente</span><span class="p">):</span>
+    <span class="n">retorno</span> <span class="o">=</span> <span class="n">base</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">exponente</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">retorno</span> <span class="o">=</span> <span class="n">retorno</span><span class="o">*</span><span class="n">base</span>
+    <span class="k">return</span> <span class="n">retorno</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">):</span>
+            <span class="k">print</span> <span class="s2">&quot;%{0}^%{1} = %{2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">exponenciacion</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">))</span>
+        <span class="k">print</span> <span class="s2">&quot;&quot;</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Fácil, ahora veamos la solución recursiva:</p>
+<div class="codehilite"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># Exponenciacion recursivo</span>
+
+<span class="k">def</span> <span class="nf">exponenciacion</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">exponente</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">exponente</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">base</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">base</span> <span class="o">*</span> <span class="n">exponenciacion</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">exponente</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">):</span>
+            <span class="k">print</span> <span class="s2">&quot;%{0}^%{1} = %{2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">exponenciacion</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">))</span>
+        <span class="k">print</span> <span class="s2">&quot;&quot;</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Ahora es el momento de ver el tiempo de ejecución de ambos, la salida del comando <code>time</code>, no mostraré la salida de los programas porque es algo amplía como se puede deducir del código.</p>
+<p>Tiempo ejecución función recursiva:</p>
+<div class="codehilite"><pre><span></span>real    0m0.025s
+user    0m0.020s
+sys 0m0.003s
+</pre></div>
+
+
+<p>Tiempo ejecución función iterativa:</p>
+<div class="codehilite"><pre><span></span>real    0m0.027s
+user    0m0.020s
+sys 0m0.003s
+</pre></div>
+
+
+<p>Nuevamente aquí la recursividad ganó en cuanto a rapidez, por la misma razón que antes, no tiene muchas llamadas al mismo método, en casos así funciona fluido. El marcador final en cuando a rapidez: recursividad 2 - iteratividad 1!</p>
+                </div>
+              
+                <hr/>
+                <!-- discus comments go here -->
+                 <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                    var disqus_shortname = 'sysflux'; // required: replace example with your forum shortname
+                    /* * * DON'T EDIT BELOW THIS LINE * * */
+                    (function() {
+                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                        dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+          </article>
+    
+       
+        <footer id="page-foot">
+            <p>
+                Contenido bajo licencia <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"> CC BY-SA</a> 
+                | Powered by <a href="https://www.python.org/">Python</a> &copy;
+            </p>
+        </footer>
+        </div>
+        <!-- Google Analytics here -->
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-45917501-1']);
+            _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); 
+          ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+    </body>
+    </html>
