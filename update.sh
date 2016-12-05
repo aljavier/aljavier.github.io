@@ -13,6 +13,6 @@
 git rm *.html && git rm -r css && git rm -r images 
 
 git checkout source -- html && 
-find html \( -name "*.html" -o -type d -name "css" -o -type d -name "images" \)  \
+find html \( -name "*.html" -o -name "*.txt" -o -type d -name "css" -o -type d -name "images" \)  \
 | xargs cp -r -t . && git rm -rf html && echo -e "\nDone!\n"
 
