@@ -8,7 +8,7 @@
 # running this script in order to update the 
 # repository on github.
 #
-# Customize it is needed.
+# Customize if needed.
 
 git checkout source -- html && 
 find html \( -name "*.html" -o -type d -name "css" -o -type d -name "images" \)  \
