@@ -35,7 +35,7 @@ HTML_DIR = 'html/' # The output directory where the generated files will be put
 SOURCE_FILE_EXT = 'md' # Extension of markdown files
 OUTPUT_FILE_EXT = 'html' # Extension of ouput files
 
-COPY_SOURCE_FILES_TO_OUTPUT = False # Copy sources files (markdown files) from SOURCE_DIR to output directory HTML_DIR
+COPY_SOURCE_FILES_TO_OUTPUT = True # Copy sources files (markdown files) from SOURCE_DIR to output directory HTML_DIR
 
 locale.setlocale(locale.LC_TIME, LOCALE)
 
