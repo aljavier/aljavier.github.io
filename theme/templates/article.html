@@ -14,6 +14,12 @@
                 </header>
                 <div class="post-content"> 
                     {{ content }}
+                    
+                     {% if show_plain_text_link %}
+                     <div class="plain-text-link">
+                          &laquo;<a href="{{ plain_text_link }}" title="{{ plain_text_title }}">{{ plain_text }}</a>&raquo;
+                     </div>
+                    {% endif %}
                 </div>
               
                 <hr/>
