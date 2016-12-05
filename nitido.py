@@ -35,6 +35,8 @@ HTML_DIR = 'html/' # The output directory where the generated files will be put
 SOURCE_FILE_EXT = 'md' # Extension of markdown files
 OUTPUT_FILE_EXT = 'html' # Extension of ouput files
 
+COPY_SOURCE_FILES_TO_OUTPUT = False # Copy sources files (markdown files) from SOURCE_DIR to output directory HTML_DIR
+
 locale.setlocale(locale.LC_TIME, LOCALE)
 
 class Article:
@@ -72,18 +74,28 @@ def proccess_template(file_name, template_name, template_vars, templates_dir=os.
        print("Created file %s.html" % (os.path.basename(file_name)))
 
 
-def generate_article(date, title, content, tags, lang, file_name, author):
+def generate_article(article, source_file_name):
     ''' Generate article output file, render from jinja2 to html '''
     templateVars = { 
-        'title' : title,
-        'content' : content,
-        'date' : date, 
-        'tags' : ','.join([ tag.strip() for tag in tags ]),
-        'lang' : lang
+        'title' : article.title,
+        'content' : article.content,
+        'date' : article.date, 
+        'tags' : ','.join([ tag.strip() for tag in article.tags ]),
+        'lang' : article.lang
     }
-    proccess_template(file_name, ARTICLE_FILE, templateVars, author=author)
 
-       
+    if COPY_SOURCE_FILES_TO_OUTPUT:
+        output_plain_text_file = '{0}.{1}'.format(article.slug, 'txt')
+        source_file = os.path.join(SOURCE_DIR, source_file_name)
+        dst_file = os.path.join(HTML_DIR, output_plain_text_file)
+        shutil.copy(source_file, dst_file) # So that be possible to access the article in plain text from the browser
+        templateVars['show_plain_text_link'] = True
+        templateVars['plain_text_link'] =  output_plain_text_file
+        templateVars['plain_text_title'] = 'View in plain text' if article.lang == 'en' else 'Ver en texto plano'
+        templateVars['plain_text'] = 'txt'
+        
+    proccess_template(article.slug, ARTICLE_FILE, templateVars, author=article.author)
+
 def generate_index(articles):
     ''' Generate output file index for the articles of the blog '''
     articles.sort(key=lambda a: a.date, reverse=True)
@@ -116,7 +128,7 @@ def load_static_files():
                                     and html[-len(OUTPUT_FILE_EXT):] == OUTPUT_FILE_EXT ]
       
         for _html in __static_pages:
-            proccess_template(_html[:-5], _html, {})
+            proccess_template(_html[:-(len(OUTPUT_FILE_EXT)+1)], _html, {})
     except:
         print('An error has occured trying to load static files.')
         print(str(sys.exc_info()))
@@ -183,11 +195,10 @@ if __name__ == "__main__":
                if len(article.lang) == 0: article.lang = DEFAULT_LANG
                
                article.content = convert_to_markdown(content)
-              
-               article.slug = article.slug if len(article.slug) != 0 else os.path.basename(file.name)[:-len(SOURCE_FILE_EXT)]
+               article.slug = article.slug if len(article.slug) != 0 else os.path.basename(file.name)[:-(len(SOURCE_FILE_EXT)+1)]
                article.author = article.author if len(article.author) != 0 else AUTHOR
                
-               generate_article(article.date, article.title, article.content, article.tags, article.lang, article.slug, article.author) 
+               generate_article(article, os.path.basename(entry)) 
                     
                articles.append(article)
 
