@@ -31,7 +31,7 @@ STATIC_PAGES = ['about.html', 'enlaces.html'] # List of static html pages, wich 
 SOURCE_DIR = 'source/' # The directory of the plain text files in format markdown to generate the posts
 IMAGES_DIR = 'images/' # Directory name of blog images
 STYLES_DIR = 'css/'    # Directory name of css styles file
-HTML_DIR = 'html/' # The output directory where the generated files will be put
+HTML_DIR = '.' # The output directory where the generated files will be put
 SOURCE_FILE_EXT = 'md' # Extension of markdown files
 OUTPUT_FILE_EXT = 'html' # Extension of ouput files
 
@@ -107,12 +107,34 @@ def generate_index(articles):
         }
     proccess_template('index', INDEX_FILE, templateVars)
 
+def clean_output_dir():
+    ''' Clean up output directory of preview generated files and directories '''
+     # First, clean up output folder
+    if os.path.isdir(HTML_DIR):
+        # Remove images folder
+        _image_output_dir = os.path.join(HTML_DIR, IMAGES_DIR)
+        if os.path.isdir(_image_output_dir):
+            shutil.rmtree(_image_output_dir)
+            
+        # Remove styles folder
+        _styles_output_dir = os.path.join(HTML_DIR, STYLES_DIR)
+        if os.path.isdir(_styles_output_dir):
+            shutil.rmtree(_styles_output_dir) 
+                
+        # Remove all output (html) files
+        output_files = [ file for file in os.listdir(HTML_DIR) if file[-(len(OUTPUT_FILE_EXT)):] == OUTPUT_FILE_EXT ]  
+        for file in output_files:
+            file_name = os.path.join(HTML_DIR, file)
+            if os.path.isfile(file_name): # If it's a regular file
+                os.remove(file_name)
+
 
 def load_static_files():
     ''' Copy static files to destination folders '''
     try:
-        if os.path.isdir(HTML_DIR):
-            shutil.rmtree(HTML_DIR) # We will recreate output folder ahead
+        __static_pages = [ html for html in STATIC_PAGES 
+                            if os.path.isfile(os.path.join(os.path.join(THEME_DIR, TEMPLATES_DIR), html)) 
+                                 and html[-len(OUTPUT_FILE_EXT):] == OUTPUT_FILE_EXT ]
 
         # Copy images folder to output folder
         shutil.copytree(os.path.join(SOURCE_DIR, IMAGES_DIR),
@@ -123,10 +145,6 @@ def load_static_files():
                         os.path.join(HTML_DIR, STYLES_DIR))
 
         # Copy html static files to output folder     
-        __static_pages = [ html for html in STATIC_PAGES 
-                                if os.path.isfile(os.path.join(os.path.join(THEME_DIR, TEMPLATES_DIR), html)) 
-                                    and html[-len(OUTPUT_FILE_EXT):] == OUTPUT_FILE_EXT ]
-      
         for _html in __static_pages:
             proccess_template(_html[:-(len(OUTPUT_FILE_EXT)+1)], _html, {})
     except:
@@ -135,7 +153,8 @@ def load_static_files():
         sys.exit(-1)
 
 
-if __name__ == "__main__":
+def generate():
+    ''' Generate the entire blog '''
     startTime = datetime.datetime.now()
     sources = [ f for f in os.listdir(SOURCE_DIR) 
                     if os.path.isfile(os.path.join(SOURCE_DIR, f)) 
@@ -144,6 +163,7 @@ if __name__ == "__main__":
     
     print("Found %d articles to be proccessed!" % (len(sources)))
     
+    clean_output_dir()
     load_static_files()
     
     for entry in sources:
@@ -205,5 +225,9 @@ if __name__ == "__main__":
     generate_index(articles)     # Generate index page
     
     print('{0} articles proccessed in {1} seconds!\nDone!'.format(len(articles), (datetime.datetime.now() - startTime)))
+
+
+if __name__ == "__main__":
+    generate()
 
 # vim: tabstop=8  expandtab  shiftwidth=4  softtabstop=4
