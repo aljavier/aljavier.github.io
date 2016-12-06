@@ -42,9 +42,9 @@ precaución. Aunque en todo caso, si estan en un repositorio remoto puedes recup
 **Nota 2**: Con esos comandos NO se preservaría el historial de *commits* que ya tenían en la rama 
 desde la que importamos. Es probablemente una muy mala idea hacer las cosas así. 
 
-En este ejemplo he reemplazado *nombre_branch* por *source*, que era el nombre del branch
+En este ejemplo he reemplazado *nombre_branch* por **source**, que era el nombre del branch
 desde dónde quería importar los archivos. De igual manera, he reemplazado *nombre_directorio*
-por *html*, que era el nombre del directorio en la situación que se me presentó.
+por **html**, que era el nombre del directorio en la situación que se me presentó.
 
 Lo gracioso, es que luego de quemar algunas neuronas para ese comando llegué
 a la conclusión que iba a hacer las cosas de otra manera. Lo documento aquí porque 
