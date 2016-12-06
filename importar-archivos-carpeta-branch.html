@@ -1,0 +1,136 @@
+      <!DOCTYPE html>
+  <html lang="es">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=endge, chrome=IE8" />
+      <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
+      <meta name="keywords" content="git trick,git tip" />
+      <meta name="description" content="Apuntes y notas de un newbie." />
+      <meta name="author" content="root" />
+      
+        <title> Git: Importar archivos desde un directorio en otro branch
+ - [ root@paranoia ~/blog ]# _</title>
+     
+      <!--[if lte IE 8]><script type="text/javascript" src="/theme/js/html5shiv.js"></script><![endif]-->
+      <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" type="text/css" href="css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="css/pygment.css" />
+      <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+      <!--[if lte IE 8]><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /><![endif]-->
+    </head>
+    <body>
+        <div class="container">
+        <header id="menu">
+            <nav>
+                <ul>
+                    <li><a href="index.html">inicio</a></li>
+                    <li><a target="_blank" href="https://github.com/aljavier">github</a></li>
+                    <li><a href="enlaces.html">enlaces</a></li>
+                    <li><a href="about.html">acerca</a></li>
+                </ul>
+                <h4>[ root@paranoia ~/blog ]# _</h4>
+            </nav>
+        </header>
+         
+         
+         <article>
+                <header class="post-header">
+                    <div class="meta"><time datetime="2016-12-06 00:00:00">diciembre 06, 2016</time></div>
+                <h1>
+                     Git: Importar archivos desde un directorio en otro branch
+
+                </h1>
+                </header>
+                <div class="post-content"> 
+                    <p>En una ocasión tuve la necesidad de importar todos los archivos en un directorio
+de un branch en git, desde el <em>branch master</em>. Si por alguna razón sólo queremos 
+importar un directorio desde otro branch (supongamos que no se quiera hacer un merge
+por alguna razón), podríamos hacerlo así:</p>
+<div class="codehilite"><pre><span></span>git checkout nombre_branch -- nombre_directorio
+</pre></div>
+
+
+<p>Con eso se preservarían los commits desde <em>nombre_branch</em>.</p>
+<p>En mi caso necesitaba copiar los archivos de ese directorio en nombre_branch hacia
+el branch master, pero no el directorio, sino sólo los archivos dentro él. Supongamos que tenía en 
+nombre_branch un directorio llamado <em>html_dir</em> y quería copiar el contenido ahí dentro
+al directorio de master dónde me encontraba en ese momento. Esos archivos ahí eran
+<em>.html</em> y dos directorios uno <em>css</em> y el otro <em>images</em>. Entonces usaría el siguiente comando:</p>
+<div class="codehilite"><pre><span></span>git checkout nombre_branch -- html_dir &amp;&amp; 
+find html \( -name &quot;*.html&quot; -o -type d -name &quot;css&quot; -o -type d -name &quot;images&quot; \)  \
+| xargs cp -r -t .
+</pre></div>
+
+
+<p>Al final lo que necesitaba era borrar en el directorio raíz del branch master
+dónde me encontraba todos los archivos <em>.html</em> y los directrios <em>css</em> e <em>images</em> con su contenido.
+Entonces luego importar desde la rama nombre_branch todos los archivos <em>html</em> y 
+sus directorios hijos <em>css</em> e <em>images</em> con su contenido al directorio raíz de master.</p>
+<p>Con un poco de bash, ayuda de StackOverflow y unos cuantos errores después (borré archivos
+por error que no quería borrar!) lo hice de esta manera </p>
+<div class="codehilite"><pre><span></span>git rm *.html <span class="o">&amp;&amp;</span> git rm -r css <span class="o">&amp;&amp;</span> git rm -r images
+
+git checkout <span class="nb">source</span> -- html <span class="o">&amp;&amp;</span> 
+find html <span class="se">\(</span> -name <span class="s2">&quot;*.html&quot;</span> -o -name <span class="s2">&quot;*.txt&quot;</span> -o -type d -name <span class="s2">&quot;css&quot;</span> -o -type d -name <span class="s2">&quot;images&quot;</span> <span class="se">\)</span>  <span class="se">\</span>
+<span class="p">|</span> xargs cp -r -t . <span class="o">&amp;&amp;</span> git rm -rf html <span class="o">&amp;&amp;</span> <span class="nb">echo</span> -e <span class="s2">&quot;\nDone!\n&quot;</span>
+</pre></div>
+
+
+<p><strong>Nota 1</strong>: /!\ Advertencia /!\ La secuencia de arriba borrará archivos de tu directorio actual, usar con 
+precaución. Aunque en todo caso, si estan en un repositorio remoto puedes recuperarlo fácilmente.</p>
+<p><strong>Nota 2</strong>: Con esos comandos NO se preservaría el historial de <em>commits</em> que ya tenían en la rama 
+desde la que importamos. Es probablemente una muy mala idea hacer las cosas así. </p>
+<p>En este ejemplo he reemplazado <em>nombre_branch</em> por <em>source</em>, que era el nombre del branch
+desde dónde quería importar los archivos. De igual manera, he reemplazado <em>nombre_directorio</em>
+por <em>html</em>, que era el nombre del directorio en la situación que se me presentó.</p>
+<p>Lo gracioso, es que luego de quemar algunas neuronas para ese comando llegué
+a la conclusión que iba a hacer las cosas de otra manera. Lo documento aquí porque 
+puede serle útil a alguien o a mi mismo en otra ocasión. Aunque era un requerimiento
+extraño, como dije antes es probable muy mala idea hacer algo como esto de esta manera :-]</p>
+                    
+                     
+                     <div class="plain-text-link">
+                          &laquo;<a href="importar-archivos-carpeta-branch.txt" title="Ver en texto plano">txt</a>&raquo;
+                     </div>
+                    
+                </div>
+              
+                <hr/>
+                <!-- discus comments go here -->
+                 <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                    var disqus_shortname = 'sysflux'; // required: replace example with your forum shortname
+                    /* * * DON'T EDIT BELOW THIS LINE * * */
+                    (function() {
+                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                        dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+          </article>
+    
+       
+        <footer id="page-foot">
+            <p>
+                Contenido bajo licencia <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"> CC BY-SA</a> 
+                | Powered by <a href="https://www.python.org/">Python</a> &copy;
+            </p>
+        </footer>
+        </div>
+        <!-- Google Analytics here -->
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-45917501-1']);
+            _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); 
+          ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+    </body>
+    </html>
