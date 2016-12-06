@@ -43,17 +43,17 @@
                 </header>
                 <div class="post-content"> 
                     <p>En una ocasión tuve la necesidad de importar todos los archivos en un directorio
-de un branch en git, desde el <em>branch master</em>. Si por alguna razón sólo queremos 
+de un branch en git, desde el <strong>branch master</strong>. Si por alguna razón sólo queremos 
 importar un directorio desde otro branch (supongamos que no se quiera hacer un merge
 por alguna razón), podríamos hacerlo así:</p>
 <div class="codehilite"><pre><span></span>git checkout nombre_branch -- nombre_directorio
 </pre></div>
 
 
-<p>Con eso se preservarían los commits desde <em>nombre_branch</em>.</p>
-<p>En mi caso necesitaba copiar los archivos de ese directorio en nombre_branch hacia
-el branch master, pero no el directorio, sino sólo los archivos dentro él. Supongamos que tenía en 
-nombre_branch un directorio llamado <em>html_dir</em> y quería copiar el contenido ahí dentro
+<p>Con eso se preservarían los <em>commits</em> desde <strong>nombre_branch</strong>.</p>
+<p>En mi caso necesitaba copiar los archivos de ese directorio en <em>nombre_branch</em> hacia
+el branch master, pero no el directorio, sino sólo los archivos dentro de él. Supongamos que tenía en 
+<em>nombre_branch</em> un directorio llamado <em>html_dir</em> y quería copiar el contenido ahí dentro
 al directorio de master dónde me encontraba en ese momento. Esos archivos ahí eran
 <em>.html</em> y dos directorios uno <em>css</em> y el otro <em>images</em>. Entonces usaría el siguiente comando:</p>
 <div class="codehilite"><pre><span></span>git checkout nombre_branch -- html_dir &amp;&amp; 
@@ -64,7 +64,7 @@ find html \( -name &quot;*.html&quot; -o -type d -name &quot;css&quot; -o -type 
 
 <p>Al final lo que necesitaba era borrar en el directorio raíz del branch master
 dónde me encontraba todos los archivos <em>.html</em> y los directrios <em>css</em> e <em>images</em> con su contenido.
-Entonces luego importar desde la rama nombre_branch todos los archivos <em>html</em> y 
+Entonces luego importar desde la rama <em>nombre_branch</em> todos los archivos <em>html</em> y 
 sus directorios hijos <em>css</em> e <em>images</em> con su contenido al directorio raíz de master.</p>
 <p>Con un poco de bash, ayuda de StackOverflow y unos cuantos errores después (borré archivos
 por error que no quería borrar!) lo hice de esta manera </p>
@@ -86,7 +86,7 @@ por <em>html</em>, que era el nombre del directorio en la situación que se me p
 <p>Lo gracioso, es que luego de quemar algunas neuronas para ese comando llegué
 a la conclusión que iba a hacer las cosas de otra manera. Lo documento aquí porque 
 puede serle útil a alguien o a mi mismo en otra ocasión. Aunque era un requerimiento
-extraño, como dije antes es probable muy mala idea hacer algo como esto de esta manera :-]</p>
+extraño, como dije antes es probablemente muy mala idea hacer algo como esto de esta manera :-]</p>
                     
                      
                      <div class="plain-text-link">

@@ -3,17 +3,17 @@ date: 2016-12-06
 tags: git trick, git tip
 
 En una ocasión tuve la necesidad de importar todos los archivos en un directorio
-de un branch en git, desde el *branch master*. Si por alguna razón sólo queremos 
+de un branch en git, desde el **branch master**. Si por alguna razón sólo queremos 
 importar un directorio desde otro branch (supongamos que no se quiera hacer un merge
 por alguna razón), podríamos hacerlo así:
 
     git checkout nombre_branch -- nombre_directorio
     
-Con eso se preservarían los commits desde *nombre_branch*.
+Con eso se preservarían los *commits* desde **nombre_branch**.
 
-En mi caso necesitaba copiar los archivos de ese directorio en nombre_branch hacia
-el branch master, pero no el directorio, sino sólo los archivos dentro él. Supongamos que tenía en 
-nombre_branch un directorio llamado *html_dir* y quería copiar el contenido ahí dentro
+En mi caso necesitaba copiar los archivos de ese directorio en *nombre_branch* hacia
+el branch master, pero no el directorio, sino sólo los archivos dentro de él. Supongamos que tenía en 
+*nombre_branch* un directorio llamado *html_dir* y quería copiar el contenido ahí dentro
 al directorio de master dónde me encontraba en ese momento. Esos archivos ahí eran
 *.html* y dos directorios uno *css* y el otro *images*. Entonces usaría el siguiente comando:
 
@@ -23,7 +23,7 @@ al directorio de master dónde me encontraba en ese momento. Esos archivos ahí 
 
 Al final lo que necesitaba era borrar en el directorio raíz del branch master
 dónde me encontraba todos los archivos *.html* y los directrios *css* e *images* con su contenido.
-Entonces luego importar desde la rama nombre_branch todos los archivos _html_ y 
+Entonces luego importar desde la rama *nombre_branch* todos los archivos _html_ y 
 sus directorios hijos _css_ e _images_ con su contenido al directorio raíz de master.
 
 Con un poco de bash, ayuda de StackOverflow y unos cuantos errores después (borré archivos
@@ -49,4 +49,4 @@ por *html*, que era el nombre del directorio en la situación que se me present�
 Lo gracioso, es que luego de quemar algunas neuronas para ese comando llegué
 a la conclusión que iba a hacer las cosas de otra manera. Lo documento aquí porque 
 puede serle útil a alguien o a mi mismo en otra ocasión. Aunque era un requerimiento
-extraño, como dije antes es probable muy mala idea hacer algo como esto de esta manera :-]
+extraño, como dije antes es probablemente muy mala idea hacer algo como esto de esta manera :-]
