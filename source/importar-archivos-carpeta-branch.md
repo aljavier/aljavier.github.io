@@ -36,8 +36,11 @@ por error que no quería borrar!) lo hice de esta manera
     find html \( -name "*.html" -o -name "*.txt" -o -type d -name "css" -o -type d -name "images" \)  \
     | xargs cp -r -t . && git rm -rf html && echo -e "\nDone!\n"
 
-**Nota**: /!\ Advertencia /!\ La secuencia de arriba borrará archivos de tu directorio actual, usar con 
+**Nota 1**: /!\ Advertencia /!\ La secuencia de arriba borrará archivos de tu directorio actual, usar con 
 precaución. Aunque en todo caso, si estan en un repositorio remoto puedes recuperarlo fácilmente.
+
+**Nota 2**: Con esos comandos NO se preservaría el historial de *commits* que ya tenían en la rama 
+desde la que importamos. Es probablemente una muy mala idea hacer las cosas así. 
 
 En este ejemplo he reemplazado *nombre_branch* por *source*, que era el nombre del branch
 desde dónde quería importar los archivos. De igual manera, he reemplazado *nombre_directorio*
@@ -45,5 +48,5 @@ por *html*, que era el nombre del directorio en la situación que se me present�
 
 Lo gracioso, es que luego de quemar algunas neuronas para ese comando llegué
 a la conclusión que iba a hacer las cosas de otra manera. Lo documento aquí porque 
-puede serle útil a alguien o a mi mismo en otra ocasión, aunque era un requerimiento
-extraño :-]
+puede serle útil a alguien o a mi mismo en otra ocasión. Aunque era un requerimiento
+extraño, como dije antes es probable muy mala idea hacer algo como esto de esta manera :-]
