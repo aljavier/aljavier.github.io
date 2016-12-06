@@ -127,6 +127,14 @@ def clean_output_dir():
             file_name = os.path.join(HTML_DIR, file)
             if os.path.isfile(file_name): # If it's a regular file
                 os.remove(file_name)
+                
+        # Remove output source plain text files if true
+        if COPY_SOURCE_FILES_TO_OUTPUT:
+            source_files = [ file for file in os.listdir(HTML_DIR) if file[-3:] == 'txt' ]
+            for txt in source_files:
+                plain_file = os.path.join(HTML_DIR, txt)
+                if os.path.isfile(plain_file):
+                    os.remove(plain_file)
 
 
 def load_static_files():
