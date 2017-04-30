@@ -1,0 +1,122 @@
+      <!DOCTYPE html>
+  <html lang="es">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=endge, chrome=IE8" />
+      <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
+      <meta name="keywords" content="arch linux,fuentes dañadas,arch linux update" />
+      <meta name="description" content="Apuntes y notas de un newbie." />
+      <meta name="author" content="root" />
+      
+        <title> Fuentes dañadas luego de actualizar Arch Linux
+ - [ root@paranoia ~/blog ]# _</title>
+     
+      <!--[if lte IE 8]><script type="text/javascript" src="/theme/js/html5shiv.js"></script><![endif]-->
+      <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" type="text/css" href="css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="css/pygment.css" />
+      <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+      <!--[if lte IE 8]><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /><![endif]-->
+    </head>
+    <body>
+        <div class="container">
+        <header id="menu">
+            <nav>
+                <ul>
+                    <li><a href="index.html">inicio</a></li>
+                    <li><a target="_blank" href="https://github.com/aljavier">github</a></li>
+                    <li><a href="enlaces.html">enlaces</a></li>
+                    <li><a href="about.html">acerca</a></li>
+                </ul>
+                <h4>[ root@paranoia ~/blog ]# _</h4>
+            </nav>
+        </header>
+         
+         
+         <article>
+                <header class="post-header">
+                    <div class="meta"><time datetime="2017-04-30 00:00:00">abril 30, 2017</time></div>
+                <h1>
+                     Fuentes dañadas luego de actualizar Arch Linux
+
+                </h1>
+                </header>
+                <div class="post-content"> 
+                    <p>Desde hace un tiempo no actualizaba mi Arch Linux, al actualizarlo a la fecha de esta entrada
+del blog, me he encontrado con la sorpresa de que una vez reiniciado el sistema cuando abrí una terminal
+las fuentes tipográficas que uso allí se veían bastante mal. Uso como terminal <strong>urxvt</strong> y como fuente 
+tengo <strong>terminus</strong>.</p>
+<p>Al parecer el problema es que aproximadamente desde enero por ahí del año actual (2017) los de <em>Arch Linux</em>
+o los de <em>X server</em> decidieron renombrar algunas fuentes tipográficas entre ellas se encuentra <em>terminus</em>. Si llegaste
+hasta este post es probable que es porque te haya pasado similar aunque con otra fuente. </p>
+<p>Para darnos cuenta si realmente el problema es porque la fuente ha sido renombrada corremos el siguiente comando:</p>
+<div class="codehilite"><pre><span></span>fc-list : family | sort
+</pre></div>
+
+
+<p>En la salida de ese comando podremos ver el nombre de todas las fuentes instaladas, ahí podremos verificar si la fuente
+en cuestión ha sido renombrada. También podemos filtrar la salida, por ejemplo, como en mi caso mi fuente de terminal es la <em>terminus</em> uso el siguiente comando:</p>
+<div class="codehilite"><pre><span></span>fc-list : family | grep -i terminus
+</pre></div>
+
+
+<p>La salida del comando de arriba en mi caso fue la siguiente:</p>
+<div class="codehilite"><pre><span></span>xos4 Terminus
+</pre></div>
+
+
+<p>Esto indica que la fuente ha sido renombrada de <strong>terminus</strong> a <strong>xos4 Terminus</strong>.</p>
+<p>Si en tu caso el problema es como el mio con la terminal <em>urxvt</em>, lo que resta es ir al archivo de configuración
+<strong>Xresources</strong> y cambiar el nombre de la fuente por el nuevo nombre. Luego simplemente restaría correr el siguiente comando:</p>
+<div class="codehilite"><pre><span></span>xrdb -merge ~/.Xresources
+</pre></div>
+
+
+<p>Y voilà! </p>
+                    
+                     
+                     <div class="plain-text-link">
+                          &laquo;<a href="fuentes-estropeadas-update-archlinux.txt" title="Ver en texto plano">txt</a>&raquo;
+                     </div>
+                    
+                </div>
+              
+                <hr/>
+                <!-- discus comments go here -->
+                 <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                    var disqus_shortname = 'sysflux'; // required: replace example with your forum shortname
+                    /* * * DON'T EDIT BELOW THIS LINE * * */
+                    (function() {
+                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                        dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+          </article>
+    
+       
+        <footer id="page-foot">
+            <p>
+                Contenido bajo licencia <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"> CC BY-SA</a> 
+                | Powered by <a href="https://www.python.org/">Python</a> &copy;
+            </p>
+        </footer>
+        </div>
+        <!-- Google Analytics here -->
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-45917501-1']);
+            _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); 
+          ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+    </body>
+    </html>

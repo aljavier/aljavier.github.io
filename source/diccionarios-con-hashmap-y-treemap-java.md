@@ -157,5 +157,5 @@ De este no podemos decir mucho, ya que es idéntico al HashMap incluso tiene los
 
 De modo que la gran diferencia es que TreeMap ordena los objetos según la clave en forma ascendente, pero HashMap teóricamente nos devolverá los objetos en la secuencia que fueron introducidos. Entonces ¿Por qué no sólo usar TreeMap? Ah pues el caso es que cuando usamos un objeto definido por el usuario como clave (digamos una clase creada por nosotros) TreeMap no sabe como ordenar la colección, así que solo lo hace si es con datos primitivos (Integer, String, etc).
 
-Tienen más información sobre TreeMap en [este link de acá](http://docs.oracle.com/javase/6/docs/api/java/util/TreeMap.html)
+Tienen más información sobre TreeMap en [este link de acá](http://docs.oracle.com/javase/6/docs/api/java/util/TreeMap.html).
 
