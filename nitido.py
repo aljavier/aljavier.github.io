@@ -4,7 +4,6 @@
 import os
 import datetime
 import locale
-import sys
 import shutil
 import sys  
 
