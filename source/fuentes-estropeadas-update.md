@@ -37,3 +37,5 @@ Y voilà!
 **Update (24, Mayo de 2017):** Aparentemente han decidido revertir el cambio de nombre (al menos en el caso de la 
 fuente Terminus puedo asegurar) y ahora es nuevamente **Terminus**, así que bien el caso podrìa ser ahora cambiar de
 **xos4 Terminus** a **Terminus** nuevamente.
+
+**Update (15, Junio de 2017):** Parece que estan aburridos, ahora el nombre de la fuente es nuevamente *xos4 Terminus*.
