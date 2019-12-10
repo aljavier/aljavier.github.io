@@ -1,6 +1,6 @@
 title: Creando una wiki con MediaWiki 
 tags: mediawiki, wiki, xampp
-slut: creando-una-wiki-con-mediawiki
+slug: creando-una-wiki-con-mediawiki
 date: 2013-09-22
 
 Introducción
