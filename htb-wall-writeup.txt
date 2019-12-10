@@ -3,8 +3,6 @@ tags: ctf, hackthebox, writeup, wall
 slug: htb-wall-writeup
 date: 2019-12-10
 
-# [Writeup] HackTheBox: Wall
-
 ![Box information](images/htb/wall/info.png)
 
 Comenzamos enumerando la máquina con **Nmap**

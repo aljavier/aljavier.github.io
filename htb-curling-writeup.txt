@@ -3,8 +3,6 @@ tags: cft, hackthebox, writeup, curling
 slug: htb-curling-writeup
 date: 2019-12-10
 
-# [Writeup] HackTheBox: Curling
-
 ![Info](images/htb/curling/info.png)
 
 Disclaimer: My first box ever.
