@@ -1,0 +1,136 @@
+      <!DOCTYPE html>
+  <html lang="es">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=endge, chrome=IE8" />
+      <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
+      <meta name="keywords" content="android,debug,arch linux" />
+      <meta name="description" content="Apuntes y notas de un newbie." />
+      <meta name="author" content="root" />
+      
+        <title> Debug de aplicaciones Android en Arch Linux
+ - [ root@paranoia ~/blog ]# _</title>
+     
+      <!--[if lte IE 8]><script type="text/javascript" src="/theme/js/html5shiv.js"></script><![endif]-->
+      <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" type="text/css" href="css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="css/pygment.css" />
+      <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+      <!--[if lte IE 8]><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /><![endif]-->
+    </head>
+    <body>
+        <div class="container">
+        <header id="menu">
+            <nav>
+                <ul>
+                    <li><a href="index.html">inicio</a></li>
+                    <li><a target="_blank" href="https://github.com/aljavier">github</a></li>
+                    <li><a href="enlaces.html">enlaces</a></li>
+                    <li><a href="about.html">acerca</a></li>
+                </ul>
+                <h4>[ root@paranoia ~/blog ]# _</h4>
+            </nav>
+        </header>
+         
+         
+         <article>
+                <header class="post-header">
+                    <div class="meta"><time datetime="2016-05-02 00:00:00">mayo 02, 2016</time></div>
+                <h1>
+                     Debug de aplicaciones Android en Arch Linux
+
+                </h1>
+                </header>
+                <div class="post-content"> 
+                    <p>Si estas iniciando a desarrollar aplicaciones <strong>Android</strong> usando <strong>Arch Linux</strong> lo más probable es que ya te habrás
+dado cuenta que el <em>Android Studio</em>, el <em>Eclipse</em> o el <em>adb</em> si lo usas directamente no reconocen tu dispositivo 
+Android si lo has conectado, por lo que no puedes hacer debug/test de tus aplicaciones. Esto se debe a que el conocido
+y controvertido <strong>Systemd</strong> que implementan casi todas las distros GNU/Linux desde hace un tiempo, pone ciertas
+restricciones de seguridad para que el dispositivo pueda ser reconocido.</p>
+<p>No hay necesidad de temer, simplemente en Arch Linux como se tiene la cultura de ser minimalista hay que hacer las cosas
+un poco más "mecánicamente". A continuación se explica como hacerlo.</p>
+<p>Habilitar <strong>USB debugging</strong> en el dispositivo Android en <em>Setting</em>  buscar <strong>System &gt; Developer Options</strong>.</p>
+<p>Buscar el <em>vendor id</em> y <em>product id</em> del dispositivo. Para eso conectamos el dispositivo (si ya no lo esta) 
+con un cable usb a la computadora y tecleamos en una terminal:</p>
+<div class="codehilite"><pre><span></span><span class="err">lex@localhost ~/$ lsusb</span>
+</pre></div>
+
+
+<p>Veremos un dispositivo con el nombre de la marca del dispositivo y probablemente el modelo del mismo, entre otros posibles
+dispositivos si los hay. Donde dice ID hay dos palabras separadas por ":" (sin las comillas) el primero es el <em>vendor id</em> y el segundo es 
+el <em>product id</em>.</p>
+<p>Creamos el archivo de <em>Android Rules</em> en la ruta <strong>/etc/udev/rules.d/</strong>:</p>
+<div class="codehilite"><pre><span></span><span class="err">vim /etc/udev/rules.d/51-android.rules</span>
+</pre></div>
+
+
+<p>Yo uso <em>vim</em>, puedes usar el editor de texto que quieras. Por cada dispositivo que queramos agregar insertamos una línea
+como la siguiente:</p>
+<div class="codehilite"><pre><span></span><span class="err">SUBSYSTEM==&quot;usb&quot;, ATTR{idVendor}==&quot;id_vendor&quot;, ATTR{Product}==&quot;id_product&quot;, MODE=&quot;0666&quot;</span>
+</pre></div>
+
+
+<p>Claro, reemplazando <strong>id_vendor</strong> y <strong>id_product</strong> por sus respectivos valores en nuestro dispositivo, aquellos
+que vimos en la salida de <strong>lsusb</strong>.</p>
+<p>Una vez hecho esto guardas el archivo y corres el siguiente comando:</p>
+<div class="codehilite"><pre><span></span><span class="err">sudo udevadm control --reload-rules</span>
+</pre></div>
+
+
+<p>Desconecta el dispositivo android y conéctalo nuevamente. Una vez hecho esto, en un terminal escribes:</p>
+<div class="codehilite"><pre><span></span><span class="err">adb devices</span>
+</pre></div>
+
+
+<p>Y deberías ver tu dispositivo listado. </p>
+<p>Nota: El dispositivo en cuestión esta en inglés, por eso "setting" en vez de "configuración" y así sucesivamente. De modo que,
+si el dispositivo esta en español tomar en cuenta hacer las traducciones para poder seguir la guía.</p>
+<p><strong>Más información:</strong>
++ <a href="https://wiki.archlinux.org/index.php/Android">Android - Wiki Arch Linux</a></p>
+                    
+                     
+                     <div class="plain-text-link">
+                          &laquo;<a href="debug-android-archlinux.txt" title="Ver en texto plano">txt</a>&raquo;
+                     </div>
+                    
+                </div>
+              
+                <hr/>
+                <!-- discus comments go here -->
+                 <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                    var disqus_shortname = 'sysflux'; // required: replace example with your forum shortname
+                    /* * * DON'T EDIT BELOW THIS LINE * * */
+                    (function() {
+                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                        dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+          </article>
+    
+       
+        <footer id="page-foot">
+            <p>
+                Contenido bajo licencia <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"> CC BY-SA</a> 
+                | Powered by <a href="https://www.python.org/">Python</a> &copy;
+            </p>
+        </footer>
+        </div>
+        <!-- Google Analytics here -->
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-45917501-1']);
+            _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); 
+          ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+    </body>
+    </html>
